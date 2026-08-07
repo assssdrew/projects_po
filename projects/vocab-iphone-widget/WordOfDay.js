@@ -5,8 +5,8 @@
 // Вставь ЭТО вместо всего старого скрипта WordOfDay в Scriptable.
 // Имя скрипта должно быть ровно: WordOfDay
 //
-// После вставки нажми ▶ Play один раз — скачается новая версия с кнопками.
-// Затем обнови виджет на домашнем экране (средний или большой).
+// ▶ Play один раз — скачается пассивный виджет (без кнопок, автосмена).
+// Потом просто смотри на домашний экран / экран блокировки.
 
 const CORE_URL =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js";
@@ -14,7 +14,6 @@ const CORE_URL =
 function getFileManager() {
   try {
     const fm = FileManager.iCloud();
-    // Проверка: на части устройств iCloud недоступен
     fm.documentsDirectory();
     return fm;
   } catch (e) {
@@ -29,8 +28,8 @@ async function ensureCore() {
   let needDownload = !fm.fileExists(corePath);
   if (!needDownload) {
     const local = fm.readString(corePath) || "";
-    // Старый монолитный код без кнопок/озвучки — перекачать
-    if (!local.includes("addButton") || !local.includes("Speech.speak")) {
+    // Старая версия с кнопками / без пассивного режима — перекачать
+    if (!local.includes("PASSIVE_WIDGET_V1") || !local.includes("ROTATE_HOURS")) {
       needDownload = true;
     }
   }
@@ -46,9 +45,7 @@ async function ensureCore() {
     if (fm.isFileStoredIniCloud(corePath) && !fm.isFileDownloaded(corePath)) {
       await fm.downloadFileFromiCloud(corePath);
     }
-  } catch (e) {
-    // local FileManager — ок, iCloud не нужен
-  }
+  } catch (e) {}
 }
 
 await ensureCore();
