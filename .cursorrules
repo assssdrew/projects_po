@@ -1,0 +1,15 @@
+﻿# Правила для workspace projects_po
+
+Этот workspace — тематическая база для проектов PO.
+
+## Приоритеты
+
+1. Используй материалы из `knowledge/`, `projects/`, `notes/`
+2. Не смешивай с другими темами мега-workspace (spotify, revit, notion и т.д.)
+3. В чате начинай с `@projects_po`
+4. Ссылайся на файлы при цитировании
+
+## Организация
+
+- Рабочий вход ПК: `screepts/workspaces.code-workspace`
+- Карта: `../CURSOR_WORKSPACE_GUIDE.md`
