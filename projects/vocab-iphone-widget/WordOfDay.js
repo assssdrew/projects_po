@@ -3,11 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay на этот → ▶ Play.
-// Успех: внизу виджета «v3», фон прозрачный, только EN + RU.
+// Успех: внизу виджет «N/total | 3h 20m» и метки связанных слов.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/d2b14f6bf9cba9676c070a38aa15c676d6b56dd8/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@d2b14f6bf9cba9676c070a38aa15c676d6b56dd8/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/a7ed2c4b5a7bc3ebd9010730debe31070cd7a499/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@a7ed2c4b5a7bc3ebd9010730debe31070cd7a499/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -35,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V3") &&
-        code.includes("Color.clear()")
+        code.includes("PASSIVE_WIDGET_V4") &&
+        code.includes("findRelated")
       ) {
         return code;
       }
@@ -69,7 +69,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V3") || !local.includes(" ·  v3")) {
+  if (!local.includes("PASSIVE_WIDGET_V4") || !local.includes("findRelated")) {
     await downloadCore();
   }
 }
