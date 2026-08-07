@@ -3,11 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// Успех: 3 строки вида "word - перевод", подвал N/948 | 3h 42m
+// Успех: крупный шрифт, 3 строки по центру, подвал N/948 | 3h 42m
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/b309d2b16879026bc4fd2ec4f5e60373b2e29df7/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@b309d2b16879026bc4fd2ec4f5e60373b2e29df7/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/487ee4d93a554ce54d7fdc15406f5914e9f71f34/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@487ee4d93a554ce54d7fdc15406f5914e9f71f34/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -35,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V6") &&
-        code.includes("addWordRow")
+        code.includes("PASSIVE_WIDGET_V7") &&
+        code.includes("Центрирование")
       ) {
         return code;
       }
@@ -69,7 +69,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V6") || !local.includes("addWordRow")) {
+  if (!local.includes("PASSIVE_WIDGET_V7") || !local.includes("Центрирование")) {
     await downloadCore();
   }
 }
