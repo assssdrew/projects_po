@@ -24,7 +24,7 @@ async function main() {
 
   const ok =
     code.includes("const WORDS") &&
-    (code.includes("Слово дня") || code.includes("WORD OF") || code.includes("ensureWordOfDay"));
+    (code.includes("ensureCurrentWord") || code.includes("isComplete"));
 
   if (!ok) {
     const a = new Alert();
