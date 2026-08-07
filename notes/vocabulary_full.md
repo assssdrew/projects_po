@@ -1,12 +1,12 @@
-# Vocabulary (полный список)
+# Словарь EN → RU (уникальные слова из всех источников)
 
-Собрано из:
-- `qqq.pdf` — Quizlet «Words for interview»
-- `Zhenya _ Экспат ИНГЛИШ Скул _ Lidia`
-- `Sima _ Экспат ИНГЛИШ Скул _ Lidia`
-- исходный `vocabulary.md`
+Источники:
+1. `vocabulary.md` — исходный список
+2. `qqq.pdf` — Quizlet «Words for interview»
+3. `Zhenya _ Экспат ИНГЛИШ Скул _ Lidia`
+4. `Sima _ Экспат ИНГЛИШ Скул _ Lidia`
 
-Всего единиц: **958**
+Формат: `слово — перевод`. Уникальных единиц: **948**.
 
 ---
 
@@ -71,7 +71,7 @@ assumed to — предполагается
 assumption — предположение
 at a time — за раз
 at least — хотя бы, минимум
-At morning — в утреннее время
+at morning — в утреннее время
 at the age of — в возрасте
 attempt — попытка
 attempts — попытки
@@ -111,7 +111,7 @@ behave — вести себя
 being constructed — строится
 belief — убеждение
 besides — помимо
-Besides it — помимо этого
+besides it — помимо этого
 binge-watching — марафон сериалов
 blood test — анализ крови
 bond — связь
@@ -121,11 +121,9 @@ bother — беспокоить
 bottle up — держать в себе
 bottled up — держал в себе
 brand — бренд
-bread winner — кормилец семьи
-breadwinner — кормилец
-break down — сорваться эмоционально
+breadwinner — кормилец; кормилец семьи
+break down — сорваться эмоционально; срыв
 break it down — разобрать, объяснить
-break-down — срыв
 brew coffee — заваривать кофе
 brief — краткий брифинг
 bring people together — объединять людей
@@ -251,7 +249,7 @@ do makeup — делать макияж
 documents — документы
 don't bother — не беспокой
 don't bother him — не беспокой его
-Don’t get me wrong — I didn’t mean that (неправильно понять)
+don’t get me wrong — I didn’t mean that (неправильно понять)
 doubt — сомнение
 drafting — черчение
 drained — выжатый
@@ -374,7 +372,7 @@ get refused — получить отказ
 get stuck — застрять
 get tangled — запутаться
 get tired — уставать
-Get unjured — повредить, получить
+get unjured — повредить, получить
 get used to — привыкать
 getting used to — привыкание
 girly — девчачий
@@ -474,7 +472,6 @@ initially — изначально
 insects — насекомые
 instant coffee — растворимый кофе
 instead — вместо
-instead (of) — вместо
 instead of — вместо
 intention — намерение
 interested in — интересоваться
@@ -486,7 +483,7 @@ it seems — кажется
 it took me — у меня ушло
 it was a pleasure — это было удовольствие
 it's pleasant — приятно
-I’d rather (think) — я бы скорее
+i’d rather (think) — я бы скорее
 jealous — ревнивый
 job interview — собеседование
 journaling — ведение дневника
@@ -511,7 +508,7 @@ lead — руководить
 lead to — приводить к
 learn / find out — узнать
 learn from mistakes — учиться на ошибках
-Leave danang for HCMC — покидать - куда-то
+leave danang for HCMC — покидать - куда-то
 leave for — уезжать в
 leave Vietnam — уехать из Вьетнама
 let go of — отпустить
@@ -534,7 +531,6 @@ make a decision — принять решение
 make a judgement — выносить суждение
 make a request — сделать запрос
 make a suggestion — делать предложение
-make a) Request — запрос,запросить
 make an effort — прилагать усилия
 make an excuse — оправдаться
 make assumptions — делать предположения
@@ -582,7 +578,7 @@ movement — движение
 my pleasure — пожалуйста / «моё удовольствие»
 my state — моё состояние
 mysterious — загадочный
-Nail — ноготь
+nail — ноготь
 nail (finger) — ноготь
 nail (metal) — гвоздь
 nail it — сделать на отлично
@@ -725,7 +721,7 @@ scared — испуганный
 scared / afraid of — бояться
 scared to — бояться сделать
 scene — сцена
-Second — thoughts - сомнения
+second — thoughts - сомнения
 second thoughts — вторые мысли / сомнения
 second-guess — подвергать сомнению
 see differently — видеть иначе
@@ -790,8 +786,7 @@ stigmatized — стигматизированный
 stigmatized topics — стигматизированные темы
 stomach ache — боль в животе
 stop over — сделать остановку в пути
-stove / cooker — плита
-Stove/cooker — плитка,
+stove / cooker — плита; плитка
 strength — сила
 strict — строгий
 strip — лишать; стрип
@@ -849,7 +844,6 @@ thought escapes me — мысль ускользает
 throw a party — устроить вечеринку
 throw away — выбрасывать
 tired of — уставший от
-To (send/make a) request — сделать запрос
 to accept — принять
 to adjust — скорректировать, подогнать, адаптировать
 to admit — признать
@@ -865,10 +859,10 @@ to carry — носить
 to conclude — заключить, сделать вывод
 to consider — рассматривать, считать, подумать
 to consume — потреблять
-To end up — в итоге оказаться
+to end up — в итоге оказаться
 to entertain — развлекать
 to excite — волновать, возбуждать
-To exhausted — extremely tired (игзостед)
+to exhausted — extremely tired (игзостед)
 to exist — существовать
 to expand — расширять
 to expect — ожидать
@@ -890,7 +884,6 @@ to sweat — потеть
 to treat equally — обращаться одинаково
 to unwind — расслабиться
 to value / appreciate — ценить
-To value/appreciate — ценить
 to will — хотеть
 to/in order to — дабы чтобы
 traffic — дорожное движение
@@ -913,7 +906,6 @@ turned out to be — оказался
 twice as much — в два раза больше
 two ways to act — два способа действовать
 UFO — НЛО
-UI / UX — интерфейс / пользовательский опыт
 unclear — неясный
 unconscious — бессознательный
 under pressure — под давлением
@@ -948,7 +940,6 @@ weights — гантели, веса
 what is it like — каково это
 where do you see yourself — где вы видите себя
 why should we hire you — почему мы должны вас нанять
-will power — сила воли
 willing to — готовый
 willpower — сила воли
 wise — мудрый
