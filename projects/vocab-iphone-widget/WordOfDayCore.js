@@ -4,7 +4,7 @@ const WORDS = [{"en": "a bunch of", "ru": "куча"}, {"en": "a lot", "ru": "м
 const STORE_NAME = "vocab-progress.json";
 const SCRIPT_NAME = "WordOfDay";
 const ROTATE_HOURS = 4;
-const PASSIVE_MARKER = "PASSIVE_WIDGET_V6";
+const PASSIVE_MARKER = "PASSIVE_WIDGET_V7";
 const RELATED_LIMIT = 2;
 
 const STOP_EN = {
@@ -262,30 +262,32 @@ function addWordRow(w, word, opts) {
 function createWidget(progress) {
   const w = new ListWidget();
   w.backgroundColor = Color.clear();
-  w.setPadding(14, 14, 10, 14);
+  w.setPadding(12, 14, 10, 14);
   w.refreshAfterDate = nextRefreshDate(progress);
 
   const family = config.widgetFamily || "medium";
-  const mainEn = family === "large" ? 20 : family === "small" ? 15 : 17;
-  const mainRu = family === "large" ? 17 : family === "small" ? 13 : 15;
-  const relEn = family === "large" ? 17 : family === "small" ? 13 : 15;
-  const relRu = family === "large" ? 15 : family === "small" ? 12 : 13;
+  // Все 3 строки одного крупного размера
+  const enSize = family === "large" ? 24 : family === "small" ? 16 : 20;
+  const ruSize = family === "large" ? 20 : family === "small" ? 14 : 17;
+  const rowGap = family === "small" ? 8 : 12;
   const relLimit = family === "small" ? 1 : RELATED_LIMIT;
 
-  // строка 1 — основное слово
+  // Центрирование блока по высоте
+  w.addSpacer();
+
   addWordRow(w, progress.current, {
-    enSize: mainEn,
-    ruSize: mainRu,
-    ruAlpha: 0.9,
+    enSize: enSize,
+    ruSize: ruSize,
+    ruAlpha: 0.92,
   });
 
   const related = findRelated(progress.current, relLimit);
   for (const r of related) {
-    w.addSpacer(family === "small" ? 6 : 8);
+    w.addSpacer(rowGap);
     addWordRow(w, r, {
-      enSize: relEn,
-      ruSize: relRu,
-      ruAlpha: 0.78,
+      enSize: enSize,
+      ruSize: ruSize,
+      ruAlpha: 0.8,
     });
   }
 
