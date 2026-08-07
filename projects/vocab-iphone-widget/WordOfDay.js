@@ -11,7 +11,18 @@
 const CORE_URL =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js";
 
-const fm = FileManager.iCloud();
+function getFileManager() {
+  try {
+    const fm = FileManager.iCloud();
+    // Проверка: на части устройств iCloud недоступен
+    fm.documentsDirectory();
+    return fm;
+  } catch (e) {
+    return FileManager.local();
+  }
+}
+
+const fm = getFileManager();
 const corePath = fm.joinPath(fm.documentsDirectory(), "WordOfDayCore.js");
 
 async function ensureCore() {
@@ -31,8 +42,12 @@ async function ensureCore() {
     }
     fm.writeString(corePath, code);
   }
-  if (fm.isFileStoredIniCloud(corePath) && !fm.isFileDownloaded(corePath)) {
-    await fm.downloadFileFromiCloud(corePath);
+  try {
+    if (fm.isFileStoredIniCloud(corePath) && !fm.isFileDownloaded(corePath)) {
+      await fm.downloadFileFromiCloud(corePath);
+    }
+  } catch (e) {
+    // local FileManager — ок, iCloud не нужен
   }
 }
 
