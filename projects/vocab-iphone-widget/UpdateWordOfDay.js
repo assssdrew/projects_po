@@ -4,7 +4,7 @@
 // Обновление «Слово дня»: Play → полный код в буфер
 
 // Публичная ссылка (репозиторий приватный, raw GitHub не открывается)
-const RAW_URL = "https://dpaste.com/33R7C2Z7Y.txt";
+const RAW_URL = "https://dpaste.com/2UBFSV4A9.txt";
 const SCRIPT_NAME = "WordOfDay.js";
 
 async function main() {
