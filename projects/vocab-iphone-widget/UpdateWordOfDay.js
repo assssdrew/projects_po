@@ -1,58 +1,60 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: orange; icon-glyph: sync;
-// Обновление виджета «Слово дня» — Play → код в буфер (+ запись файла)
+// Обновление «Слово дня»: Play → полный код в буфер
 
-const RAW_URL =
-  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDay.js";
+// Публичная ссылка (репозиторий приватный, raw GitHub не открывается)
+const RAW_URL = "https://dpaste.com/33R7C2Z7Y.txt";
 const SCRIPT_NAME = "WordOfDay.js";
 
 async function main() {
   const req = new Request(RAW_URL);
-  req.timeoutInterval = 30;
-  let code;
+  req.timeoutInterval = 60;
+  let code = "";
   try {
     code = await req.loadString();
   } catch (e) {
     const a = new Alert();
-    a.title = "Ошибка загрузки";
+    a.title = "Нет сети / не скачалось";
     a.message = String(e);
     a.addAction("OK");
     await a.presentAlert();
     return;
   }
 
-  if (!code || (!code.includes("Слово дня") && !code.includes("WORDS"))) {
+  const ok =
+    code.includes("const WORDS") &&
+    (code.includes("Слово дня") || code.includes("WORD OF") || code.includes("ensureWordOfDay"));
+
+  if (!ok) {
     const a = new Alert();
-    a.title = "Похоже, файл битый";
-    a.message = "Проверь интернет или URL в апдейтере.";
+    a.title = "Файл не тот";
+    a.message =
+      "Ожидал код виджета, получил:\n" +
+      code.slice(0, 160);
     a.addAction("OK");
     await a.presentAlert();
     return;
   }
 
-  // 1) в буфер обмена — как у часов/шагов
   Pasteboard.copy(code);
 
-  // 2) сразу перезаписать скрипт виджета, если он лежит в Scriptable
-  const fm = FileManager.iCloud();
-  const path = fm.joinPath(fm.documentsDirectory(), SCRIPT_NAME);
   try {
-    fm.writeString(path, code);
-  } catch (e) {
-    // если iCloud недоступен — пробуем local
-    const local = FileManager.local();
-    local.writeString(local.joinPath(local.documentsDirectory(), SCRIPT_NAME), code);
+    const fm = FileManager.iCloud();
+    fm.writeString(fm.joinPath(fm.documentsDirectory(), SCRIPT_NAME), code);
+  } catch (e1) {
+    try {
+      const fm = FileManager.local();
+      fm.writeString(fm.joinPath(fm.documentsDirectory(), SCRIPT_NAME), code);
+    } catch (e2) {}
   }
 
   const done = new Alert();
-  done.title = "Слово дня обновлено";
+  done.title = "Готово";
   done.message =
-    "1) Полный код скопирован в буфер.\n" +
-    "2) Файл WordOfDay.js перезаписан.\n\n" +
-    "Если виджет не обновился сам:\n" +
-    "открой скрипт WordOfDay → выдели всё → вставь из буфера → Done.\n" +
-    "Потом зажми виджет → Обновить.";
+    "Код в буфере.\n\n" +
+    "Открой скрипт WordOfDay → вставь → Done.\n" +
+    "Виджет привяжи к WordOfDay.";
   done.addAction("OK");
   await done.presentAlert();
 }
