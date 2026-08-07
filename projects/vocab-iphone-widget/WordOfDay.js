@@ -28,8 +28,8 @@ async function ensureCore() {
   let needDownload = !fm.fileExists(corePath);
   if (!needDownload) {
     const local = fm.readString(corePath) || "";
-    // Старая версия с кнопками / без пассивного режима — перекачать
-    if (!local.includes("PASSIVE_WIDGET_V1") || !local.includes("ROTATE_HOURS")) {
+    // Старая версия без примера предложения — перекачать
+    if (!local.includes("PASSIVE_WIDGET_V2") || !local.includes("fallbackExample")) {
       needDownload = true;
     }
   }
