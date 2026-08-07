@@ -277,7 +277,7 @@ function createWidget(progress) {
   w.addSpacer();
 
   const left = Math.max(0, WORDS.length - (progress.index || 0));
-  const foot = w.addText(hoursLeftLabel(progress) + "  ·  ~" + left);
+  const foot = w.addText(hoursLeftLabel(progress) + "  ·  ~" + left + "  ·  v2");
   foot.font = Font.systemFont(10);
   foot.textColor = new Color("#8FB3D9");
 
