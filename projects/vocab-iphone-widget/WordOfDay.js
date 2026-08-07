@@ -2,12 +2,15 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: book;
 //
-// ВАЖНО: вставь ЭТОТ код целиком вместо старого WordOfDay.
-// Имя скрипта: WordOfDay
-// Затем ▶ Play — каждый Play заново скачивает ядро с GitHub.
+// ВАЖНО: замени ВЕСЬ код скрипта WordOfDay на этот.
+// Затем ▶ Play. Внизу виджета должно появиться «v2».
 
-const CORE_URL =
-  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js";
+const CORE_URLS = [
+  // точный коммит — без кэша ветки
+  "https://raw.githubusercontent.com/assssdrew/projects_po/adea50f578e1298b179789d6a33289b4ed45c92a/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@adea50f578e1298b179789d6a33289b4ed45c92a/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
+];
 
 function getFileManager() {
   try {
@@ -22,17 +25,32 @@ function getFileManager() {
 const fm = getFileManager();
 const corePath = fm.joinPath(fm.documentsDirectory(), "WordOfDayCore.js");
 
+async function fetchCoreCode() {
+  let lastError = null;
+  for (const base of CORE_URLS) {
+    try {
+      const req = new Request(base + (base.includes("?") ? "&" : "?") + "t=" + Date.now());
+      req.timeoutInterval = 45;
+      const code = await req.loadString();
+      if (
+        code &&
+        code.length > 500 &&
+        !code.trim().startsWith("<!") &&
+        code.includes("PASSIVE_WIDGET_V2") &&
+        code.includes("fallbackExample")
+      ) {
+        return code;
+      }
+      lastError = new Error("Старый/пустой ответ: " + base);
+    } catch (e) {
+      lastError = e;
+    }
+  }
+  throw lastError || new Error("Не удалось скачать ядро");
+}
+
 async function downloadCore() {
-  // cache-buster: GitHub/CDN иногда отдают старый файл
-  const req = new Request(CORE_URL + "?t=" + Date.now());
-  req.timeoutInterval = 45;
-  const code = await req.loadString();
-  if (!code || code.length < 500 || code.trim().startsWith("<!")) {
-    throw new Error("Не удалось скачать WordOfDayCore.js");
-  }
-  if (!code.includes("PASSIVE_WIDGET_V2") || !code.includes("fallbackExample")) {
-    throw new Error("Скачалась старая версия ядра. Попробуй Play ещё раз.");
-  }
+  const code = await fetchCoreCode();
   if (fm.fileExists(corePath)) {
     try {
       fm.remove(corePath);
@@ -47,14 +65,13 @@ async function downloadCore() {
 }
 
 async function ensureCore() {
-  // В виджете — кэш; при Play / тапе — всегда свежий код
-  const force = !config.runsInWidget;
-  if (force || !fm.fileExists(corePath)) {
+  // Каждый Play — заново; виджет может взять кэш
+  if (!config.runsInWidget || !fm.fileExists(corePath)) {
     await downloadCore();
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V2") || !local.includes("fallbackExample")) {
+  if (!local.includes("PASSIVE_WIDGET_V2") || !local.includes(" ·  v2")) {
     await downloadCore();
   }
 }
