@@ -6,8 +6,8 @@
 // Постоянные адреса (первый рабочий победит).
 // Чтобы GitHub работал: Settings репозитория projects_po → Change visibility → Public
 const RAW_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/main/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/main/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@main/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 

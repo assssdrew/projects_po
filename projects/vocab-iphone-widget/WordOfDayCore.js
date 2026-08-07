@@ -53,6 +53,7 @@ function nextWord(progress) {
       learned: false,
       reviewed: false,
       firstDay: day,
+      phonetic: null,
     };
   }
   saveProgress(progress);
@@ -76,6 +77,7 @@ function mark(progress, field) {
       learned: false,
       reviewed: false,
       firstDay: todayKey(),
+      phonetic: null,
     };
   }
   progress.history[key][field] = true;
@@ -90,6 +92,66 @@ function statusLine(item) {
   if (item && item.learned) parts.push("✅");
   if (item && item.reviewed) parts.push("🔁");
   return parts.length ? parts.join(" ") : "—";
+}
+
+async function speakWord(text) {
+  // Системная озвучка iPhone (английский)
+  const clean = String(text || "")
+    .replace(/[\/→←•]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!clean) return;
+  await Speech.speak(clean, {
+    language: "en-US",
+    rate: 0.42,
+  });
+}
+
+async function fetchPhonetic(en) {
+  // Берём транскрипцию из бесплатного словаря
+  const queries = [];
+  const raw = String(en || "").trim();
+  queries.push(raw);
+  // для фраз пробуем первое «слово»-якорь
+  const first = raw.split(/[\s\/]+/)[0].replace(/[^a-zA-Z'-]/g, "");
+  if (first && first.toLowerCase() !== raw.toLowerCase()) queries.push(first);
+
+  for (const q of queries) {
+    try {
+      const url =
+        "https://api.dictionaryapi.dev/api/v2/entries/en/" +
+        encodeURIComponent(q);
+      const req = new Request(url);
+      req.timeoutInterval = 12;
+      const data = await req.loadJSON();
+      if (!Array.isArray(data) || !data[0]) continue;
+      const entry = data[0];
+      let phonetic = entry.phonetic || null;
+      if (!phonetic && entry.phonetics) {
+        for (const p of entry.phonetics) {
+          if (p && p.text) {
+            phonetic = p.text;
+            break;
+          }
+        }
+      }
+      if (phonetic) return phonetic;
+    } catch (e) {}
+  }
+  return null;
+}
+
+async function ensurePhonetic(progress) {
+  const key = progress.current.en.toLowerCase();
+  const item = progress.history[key];
+  if (!item) return null;
+  if (item.phonetic) return item.phonetic;
+  const ph = await fetchPhonetic(progress.current.en);
+  if (ph) {
+    item.phonetic = ph;
+    saveProgress(progress);
+  }
+  return ph;
 }
 
 function createWidget(progress) {
@@ -109,6 +171,16 @@ function createWidget(progress) {
   en.lineLimit = 3;
   en.minimumScaleFactor = 0.7;
 
+  const key = progress.current.en.toLowerCase();
+  const item = progress.history[key] || {};
+  if (item.phonetic) {
+    w.addSpacer(3);
+    const ph = w.addText(item.phonetic);
+    ph.font = Font.systemFont(12);
+    ph.textColor = new Color("#A8C5E0");
+    ph.lineLimit = 1;
+  }
+
   w.addSpacer(4);
 
   const showRu = !config.widgetFamily || config.widgetFamily !== "small";
@@ -119,15 +191,13 @@ function createWidget(progress) {
     ru.lineLimit = 3;
     ru.minimumScaleFactor = 0.7;
   } else {
-    const hint = w.addText("нажми → перевод и отметки");
+    const hint = w.addText("нажми → перевод и озвучка");
     hint.font = Font.systemFont(11);
     hint.textColor = new Color("#8FB3D9");
   }
 
   w.addSpacer();
 
-  const key = progress.current.en.toLowerCase();
-  const item = progress.history[key] || {};
   const left = Math.max(0, WORDS.length - (progress.index || 0));
   const foot = w.addText(statusLine(item) + "  ·  осталось ~" + left);
   foot.font = Font.systemFont(10);
@@ -143,6 +213,7 @@ async function afterMark(progress) {
   if (isComplete(item)) {
     const old = progress.current.en;
     nextWord(progress);
+    await ensurePhonetic(progress);
     await showToast(
       "Все статусы ✓\n«" + old + "» закрыто.\n\nНовое слово:\n" + progress.current.en
     );
@@ -156,21 +227,27 @@ async function afterMark(progress) {
 }
 
 async function runApp(progress) {
+  await ensurePhonetic(progress);
   const key = progress.current.en.toLowerCase();
   const item = progress.history[key] || {
     seen: false,
     learned: false,
     reviewed: false,
+    phonetic: null,
   };
+
+  const phoneticLine = item.phonetic ? "\n" + item.phonetic : "";
 
   const alert = new Alert();
   alert.title = progress.current.en;
   alert.message =
     progress.current.ru +
+    phoneticLine +
     "\n\nСтатус: " +
     statusLine(item) +
-    "\n\nКогда стоят все три — слово сменится.";
+    "\n\nВсе три статуса → следующее слово.";
 
+  alert.addAction("🔊 Произнести");
   alert.addAction("👁 Увидел");
   alert.addAction("✅ Выучил");
   alert.addAction("🔁 Повторил");
@@ -181,18 +258,22 @@ async function runApp(progress) {
   const choice = await alert.presentSheet();
 
   if (choice === 0) {
+    await speakWord(progress.current.en);
+    // снова показать меню после озвучки
+    await runApp(ensureCurrentWord(loadProgress()));
+  } else if (choice === 1) {
     mark(progress, "seen");
     await afterMark(progress);
-  } else if (choice === 1) {
+  } else if (choice === 2) {
     mark(progress, "seen");
     mark(progress, "learned");
     await afterMark(progress);
-  } else if (choice === 2) {
+  } else if (choice === 3) {
     mark(progress, "reviewed");
     await afterMark(progress);
-  } else if (choice === 3) {
-    await showHistory(progress);
   } else if (choice === 4) {
+    await showHistory(progress);
+  } else if (choice === 5) {
     const conf = new Alert();
     conf.title = "Сбросить прогресс?";
     conf.message = "История и очередь слов обнулятся.";
@@ -217,7 +298,8 @@ async function showHistory(progress) {
     (b.firstDay || "").localeCompare(a.firstDay || "")
   );
   const lines = entries.slice(0, 40).map((e) => {
-    return `${statusLine(e)} ${e.en} — ${e.ru}`;
+    const ph = e.phonetic ? " " + e.phonetic : "";
+    return `${statusLine(e)} ${e.en}${ph} — ${e.ru}`;
   });
   const a = new Alert();
   a.title = `История (${entries.length})`;
@@ -229,8 +311,10 @@ async function showHistory(progress) {
 async function main() {
   let progress = ensureCurrentWord(loadProgress());
   if (config.runsInWidget) {
+    // в виджете без сети; фонетика — если уже кэширована
     Script.setWidget(createWidget(progress));
   } else {
+    await ensurePhonetic(progress);
     await runApp(progress);
     Script.setWidget(createWidget(ensureCurrentWord(loadProgress())));
   }
