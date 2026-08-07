@@ -2,13 +2,12 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: book;
 //
-// ВАЖНО: замени ВЕСЬ код скрипта WordOfDay на этот.
-// Затем ▶ Play. Внизу виджета должно появиться «v2».
+// Замени ВЕСЬ код WordOfDay на этот → ▶ Play.
+// Успех: внизу виджета «v3», фон прозрачный, только EN + RU.
 
 const CORE_URLS = [
-  // точный коммит — без кэша ветки
-  "https://raw.githubusercontent.com/assssdrew/projects_po/adea50f578e1298b179789d6a33289b4ed45c92a/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@adea50f578e1298b179789d6a33289b4ed45c92a/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/d2b14f6bf9cba9676c070a38aa15c676d6b56dd8/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@d2b14f6bf9cba9676c070a38aa15c676d6b56dd8/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V2") &&
-        code.includes("fallbackExample")
+        code.includes("PASSIVE_WIDGET_V3") &&
+        code.includes("Color.clear()")
       ) {
         return code;
       }
@@ -65,13 +64,12 @@ async function downloadCore() {
 }
 
 async function ensureCore() {
-  // Каждый Play — заново; виджет может взять кэш
   if (!config.runsInWidget || !fm.fileExists(corePath)) {
     await downloadCore();
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V2") || !local.includes(" ·  v2")) {
+  if (!local.includes("PASSIVE_WIDGET_V3") || !local.includes(" ·  v3")) {
     await downloadCore();
   }
 }
