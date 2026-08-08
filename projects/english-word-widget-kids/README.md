@@ -7,51 +7,46 @@
 ## Стек
 
 - Swift / SwiftUI / WidgetKit
-- Локальный `data/words.json` + SF Symbols / WikiVoc
-- Цель: iOS 26.x (нужен современный Mac + актуальный Xcode)
+- `data/words.json` + SF Symbols (WikiVoc — где есть)
+- Цель: iOS 17+ код; установка на iOS 26.x — на современном Mac/Xcode
 
-## Визуальная стратегия (вариант WikiVoc)
+## Открыть проект
 
-1. Если есть ясное совпадение — картинка WikiVoc (Public Domain)  
-2. Иначе — SF Symbol  
-3. Позже можно догенерировать недостающие иллюстрации в стиле WikiVoc
+```
+app/EnglishWordKids/EnglishWordKids.xcodeproj
+```
 
-Сейчас: **6** карточек на WikiVoc, **294** на SF Symbol.  
-Подробности: `data/image_coverage.md`.
+Инструкция: [`app/EnglishWordKids/README.md`](app/EnglishWordKids/README.md).
 
-## Продукт
+## Визуальная стратегия
 
-| Часть | Содержание |
-|-------|------------|
-| Виджет Small | картинка/symbol + EN + RU |
-| Виджет Medium | + произношение |
-| Приложение | 10 слов дня, TTS, обзор |
-
-Контент: **300 слов**, 30×10, 30 тем.
+1. WikiVoc SVG, если есть ясное совпадение  
+2. Иначе SF Symbol  
+Сейчас: **6** WikiVoc / **294** SF Symbol → `data/image_coverage.md`
 
 ## Структура
 
 ```
 english-word-widget-kids/
-  data/
-    words.json                 ✅ словарь (EN/RU/pronunciation/example/visual)
-    image_plan_300.csv         ✅ план картинок
-    image_coverage.*           ✅ отчёт WikiVoc vs SF Symbol
-    images/wikivoc/            ✅ скачанный маленький набор WikiVoc
-    ATTRIBUTION_WIKIVOC.md
-  app/prototypes/              ✅ ContentView + WordStore
-  scripts/build_words_json.py  ✅ пересборка words.json
+  data/words.json
+  data/images/wikivoc/
+  app/EnglishWordKids/          ← Xcode app + widget
+  app/prototypes/               ← старые черновики
+  scripts/build_words_json.py
+  scripts/generate_xcodeproj.py
+  scripts/sync_words_into_app.sh
   docs/PROJECT_HANDOFF.md
 ```
 
-## Чего ещё нет
+## Возможности MVP
 
-- Полный Xcode / WidgetKit проект
-- 300 единых иллюстраций (WikiVoc на Commons почти пустой)
-- Сборка на современном Mac под iOS 26.x
+- Виджет Small: symbol + EN + RU  
+- Виджет Medium: + произношение + день курса  
+- App: сегодняшние 10 слов, карточка с TTS, обзор 30 дней  
+- Автосмена слова каждые 2 часа; день курса циклом 1…30  
 
-## Пересборка словаря
+## Ещё нет
 
-```bash
-python3 scripts/build_words_json.py
-```
+- 300 единых иллюстраций  
+- «Знаю / повторить» и spaced repetition  
+- Реальная установка на iPhone (нужен Mac)
