@@ -3,11 +3,12 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v14: уникальные наборы без пересечения с предыдущим
+// v15: полный проход 948 слов без повторов в круге
+// После Play открой меню → Reset (один раз), чтобы сбросить старую очередь.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/272f5fe8a5def9f82370267702a57186455b9b4c/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@272f5fe8a5def9f82370267702a57186455b9b4c/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/997ab8e880284a15dd8e5d8964e6e5256f15f497/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@997ab8e880284a15dd8e5d8964e6e5256f15f497/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -35,8 +36,9 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V14") &&
-        code.includes("buildSet")
+        code.includes("PASSIVE_WIDGET_V15") &&
+        code.includes("ensureOrder") &&
+        code.includes("VOCAB_SIZE = 948")
       ) {
         return code;
       }
@@ -69,7 +71,11 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V14") || !local.includes("buildSet")) {
+  if (
+    !local.includes("PASSIVE_WIDGET_V15") ||
+    !local.includes("ensureOrder") ||
+    !local.includes("VOCAB_SIZE = 948")
+  ) {
     await downloadCore();
   }
 }
