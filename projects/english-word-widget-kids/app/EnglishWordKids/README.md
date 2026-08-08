@@ -4,13 +4,11 @@ Native SwiftUI app + WidgetKit extension.
 
 ## Open on a Mac
 
-1. Нужен Mac с актуальным Xcode (для установки на iOS 26.x — современный Xcode/SDK).
-2. Открой `EnglishWordKids.xcodeproj`.
-3. Выбери team в Signing для targets:
-   - `EnglishWordKids`
-   - `EnglishWordKidsWidget`
-4. Run на Simulator или iPhone.
-5. На Home Screen: Edit → Add Widget → **Слово дня** (Small / Medium).
+1. Для **установки на iPhone с iOS 26** нужен современный Mac + актуальный Xcode.
+2. Старый Xcode 13 (Big Sur) может **открыть** проект после downgrade формата, но **не соберёт** под iOS 26.
+3. Открой `EnglishWordKids.xcodeproj` (File → Open), не создавай новый App.
+4. Signing → Team для `EnglishWordKids` и `EnglishWordKidsWidget`.
+5. Run на iPhone → Home Screen → Add Widget → **Слово дня**.
 
 ## Что внутри
 
