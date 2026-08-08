@@ -7,8 +7,24 @@
 ## Стек
 
 - Swift / SwiftUI / WidgetKit
-- `data/words.json` + SF Symbols (WikiVoc — где есть)
+- `data/words.json` + картинки Fluent/Twemoji
 - Цель: iOS 17+ код; установка на iOS 26.x — на современном Mac/Xcode
+
+## Картинки (бесплатно)
+
+| Источник | Лицензия | Сколько |
+|----------|----------|---------|
+| [Fluent UI Emoji](https://github.com/microsoft/fluentui-emoji) | MIT | ~235 |
+| [Twemoji](https://github.com/jdecked/twemoji) | CC BY 4.0 | ~65 |
+
+Все **300** карточек с PNG. Обзор источников: `docs/IMAGE_SOURCES.md`.  
+Файлы: `data/images/words/`, в приложении — `app/EnglishWordKids/Resources/WordImages.xcassets/`.
+
+Перескачать:
+
+```bash
+python3 scripts/fetch_word_images.py
+```
 
 ## Открыть проект
 
@@ -18,35 +34,8 @@ app/EnglishWordKids/EnglishWordKids.xcodeproj
 
 Инструкция: [`app/EnglishWordKids/README.md`](app/EnglishWordKids/README.md).
 
-## Визуальная стратегия
-
-1. WikiVoc SVG, если есть ясное совпадение  
-2. Иначе SF Symbol  
-Сейчас: **6** WikiVoc / **294** SF Symbol → `data/image_coverage.md`
-
-## Структура
-
-```
-english-word-widget-kids/
-  data/words.json
-  data/images/wikivoc/
-  app/EnglishWordKids/          ← Xcode app + widget
-  app/prototypes/               ← старые черновики
-  scripts/build_words_json.py
-  scripts/generate_xcodeproj.py
-  scripts/sync_words_into_app.sh
-  docs/PROJECT_HANDOFF.md
-```
-
 ## Возможности MVP
 
-- Виджет Small: symbol + EN + RU  
-- Виджет Medium: + произношение + день курса  
-- App: сегодняшние 10 слов, карточка с TTS, обзор 30 дней  
-- Автосмена слова каждые 2 часа; день курса циклом 1…30  
-
-## Ещё нет
-
-- 300 единых иллюстраций  
-- «Знаю / повторить» и spaced repetition  
-- Реальная установка на iPhone (нужен Mac)
+- Виджет Small / Medium с картинкой, EN, RU (+ произношение в Medium)
+- App: сегодняшние 10 слов, карточка с TTS, обзор 30 дней
+- Ротация слова каждые 2 часа; курс дней 1…30 циклом

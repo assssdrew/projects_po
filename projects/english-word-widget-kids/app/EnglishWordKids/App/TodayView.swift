@@ -60,10 +60,7 @@ struct WordRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            Image(systemName: item.symbolName)
-                .font(.title2)
-                .frame(width: 36)
-                .foregroundStyle(.tint)
+            WordVisualView(item: item, symbolFont: .title2, imageSide: 40)
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.word)
                     .font(.headline)

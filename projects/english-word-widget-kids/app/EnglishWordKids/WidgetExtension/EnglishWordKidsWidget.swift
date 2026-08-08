@@ -74,9 +74,7 @@ struct SmallWordView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: word.symbolName)
-                .font(.title)
-                .symbolRenderingMode(.hierarchical)
+            WordVisualView(item: word, symbolFont: .title, imageSide: 44)
             Spacer(minLength: 0)
             Text(word.word)
                 .font(.headline)
@@ -97,10 +95,7 @@ struct MediumWordView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            Image(systemName: word.symbolName)
-                .font(.system(size: 44))
-                .symbolRenderingMode(.hierarchical)
-                .frame(width: 56)
+            WordVisualView(item: word, symbolFont: .system(size: 44), imageSide: 64)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("День \(courseDay)/\(WordStore.courseDays)")

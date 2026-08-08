@@ -21,12 +21,16 @@ struct WordItem: Identifiable, Codable, Hashable {
         let sfSymbol: String
         let imageFile: String?
         let wikivocFile: String?
+        let imageSource: String?
+        let imageDetail: String?
 
         enum CodingKeys: String, CodingKey {
             case mode
             case sfSymbol = "sf_symbol"
             case imageFile = "image_file"
             case wikivocFile = "wikivoc_file"
+            case imageSource = "image_source"
+            case imageDetail = "image_detail"
         }
     }
 
@@ -49,4 +53,12 @@ struct WordItem: Identifiable, Codable, Hashable {
     }
 
     var symbolName: String { visual.sfSymbol }
+
+    /// Asset catalog / bundle image name, e.g. `word_001`.
+    var imageName: String? {
+        if visual.mode == "image" {
+            return assetId
+        }
+        return nil
+    }
 }

@@ -5,12 +5,17 @@
   "count": 300,
   "days": 30,
   "words_per_day": 10,
-  "visual_strategy": "wikivoc_where_available_else_sf_symbol",
+  "visual_strategy": "fluent_3d_then_twemoji_then_sf_symbol",
   "attribution": {
-    "wikivoc": {
-      "source": "https://commons.wikimedia.org/wiki/Commons:WikiVoc",
-      "license": "Public Domain (see each Commons file page)",
-      "credit": "Images from Commons:WikiVoc; Licence: Public Domain; Authors: WikiVoc team."
+    "fluent_ui_emoji": {
+      "source": "https://github.com/microsoft/fluentui-emoji",
+      "license": "MIT",
+      "credit": "Fluent Emoji by Microsoft (MIT)"
+    },
+    "twemoji": {
+      "source": "https://github.com/jdecked/twemoji",
+      "license": "CC-BY 4.0 (graphics), MIT (code)",
+      "credit": "Twemoji graphics © Twitter/jdecked, CC-BY 4.0"
     }
   },
   "words": [
@@ -25,10 +30,12 @@
       "example": "I wake up at seven.",
       "image_concept": "child waking up in bed, morning bedroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sunrise.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_001.imageset/word_001.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
       }
     },
     {
@@ -42,10 +49,12 @@
       "example": "I get up early.",
       "image_concept": "child getting out of bed, morning bedroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.stand",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_002.imageset/word_002.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🛏️"
       }
     },
     {
@@ -59,10 +68,12 @@
       "example": "I wash my face.",
       "image_concept": "child washing face at bathroom sink",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "drop.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_003.imageset/word_003.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soap"
       }
     },
     {
@@ -76,10 +87,12 @@
       "example": "I get dressed for school.",
       "image_concept": "child getting dressed in bedroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tshirt.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_004.imageset/word_004.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
       }
     },
     {
@@ -93,10 +106,12 @@
       "example": "I eat breakfast.",
       "image_concept": "child eating breakfast at kitchen table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cup.and.saucer.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_005.imageset/word_005.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cooking"
       }
     },
     {
@@ -110,10 +125,12 @@
       "example": "I go to school.",
       "image_concept": "10-year-old child entering school",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "building.columns.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_006.imageset/word_006.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "School"
       }
     },
     {
@@ -127,10 +144,12 @@
       "example": "The lesson is fun.",
       "image_concept": "child studying in classroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "book.closed.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_007.imageset/word_007.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Books"
       }
     },
     {
@@ -144,10 +163,12 @@
       "example": "I do my homework.",
       "image_concept": "child doing homework at desk",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "pencil.and.outline",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_008.imageset/word_008.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Memo"
       }
     },
     {
@@ -161,10 +182,12 @@
       "example": "This is my friend.",
       "image_concept": "two 10-year-old friends together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_009.imageset/word_009.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "People hugging"
       }
     },
     {
@@ -178,10 +201,12 @@
       "example": "We play after school.",
       "image_concept": "children playing together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "gamecontroller.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_010.imageset/word_010.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🎮"
       }
     },
     {
@@ -195,10 +220,12 @@
       "example": "I love my family.",
       "image_concept": "happy family at home",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.2.and.child.holdinghands",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_011.imageset/word_011.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨‍👩‍👧‍👦"
       }
     },
     {
@@ -212,10 +239,12 @@
       "example": "My mother helps me.",
       "image_concept": "mother with child at home",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.stand.dress",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_012.imageset/word_012.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩"
       }
     },
     {
@@ -229,10 +258,12 @@
       "example": "My father is kind.",
       "image_concept": "father with child at home",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.stand",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_013.imageset/word_013.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨"
       }
     },
     {
@@ -246,10 +277,12 @@
       "example": "I have a brother.",
       "image_concept": "two brothers together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_014.imageset/word_014.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👦"
       }
     },
     {
@@ -263,10 +296,12 @@
       "example": "I have a sister.",
       "image_concept": "two sisters together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_015.imageset/word_015.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👧"
       }
     },
     {
@@ -280,10 +315,12 @@
       "example": "My parents are at home.",
       "image_concept": "parents with their child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_016.imageset/word_016.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨‍👩‍👧"
       }
     },
     {
@@ -297,10 +334,12 @@
       "example": "He is their son.",
       "image_concept": "parent with young son",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.child",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_017.imageset/word_017.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👦"
       }
     },
     {
@@ -314,10 +353,12 @@
       "example": "She is their daughter.",
       "image_concept": "parent with young daughter",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.child",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_018.imageset/word_018.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👧"
       }
     },
     {
@@ -331,10 +372,12 @@
       "example": "The child is happy.",
       "image_concept": "happy school-age child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.child",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_019.imageset/word_019.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧒"
       }
     },
     {
@@ -348,10 +391,12 @@
       "example": "We play together.",
       "image_concept": "two children doing an activity together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.3.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_020.imageset/word_020.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤝"
       }
     },
     {
@@ -365,10 +410,12 @@
       "example": "Our teacher is nice.",
       "image_concept": "teacher",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_021.imageset/word_021.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩‍🏫"
       }
     },
     {
@@ -382,10 +429,12 @@
       "example": "I am a student.",
       "image_concept": "student",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "studentdesk",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_022.imageset/word_022.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧑‍🎓"
       }
     },
     {
@@ -399,10 +448,12 @@
       "example": "Our class is big.",
       "image_concept": "class",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.3.sequence",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_023.imageset/word_023.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "School"
       }
     },
     {
@@ -416,10 +467,12 @@
       "example": "Math is my subject.",
       "image_concept": "subject",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "list.bullet.rectangle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_024.imageset/word_024.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Books"
       }
     },
     {
@@ -433,10 +486,12 @@
       "example": "I read a book.",
       "image_concept": "book",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "book.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_025.imageset/word_025.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Closed book"
       }
     },
     {
@@ -450,10 +505,12 @@
       "example": "I write in my notebook.",
       "image_concept": "notebook",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "book.pages",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_026.imageset/word_026.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Notebook"
       }
     },
     {
@@ -467,10 +524,12 @@
       "example": "I need a pencil.",
       "image_concept": "pencil",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "pencil",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_027.imageset/word_027.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pencil"
       }
     },
     {
@@ -484,10 +543,12 @@
       "example": "I have a question.",
       "image_concept": "question",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_028.imageset/word_028.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -501,10 +562,12 @@
       "example": "I know the answer.",
       "image_concept": "child giving an answer",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_029.imageset/word_029.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speech balloon"
       }
     },
     {
@@ -518,10 +581,12 @@
       "example": "We have a test today.",
       "image_concept": "test",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checklist",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_030.imageset/word_030.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Clipboard"
       }
     },
     {
@@ -535,10 +600,12 @@
       "example": "This is my friend.",
       "image_concept": "two 10-year-old friends together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_031.imageset/word_031.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "People hugging"
       }
     },
     {
@@ -552,10 +619,12 @@
       "example": "Our team is strong.",
       "image_concept": "team",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.3.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_032.imageset/word_032.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👥"
       }
     },
     {
@@ -569,10 +638,12 @@
       "example": "This game is fun.",
       "image_concept": "game",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "dice.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_033.imageset/word_033.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Video game"
       }
     },
     {
@@ -586,10 +657,12 @@
       "example": "Can you help me?",
       "image_concept": "child helping another child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hands.clap.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_034.imageset/word_034.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🆘"
       }
     },
     {
@@ -603,10 +676,12 @@
       "example": "We share toys.",
       "image_concept": "share",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "square.and.arrow.up",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_035.imageset/word_035.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Wrapped gift"
       }
     },
     {
@@ -620,10 +695,12 @@
       "example": "We talk a lot.",
       "image_concept": "talk",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bubble.left.and.bubble.right.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_036.imageset/word_036.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speech balloon"
       }
     },
     {
@@ -637,10 +714,12 @@
       "example": "We laugh together.",
       "image_concept": "laugh",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.smiling.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_037.imageset/word_037.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Face with tears of joy"
       }
     },
     {
@@ -654,10 +733,12 @@
       "example": "We play after school.",
       "image_concept": "children playing together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "gamecontroller.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_038.imageset/word_038.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🎮"
       }
     },
     {
@@ -671,10 +752,12 @@
       "example": "We play together.",
       "image_concept": "two children doing an activity together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.3.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_039.imageset/word_039.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤝"
       }
     },
     {
@@ -688,10 +771,12 @@
       "example": "The party is fun.",
       "image_concept": "fun",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "party.popper.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_040.imageset/word_040.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Party popper"
       }
     },
     {
@@ -705,10 +790,12 @@
       "example": "Let's go home.",
       "image_concept": "go",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.right.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_041.imageset/word_041.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🚶"
       }
     },
     {
@@ -722,10 +809,12 @@
       "example": "Come here, please.",
       "image_concept": "come",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.left.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_042.imageset/word_042.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👈"
       }
     },
     {
@@ -739,10 +828,12 @@
       "example": "Take your bag.",
       "image_concept": "take",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.raised.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_043.imageset/word_043.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🖐️"
       }
     },
     {
@@ -756,10 +847,12 @@
       "example": "Give me the book.",
       "image_concept": "give",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "gift.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_044.imageset/word_044.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤲"
       }
     },
     {
@@ -773,10 +866,12 @@
       "example": "I make a cake.",
       "image_concept": "make",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hammer.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_045.imageset/word_045.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hammer and wrench"
       }
     },
     {
@@ -790,10 +885,12 @@
       "example": "I get a present.",
       "image_concept": "get",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tray.and.arrow.down.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_046.imageset/word_046.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Inbox tray"
       }
     },
     {
@@ -807,10 +904,12 @@
       "example": "I find my keys.",
       "image_concept": "find",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "magnifyingglass",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_047.imageset/word_047.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Magnifying glass tilted left"
       }
     },
     {
@@ -824,10 +923,12 @@
       "example": "I want juice.",
       "image_concept": "want",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "heart.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_048.imageset/word_048.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "✨"
       }
     },
     {
@@ -841,10 +942,12 @@
       "example": "I need help.",
       "image_concept": "need",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "exclamationmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_049.imageset/word_049.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "❗"
       }
     },
     {
@@ -858,10 +961,12 @@
       "example": "I like apples.",
       "image_concept": "like",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.thumbsup.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_050.imageset/word_050.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
       }
     },
     {
@@ -875,10 +980,12 @@
       "example": "The food is good.",
       "image_concept": "healthy meal",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fork.knife",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_051.imageset/word_051.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife with plate"
       }
     },
     {
@@ -892,10 +999,12 @@
       "example": "I eat breakfast.",
       "image_concept": "child eating breakfast at kitchen table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cup.and.saucer.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_052.imageset/word_052.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cooking"
       }
     },
     {
@@ -909,10 +1018,12 @@
       "example": "We eat lunch at school.",
       "image_concept": "child eating lunch",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "takeoutbag.and.cup.and.straw.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_053.imageset/word_053.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sandwich"
       }
     },
     {
@@ -926,10 +1037,12 @@
       "example": "Dinner is at seven.",
       "image_concept": "family dinner",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fork.knife.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_054.imageset/word_054.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pot of food"
       }
     },
     {
@@ -943,10 +1056,12 @@
       "example": "I eat bread.",
       "image_concept": "loaf of bread",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "birthday.cake.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_055.imageset/word_055.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bread"
       }
     },
     {
@@ -960,10 +1075,12 @@
       "example": "Rice is tasty.",
       "image_concept": "bowl of rice",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "leaf.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_056.imageset/word_056.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cooked rice"
       }
     },
     {
@@ -977,10 +1094,12 @@
       "example": "I don't eat meat.",
       "image_concept": "plate of cooked meat",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "flame.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_057.imageset/word_057.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cut of meat"
       }
     },
     {
@@ -994,10 +1113,12 @@
       "example": "The fish is fresh.",
       "image_concept": "fish in water",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fish.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_058.imageset/word_058.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fish"
       }
     },
     {
@@ -1011,10 +1132,12 @@
       "example": "I like fruit.",
       "image_concept": "colorful fruit",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "carrot.fill",
-        "image_file": "images/wikivoc/WikiVoc-banana.svg",
-        "wikivoc_file": "WikiVoc-banana.svg"
+        "image_file": "WordImages.xcassets/word_059.imageset/word_059.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red apple"
       }
     },
     {
@@ -1028,10 +1151,12 @@
       "example": "Eat a vegetable.",
       "image_concept": "colorful vegetables",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "leaf.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_060.imageset/word_060.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Leafy green"
       }
     },
     {
@@ -1045,10 +1170,12 @@
       "example": "I drink water.",
       "image_concept": "glass of water",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "drop.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_061.imageset/word_061.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
       }
     },
     {
@@ -1062,10 +1189,12 @@
       "example": "I like milk.",
       "image_concept": "glass of milk",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cup.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_062.imageset/word_062.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Glass of milk"
       }
     },
     {
@@ -1079,10 +1208,12 @@
       "example": "Orange juice, please.",
       "image_concept": "glass of orange juice",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mug.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_063.imageset/word_063.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Beverage box"
       }
     },
     {
@@ -1096,10 +1227,12 @@
       "example": "Mum drinks tea.",
       "image_concept": "cup of tea",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cup.and.saucer.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_064.imageset/word_064.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Teacup without handle"
       }
     },
     {
@@ -1113,10 +1246,12 @@
       "example": "This cake is sweet.",
       "image_concept": "sweet cake",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "birthday.cake.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_065.imageset/word_065.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shortcake"
       }
     },
     {
@@ -1130,10 +1265,12 @@
       "example": "The soup is salty.",
       "image_concept": "salty snack",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sparkles",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_066.imageset/word_066.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Salt"
       }
     },
     {
@@ -1147,10 +1284,12 @@
       "example": "The tea is hot.",
       "image_concept": "sunny hot summer day",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "thermometer.sun.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_067.imageset/word_067.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hot beverage"
       }
     },
     {
@@ -1164,10 +1303,12 @@
       "example": "The water is cold.",
       "image_concept": "cold winter day",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "thermometer.snowflake",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_068.imageset/word_068.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cold face"
       }
     },
     {
@@ -1181,10 +1322,12 @@
       "example": "I am hungry.",
       "image_concept": "hungry child at kitchen table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fork.knife",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_069.imageset/word_069.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife"
       }
     },
     {
@@ -1198,10 +1341,12 @@
       "example": "I am thirsty.",
       "image_concept": "thirsty child drinking water",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "drop.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_070.imageset/word_070.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Potable water"
       }
     },
     {
@@ -1215,10 +1360,12 @@
       "example": "This is my house.",
       "image_concept": "family house",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "house.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_071.imageset/word_071.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "House"
       }
     },
     {
@@ -1232,10 +1379,12 @@
       "example": "My room is clean.",
       "image_concept": "bright child's room",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "square.split.2x1.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_072.imageset/word_072.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Door"
       }
     },
     {
@@ -1249,10 +1398,12 @@
       "example": "I sleep in my bedroom.",
       "image_concept": "child's bedroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bed.double.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_073.imageset/word_073.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bed"
       }
     },
     {
@@ -1266,10 +1417,12 @@
       "example": "Mum is in the kitchen.",
       "image_concept": "family kitchen",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cooktop.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_074.imageset/word_074.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩‍🍳"
       }
     },
     {
@@ -1283,10 +1436,12 @@
       "example": "I wash in the bathroom.",
       "image_concept": "clean bathroom",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "shower.fill",
-        "image_file": "images/wikivoc/WikiVoc-toilet.svg",
-        "wikivoc_file": "WikiVoc-toilet.svg"
+        "image_file": "WordImages.xcassets/word_075.imageset/word_075.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Toilet"
       }
     },
     {
@@ -1300,10 +1455,12 @@
       "example": "Open the door.",
       "image_concept": "open room door",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "door.left.hand.open",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_076.imageset/word_076.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Door"
       }
     },
     {
@@ -1317,10 +1474,12 @@
       "example": "Look out the window.",
       "image_concept": "bright window with sky outside",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "window.ceiling",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_077.imageset/word_077.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Window"
       }
     },
     {
@@ -1334,10 +1493,12 @@
       "example": "The book is on the table.",
       "image_concept": "wooden table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "table.furniture.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_078.imageset/word_078.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Chair"
       }
     },
     {
@@ -1351,10 +1512,12 @@
       "example": "Sit on the chair.",
       "image_concept": "school chair",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "chair.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_079.imageset/word_079.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Chair"
       }
     },
     {
@@ -1368,10 +1531,12 @@
       "example": "I sleep in bed.",
       "image_concept": "comfortable child's bed",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bed.double.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_080.imageset/word_080.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bed"
       }
     },
     {
@@ -1385,10 +1550,12 @@
       "example": "My phone is new.",
       "image_concept": "smartphone",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "iphone",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_081.imageset/word_081.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mobile phone"
       }
     },
     {
@@ -1402,10 +1569,12 @@
       "example": "I use a computer.",
       "image_concept": "laptop computer",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "desktopcomputer",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_082.imageset/word_082.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Laptop"
       }
     },
     {
@@ -1419,10 +1588,12 @@
       "example": "We watch TV.",
       "image_concept": "television",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tv.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_083.imageset/word_083.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Television"
       }
     },
     {
@@ -1436,10 +1607,12 @@
       "example": "My bag is heavy.",
       "image_concept": "school backpack",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bag.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_084.imageset/word_084.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Handbag"
       }
     },
     {
@@ -1453,10 +1626,12 @@
       "example": "This toy is soft.",
       "image_concept": "children's toy",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "teddybear.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_085.imageset/word_085.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Teddy bear"
       }
     },
     {
@@ -1470,10 +1645,12 @@
       "example": "Kick the ball.",
       "image_concept": "football",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "soccerball",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_086.imageset/word_086.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soccer ball"
       }
     },
     {
@@ -1487,10 +1664,12 @@
       "example": "My clothes are clean.",
       "image_concept": "children's clothes",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tshirt.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_087.imageset/word_087.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
       }
     },
     {
@@ -1504,10 +1683,12 @@
       "example": "Put on your shoes.",
       "image_concept": "pair of sneakers",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "shoe.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_088.imageset/word_088.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Running shoe"
       }
     },
     {
@@ -1521,10 +1702,12 @@
       "example": "I lost my key.",
       "image_concept": "house key",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "key.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_089.imageset/word_089.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Key"
       }
     },
     {
@@ -1538,10 +1721,12 @@
       "example": "I read a book.",
       "image_concept": "book",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "book.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_090.imageset/word_090.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Closed book"
       }
     },
     {
@@ -1555,10 +1740,12 @@
       "example": "I am happy.",
       "image_concept": "happy child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.smiling.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_091.imageset/word_091.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Grinning face"
       }
     },
     {
@@ -1572,10 +1759,12 @@
       "example": "She is sad.",
       "image_concept": "sad child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.dashed",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_092.imageset/word_092.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Crying face"
       }
     },
     {
@@ -1589,10 +1778,12 @@
       "example": "Don't be angry.",
       "image_concept": "angry child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "flame.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_093.imageset/word_093.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Angry face"
       }
     },
     {
@@ -1606,10 +1797,12 @@
       "example": "I am scared.",
       "image_concept": "scared child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "eye.trianglebadge.exclamationmark",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_094.imageset/word_094.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fearful face"
       }
     },
     {
@@ -1623,10 +1816,12 @@
       "example": "I am excited!",
       "image_concept": "excited child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "star.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_095.imageset/word_095.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Star-struck"
       }
     },
     {
@@ -1640,10 +1835,12 @@
       "example": "I am bored.",
       "image_concept": "bored child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "zzz",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_096.imageset/word_096.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleeping face"
       }
     },
     {
@@ -1657,10 +1854,12 @@
       "example": "I am tired.",
       "image_concept": "tired child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bed.double.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_097.imageset/word_097.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleepy face"
       }
     },
     {
@@ -1674,10 +1873,12 @@
       "example": "I am surprised.",
       "image_concept": "surprised child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "eyes",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_098.imageset/word_098.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Astonished face"
       }
     },
     {
@@ -1691,10 +1892,12 @@
       "example": "I feel nervous.",
       "image_concept": "nervous child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "waveform.path.ecg",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_099.imageset/word_099.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Anxious face with sweat"
       }
     },
     {
@@ -1708,10 +1911,12 @@
       "example": "I am proud of you.",
       "image_concept": "proud child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "medal.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_100.imageset/word_100.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Relieved face"
       }
     },
     {
@@ -1725,10 +1930,12 @@
       "example": "We play football.",
       "image_concept": "children playing football",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "soccerball",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_101.imageset/word_101.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soccer ball"
       }
     },
     {
@@ -1742,10 +1949,12 @@
       "example": "I like basketball.",
       "image_concept": "children playing basketball",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "basketball.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_102.imageset/word_102.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Basketball"
       }
     },
     {
@@ -1759,10 +1968,12 @@
       "example": "She plays tennis.",
       "image_concept": "child playing tennis",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tennisball.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_103.imageset/word_103.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Tennis"
       }
     },
     {
@@ -1776,10 +1987,12 @@
       "example": "Swimming is fun.",
       "image_concept": "child swimming in pool",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.pool.swim",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_104.imageset/word_104.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏊"
       }
     },
     {
@@ -1793,10 +2006,12 @@
       "example": "Running is good.",
       "image_concept": "child running",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.run",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_105.imageset/word_105.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏃"
       }
     },
     {
@@ -1810,10 +2025,12 @@
       "example": "Training is hard.",
       "image_concept": "child doing sports training",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "dumbbell.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_106.imageset/word_106.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💪"
       }
     },
     {
@@ -1827,10 +2044,12 @@
       "example": "He is a good player.",
       "image_concept": "young football player",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.team.play",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_107.imageset/word_107.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soccer ball"
       }
     },
     {
@@ -1844,10 +2063,12 @@
       "example": "Our coach is kind.",
       "image_concept": "sports coach with children",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "whistle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_108.imageset/word_108.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧢"
       }
     },
     {
@@ -1861,10 +2082,12 @@
       "example": "Kick the ball.",
       "image_concept": "football",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "soccerball",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_109.imageset/word_109.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soccer ball"
       }
     },
     {
@@ -1878,10 +2101,12 @@
       "example": "We want to win.",
       "image_concept": "child holding sports trophy",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "trophy.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_110.imageset/word_110.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Trophy"
       }
     },
     {
@@ -1895,10 +2120,12 @@
       "example": "My head hurts.",
       "image_concept": "child pointing to head",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "brain.head.profile",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_111.imageset/word_111.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bust in silhouette"
       }
     },
     {
@@ -1912,10 +2139,12 @@
       "example": "Wash your face.",
       "image_concept": "smiling child face",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.smiling",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_112.imageset/word_112.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Slightly smiling face"
       }
     },
     {
@@ -1929,10 +2158,12 @@
       "example": "I have brown eyes.",
       "image_concept": "child's eye",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "eye.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_113.imageset/word_113.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Eye"
       }
     },
     {
@@ -1946,10 +2177,12 @@
       "example": "Listen with your ears.",
       "image_concept": "child's ear",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ear.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_114.imageset/word_114.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👂"
       }
     },
     {
@@ -1963,10 +2196,12 @@
       "example": "My nose is cold.",
       "image_concept": "child's nose",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "nose.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_115.imageset/word_115.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👃"
       }
     },
     {
@@ -1980,10 +2215,12 @@
       "example": "Open your mouth.",
       "image_concept": "smiling mouth",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mouth.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_116.imageset/word_116.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mouth"
       }
     },
     {
@@ -1997,10 +2234,12 @@
       "example": "Raise your hand.",
       "image_concept": "child's hand",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.raised.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_117.imageset/word_117.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "✋"
       }
     },
     {
@@ -2014,10 +2253,12 @@
       "example": "My leg is long.",
       "image_concept": "child's leg",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.walk",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_118.imageset/word_118.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦵"
       }
     },
     {
@@ -2031,10 +2272,12 @@
       "example": "My foot is small.",
       "image_concept": "child's foot",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "shoe.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_119.imageset/word_119.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦶"
       }
     },
     {
@@ -2048,10 +2291,12 @@
       "example": "I wash my hair.",
       "image_concept": "child with hair",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "comb.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_120.imageset/word_120.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💇"
       }
     },
     {
@@ -2065,10 +2310,12 @@
       "example": "I wear a shirt.",
       "image_concept": "colorful shirt",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tshirt.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_121.imageset/word_121.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👔"
       }
     },
     {
@@ -2082,10 +2329,12 @@
       "example": "I like this T-shirt.",
       "image_concept": "colorful T-shirt",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tshirt.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_122.imageset/word_122.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
       }
     },
     {
@@ -2099,10 +2348,12 @@
       "example": "These trousers are new.",
       "image_concept": "pair of trousers",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "pants.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_123.imageset/word_123.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Jeans"
       }
     },
     {
@@ -2116,10 +2367,12 @@
       "example": "I wear shorts in summer.",
       "image_concept": "pair of shorts",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "pants.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_124.imageset/word_124.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shorts"
       }
     },
     {
@@ -2133,10 +2386,12 @@
       "example": "Put on your jacket.",
       "image_concept": "children's jacket",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "jacket.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_125.imageset/word_125.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Coat"
       }
     },
     {
@@ -2150,10 +2405,12 @@
       "example": "Put on your shoes.",
       "image_concept": "pair of sneakers",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "shoe.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_126.imageset/word_126.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Running shoe"
       }
     },
     {
@@ -2167,10 +2424,12 @@
       "example": "I need clean socks.",
       "image_concept": "colorful socks",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sock.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_127.imageset/word_127.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Socks"
       }
     },
     {
@@ -2184,10 +2443,12 @@
       "example": "This hat is warm.",
       "image_concept": "children's hat",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "crown.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_128.imageset/word_128.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Top hat"
       }
     },
     {
@@ -2201,10 +2462,12 @@
       "example": "She wears a dress.",
       "image_concept": "colorful dress",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.stand.dress",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_129.imageset/word_129.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Dress"
       }
     },
     {
@@ -2218,10 +2481,12 @@
       "example": "I wear shoes.",
       "image_concept": "child wearing casual clothes",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tshirt.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_130.imageset/word_130.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
       }
     },
     {
@@ -2235,10 +2500,12 @@
       "example": "The weather is nice.",
       "image_concept": "sky with changing weather",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cloud.sun.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_131.imageset/word_131.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun behind cloud"
       }
     },
     {
@@ -2252,10 +2519,12 @@
       "example": "It is sunny today.",
       "image_concept": "sunny sky",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sun.max.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_132.imageset/word_132.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
       }
     },
     {
@@ -2269,10 +2538,12 @@
       "example": "It is rainy.",
       "image_concept": "rainy street",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cloud.rain.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_133.imageset/word_133.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cloud with rain"
       }
     },
     {
@@ -2286,10 +2557,12 @@
       "example": "The sky is cloudy.",
       "image_concept": "cloudy sky",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cloud.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_134.imageset/word_134.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cloud"
       }
     },
     {
@@ -2303,10 +2576,12 @@
       "example": "It is windy outside.",
       "image_concept": "windy day with moving trees",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "wind",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_135.imageset/word_135.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Leaf fluttering in wind"
       }
     },
     {
@@ -2320,10 +2595,12 @@
       "example": "The tea is hot.",
       "image_concept": "sunny hot summer day",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "thermometer.sun.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_136.imageset/word_136.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hot beverage"
       }
     },
     {
@@ -2337,10 +2614,12 @@
       "example": "The water is cold.",
       "image_concept": "cold winter day",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "thermometer.snowflake",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_137.imageset/word_137.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cold face"
       }
     },
     {
@@ -2354,10 +2633,12 @@
       "example": "The day is warm.",
       "image_concept": "warm sunny day",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sun.min.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_138.imageset/word_138.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
       }
     },
     {
@@ -2371,10 +2652,12 @@
       "example": "The sky is blue.",
       "image_concept": "blue sky",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cloud.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_139.imageset/word_139.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun behind large cloud"
       }
     },
     {
@@ -2388,10 +2671,12 @@
       "example": "I don't like rain.",
       "image_concept": "rain falling from clouds",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cloud.rain.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_140.imageset/word_140.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Umbrella with rain drops"
       }
     },
     {
@@ -2405,10 +2690,12 @@
       "example": "The tree is tall.",
       "image_concept": "green tree",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tree.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_141.imageset/word_141.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Deciduous tree"
       }
     },
     {
@@ -2422,10 +2709,12 @@
       "example": "This flower is red.",
       "image_concept": "colorful flower",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "camera.macro",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_142.imageset/word_142.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sunflower"
       }
     },
     {
@@ -2439,10 +2728,12 @@
       "example": "The grass is green.",
       "image_concept": "green grass",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "leaf.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_143.imageset/word_143.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Seedling"
       }
     },
     {
@@ -2456,10 +2747,12 @@
       "example": "We swim in the river.",
       "image_concept": "river in nature",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "water.waves",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_144.imageset/word_144.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
       }
     },
     {
@@ -2473,10 +2766,12 @@
       "example": "The sea is big.",
       "image_concept": "blue sea",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "water.waves",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_145.imageset/word_145.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
       }
     },
     {
@@ -2490,10 +2785,12 @@
       "example": "We play on the beach.",
       "image_concept": "sunny beach",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "beach.umbrella.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_146.imageset/word_146.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Beach with umbrella"
       }
     },
     {
@@ -2507,10 +2804,12 @@
       "example": "The mountain is high.",
       "image_concept": "green mountain",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mountain.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_147.imageset/word_147.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mountain"
       }
     },
     {
@@ -2524,10 +2823,12 @@
       "example": "Animals live in the forest.",
       "image_concept": "green forest",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tree.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_148.imageset/word_148.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "National park"
       }
     },
     {
@@ -2541,10 +2842,12 @@
       "example": "A dog is an animal.",
       "image_concept": "friendly animal",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "pawprint.fill",
-        "image_file": "images/wikivoc/WikiVoc-otter.svg",
-        "wikivoc_file": "WikiVoc-otter.svg"
+        "image_file": "WordImages.xcassets/word_149.imageset/word_149.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Paw prints"
       }
     },
     {
@@ -2558,10 +2861,12 @@
       "example": "The bird can fly.",
       "image_concept": "bird on a branch",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bird.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_150.imageset/word_150.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bird"
       }
     },
     {
@@ -2575,10 +2880,12 @@
       "example": "The dog is friendly.",
       "image_concept": "friendly dog",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "dog.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_151.imageset/word_151.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Dog"
       }
     },
     {
@@ -2592,10 +2899,12 @@
       "example": "The cat sleeps.",
       "image_concept": "friendly cat",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cat.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_152.imageset/word_152.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cat"
       }
     },
     {
@@ -2609,10 +2918,12 @@
       "example": "The horse is fast.",
       "image_concept": "horse",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hare.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_153.imageset/word_153.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Horse"
       }
     },
     {
@@ -2626,10 +2937,12 @@
       "example": "The cow eats grass.",
       "image_concept": "cow",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hare.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_154.imageset/word_154.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cow"
       }
     },
     {
@@ -2643,10 +2956,12 @@
       "example": "The elephant is big.",
       "image_concept": "elephant",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "animal",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_155.imageset/word_155.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Elephant"
       }
     },
     {
@@ -2660,10 +2975,12 @@
       "example": "The lion is strong.",
       "image_concept": "lion",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "lioness",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_156.imageset/word_156.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Lion"
       }
     },
     {
@@ -2677,10 +2994,12 @@
       "example": "The tiger is orange.",
       "image_concept": "tiger",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cat.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_157.imageset/word_157.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Tiger"
       }
     },
     {
@@ -2694,10 +3013,12 @@
       "example": "The monkey climbs.",
       "image_concept": "monkey",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "lizard.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_158.imageset/word_158.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Monkey"
       }
     },
     {
@@ -2711,10 +3032,12 @@
       "example": "The rabbit is white.",
       "image_concept": "rabbit",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hare.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_159.imageset/word_159.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Rabbit"
       }
     },
     {
@@ -2728,10 +3051,12 @@
       "example": "The fish is fresh.",
       "image_concept": "fish in water",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fish.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_160.imageset/word_160.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fish"
       }
     },
     {
@@ -2745,10 +3070,12 @@
       "example": "I live in a city.",
       "image_concept": "city street",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "building.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_161.imageset/word_161.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cityscape"
       }
     },
     {
@@ -2762,10 +3089,12 @@
       "example": "This street is quiet.",
       "image_concept": "city street",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "road.lanes",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_162.imageset/word_162.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Motorway"
       }
     },
     {
@@ -2779,10 +3108,12 @@
       "example": "The road is long.",
       "image_concept": "safe road with cars",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "road.lanes",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_163.imageset/word_163.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Motorway"
       }
     },
     {
@@ -2796,10 +3127,12 @@
       "example": "I buy bread in the shop.",
       "image_concept": "small shop",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "storefront.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_164.imageset/word_164.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Department store"
       }
     },
     {
@@ -2813,10 +3146,12 @@
       "example": "I go to school.",
       "image_concept": "10-year-old child entering school",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "building.columns.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_165.imageset/word_165.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "School"
       }
     },
     {
@@ -2830,10 +3165,12 @@
       "example": "We play in the park.",
       "image_concept": "city park",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tree.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_166.imageset/word_166.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "National park"
       }
     },
     {
@@ -2847,10 +3184,12 @@
       "example": "The hospital is near.",
       "image_concept": "modern hospital building",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cross.case.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_167.imageset/word_167.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hospital"
       }
     },
     {
@@ -2864,10 +3203,12 @@
       "example": "We eat in a restaurant.",
       "image_concept": "family restaurant",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fork.knife",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_168.imageset/word_168.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife with plate"
       }
     },
     {
@@ -2881,10 +3222,12 @@
       "example": "Mum goes to the market.",
       "image_concept": "busy food market",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cart.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_169.imageset/word_169.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shopping cart"
       }
     },
     {
@@ -2898,10 +3241,12 @@
       "example": "That building is tall.",
       "image_concept": "tall city building",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "building.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_170.imageset/word_170.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Office building"
       }
     },
     {
@@ -2915,10 +3260,12 @@
       "example": "Dad drives a car.",
       "image_concept": "family car",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "car.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_171.imageset/word_171.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Automobile"
       }
     },
     {
@@ -2932,10 +3279,12 @@
       "example": "I go by bus.",
       "image_concept": "city bus",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bus.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_172.imageset/word_172.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bus"
       }
     },
     {
@@ -2949,10 +3298,12 @@
       "example": "The train is fast.",
       "image_concept": "passenger train",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tram.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_173.imageset/word_173.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Train"
       }
     },
     {
@@ -2966,10 +3317,12 @@
       "example": "The plane flies.",
       "image_concept": "passenger airplane",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "airplane",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_174.imageset/word_174.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Airplane"
       }
     },
     {
@@ -2983,10 +3336,12 @@
       "example": "I ride a bicycle.",
       "image_concept": "children's bicycle",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bicycle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_175.imageset/word_175.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bicycle"
       }
     },
     {
@@ -3000,10 +3355,12 @@
       "example": "A motorbike is loud.",
       "image_concept": "motorbike",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "motorcycle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_176.imageset/word_176.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Motorcycle"
       }
     },
     {
@@ -3017,10 +3374,12 @@
       "example": "We take a taxi.",
       "image_concept": "yellow taxi",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "car.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_177.imageset/word_177.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Oncoming taxi"
       }
     },
     {
@@ -3034,10 +3393,12 @@
       "example": "The airport is busy.",
       "image_concept": "airport terminal",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "airplane.departure",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_178.imageset/word_178.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Airplane departure"
       }
     },
     {
@@ -3051,10 +3412,12 @@
       "example": "Wait at the station.",
       "image_concept": "train station",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tram.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_179.imageset/word_179.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Station"
       }
     },
     {
@@ -3068,10 +3431,12 @@
       "example": "I have a ticket.",
       "image_concept": "travel ticket",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ticket.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_180.imageset/word_180.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Ticket"
       }
     },
     {
@@ -3085,10 +3450,12 @@
       "example": "I love to travel.",
       "image_concept": "family traveling",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "globe.europe.africa.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_181.imageset/word_181.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Airplane"
       }
     },
     {
@@ -3102,10 +3469,12 @@
       "example": "Our trip is fun.",
       "image_concept": "family on a trip",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "map.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_182.imageset/word_182.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "World map"
       }
     },
     {
@@ -3119,10 +3488,12 @@
       "example": "What country is this?",
       "image_concept": "country",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "flag.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_183.imageset/word_183.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Globe showing Europe-Africa"
       }
     },
     {
@@ -3136,10 +3507,12 @@
       "example": "I live in a city.",
       "image_concept": "city street",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "building.2.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_184.imageset/word_184.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cityscape"
       }
     },
     {
@@ -3153,10 +3526,12 @@
       "example": "We stay in a hotel.",
       "image_concept": "family hotel",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bed.double.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_185.imageset/word_185.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hotel"
       }
     },
     {
@@ -3170,10 +3545,12 @@
       "example": "The airport is busy.",
       "image_concept": "airport terminal",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "airplane.departure",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_186.imageset/word_186.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Airplane departure"
       }
     },
     {
@@ -3187,10 +3564,12 @@
       "example": "Show your passport.",
       "image_concept": "passport",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.text.rectangle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_187.imageset/word_187.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Passport control"
       }
     },
     {
@@ -3204,10 +3583,12 @@
       "example": "I have a ticket.",
       "image_concept": "travel ticket",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ticket.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_188.imageset/word_188.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Ticket"
       }
     },
     {
@@ -3221,10 +3602,12 @@
       "example": "My suitcase is heavy.",
       "image_concept": "travel suitcase",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "suitcase.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_189.imageset/word_189.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Luggage"
       }
     },
     {
@@ -3238,10 +3621,12 @@
       "example": "We play on the beach.",
       "image_concept": "sunny beach",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "beach.umbrella.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_190.imageset/word_190.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Beach with umbrella"
       }
     },
     {
@@ -3255,10 +3640,12 @@
       "example": "Today is Monday.",
       "image_concept": "today",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_191.imageset/word_191.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
       }
     },
     {
@@ -3272,10 +3659,12 @@
       "example": "See you tomorrow.",
       "image_concept": "tomorrow",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar.badge.plus",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_192.imageset/word_192.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Tear-off calendar"
       }
     },
     {
@@ -3289,10 +3678,12 @@
       "example": "Yesterday was fun.",
       "image_concept": "yesterday",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar.badge.minus",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_193.imageset/word_193.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
       }
     },
     {
@@ -3306,10 +3697,12 @@
       "example": "Good morning!",
       "image_concept": "morning",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sunrise.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_194.imageset/word_194.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sunrise"
       }
     },
     {
@@ -3323,10 +3716,12 @@
       "example": "See you in the afternoon.",
       "image_concept": "afternoon",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sun.max.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_195.imageset/word_195.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
       }
     },
     {
@@ -3340,10 +3735,12 @@
       "example": "Good evening.",
       "image_concept": "evening",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "moon.stars.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_196.imageset/word_196.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sunset"
       }
     },
     {
@@ -3357,10 +3754,12 @@
       "example": "Good night.",
       "image_concept": "night",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "moon.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_197.imageset/word_197.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Night with stars"
       }
     },
     {
@@ -3374,10 +3773,12 @@
       "example": "This week is busy.",
       "image_concept": "week",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_198.imageset/word_198.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
       }
     },
     {
@@ -3391,10 +3792,12 @@
       "example": "This month is June.",
       "image_concept": "month",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_199.imageset/word_199.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Spiral calendar"
       }
     },
     {
@@ -3408,10 +3811,12 @@
       "example": "Happy New Year!",
       "image_concept": "year",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_200.imageset/word_200.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
       }
     },
     {
@@ -3425,10 +3830,12 @@
       "example": "The dog is big.",
       "image_concept": "large elephant",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.up.left.and.arrow.down.right",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_201.imageset/word_201.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Elephant"
       }
     },
     {
@@ -3442,10 +3849,12 @@
       "example": "The cat is small.",
       "image_concept": "small toy",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.down.right.and.arrow.up.left",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_202.imageset/word_202.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mouse"
       }
     },
     {
@@ -3459,10 +3868,12 @@
       "example": "The river is long.",
       "image_concept": "long road",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ruler.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_203.imageset/word_203.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Straight ruler"
       }
     },
     {
@@ -3476,10 +3887,12 @@
       "example": "My hair is short.",
       "image_concept": "short pencil",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ruler",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_204.imageset/word_204.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Straight ruler"
       }
     },
     {
@@ -3493,10 +3906,12 @@
       "example": "This book is good.",
       "image_concept": "child giving thumbs up",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.thumbsup.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_205.imageset/word_205.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
       }
     },
     {
@@ -3510,10 +3925,12 @@
       "example": "That idea is bad.",
       "image_concept": "child giving thumbs down",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.thumbsdown.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_206.imageset/word_206.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👎"
       }
     },
     {
@@ -3527,10 +3944,12 @@
       "example": "I have a new bag.",
       "image_concept": "new school backpack",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sparkles",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_207.imageset/word_207.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sparkles"
       }
     },
     {
@@ -3544,10 +3963,12 @@
       "example": "This house is old.",
       "image_concept": "old house",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "clock.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_208.imageset/word_208.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧓"
       }
     },
     {
@@ -3561,10 +3982,12 @@
       "example": "This test is easy.",
       "image_concept": "child solving easy puzzle",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_209.imageset/word_209.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Check mark button"
       }
     },
     {
@@ -3578,10 +4001,12 @@
       "example": "This lesson is difficult.",
       "image_concept": "child thinking about difficult puzzle",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "xmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_210.imageset/word_210.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cross mark"
       }
     },
     {
@@ -3595,10 +4020,12 @@
       "example": "The flower is beautiful.",
       "image_concept": "beautiful flower",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sparkle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_211.imageset/word_211.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sparkles"
       }
     },
     {
@@ -3612,10 +4039,12 @@
       "example": "The book is interesting.",
       "image_concept": "child reading interesting book",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "lightbulb.fill",
-        "image_file": "images/wikivoc/WikiVoc-lightbulb.svg",
-        "wikivoc_file": "WikiVoc-lightbulb.svg"
+        "image_file": "WordImages.xcassets/word_212.imageset/word_212.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Light bulb"
       }
     },
     {
@@ -3629,10 +4058,12 @@
       "example": "The film is boring.",
       "image_concept": "bored child during lesson",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "zzz",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_213.imageset/word_213.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleeping face"
       }
     },
     {
@@ -3646,10 +4077,12 @@
       "example": "The joke is funny.",
       "image_concept": "children laughing at funny story",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.smiling.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_214.imageset/word_214.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Face with tears of joy"
       }
     },
     {
@@ -3663,10 +4096,12 @@
       "example": "The car is fast.",
       "image_concept": "fast racing car",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hare.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_215.imageset/word_215.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Rabbit"
       }
     },
     {
@@ -3680,10 +4115,12 @@
       "example": "The bus is slow.",
       "image_concept": "slow turtle",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tortoise.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_216.imageset/word_216.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Turtle"
       }
     },
     {
@@ -3697,10 +4134,12 @@
       "example": "He is strong.",
       "image_concept": "strong child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "dumbbell.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_217.imageset/word_217.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💪"
       }
     },
     {
@@ -3714,10 +4153,12 @@
       "example": "I feel weak.",
       "image_concept": "tired weak child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "leaf",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_218.imageset/word_218.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Droplet"
       }
     },
     {
@@ -3731,10 +4172,12 @@
       "example": "My room is clean.",
       "image_concept": "clean bedroom",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sparkles",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_219.imageset/word_219.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soap"
       }
     },
     {
@@ -3748,10 +4191,12 @@
       "example": "My shoes are dirty.",
       "image_concept": "muddy shoes",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "trash.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_220.imageset/word_220.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧽"
       }
     },
     {
@@ -3765,10 +4210,12 @@
       "example": "What did you say?",
       "image_concept": "child speaking",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bubble.left.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_221.imageset/word_221.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speaking head"
       }
     },
     {
@@ -3782,10 +4229,12 @@
       "example": "Tell me a story.",
       "image_concept": "child telling a story",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "text.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_222.imageset/word_222.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speech balloon"
       }
     },
     {
@@ -3799,10 +4248,12 @@
       "example": "Ask the teacher.",
       "image_concept": "child asking a question",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_223.imageset/word_223.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -3816,10 +4267,12 @@
       "example": "I know the answer.",
       "image_concept": "child giving an answer",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_224.imageset/word_224.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speech balloon"
       }
     },
     {
@@ -3833,10 +4286,12 @@
       "example": "I speak English.",
       "image_concept": "child speaking English",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mic.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_225.imageset/word_225.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speaking head"
       }
     },
     {
@@ -3850,10 +4305,12 @@
       "example": "Listen to me.",
       "image_concept": "child listening carefully",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ear.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_226.imageset/word_226.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👂"
       }
     },
     {
@@ -3867,10 +4324,12 @@
       "example": "I hear music.",
       "image_concept": "child listening to a sound",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ear.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_227.imageset/word_227.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👂"
       }
     },
     {
@@ -3884,10 +4343,12 @@
       "example": "I read every day.",
       "image_concept": "child reading a book",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "book.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_228.imageset/word_228.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Open book"
       }
     },
     {
@@ -3901,10 +4362,12 @@
       "example": "Write your name.",
       "image_concept": "child writing in notebook",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "pencil",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_229.imageset/word_229.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Memo"
       }
     },
     {
@@ -3918,10 +4381,12 @@
       "example": "I understand.",
       "image_concept": "child understanding an idea",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "brain.head.profile",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_230.imageset/word_230.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Light bulb"
       }
     },
     {
@@ -3935,10 +4400,12 @@
       "example": "I think so.",
       "image_concept": "child thinking",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "brain",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_231.imageset/word_231.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Thinking face"
       }
     },
     {
@@ -3952,10 +4419,12 @@
       "example": "I know the answer.",
       "image_concept": "child with an idea",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "lightbulb.fill",
-        "image_file": "images/wikivoc/WikiVoc-lightbulb.svg",
-        "wikivoc_file": "WikiVoc-lightbulb.svg"
+        "image_file": "WordImages.xcassets/word_232.imageset/word_232.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Light bulb"
       }
     },
     {
@@ -3969,10 +4438,12 @@
       "example": "I remember you.",
       "image_concept": "child remembering something",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "brain.head.profile",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_233.imageset/word_233.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Brain"
       }
     },
     {
@@ -3986,10 +4457,12 @@
       "example": "Don't forget your bag.",
       "image_concept": "child looking for a lost bag",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "xmark.bin.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_234.imageset/word_234.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "😵"
       }
     },
     {
@@ -4003,10 +4476,12 @@
       "example": "I learn English.",
       "image_concept": "child learning English",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "graduationcap.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_235.imageset/word_235.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Graduation cap"
       }
     },
     {
@@ -4020,10 +4495,12 @@
       "example": "Mum can teach me.",
       "image_concept": "teacher teaching a child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_236.imageset/word_236.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩‍🏫"
       }
     },
     {
@@ -4037,10 +4514,12 @@
       "example": "Try again.",
       "image_concept": "child trying a puzzle",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.triangle.2.circlepath",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_237.imageset/word_237.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💪"
       }
     },
     {
@@ -4054,10 +4533,12 @@
       "example": "Can you help me?",
       "image_concept": "child helping another child",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hands.clap.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_238.imageset/word_238.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🆘"
       }
     },
     {
@@ -4071,10 +4552,12 @@
       "example": "Let's start.",
       "image_concept": "child starting a race",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "play.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_239.imageset/word_239.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Play button"
       }
     },
     {
@@ -4088,10 +4571,12 @@
       "example": "I finish my homework.",
       "image_concept": "child crossing finish line",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "flag.checkered",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_240.imageset/word_240.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Chequered flag"
       }
     },
     {
@@ -4105,10 +4590,12 @@
       "example": "Come here, please.",
       "image_concept": "child calling a friend to come closer",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.wave.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_241.imageset/word_241.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👈"
       }
     },
     {
@@ -4122,10 +4609,12 @@
       "example": "Wait a minute.",
       "image_concept": "child waiting beside a clock",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "clock.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_242.imageset/word_242.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hourglass not done"
       }
     },
     {
@@ -4139,10 +4628,12 @@
       "example": "Let's go home.",
       "image_concept": "two children walking together",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "figure.walk",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_243.imageset/word_243.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏃"
       }
     },
     {
@@ -4156,10 +4647,12 @@
       "example": "I don't know.",
       "image_concept": "child thinking and shrugging",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.circle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_244.imageset/word_244.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤷"
       }
     },
     {
@@ -4173,10 +4666,12 @@
       "example": "I don't understand.",
       "image_concept": "child looking confused at a book",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "ear",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_245.imageset/word_245.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Thinking face"
       }
     },
     {
@@ -4190,10 +4685,12 @@
       "example": "Can you help me?",
       "image_concept": "child asking another child for help",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hands.clap.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_246.imageset/word_246.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙋"
       }
     },
     {
@@ -4207,10 +4704,12 @@
       "example": "What is this?",
       "image_concept": "child pointing at an unfamiliar object",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_247.imageset/word_247.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -4224,10 +4723,12 @@
       "example": "Where is it?",
       "image_concept": "child looking for a missing object",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mappin.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_248.imageset/word_248.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Round pushpin"
       }
     },
     {
@@ -4241,10 +4742,12 @@
       "example": "What happened?",
       "image_concept": "two children reacting to a surprising event",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "exclamationmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_249.imageset/word_249.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "❗"
       }
     },
     {
@@ -4258,10 +4761,12 @@
       "example": "Are you OK?",
       "image_concept": "child checking if a friend is okay",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "heart.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_250.imageset/word_250.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
       }
     },
     {
@@ -4275,10 +4780,12 @@
       "example": "What is your name?",
       "image_concept": "what",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_251.imageset/word_251.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -4292,10 +4799,12 @@
       "example": "Who is that?",
       "image_concept": "who",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.crop.circle.badge.questionmark",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_252.imageset/word_252.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bust in silhouette"
       }
     },
     {
@@ -4309,10 +4818,12 @@
       "example": "Where do you live?",
       "image_concept": "where",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mappin.and.ellipse",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_253.imageset/word_253.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Round pushpin"
       }
     },
     {
@@ -4326,10 +4837,12 @@
       "example": "When is the lesson?",
       "image_concept": "when",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "calendar.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_254.imageset/word_254.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
       }
     },
     {
@@ -4343,10 +4856,12 @@
       "example": "Why are you sad?",
       "image_concept": "why",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_255.imageset/word_255.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -4360,10 +4875,12 @@
       "example": "How are you?",
       "image_concept": "how",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "gearshape.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_256.imageset/word_256.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -4377,10 +4894,12 @@
       "example": "Which book is yours?",
       "image_concept": "which",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checklist",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_257.imageset/word_257.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -4394,10 +4913,12 @@
       "example": "Whose bag is this?",
       "image_concept": "whose",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.crop.circle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_258.imageset/word_258.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bust in silhouette"
       }
     },
     {
@@ -4411,10 +4932,12 @@
       "example": "How much is it?",
       "image_concept": "how much",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "yensign.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_259.imageset/word_259.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Money bag"
       }
     },
     {
@@ -4428,10 +4951,12 @@
       "example": "How many books?",
       "image_concept": "how many",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "number.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_260.imageset/word_260.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Input numbers"
       }
     },
     {
@@ -4445,10 +4970,12 @@
       "example": "Hello!",
       "image_concept": "two children greeting each other",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.wave.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_261.imageset/word_261.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
       }
     },
     {
@@ -4462,10 +4989,12 @@
       "example": "Goodbye!",
       "image_concept": "two children waving goodbye",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.wave",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_262.imageset/word_262.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
       }
     },
     {
@@ -4479,10 +5008,12 @@
       "example": "Help me, please.",
       "image_concept": "child politely asking for something",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "heart.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_263.imageset/word_263.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙏"
       }
     },
     {
@@ -4496,10 +5027,12 @@
       "example": "Thanks a lot!",
       "image_concept": "child thanking a friend",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hands.clap.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_264.imageset/word_264.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙏"
       }
     },
     {
@@ -4513,10 +5046,12 @@
       "example": "I am sorry.",
       "image_concept": "child apologizing to a friend",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "face.dashed",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_265.imageset/word_265.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pensive face"
       }
     },
     {
@@ -4530,10 +5065,12 @@
       "example": "Excuse me!",
       "image_concept": "child politely getting someone's attention",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.raised.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_266.imageset/word_266.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙋"
       }
     },
     {
@@ -4547,10 +5084,12 @@
       "example": "Welcome!",
       "image_concept": "family welcoming a child home",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "house.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_267.imageset/word_267.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "House with garden"
       }
     },
     {
@@ -4564,10 +5103,12 @@
       "example": "Sure!",
       "image_concept": "child agreeing with a friend",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_268.imageset/word_268.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
       }
     },
     {
@@ -4581,10 +5122,12 @@
       "example": "Maybe later.",
       "image_concept": "child thinking about two choices",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "circle.dashed",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_269.imageset/word_269.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Thinking face"
       }
     },
     {
@@ -4598,10 +5141,12 @@
       "example": "Really?",
       "image_concept": "surprised child reacting to news",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "exclamationmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_270.imageset/word_270.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Astonished face"
       }
     },
     {
@@ -4615,10 +5160,12 @@
       "example": "I think so.",
       "image_concept": "child thinking and nodding",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "brain.head.profile",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_271.imageset/word_271.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Thinking face"
       }
     },
     {
@@ -4632,10 +5179,12 @@
       "example": "I don't think so.",
       "image_concept": "child thinking and shaking head",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "xmark.circle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_272.imageset/word_272.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Face with rolling eyes"
       }
     },
     {
@@ -4649,10 +5198,12 @@
       "example": "I like it.",
       "image_concept": "child smiling and giving thumbs up",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.thumbsup.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_273.imageset/word_273.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
       }
     },
     {
@@ -4666,10 +5217,12 @@
       "example": "I don't like it.",
       "image_concept": "child making a dislike gesture",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.thumbsdown.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_274.imageset/word_274.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👎"
       }
     },
     {
@@ -4683,10 +5236,12 @@
       "example": "I'm hungry.",
       "image_concept": "hungry child at a kitchen table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "fork.knife",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_275.imageset/word_275.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife"
       }
     },
     {
@@ -4700,10 +5255,12 @@
       "example": "I'm tired.",
       "image_concept": "tired child resting",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "bed.double.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_276.imageset/word_276.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleepy face"
       }
     },
     {
@@ -4717,10 +5274,12 @@
       "example": "I'm ready.",
       "image_concept": "child ready with backpack",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_277.imageset/word_277.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Check mark button"
       }
     },
     {
@@ -4734,10 +5293,12 @@
       "example": "I'm not ready.",
       "image_concept": "child still getting ready",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "clock.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_278.imageset/word_278.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hourglass not done"
       }
     },
     {
@@ -4751,10 +5312,12 @@
       "example": "It's OK.",
       "image_concept": "child reassuring a friend",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.circle",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_279.imageset/word_279.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
       }
     },
     {
@@ -4768,10 +5331,12 @@
       "example": "That's great!",
       "image_concept": "happy child celebrating",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "star.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_280.imageset/word_280.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Star-struck"
       }
     },
     {
@@ -4785,10 +5350,12 @@
       "example": "Open the window.",
       "image_concept": "child opening a door",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "door.left.hand.open",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_281.imageset/word_281.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Open file folder"
       }
     },
     {
@@ -4802,10 +5369,12 @@
       "example": "Close the door.",
       "image_concept": "child closing a window",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "door.left.hand.closed",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_282.imageset/word_282.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Locked"
       }
     },
     {
@@ -4819,10 +5388,12 @@
       "example": "I buy milk.",
       "image_concept": "child buying a book",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cart.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_283.imageset/word_283.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shopping cart"
       }
     },
     {
@@ -4836,10 +5407,12 @@
       "example": "They sell books.",
       "image_concept": "shopkeeper selling fruit",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tag.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_284.imageset/word_284.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shopping bags"
       }
     },
     {
@@ -4853,10 +5426,12 @@
       "example": "Bring your book.",
       "image_concept": "child carrying a school bag",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "tray.and.arrow.down.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_285.imageset/word_285.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Package"
       }
     },
     {
@@ -4870,10 +5445,12 @@
       "example": "Take your bag.",
       "image_concept": "take",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "hand.raised.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_286.imageset/word_286.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🖐️"
       }
     },
     {
@@ -4887,10 +5464,12 @@
       "example": "Give me the book.",
       "image_concept": "give",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "gift.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_287.imageset/word_287.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤲"
       }
     },
     {
@@ -4904,10 +5483,12 @@
       "example": "Put it here.",
       "image_concept": "child putting a book on table",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "square.and.arrow.down.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_288.imageset/word_288.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Inbox tray"
       }
     },
     {
@@ -4921,10 +5502,12 @@
       "example": "Keep this key.",
       "image_concept": "child putting a book on shelf",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "archivebox.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_289.imageset/word_289.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Locked with key"
       }
     },
     {
@@ -4938,10 +5521,12 @@
       "example": "Don't lose your ticket.",
       "image_concept": "child looking for a lost key",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "trash.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_290.imageset/word_290.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Disappointed face"
       }
     },
     {
@@ -4955,10 +5540,12 @@
       "example": "What is this thing?",
       "image_concept": "collection of everyday objects",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "cube.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_291.imageset/word_291.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Package"
       }
     },
     {
@@ -4972,10 +5559,12 @@
       "example": "This place is nice.",
       "image_concept": "nice place in a park",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "mappin.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_292.imageset/word_292.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Round pushpin"
       }
     },
     {
@@ -4989,10 +5578,12 @@
       "example": "Who is that person?",
       "image_concept": "friendly person",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "person.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_293.imageset/word_293.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧑"
       }
     },
     {
@@ -5006,10 +5597,12 @@
       "example": "What time is it?",
       "image_concept": "clock showing time",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "clock.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_294.imageset/word_294.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
       }
     },
     {
@@ -5023,10 +5616,12 @@
       "example": "Have a nice day.",
       "image_concept": "bright daytime",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "sun.max.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_295.imageset/word_295.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
       }
     },
     {
@@ -5040,10 +5635,12 @@
       "example": "Which way?",
       "image_concept": "road with direction sign",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "arrow.triangle.turn.up.right.diamond.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_296.imageset/word_296.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Motorway"
       }
     },
     {
@@ -5057,10 +5654,12 @@
       "example": "No problem.",
       "image_concept": "child with a small problem",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "exclamationmark.triangle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_297.imageset/word_297.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Warning"
       }
     },
     {
@@ -5074,10 +5673,12 @@
       "example": "Good idea!",
       "image_concept": "child having a lightbulb idea",
       "visual": {
-        "mode": "wikivoc",
+        "mode": "image",
         "sf_symbol": "lightbulb.fill",
-        "image_file": "images/wikivoc/WikiVoc-lightbulb.svg",
-        "wikivoc_file": "WikiVoc-lightbulb.svg"
+        "image_file": "WordImages.xcassets/word_298.imageset/word_298.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Light bulb"
       }
     },
     {
@@ -5091,10 +5692,12 @@
       "example": "I have a question.",
       "image_concept": "question",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "questionmark.circle.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_299.imageset/word_299.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
       }
     },
     {
@@ -5108,10 +5711,12 @@
       "example": "I know the answer.",
       "image_concept": "child giving an answer",
       "visual": {
-        "mode": "sf_symbol",
+        "mode": "image",
         "sf_symbol": "checkmark.bubble.fill",
-        "image_file": null,
-        "wikivoc_file": null
+        "image_file": "WordImages.xcassets/word_300.imageset/word_300.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Speech balloon"
       }
     }
   ]

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C537DFBC86794A428DAF4D70"
+               BlueprintIdentifier = "DB66E7C16B8D4F29ABFDFD3D"
                BuildableName = "EnglishWordKids.app"
                BlueprintName = "EnglishWordKids"
                ReferencedContainer = "container:EnglishWordKids.xcodeproj">
@@ -43,7 +43,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C537DFBC86794A428DAF4D70"
+            BlueprintIdentifier = "DB66E7C16B8D4F29ABFDFD3D"
             BuildableName = "EnglishWordKids.app"
             BlueprintName = "EnglishWordKids"
             ReferencedContainer = "container:EnglishWordKids.xcodeproj">
@@ -60,7 +60,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C537DFBC86794A428DAF4D70"
+            BlueprintIdentifier = "DB66E7C16B8D4F29ABFDFD3D"
             BuildableName = "EnglishWordKids.app"
             BlueprintName = "EnglishWordKids"
             ReferencedContainer = "container:EnglishWordKids.xcodeproj">

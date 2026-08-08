@@ -21,7 +21,7 @@ struct FlashcardView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        WordVisualView(item: item, symbolFont: .system(size: 72), frameHeight: 100)
+                        WordVisualView(item: item, symbolFont: .system(size: 72), imageSide: 120)
 
                         Text(item.word)
                             .font(.system(size: 36, weight: .bold))

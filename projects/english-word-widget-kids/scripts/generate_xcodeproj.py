@@ -73,6 +73,7 @@ FILES = {
     "Info.plist": ("WidgetExtension/Info.plist", "plist"),
     # Resources
     "words.json": ("Resources/words.json", "resource"),
+    "WordImages.xcassets": ("Resources/WordImages.xcassets", "resource"),
 }
 
 for name in FILES:
@@ -127,8 +128,8 @@ WIDGET_SOURCES = SHARED_SOURCES + [
     "EnglishWordKidsWidgetBundle.swift",
     "EnglishWordKidsWidget.swift",
 ]
-APP_RESOURCES = ["Assets.xcassets", "words.json"]
-WIDGET_RESOURCES = ["words.json"]
+APP_RESOURCES = ["Assets.xcassets", "words.json", "WordImages.xcassets"]
+WIDGET_RESOURCES = ["words.json", "WordImages.xcassets"]
 
 
 def main() -> None:
@@ -354,7 +355,7 @@ def generate() -> str:
             "Info.plist",
         ],
     )
-    group(ids["resources_group"], "Resources", ["words.json"])
+    group(ids["resources_group"], "Resources", ["words.json", "WordImages.xcassets"])
     p("/* End PBXGroup section */")
     p("")
 
