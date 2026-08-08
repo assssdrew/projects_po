@@ -10,21 +10,27 @@
 - `data/words.json` + картинки Fluent/Twemoji
 - Цель: iOS 17+ код; установка на iOS 26.x — на современном Mac/Xcode
 
-## Картинки (бесплатно)
+## Curriculum v2
 
-| Источник | Лицензия | Сколько |
-|----------|----------|---------|
-| [Fluent UI Emoji](https://github.com/microsoft/fluentui-emoji) | MIT | ~235 |
-| [Twemoji](https://github.com/jdecked/twemoji) | CC BY 4.0 | ~65 |
-
-Все **300** карточек с PNG. Обзор источников: `docs/IMAGE_SOURCES.md`.  
-Файлы: `data/images/words/`, в приложении — `app/EnglishWordKids/Resources/WordImages.xcassets/`.
-
-Перескачать:
+- 30×10 = 300 карточек, **290 новых** слов + день 30 review  
+- Добавлены: цвета, числа 1–10, дни недели, grandma/baby, zoo/farm, snow, предлоги, yes/no/can/have  
+- Убраны ранние абстракции и лишние дубли  
+- Заметки: [`data/CURRICULUM_V2_NOTES.md`](data/CURRICULUM_V2_NOTES.md)
 
 ```bash
+python3 scripts/build_corrected_curriculum.py
 python3 scripts/fetch_word_images.py
 ```
+
+## Картинки (бесплатно)
+
+| Источник | Лицензия | Роль |
+|----------|----------|------|
+| [Fluent UI Emoji](https://github.com/microsoft/fluentui-emoji) | MIT | основной |
+| [Twemoji](https://github.com/jdecked/twemoji) | CC BY 4.0 | запасной |
+
+Все **300** карточек с PNG. Обзор: `docs/IMAGE_SOURCES.md`.  
+Файлы: `data/images/words/`, в app — `WordImages.xcassets/`.
 
 ## Открыть проект
 
