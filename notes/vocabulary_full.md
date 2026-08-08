@@ -1,5 +1,8 @@
 # Словарь EN → RU (уникальные слова из всех источников)
 
+> Для Scriptable-виджета `projects/vocab-iphone-widget/`.  
+> Не использовать как словарь детского native-проекта (`english-word-widget-kids`).
+
 Источники:
 1. `vocabulary.md` — исходный список
 2. `qqq.pdf` — Quizlet «Words for interview»
