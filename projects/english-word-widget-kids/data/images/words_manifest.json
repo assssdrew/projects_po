@@ -1,0 +1,2710 @@
+{
+  "stats": {
+    "fluent": 200,
+    "twemoji": 100,
+    "none": 0,
+    "reused": 0
+  },
+  "items": [
+    {
+      "id": 1,
+      "word": "wake up",
+      "asset_id": "word_001",
+      "source": "fluent",
+      "detail": "Alarm clock",
+      "file": "word_001.png",
+      "is_review": false
+    },
+    {
+      "id": 2,
+      "word": "get up",
+      "asset_id": "word_002",
+      "source": "twemoji",
+      "detail": "🛏️",
+      "file": "word_002.png",
+      "is_review": false
+    },
+    {
+      "id": 3,
+      "word": "wash",
+      "asset_id": "word_003",
+      "source": "fluent",
+      "detail": "Soap",
+      "file": "word_003.png",
+      "is_review": false
+    },
+    {
+      "id": 4,
+      "word": "brush teeth",
+      "asset_id": "word_004",
+      "source": "twemoji",
+      "detail": "🦷",
+      "file": "word_004.png",
+      "is_review": false
+    },
+    {
+      "id": 5,
+      "word": "get dressed",
+      "asset_id": "word_005",
+      "source": "fluent",
+      "detail": "T-shirt",
+      "file": "word_005.png",
+      "is_review": false
+    },
+    {
+      "id": 6,
+      "word": "breakfast",
+      "asset_id": "word_006",
+      "source": "fluent",
+      "detail": "Cooking",
+      "file": "word_006.png",
+      "is_review": false
+    },
+    {
+      "id": 7,
+      "word": "go to school",
+      "asset_id": "word_007",
+      "source": "twemoji",
+      "detail": "🏫",
+      "file": "word_007.png",
+      "is_review": false
+    },
+    {
+      "id": 8,
+      "word": "homework",
+      "asset_id": "word_008",
+      "source": "fluent",
+      "detail": "Memo",
+      "file": "word_008.png",
+      "is_review": false
+    },
+    {
+      "id": 9,
+      "word": "play",
+      "asset_id": "word_009",
+      "source": "twemoji",
+      "detail": "🎮",
+      "file": "word_009.png",
+      "is_review": false
+    },
+    {
+      "id": 10,
+      "word": "sleep",
+      "asset_id": "word_010",
+      "source": "fluent",
+      "detail": "Sleeping face",
+      "file": "word_010.png",
+      "is_review": false
+    },
+    {
+      "id": 11,
+      "word": "family",
+      "asset_id": "word_011",
+      "source": "twemoji",
+      "detail": "👨‍👩‍👧‍👦",
+      "file": "word_011.png",
+      "is_review": false
+    },
+    {
+      "id": 12,
+      "word": "mother",
+      "asset_id": "word_012",
+      "source": "twemoji",
+      "detail": "👩",
+      "file": "word_012.png",
+      "is_review": false
+    },
+    {
+      "id": 13,
+      "word": "father",
+      "asset_id": "word_013",
+      "source": "twemoji",
+      "detail": "👨",
+      "file": "word_013.png",
+      "is_review": false
+    },
+    {
+      "id": 14,
+      "word": "brother",
+      "asset_id": "word_014",
+      "source": "twemoji",
+      "detail": "👦",
+      "file": "word_014.png",
+      "is_review": false
+    },
+    {
+      "id": 15,
+      "word": "sister",
+      "asset_id": "word_015",
+      "source": "twemoji",
+      "detail": "👧",
+      "file": "word_015.png",
+      "is_review": false
+    },
+    {
+      "id": 16,
+      "word": "grandma",
+      "asset_id": "word_016",
+      "source": "twemoji",
+      "detail": "👵",
+      "file": "word_016.png",
+      "is_review": false
+    },
+    {
+      "id": 17,
+      "word": "grandpa",
+      "asset_id": "word_017",
+      "source": "twemoji",
+      "detail": "👴",
+      "file": "word_017.png",
+      "is_review": false
+    },
+    {
+      "id": 18,
+      "word": "baby",
+      "asset_id": "word_018",
+      "source": "twemoji",
+      "detail": "👶",
+      "file": "word_018.png",
+      "is_review": false
+    },
+    {
+      "id": 19,
+      "word": "parents",
+      "asset_id": "word_019",
+      "source": "twemoji",
+      "detail": "👨‍👩‍👧",
+      "file": "word_019.png",
+      "is_review": false
+    },
+    {
+      "id": 20,
+      "word": "child",
+      "asset_id": "word_020",
+      "source": "twemoji",
+      "detail": "🧒",
+      "file": "word_020.png",
+      "is_review": false
+    },
+    {
+      "id": 21,
+      "word": "teacher",
+      "asset_id": "word_021",
+      "source": "twemoji",
+      "detail": "👩‍🏫",
+      "file": "word_021.png",
+      "is_review": false
+    },
+    {
+      "id": 22,
+      "word": "student",
+      "asset_id": "word_022",
+      "source": "twemoji",
+      "detail": "🧑‍🎓",
+      "file": "word_022.png",
+      "is_review": false
+    },
+    {
+      "id": 23,
+      "word": "class",
+      "asset_id": "word_023",
+      "source": "twemoji",
+      "detail": "🏫",
+      "file": "word_023.png",
+      "is_review": false
+    },
+    {
+      "id": 24,
+      "word": "book",
+      "asset_id": "word_024",
+      "source": "fluent",
+      "detail": "Closed book",
+      "file": "word_024.png",
+      "is_review": false
+    },
+    {
+      "id": 25,
+      "word": "pen",
+      "asset_id": "word_025",
+      "source": "fluent",
+      "detail": "Pen",
+      "file": "word_025.png",
+      "is_review": false
+    },
+    {
+      "id": 26,
+      "word": "pencil",
+      "asset_id": "word_026",
+      "source": "fluent",
+      "detail": "Pencil",
+      "file": "word_026.png",
+      "is_review": false
+    },
+    {
+      "id": 27,
+      "word": "desk",
+      "asset_id": "word_027",
+      "source": "twemoji",
+      "detail": "🪑",
+      "file": "word_027.png",
+      "is_review": false
+    },
+    {
+      "id": 28,
+      "word": "bag",
+      "asset_id": "word_028",
+      "source": "fluent",
+      "detail": "Backpack",
+      "file": "word_028.png",
+      "is_review": false
+    },
+    {
+      "id": 29,
+      "word": "rubber",
+      "asset_id": "word_029",
+      "source": "twemoji",
+      "detail": "🧽",
+      "file": "word_029.png",
+      "is_review": false
+    },
+    {
+      "id": 30,
+      "word": "ruler",
+      "asset_id": "word_030",
+      "source": "twemoji",
+      "detail": "📏",
+      "file": "word_030.png",
+      "is_review": false
+    },
+    {
+      "id": 31,
+      "word": "friend",
+      "asset_id": "word_031",
+      "source": "fluent",
+      "detail": "People hugging",
+      "file": "word_031.png",
+      "is_review": false
+    },
+    {
+      "id": 32,
+      "word": "game",
+      "asset_id": "word_032",
+      "source": "fluent",
+      "detail": "Video game",
+      "file": "word_032.png",
+      "is_review": false
+    },
+    {
+      "id": 33,
+      "word": "fun",
+      "asset_id": "word_033",
+      "source": "fluent",
+      "detail": "Party popper",
+      "file": "word_033.png",
+      "is_review": false
+    },
+    {
+      "id": 34,
+      "word": "laugh",
+      "asset_id": "word_034",
+      "source": "fluent",
+      "detail": "Face with tears of joy",
+      "file": "word_034.png",
+      "is_review": false
+    },
+    {
+      "id": 35,
+      "word": "help",
+      "asset_id": "word_035",
+      "source": "twemoji",
+      "detail": "🆘",
+      "file": "word_035.png",
+      "is_review": false
+    },
+    {
+      "id": 36,
+      "word": "kind",
+      "asset_id": "word_036",
+      "source": "twemoji",
+      "detail": "💗",
+      "file": "word_036.png",
+      "is_review": false
+    },
+    {
+      "id": 37,
+      "word": "nice",
+      "asset_id": "word_037",
+      "source": "twemoji",
+      "detail": "😊",
+      "file": "word_037.png",
+      "is_review": false
+    },
+    {
+      "id": 38,
+      "word": "smile",
+      "asset_id": "word_038",
+      "source": "fluent",
+      "detail": "Slightly smiling face",
+      "file": "word_038.png",
+      "is_review": false
+    },
+    {
+      "id": 39,
+      "word": "hug",
+      "asset_id": "word_039",
+      "source": "fluent",
+      "detail": "People hugging",
+      "file": "word_039.png",
+      "is_review": false
+    },
+    {
+      "id": 40,
+      "word": "invite",
+      "asset_id": "word_040",
+      "source": "twemoji",
+      "detail": "📨",
+      "file": "word_040.png",
+      "is_review": false
+    },
+    {
+      "id": 41,
+      "word": "sit",
+      "asset_id": "word_041",
+      "source": "fluent",
+      "detail": "Chair",
+      "file": "word_041.png",
+      "is_review": false
+    },
+    {
+      "id": 42,
+      "word": "stand",
+      "asset_id": "word_042",
+      "source": "twemoji",
+      "detail": "🧍",
+      "file": "word_042.png",
+      "is_review": false
+    },
+    {
+      "id": 43,
+      "word": "run",
+      "asset_id": "word_043",
+      "source": "twemoji",
+      "detail": "🏃",
+      "file": "word_043.png",
+      "is_review": false
+    },
+    {
+      "id": 44,
+      "word": "jump",
+      "asset_id": "word_044",
+      "source": "twemoji",
+      "detail": "🦘",
+      "file": "word_044.png",
+      "is_review": false
+    },
+    {
+      "id": 45,
+      "word": "walk",
+      "asset_id": "word_045",
+      "source": "twemoji",
+      "detail": "🚶",
+      "file": "word_045.png",
+      "is_review": false
+    },
+    {
+      "id": 46,
+      "word": "eat",
+      "asset_id": "word_046",
+      "source": "fluent",
+      "detail": "Fork and knife",
+      "file": "word_046.png",
+      "is_review": false
+    },
+    {
+      "id": 47,
+      "word": "drink",
+      "asset_id": "word_047",
+      "source": "fluent",
+      "detail": "Cup with straw",
+      "file": "word_047.png",
+      "is_review": false
+    },
+    {
+      "id": 48,
+      "word": "draw",
+      "asset_id": "word_048",
+      "source": "fluent",
+      "detail": "Crayon",
+      "file": "word_048.png",
+      "is_review": false
+    },
+    {
+      "id": 49,
+      "word": "sing",
+      "asset_id": "word_049",
+      "source": "fluent",
+      "detail": "Microphone",
+      "file": "word_049.png",
+      "is_review": false
+    },
+    {
+      "id": 50,
+      "word": "dance",
+      "asset_id": "word_050",
+      "source": "twemoji",
+      "detail": "💃",
+      "file": "word_050.png",
+      "is_review": false
+    },
+    {
+      "id": 51,
+      "word": "food",
+      "asset_id": "word_051",
+      "source": "fluent",
+      "detail": "Fork and knife with plate",
+      "file": "word_051.png",
+      "is_review": false
+    },
+    {
+      "id": 52,
+      "word": "lunch",
+      "asset_id": "word_052",
+      "source": "fluent",
+      "detail": "Sandwich",
+      "file": "word_052.png",
+      "is_review": false
+    },
+    {
+      "id": 53,
+      "word": "dinner",
+      "asset_id": "word_053",
+      "source": "fluent",
+      "detail": "Pot of food",
+      "file": "word_053.png",
+      "is_review": false
+    },
+    {
+      "id": 54,
+      "word": "bread",
+      "asset_id": "word_054",
+      "source": "fluent",
+      "detail": "Bread",
+      "file": "word_054.png",
+      "is_review": false
+    },
+    {
+      "id": 55,
+      "word": "apple",
+      "asset_id": "word_055",
+      "source": "fluent",
+      "detail": "Red apple",
+      "file": "word_055.png",
+      "is_review": false
+    },
+    {
+      "id": 56,
+      "word": "banana",
+      "asset_id": "word_056",
+      "source": "fluent",
+      "detail": "Banana",
+      "file": "word_056.png",
+      "is_review": false
+    },
+    {
+      "id": 57,
+      "word": "egg",
+      "asset_id": "word_057",
+      "source": "fluent",
+      "detail": "Egg",
+      "file": "word_057.png",
+      "is_review": false
+    },
+    {
+      "id": 58,
+      "word": "cake",
+      "asset_id": "word_058",
+      "source": "fluent",
+      "detail": "Shortcake",
+      "file": "word_058.png",
+      "is_review": false
+    },
+    {
+      "id": 59,
+      "word": "cheese",
+      "asset_id": "word_059",
+      "source": "fluent",
+      "detail": "Cheese wedge",
+      "file": "word_059.png",
+      "is_review": false
+    },
+    {
+      "id": 60,
+      "word": "pizza",
+      "asset_id": "word_060",
+      "source": "fluent",
+      "detail": "Pizza",
+      "file": "word_060.png",
+      "is_review": false
+    },
+    {
+      "id": 61,
+      "word": "water",
+      "asset_id": "word_061",
+      "source": "fluent",
+      "detail": "Water wave",
+      "file": "word_061.png",
+      "is_review": false
+    },
+    {
+      "id": 62,
+      "word": "milk",
+      "asset_id": "word_062",
+      "source": "fluent",
+      "detail": "Glass of milk",
+      "file": "word_062.png",
+      "is_review": false
+    },
+    {
+      "id": 63,
+      "word": "juice",
+      "asset_id": "word_063",
+      "source": "fluent",
+      "detail": "Beverage box",
+      "file": "word_063.png",
+      "is_review": false
+    },
+    {
+      "id": 64,
+      "word": "tea",
+      "asset_id": "word_064",
+      "source": "fluent",
+      "detail": "Teacup without handle",
+      "file": "word_064.png",
+      "is_review": false
+    },
+    {
+      "id": 65,
+      "word": "ice cream",
+      "asset_id": "word_065",
+      "source": "fluent",
+      "detail": "Soft ice cream",
+      "file": "word_065.png",
+      "is_review": false
+    },
+    {
+      "id": 66,
+      "word": "chicken",
+      "asset_id": "word_066",
+      "source": "twemoji",
+      "detail": "🍗",
+      "file": "word_066.png",
+      "is_review": false
+    },
+    {
+      "id": 67,
+      "word": "hungry",
+      "asset_id": "word_067",
+      "source": "fluent",
+      "detail": "Fork and knife",
+      "file": "word_067.png",
+      "is_review": false
+    },
+    {
+      "id": 68,
+      "word": "thirsty",
+      "asset_id": "word_068",
+      "source": "fluent",
+      "detail": "Potable water",
+      "file": "word_068.png",
+      "is_review": false
+    },
+    {
+      "id": 69,
+      "word": "sweet",
+      "asset_id": "word_069",
+      "source": "fluent",
+      "detail": "Shortcake",
+      "file": "word_069.png",
+      "is_review": false
+    },
+    {
+      "id": 70,
+      "word": "salty",
+      "asset_id": "word_070",
+      "source": "fluent",
+      "detail": "Salt",
+      "file": "word_070.png",
+      "is_review": false
+    },
+    {
+      "id": 71,
+      "word": "house",
+      "asset_id": "word_071",
+      "source": "fluent",
+      "detail": "House",
+      "file": "word_071.png",
+      "is_review": false
+    },
+    {
+      "id": 72,
+      "word": "room",
+      "asset_id": "word_072",
+      "source": "twemoji",
+      "detail": "🚪",
+      "file": "word_072.png",
+      "is_review": false
+    },
+    {
+      "id": 73,
+      "word": "bedroom",
+      "asset_id": "word_073",
+      "source": "fluent",
+      "detail": "Bed",
+      "file": "word_073.png",
+      "is_review": false
+    },
+    {
+      "id": 74,
+      "word": "kitchen",
+      "asset_id": "word_074",
+      "source": "twemoji",
+      "detail": "👩‍🍳",
+      "file": "word_074.png",
+      "is_review": false
+    },
+    {
+      "id": 75,
+      "word": "bathroom",
+      "asset_id": "word_075",
+      "source": "fluent",
+      "detail": "Toilet",
+      "file": "word_075.png",
+      "is_review": false
+    },
+    {
+      "id": 76,
+      "word": "door",
+      "asset_id": "word_076",
+      "source": "fluent",
+      "detail": "Door",
+      "file": "word_076.png",
+      "is_review": false
+    },
+    {
+      "id": 77,
+      "word": "window",
+      "asset_id": "word_077",
+      "source": "fluent",
+      "detail": "Window",
+      "file": "word_077.png",
+      "is_review": false
+    },
+    {
+      "id": 78,
+      "word": "table",
+      "asset_id": "word_078",
+      "source": "twemoji",
+      "detail": "🪑",
+      "file": "word_078.png",
+      "is_review": false
+    },
+    {
+      "id": 79,
+      "word": "chair",
+      "asset_id": "word_079",
+      "source": "fluent",
+      "detail": "Chair",
+      "file": "word_079.png",
+      "is_review": false
+    },
+    {
+      "id": 80,
+      "word": "bed",
+      "asset_id": "word_080",
+      "source": "fluent",
+      "detail": "Bed",
+      "file": "word_080.png",
+      "is_review": false
+    },
+    {
+      "id": 81,
+      "word": "phone",
+      "asset_id": "word_081",
+      "source": "fluent",
+      "detail": "Mobile phone",
+      "file": "word_081.png",
+      "is_review": false
+    },
+    {
+      "id": 82,
+      "word": "computer",
+      "asset_id": "word_082",
+      "source": "fluent",
+      "detail": "Laptop",
+      "file": "word_082.png",
+      "is_review": false
+    },
+    {
+      "id": 83,
+      "word": "TV",
+      "asset_id": "word_083",
+      "source": "fluent",
+      "detail": "Television",
+      "file": "word_083.png",
+      "is_review": false
+    },
+    {
+      "id": 84,
+      "word": "lamp",
+      "asset_id": "word_084",
+      "source": "fluent",
+      "detail": "Light bulb",
+      "file": "word_084.png",
+      "is_review": false
+    },
+    {
+      "id": 85,
+      "word": "clock",
+      "asset_id": "word_085",
+      "source": "fluent",
+      "detail": "Alarm clock",
+      "file": "word_085.png",
+      "is_review": false
+    },
+    {
+      "id": 86,
+      "word": "key",
+      "asset_id": "word_086",
+      "source": "fluent",
+      "detail": "Key",
+      "file": "word_086.png",
+      "is_review": false
+    },
+    {
+      "id": 87,
+      "word": "toy",
+      "asset_id": "word_087",
+      "source": "fluent",
+      "detail": "Teddy bear",
+      "file": "word_087.png",
+      "is_review": false
+    },
+    {
+      "id": 88,
+      "word": "plant",
+      "asset_id": "word_088",
+      "source": "fluent",
+      "detail": "Potted plant",
+      "file": "word_088.png",
+      "is_review": false
+    },
+    {
+      "id": 89,
+      "word": "mirror",
+      "asset_id": "word_089",
+      "source": "fluent",
+      "detail": "Mirror",
+      "file": "word_089.png",
+      "is_review": false
+    },
+    {
+      "id": 90,
+      "word": "sofa",
+      "asset_id": "word_090",
+      "source": "fluent",
+      "detail": "Couch and lamp",
+      "file": "word_090.png",
+      "is_review": false
+    },
+    {
+      "id": 91,
+      "word": "happy",
+      "asset_id": "word_091",
+      "source": "fluent",
+      "detail": "Grinning face",
+      "file": "word_091.png",
+      "is_review": false
+    },
+    {
+      "id": 92,
+      "word": "sad",
+      "asset_id": "word_092",
+      "source": "fluent",
+      "detail": "Crying face",
+      "file": "word_092.png",
+      "is_review": false
+    },
+    {
+      "id": 93,
+      "word": "angry",
+      "asset_id": "word_093",
+      "source": "fluent",
+      "detail": "Angry face",
+      "file": "word_093.png",
+      "is_review": false
+    },
+    {
+      "id": 94,
+      "word": "scared",
+      "asset_id": "word_094",
+      "source": "fluent",
+      "detail": "Fearful face",
+      "file": "word_094.png",
+      "is_review": false
+    },
+    {
+      "id": 95,
+      "word": "tired",
+      "asset_id": "word_095",
+      "source": "fluent",
+      "detail": "Sleepy face",
+      "file": "word_095.png",
+      "is_review": false
+    },
+    {
+      "id": 96,
+      "word": "bored",
+      "asset_id": "word_096",
+      "source": "fluent",
+      "detail": "Sleeping face",
+      "file": "word_096.png",
+      "is_review": false
+    },
+    {
+      "id": 97,
+      "word": "surprised",
+      "asset_id": "word_097",
+      "source": "fluent",
+      "detail": "Astonished face",
+      "file": "word_097.png",
+      "is_review": false
+    },
+    {
+      "id": 98,
+      "word": "excited",
+      "asset_id": "word_098",
+      "source": "fluent",
+      "detail": "Star-struck",
+      "file": "word_098.png",
+      "is_review": false
+    },
+    {
+      "id": 99,
+      "word": "fine",
+      "asset_id": "word_099",
+      "source": "twemoji",
+      "detail": "👌",
+      "file": "word_099.png",
+      "is_review": false
+    },
+    {
+      "id": 100,
+      "word": "ill",
+      "asset_id": "word_100",
+      "source": "fluent",
+      "detail": "Face with thermometer",
+      "file": "word_100.png",
+      "is_review": false
+    },
+    {
+      "id": 101,
+      "word": "football",
+      "asset_id": "word_101",
+      "source": "fluent",
+      "detail": "Soccer ball",
+      "file": "word_101.png",
+      "is_review": false
+    },
+    {
+      "id": 102,
+      "word": "basketball",
+      "asset_id": "word_102",
+      "source": "fluent",
+      "detail": "Basketball",
+      "file": "word_102.png",
+      "is_review": false
+    },
+    {
+      "id": 103,
+      "word": "tennis",
+      "asset_id": "word_103",
+      "source": "fluent",
+      "detail": "Tennis",
+      "file": "word_103.png",
+      "is_review": false
+    },
+    {
+      "id": 104,
+      "word": "swimming",
+      "asset_id": "word_104",
+      "source": "twemoji",
+      "detail": "🏊",
+      "file": "word_104.png",
+      "is_review": false
+    },
+    {
+      "id": 105,
+      "word": "bike",
+      "asset_id": "word_105",
+      "source": "fluent",
+      "detail": "Bicycle",
+      "file": "word_105.png",
+      "is_review": false
+    },
+    {
+      "id": 106,
+      "word": "kick",
+      "asset_id": "word_106",
+      "source": "twemoji",
+      "detail": "⚽",
+      "file": "word_106.png",
+      "is_review": false
+    },
+    {
+      "id": 107,
+      "word": "catch",
+      "asset_id": "word_107",
+      "source": "twemoji",
+      "detail": "🥎",
+      "file": "word_107.png",
+      "is_review": false
+    },
+    {
+      "id": 108,
+      "word": "throw",
+      "asset_id": "word_108",
+      "source": "twemoji",
+      "detail": "⚾",
+      "file": "word_108.png",
+      "is_review": false
+    },
+    {
+      "id": 109,
+      "word": "ride",
+      "asset_id": "word_109",
+      "source": "twemoji",
+      "detail": "🚴",
+      "file": "word_109.png",
+      "is_review": false
+    },
+    {
+      "id": 110,
+      "word": "win",
+      "asset_id": "word_110",
+      "source": "fluent",
+      "detail": "Trophy",
+      "file": "word_110.png",
+      "is_review": false
+    },
+    {
+      "id": 111,
+      "word": "head",
+      "asset_id": "word_111",
+      "source": "fluent",
+      "detail": "Bust in silhouette",
+      "file": "word_111.png",
+      "is_review": false
+    },
+    {
+      "id": 112,
+      "word": "face",
+      "asset_id": "word_112",
+      "source": "fluent",
+      "detail": "Slightly smiling face",
+      "file": "word_112.png",
+      "is_review": false
+    },
+    {
+      "id": 113,
+      "word": "eye",
+      "asset_id": "word_113",
+      "source": "fluent",
+      "detail": "Eye",
+      "file": "word_113.png",
+      "is_review": false
+    },
+    {
+      "id": 114,
+      "word": "ear",
+      "asset_id": "word_114",
+      "source": "twemoji",
+      "detail": "👂",
+      "file": "word_114.png",
+      "is_review": false
+    },
+    {
+      "id": 115,
+      "word": "nose",
+      "asset_id": "word_115",
+      "source": "twemoji",
+      "detail": "👃",
+      "file": "word_115.png",
+      "is_review": false
+    },
+    {
+      "id": 116,
+      "word": "mouth",
+      "asset_id": "word_116",
+      "source": "fluent",
+      "detail": "Mouth",
+      "file": "word_116.png",
+      "is_review": false
+    },
+    {
+      "id": 117,
+      "word": "hand",
+      "asset_id": "word_117",
+      "source": "twemoji",
+      "detail": "✋",
+      "file": "word_117.png",
+      "is_review": false
+    },
+    {
+      "id": 118,
+      "word": "arm",
+      "asset_id": "word_118",
+      "source": "twemoji",
+      "detail": "💪",
+      "file": "word_118.png",
+      "is_review": false
+    },
+    {
+      "id": 119,
+      "word": "leg",
+      "asset_id": "word_119",
+      "source": "twemoji",
+      "detail": "🦵",
+      "file": "word_119.png",
+      "is_review": false
+    },
+    {
+      "id": 120,
+      "word": "foot",
+      "asset_id": "word_120",
+      "source": "twemoji",
+      "detail": "🦶",
+      "file": "word_120.png",
+      "is_review": false
+    },
+    {
+      "id": 121,
+      "word": "T-shirt",
+      "asset_id": "word_121",
+      "source": "fluent",
+      "detail": "T-shirt",
+      "file": "word_121.png",
+      "is_review": false
+    },
+    {
+      "id": 122,
+      "word": "trousers",
+      "asset_id": "word_122",
+      "source": "fluent",
+      "detail": "Jeans",
+      "file": "word_122.png",
+      "is_review": false
+    },
+    {
+      "id": 123,
+      "word": "shorts",
+      "asset_id": "word_123",
+      "source": "fluent",
+      "detail": "Shorts",
+      "file": "word_123.png",
+      "is_review": false
+    },
+    {
+      "id": 124,
+      "word": "jacket",
+      "asset_id": "word_124",
+      "source": "fluent",
+      "detail": "Coat",
+      "file": "word_124.png",
+      "is_review": false
+    },
+    {
+      "id": 125,
+      "word": "coat",
+      "asset_id": "word_125",
+      "source": "fluent",
+      "detail": "Coat",
+      "file": "word_125.png",
+      "is_review": false
+    },
+    {
+      "id": 126,
+      "word": "socks",
+      "asset_id": "word_126",
+      "source": "fluent",
+      "detail": "Socks",
+      "file": "word_126.png",
+      "is_review": false
+    },
+    {
+      "id": 127,
+      "word": "hat",
+      "asset_id": "word_127",
+      "source": "fluent",
+      "detail": "Top hat",
+      "file": "word_127.png",
+      "is_review": false
+    },
+    {
+      "id": 128,
+      "word": "dress",
+      "asset_id": "word_128",
+      "source": "fluent",
+      "detail": "Dress",
+      "file": "word_128.png",
+      "is_review": false
+    },
+    {
+      "id": 129,
+      "word": "shoes",
+      "asset_id": "word_129",
+      "source": "fluent",
+      "detail": "Running shoe",
+      "file": "word_129.png",
+      "is_review": false
+    },
+    {
+      "id": 130,
+      "word": "wear",
+      "asset_id": "word_130",
+      "source": "fluent",
+      "detail": "T-shirt",
+      "file": "word_130.png",
+      "is_review": false
+    },
+    {
+      "id": 131,
+      "word": "sunny",
+      "asset_id": "word_131",
+      "source": "fluent",
+      "detail": "Sun",
+      "file": "word_131.png",
+      "is_review": false
+    },
+    {
+      "id": 132,
+      "word": "rainy",
+      "asset_id": "word_132",
+      "source": "fluent",
+      "detail": "Cloud with rain",
+      "file": "word_132.png",
+      "is_review": false
+    },
+    {
+      "id": 133,
+      "word": "cloudy",
+      "asset_id": "word_133",
+      "source": "fluent",
+      "detail": "Cloud",
+      "file": "word_133.png",
+      "is_review": false
+    },
+    {
+      "id": 134,
+      "word": "windy",
+      "asset_id": "word_134",
+      "source": "fluent",
+      "detail": "Leaf fluttering in wind",
+      "file": "word_134.png",
+      "is_review": false
+    },
+    {
+      "id": 135,
+      "word": "snow",
+      "asset_id": "word_135",
+      "source": "fluent",
+      "detail": "Snowflake",
+      "file": "word_135.png",
+      "is_review": false
+    },
+    {
+      "id": 136,
+      "word": "hot",
+      "asset_id": "word_136",
+      "source": "fluent",
+      "detail": "Hot beverage",
+      "file": "word_136.png",
+      "is_review": false
+    },
+    {
+      "id": 137,
+      "word": "cold",
+      "asset_id": "word_137",
+      "source": "fluent",
+      "detail": "Cold face",
+      "file": "word_137.png",
+      "is_review": false
+    },
+    {
+      "id": 138,
+      "word": "warm",
+      "asset_id": "word_138",
+      "source": "fluent",
+      "detail": "Sun",
+      "file": "word_138.png",
+      "is_review": false
+    },
+    {
+      "id": 139,
+      "word": "rainbow",
+      "asset_id": "word_139",
+      "source": "fluent",
+      "detail": "Rainbow",
+      "file": "word_139.png",
+      "is_review": false
+    },
+    {
+      "id": 140,
+      "word": "umbrella",
+      "asset_id": "word_140",
+      "source": "fluent",
+      "detail": "Umbrella",
+      "file": "word_140.png",
+      "is_review": false
+    },
+    {
+      "id": 141,
+      "word": "tree",
+      "asset_id": "word_141",
+      "source": "fluent",
+      "detail": "Deciduous tree",
+      "file": "word_141.png",
+      "is_review": false
+    },
+    {
+      "id": 142,
+      "word": "flower",
+      "asset_id": "word_142",
+      "source": "fluent",
+      "detail": "Sunflower",
+      "file": "word_142.png",
+      "is_review": false
+    },
+    {
+      "id": 143,
+      "word": "grass",
+      "asset_id": "word_143",
+      "source": "fluent",
+      "detail": "Seedling",
+      "file": "word_143.png",
+      "is_review": false
+    },
+    {
+      "id": 144,
+      "word": "river",
+      "asset_id": "word_144",
+      "source": "fluent",
+      "detail": "Water wave",
+      "file": "word_144.png",
+      "is_review": false
+    },
+    {
+      "id": 145,
+      "word": "sea",
+      "asset_id": "word_145",
+      "source": "fluent",
+      "detail": "Water wave",
+      "file": "word_145.png",
+      "is_review": false
+    },
+    {
+      "id": 146,
+      "word": "beach",
+      "asset_id": "word_146",
+      "source": "fluent",
+      "detail": "Beach with umbrella",
+      "file": "word_146.png",
+      "is_review": false
+    },
+    {
+      "id": 147,
+      "word": "mountain",
+      "asset_id": "word_147",
+      "source": "fluent",
+      "detail": "Mountain",
+      "file": "word_147.png",
+      "is_review": false
+    },
+    {
+      "id": 148,
+      "word": "forest",
+      "asset_id": "word_148",
+      "source": "fluent",
+      "detail": "National park",
+      "file": "word_148.png",
+      "is_review": false
+    },
+    {
+      "id": 149,
+      "word": "park",
+      "asset_id": "word_149",
+      "source": "fluent",
+      "detail": "National park",
+      "file": "word_149.png",
+      "is_review": false
+    },
+    {
+      "id": 150,
+      "word": "sky",
+      "asset_id": "word_150",
+      "source": "fluent",
+      "detail": "Sun behind large cloud",
+      "file": "word_150.png",
+      "is_review": false
+    },
+    {
+      "id": 151,
+      "word": "dog",
+      "asset_id": "word_151",
+      "source": "fluent",
+      "detail": "Dog",
+      "file": "word_151.png",
+      "is_review": false
+    },
+    {
+      "id": 152,
+      "word": "cat",
+      "asset_id": "word_152",
+      "source": "fluent",
+      "detail": "Cat",
+      "file": "word_152.png",
+      "is_review": false
+    },
+    {
+      "id": 153,
+      "word": "bird",
+      "asset_id": "word_153",
+      "source": "fluent",
+      "detail": "Bird",
+      "file": "word_153.png",
+      "is_review": false
+    },
+    {
+      "id": 154,
+      "word": "fish",
+      "asset_id": "word_154",
+      "source": "fluent",
+      "detail": "Fish",
+      "file": "word_154.png",
+      "is_review": false
+    },
+    {
+      "id": 155,
+      "word": "rabbit",
+      "asset_id": "word_155",
+      "source": "fluent",
+      "detail": "Rabbit",
+      "file": "word_155.png",
+      "is_review": false
+    },
+    {
+      "id": 156,
+      "word": "horse",
+      "asset_id": "word_156",
+      "source": "fluent",
+      "detail": "Horse",
+      "file": "word_156.png",
+      "is_review": false
+    },
+    {
+      "id": 157,
+      "word": "cow",
+      "asset_id": "word_157",
+      "source": "fluent",
+      "detail": "Cow",
+      "file": "word_157.png",
+      "is_review": false
+    },
+    {
+      "id": 158,
+      "word": "duck",
+      "asset_id": "word_158",
+      "source": "fluent",
+      "detail": "Duck",
+      "file": "word_158.png",
+      "is_review": false
+    },
+    {
+      "id": 159,
+      "word": "frog",
+      "asset_id": "word_159",
+      "source": "fluent",
+      "detail": "Frog",
+      "file": "word_159.png",
+      "is_review": false
+    },
+    {
+      "id": 160,
+      "word": "mouse",
+      "asset_id": "word_160",
+      "source": "fluent",
+      "detail": "Mouse",
+      "file": "word_160.png",
+      "is_review": false
+    },
+    {
+      "id": 161,
+      "word": "city",
+      "asset_id": "word_161",
+      "source": "fluent",
+      "detail": "Cityscape",
+      "file": "word_161.png",
+      "is_review": false
+    },
+    {
+      "id": 162,
+      "word": "street",
+      "asset_id": "word_162",
+      "source": "fluent",
+      "detail": "Motorway",
+      "file": "word_162.png",
+      "is_review": false
+    },
+    {
+      "id": 163,
+      "word": "shop",
+      "asset_id": "word_163",
+      "source": "fluent",
+      "detail": "Department store",
+      "file": "word_163.png",
+      "is_review": false
+    },
+    {
+      "id": 164,
+      "word": "school",
+      "asset_id": "word_164",
+      "source": "fluent",
+      "detail": "School",
+      "file": "word_164.png",
+      "is_review": false
+    },
+    {
+      "id": 165,
+      "word": "hospital",
+      "asset_id": "word_165",
+      "source": "fluent",
+      "detail": "Hospital",
+      "file": "word_165.png",
+      "is_review": false
+    },
+    {
+      "id": 166,
+      "word": "zoo",
+      "asset_id": "word_166",
+      "source": "fluent",
+      "detail": "Lion",
+      "file": "word_166.png",
+      "is_review": false
+    },
+    {
+      "id": 167,
+      "word": "farm",
+      "asset_id": "word_167",
+      "source": "fluent",
+      "detail": "Sheaf of rice",
+      "file": "word_167.png",
+      "is_review": false
+    },
+    {
+      "id": 168,
+      "word": "cinema",
+      "asset_id": "word_168",
+      "source": "fluent",
+      "detail": "Movie camera",
+      "file": "word_168.png",
+      "is_review": false
+    },
+    {
+      "id": 169,
+      "word": "pool",
+      "asset_id": "word_169",
+      "source": "twemoji",
+      "detail": "🏊",
+      "file": "word_169.png",
+      "is_review": false
+    },
+    {
+      "id": 170,
+      "word": "playground",
+      "asset_id": "word_170",
+      "source": "twemoji",
+      "detail": "🛝",
+      "file": "word_170.png",
+      "is_review": false
+    },
+    {
+      "id": 171,
+      "word": "car",
+      "asset_id": "word_171",
+      "source": "fluent",
+      "detail": "Automobile",
+      "file": "word_171.png",
+      "is_review": false
+    },
+    {
+      "id": 172,
+      "word": "bus",
+      "asset_id": "word_172",
+      "source": "fluent",
+      "detail": "Bus",
+      "file": "word_172.png",
+      "is_review": false
+    },
+    {
+      "id": 173,
+      "word": "train",
+      "asset_id": "word_173",
+      "source": "fluent",
+      "detail": "Train",
+      "file": "word_173.png",
+      "is_review": false
+    },
+    {
+      "id": 174,
+      "word": "plane",
+      "asset_id": "word_174",
+      "source": "fluent",
+      "detail": "Airplane",
+      "file": "word_174.png",
+      "is_review": false
+    },
+    {
+      "id": 175,
+      "word": "bicycle",
+      "asset_id": "word_175",
+      "source": "fluent",
+      "detail": "Bicycle",
+      "file": "word_175.png",
+      "is_review": false
+    },
+    {
+      "id": 176,
+      "word": "boat",
+      "asset_id": "word_176",
+      "source": "fluent",
+      "detail": "Sailboat",
+      "file": "word_176.png",
+      "is_review": false
+    },
+    {
+      "id": 177,
+      "word": "taxi",
+      "asset_id": "word_177",
+      "source": "fluent",
+      "detail": "Oncoming taxi",
+      "file": "word_177.png",
+      "is_review": false
+    },
+    {
+      "id": 178,
+      "word": "station",
+      "asset_id": "word_178",
+      "source": "fluent",
+      "detail": "Station",
+      "file": "word_178.png",
+      "is_review": false
+    },
+    {
+      "id": 179,
+      "word": "ticket",
+      "asset_id": "word_179",
+      "source": "fluent",
+      "detail": "Ticket",
+      "file": "word_179.png",
+      "is_review": false
+    },
+    {
+      "id": 180,
+      "word": "bridge",
+      "asset_id": "word_180",
+      "source": "fluent",
+      "detail": "Bridge at night",
+      "file": "word_180.png",
+      "is_review": false
+    },
+    {
+      "id": 181,
+      "word": "red",
+      "asset_id": "word_181",
+      "source": "fluent",
+      "detail": "Red circle",
+      "file": "word_181.png",
+      "is_review": false
+    },
+    {
+      "id": 182,
+      "word": "blue",
+      "asset_id": "word_182",
+      "source": "fluent",
+      "detail": "Blue circle",
+      "file": "word_182.png",
+      "is_review": false
+    },
+    {
+      "id": 183,
+      "word": "yellow",
+      "asset_id": "word_183",
+      "source": "fluent",
+      "detail": "Yellow circle",
+      "file": "word_183.png",
+      "is_review": false
+    },
+    {
+      "id": 184,
+      "word": "green",
+      "asset_id": "word_184",
+      "source": "fluent",
+      "detail": "Green circle",
+      "file": "word_184.png",
+      "is_review": false
+    },
+    {
+      "id": 185,
+      "word": "black",
+      "asset_id": "word_185",
+      "source": "fluent",
+      "detail": "Black circle",
+      "file": "word_185.png",
+      "is_review": false
+    },
+    {
+      "id": 186,
+      "word": "white",
+      "asset_id": "word_186",
+      "source": "fluent",
+      "detail": "White circle",
+      "file": "word_186.png",
+      "is_review": false
+    },
+    {
+      "id": 187,
+      "word": "orange",
+      "asset_id": "word_187",
+      "source": "fluent",
+      "detail": "Orange circle",
+      "file": "word_187.png",
+      "is_review": false
+    },
+    {
+      "id": 188,
+      "word": "pink",
+      "asset_id": "word_188",
+      "source": "twemoji",
+      "detail": "💗",
+      "file": "word_188.png",
+      "is_review": false
+    },
+    {
+      "id": 189,
+      "word": "brown",
+      "asset_id": "word_189",
+      "source": "fluent",
+      "detail": "Brown circle",
+      "file": "word_189.png",
+      "is_review": false
+    },
+    {
+      "id": 190,
+      "word": "grey",
+      "asset_id": "word_190",
+      "source": "twemoji",
+      "detail": "⚪",
+      "file": "word_190.png",
+      "is_review": false
+    },
+    {
+      "id": 191,
+      "word": "one",
+      "asset_id": "word_191",
+      "source": "fluent",
+      "detail": "Keycap 1",
+      "file": "word_191.png",
+      "is_review": false
+    },
+    {
+      "id": 192,
+      "word": "two",
+      "asset_id": "word_192",
+      "source": "fluent",
+      "detail": "Keycap 2",
+      "file": "word_192.png",
+      "is_review": false
+    },
+    {
+      "id": 193,
+      "word": "three",
+      "asset_id": "word_193",
+      "source": "fluent",
+      "detail": "Keycap 3",
+      "file": "word_193.png",
+      "is_review": false
+    },
+    {
+      "id": 194,
+      "word": "four",
+      "asset_id": "word_194",
+      "source": "fluent",
+      "detail": "Keycap 4",
+      "file": "word_194.png",
+      "is_review": false
+    },
+    {
+      "id": 195,
+      "word": "five",
+      "asset_id": "word_195",
+      "source": "fluent",
+      "detail": "Keycap 5",
+      "file": "word_195.png",
+      "is_review": false
+    },
+    {
+      "id": 196,
+      "word": "six",
+      "asset_id": "word_196",
+      "source": "fluent",
+      "detail": "Keycap 6",
+      "file": "word_196.png",
+      "is_review": false
+    },
+    {
+      "id": 197,
+      "word": "seven",
+      "asset_id": "word_197",
+      "source": "fluent",
+      "detail": "Keycap 7",
+      "file": "word_197.png",
+      "is_review": false
+    },
+    {
+      "id": 198,
+      "word": "eight",
+      "asset_id": "word_198",
+      "source": "fluent",
+      "detail": "Keycap 8",
+      "file": "word_198.png",
+      "is_review": false
+    },
+    {
+      "id": 199,
+      "word": "nine",
+      "asset_id": "word_199",
+      "source": "fluent",
+      "detail": "Keycap 9",
+      "file": "word_199.png",
+      "is_review": false
+    },
+    {
+      "id": 200,
+      "word": "ten",
+      "asset_id": "word_200",
+      "source": "fluent",
+      "detail": "Keycap 10",
+      "file": "word_200.png",
+      "is_review": false
+    },
+    {
+      "id": 201,
+      "word": "Monday",
+      "asset_id": "word_201",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_201.png",
+      "is_review": false
+    },
+    {
+      "id": 202,
+      "word": "Tuesday",
+      "asset_id": "word_202",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_202.png",
+      "is_review": false
+    },
+    {
+      "id": 203,
+      "word": "Wednesday",
+      "asset_id": "word_203",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_203.png",
+      "is_review": false
+    },
+    {
+      "id": 204,
+      "word": "Thursday",
+      "asset_id": "word_204",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_204.png",
+      "is_review": false
+    },
+    {
+      "id": 205,
+      "word": "Friday",
+      "asset_id": "word_205",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_205.png",
+      "is_review": false
+    },
+    {
+      "id": 206,
+      "word": "Saturday",
+      "asset_id": "word_206",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_206.png",
+      "is_review": false
+    },
+    {
+      "id": 207,
+      "word": "Sunday",
+      "asset_id": "word_207",
+      "source": "twemoji",
+      "detail": "📅",
+      "file": "word_207.png",
+      "is_review": false
+    },
+    {
+      "id": 208,
+      "word": "today",
+      "asset_id": "word_208",
+      "source": "fluent",
+      "detail": "Calendar",
+      "file": "word_208.png",
+      "is_review": false
+    },
+    {
+      "id": 209,
+      "word": "tomorrow",
+      "asset_id": "word_209",
+      "source": "fluent",
+      "detail": "Tear-off calendar",
+      "file": "word_209.png",
+      "is_review": false
+    },
+    {
+      "id": 210,
+      "word": "yesterday",
+      "asset_id": "word_210",
+      "source": "fluent",
+      "detail": "Calendar",
+      "file": "word_210.png",
+      "is_review": false
+    },
+    {
+      "id": 211,
+      "word": "big",
+      "asset_id": "word_211",
+      "source": "fluent",
+      "detail": "Elephant",
+      "file": "word_211.png",
+      "is_review": false
+    },
+    {
+      "id": 212,
+      "word": "small",
+      "asset_id": "word_212",
+      "source": "fluent",
+      "detail": "Mouse",
+      "file": "word_212.png",
+      "is_review": false
+    },
+    {
+      "id": 213,
+      "word": "long",
+      "asset_id": "word_213",
+      "source": "fluent",
+      "detail": "Straight ruler",
+      "file": "word_213.png",
+      "is_review": false
+    },
+    {
+      "id": 214,
+      "word": "short",
+      "asset_id": "word_214",
+      "source": "fluent",
+      "detail": "Straight ruler",
+      "file": "word_214.png",
+      "is_review": false
+    },
+    {
+      "id": 215,
+      "word": "new",
+      "asset_id": "word_215",
+      "source": "fluent",
+      "detail": "Sparkles",
+      "file": "word_215.png",
+      "is_review": false
+    },
+    {
+      "id": 216,
+      "word": "old",
+      "asset_id": "word_216",
+      "source": "twemoji",
+      "detail": "🧓",
+      "file": "word_216.png",
+      "is_review": false
+    },
+    {
+      "id": 217,
+      "word": "clean",
+      "asset_id": "word_217",
+      "source": "fluent",
+      "detail": "Soap",
+      "file": "word_217.png",
+      "is_review": false
+    },
+    {
+      "id": 218,
+      "word": "dirty",
+      "asset_id": "word_218",
+      "source": "twemoji",
+      "detail": "🧽",
+      "file": "word_218.png",
+      "is_review": false
+    },
+    {
+      "id": 219,
+      "word": "fast",
+      "asset_id": "word_219",
+      "source": "fluent",
+      "detail": "Rabbit",
+      "file": "word_219.png",
+      "is_review": false
+    },
+    {
+      "id": 220,
+      "word": "slow",
+      "asset_id": "word_220",
+      "source": "fluent",
+      "detail": "Turtle",
+      "file": "word_220.png",
+      "is_review": false
+    },
+    {
+      "id": 221,
+      "word": "good",
+      "asset_id": "word_221",
+      "source": "twemoji",
+      "detail": "👍",
+      "file": "word_221.png",
+      "is_review": false
+    },
+    {
+      "id": 222,
+      "word": "bad",
+      "asset_id": "word_222",
+      "source": "twemoji",
+      "detail": "👎",
+      "file": "word_222.png",
+      "is_review": false
+    },
+    {
+      "id": 223,
+      "word": "young",
+      "asset_id": "word_223",
+      "source": "twemoji",
+      "detail": "🧒",
+      "file": "word_223.png",
+      "is_review": false
+    },
+    {
+      "id": 224,
+      "word": "tall",
+      "asset_id": "word_224",
+      "source": "twemoji",
+      "detail": "📏",
+      "file": "word_224.png",
+      "is_review": false
+    },
+    {
+      "id": 225,
+      "word": "quiet",
+      "asset_id": "word_225",
+      "source": "twemoji",
+      "detail": "🤫",
+      "file": "word_225.png",
+      "is_review": false
+    },
+    {
+      "id": 226,
+      "word": "noisy",
+      "asset_id": "word_226",
+      "source": "twemoji",
+      "detail": "🔊",
+      "file": "word_226.png",
+      "is_review": false
+    },
+    {
+      "id": 227,
+      "word": "left",
+      "asset_id": "word_227",
+      "source": "twemoji",
+      "detail": "⬅️",
+      "file": "word_227.png",
+      "is_review": false
+    },
+    {
+      "id": 228,
+      "word": "right",
+      "asset_id": "word_228",
+      "source": "twemoji",
+      "detail": "➡️",
+      "file": "word_228.png",
+      "is_review": false
+    },
+    {
+      "id": 229,
+      "word": "up",
+      "asset_id": "word_229",
+      "source": "twemoji",
+      "detail": "⬆️",
+      "file": "word_229.png",
+      "is_review": false
+    },
+    {
+      "id": 230,
+      "word": "down",
+      "asset_id": "word_230",
+      "source": "twemoji",
+      "detail": "⬇️",
+      "file": "word_230.png",
+      "is_review": false
+    },
+    {
+      "id": 231,
+      "word": "yes",
+      "asset_id": "word_231",
+      "source": "fluent",
+      "detail": "Check mark button",
+      "file": "word_231.png",
+      "is_review": false
+    },
+    {
+      "id": 232,
+      "word": "no",
+      "asset_id": "word_232",
+      "source": "fluent",
+      "detail": "Cross mark",
+      "file": "word_232.png",
+      "is_review": false
+    },
+    {
+      "id": 233,
+      "word": "can",
+      "asset_id": "word_233",
+      "source": "twemoji",
+      "detail": "👍",
+      "file": "word_233.png",
+      "is_review": false
+    },
+    {
+      "id": 234,
+      "word": "have",
+      "asset_id": "word_234",
+      "source": "fluent",
+      "detail": "Wrapped gift",
+      "file": "word_234.png",
+      "is_review": false
+    },
+    {
+      "id": 235,
+      "word": "in",
+      "asset_id": "word_235",
+      "source": "twemoji",
+      "detail": "📥",
+      "file": "word_235.png",
+      "is_review": false
+    },
+    {
+      "id": 236,
+      "word": "on",
+      "asset_id": "word_236",
+      "source": "twemoji",
+      "detail": "📌",
+      "file": "word_236.png",
+      "is_review": false
+    },
+    {
+      "id": 237,
+      "word": "under",
+      "asset_id": "word_237",
+      "source": "twemoji",
+      "detail": "⬇️",
+      "file": "word_237.png",
+      "is_review": false
+    },
+    {
+      "id": 238,
+      "word": "next to",
+      "asset_id": "word_238",
+      "source": "twemoji",
+      "detail": "↔️",
+      "file": "word_238.png",
+      "is_review": false
+    },
+    {
+      "id": 239,
+      "word": "between",
+      "asset_id": "word_239",
+      "source": "twemoji",
+      "detail": "🔀",
+      "file": "word_239.png",
+      "is_review": false
+    },
+    {
+      "id": 240,
+      "word": "behind",
+      "asset_id": "word_240",
+      "source": "twemoji",
+      "detail": "🔙",
+      "file": "word_240.png",
+      "is_review": false
+    },
+    {
+      "id": 241,
+      "word": "Come here.",
+      "asset_id": "word_241",
+      "source": "twemoji",
+      "detail": "👈",
+      "file": "word_241.png",
+      "is_review": false
+    },
+    {
+      "id": 242,
+      "word": "Wait a minute.",
+      "asset_id": "word_242",
+      "source": "fluent",
+      "detail": "Hourglass not done",
+      "file": "word_242.png",
+      "is_review": false
+    },
+    {
+      "id": 243,
+      "word": "Let's go.",
+      "asset_id": "word_243",
+      "source": "twemoji",
+      "detail": "🏃",
+      "file": "word_243.png",
+      "is_review": false
+    },
+    {
+      "id": 244,
+      "word": "I don't know.",
+      "asset_id": "word_244",
+      "source": "twemoji",
+      "detail": "🤷",
+      "file": "word_244.png",
+      "is_review": false
+    },
+    {
+      "id": 245,
+      "word": "I don't understand.",
+      "asset_id": "word_245",
+      "source": "fluent",
+      "detail": "Thinking face",
+      "file": "word_245.png",
+      "is_review": false
+    },
+    {
+      "id": 246,
+      "word": "Can you help me?",
+      "asset_id": "word_246",
+      "source": "twemoji",
+      "detail": "🙋",
+      "file": "word_246.png",
+      "is_review": false
+    },
+    {
+      "id": 247,
+      "word": "What is this?",
+      "asset_id": "word_247",
+      "source": "fluent",
+      "detail": "Red question mark",
+      "file": "word_247.png",
+      "is_review": false
+    },
+    {
+      "id": 248,
+      "word": "Where is it?",
+      "asset_id": "word_248",
+      "source": "fluent",
+      "detail": "Round pushpin",
+      "file": "word_248.png",
+      "is_review": false
+    },
+    {
+      "id": 249,
+      "word": "Are you OK?",
+      "asset_id": "word_249",
+      "source": "twemoji",
+      "detail": "👌",
+      "file": "word_249.png",
+      "is_review": false
+    },
+    {
+      "id": 250,
+      "word": "Thank you.",
+      "asset_id": "word_250",
+      "source": "twemoji",
+      "detail": "🙏",
+      "file": "word_250.png",
+      "is_review": false
+    },
+    {
+      "id": 251,
+      "word": "what",
+      "asset_id": "word_251",
+      "source": "fluent",
+      "detail": "Red question mark",
+      "file": "word_251.png",
+      "is_review": false
+    },
+    {
+      "id": 252,
+      "word": "who",
+      "asset_id": "word_252",
+      "source": "fluent",
+      "detail": "Bust in silhouette",
+      "file": "word_252.png",
+      "is_review": false
+    },
+    {
+      "id": 253,
+      "word": "where",
+      "asset_id": "word_253",
+      "source": "fluent",
+      "detail": "Round pushpin",
+      "file": "word_253.png",
+      "is_review": false
+    },
+    {
+      "id": 254,
+      "word": "when",
+      "asset_id": "word_254",
+      "source": "fluent",
+      "detail": "Alarm clock",
+      "file": "word_254.png",
+      "is_review": false
+    },
+    {
+      "id": 255,
+      "word": "why",
+      "asset_id": "word_255",
+      "source": "fluent",
+      "detail": "Red question mark",
+      "file": "word_255.png",
+      "is_review": false
+    },
+    {
+      "id": 256,
+      "word": "how",
+      "asset_id": "word_256",
+      "source": "fluent",
+      "detail": "Red question mark",
+      "file": "word_256.png",
+      "is_review": false
+    },
+    {
+      "id": 257,
+      "word": "how many",
+      "asset_id": "word_257",
+      "source": "fluent",
+      "detail": "Input numbers",
+      "file": "word_257.png",
+      "is_review": false
+    },
+    {
+      "id": 258,
+      "word": "how much",
+      "asset_id": "word_258",
+      "source": "fluent",
+      "detail": "Money bag",
+      "file": "word_258.png",
+      "is_review": false
+    },
+    {
+      "id": 259,
+      "word": "what time",
+      "asset_id": "word_259",
+      "source": "twemoji",
+      "detail": "🕐",
+      "file": "word_259.png",
+      "is_review": false
+    },
+    {
+      "id": 260,
+      "word": "which one",
+      "asset_id": "word_260",
+      "source": "twemoji",
+      "detail": "🔢",
+      "file": "word_260.png",
+      "is_review": false
+    },
+    {
+      "id": 261,
+      "word": "hello",
+      "asset_id": "word_261",
+      "source": "twemoji",
+      "detail": "👋",
+      "file": "word_261.png",
+      "is_review": false
+    },
+    {
+      "id": 262,
+      "word": "goodbye",
+      "asset_id": "word_262",
+      "source": "twemoji",
+      "detail": "👋",
+      "file": "word_262.png",
+      "is_review": false
+    },
+    {
+      "id": 263,
+      "word": "please",
+      "asset_id": "word_263",
+      "source": "twemoji",
+      "detail": "🙏",
+      "file": "word_263.png",
+      "is_review": false
+    },
+    {
+      "id": 264,
+      "word": "thanks",
+      "asset_id": "word_264",
+      "source": "twemoji",
+      "detail": "🙏",
+      "file": "word_264.png",
+      "is_review": false
+    },
+    {
+      "id": 265,
+      "word": "sorry",
+      "asset_id": "word_265",
+      "source": "fluent",
+      "detail": "Pensive face",
+      "file": "word_265.png",
+      "is_review": false
+    },
+    {
+      "id": 266,
+      "word": "excuse me",
+      "asset_id": "word_266",
+      "source": "twemoji",
+      "detail": "🙋",
+      "file": "word_266.png",
+      "is_review": false
+    },
+    {
+      "id": 267,
+      "word": "welcome",
+      "asset_id": "word_267",
+      "source": "fluent",
+      "detail": "House with garden",
+      "file": "word_267.png",
+      "is_review": false
+    },
+    {
+      "id": 268,
+      "word": "good morning",
+      "asset_id": "word_268",
+      "source": "fluent",
+      "detail": "Sunrise",
+      "file": "word_268.png",
+      "is_review": false
+    },
+    {
+      "id": 269,
+      "word": "good night",
+      "asset_id": "word_269",
+      "source": "fluent",
+      "detail": "Night with stars",
+      "file": "word_269.png",
+      "is_review": false
+    },
+    {
+      "id": 270,
+      "word": "see you",
+      "asset_id": "word_270",
+      "source": "twemoji",
+      "detail": "👋",
+      "file": "word_270.png",
+      "is_review": false
+    },
+    {
+      "id": 271,
+      "word": "I like it.",
+      "asset_id": "word_271",
+      "source": "twemoji",
+      "detail": "👍",
+      "file": "word_271.png",
+      "is_review": false
+    },
+    {
+      "id": 272,
+      "word": "I don't like it.",
+      "asset_id": "word_272",
+      "source": "twemoji",
+      "detail": "👎",
+      "file": "word_272.png",
+      "is_review": false
+    },
+    {
+      "id": 273,
+      "word": "I'm hungry.",
+      "asset_id": "word_273",
+      "source": "fluent",
+      "detail": "Fork and knife",
+      "file": "word_273.png",
+      "is_review": false
+    },
+    {
+      "id": 274,
+      "word": "I'm tired.",
+      "asset_id": "word_274",
+      "source": "fluent",
+      "detail": "Sleepy face",
+      "file": "word_274.png",
+      "is_review": false
+    },
+    {
+      "id": 275,
+      "word": "I'm fine.",
+      "asset_id": "word_275",
+      "source": "twemoji",
+      "detail": "😊",
+      "file": "word_275.png",
+      "is_review": false
+    },
+    {
+      "id": 276,
+      "word": "It's OK.",
+      "asset_id": "word_276",
+      "source": "twemoji",
+      "detail": "👌",
+      "file": "word_276.png",
+      "is_review": false
+    },
+    {
+      "id": 277,
+      "word": "That's great!",
+      "asset_id": "word_277",
+      "source": "fluent",
+      "detail": "Star-struck",
+      "file": "word_277.png",
+      "is_review": false
+    },
+    {
+      "id": 278,
+      "word": "I love it.",
+      "asset_id": "word_278",
+      "source": "fluent",
+      "detail": "Red heart",
+      "file": "word_278.png",
+      "is_review": false
+    },
+    {
+      "id": 279,
+      "word": "Me too.",
+      "asset_id": "word_279",
+      "source": "twemoji",
+      "detail": "🤝",
+      "file": "word_279.png",
+      "is_review": false
+    },
+    {
+      "id": 280,
+      "word": "See you later.",
+      "asset_id": "word_280",
+      "source": "twemoji",
+      "detail": "👋",
+      "file": "word_280.png",
+      "is_review": false
+    },
+    {
+      "id": 281,
+      "word": "open",
+      "asset_id": "word_281",
+      "source": "fluent",
+      "detail": "Open file folder",
+      "file": "word_281.png",
+      "is_review": false
+    },
+    {
+      "id": 282,
+      "word": "close",
+      "asset_id": "word_282",
+      "source": "fluent",
+      "detail": "Locked",
+      "file": "word_282.png",
+      "is_review": false
+    },
+    {
+      "id": 283,
+      "word": "buy",
+      "asset_id": "word_283",
+      "source": "fluent",
+      "detail": "Shopping cart",
+      "file": "word_283.png",
+      "is_review": false
+    },
+    {
+      "id": 284,
+      "word": "put",
+      "asset_id": "word_284",
+      "source": "fluent",
+      "detail": "Inbox tray",
+      "file": "word_284.png",
+      "is_review": false
+    },
+    {
+      "id": 285,
+      "word": "look",
+      "asset_id": "word_285",
+      "source": "fluent",
+      "detail": "Eye",
+      "file": "word_285.png",
+      "is_review": false
+    },
+    {
+      "id": 286,
+      "word": "listen",
+      "asset_id": "word_286",
+      "source": "twemoji",
+      "detail": "👂",
+      "file": "word_286.png",
+      "is_review": false
+    },
+    {
+      "id": 287,
+      "word": "read",
+      "asset_id": "word_287",
+      "source": "fluent",
+      "detail": "Open book",
+      "file": "word_287.png",
+      "is_review": false
+    },
+    {
+      "id": 288,
+      "word": "write",
+      "asset_id": "word_288",
+      "source": "fluent",
+      "detail": "Memo",
+      "file": "word_288.png",
+      "is_review": false
+    },
+    {
+      "id": 289,
+      "word": "cook",
+      "asset_id": "word_289",
+      "source": "twemoji",
+      "detail": "🍳",
+      "file": "word_289.png",
+      "is_review": false
+    },
+    {
+      "id": 290,
+      "word": "tidy",
+      "asset_id": "word_290",
+      "source": "fluent",
+      "detail": "Soap",
+      "file": "word_290.png",
+      "is_review": false
+    },
+    {
+      "id": 291,
+      "word": "apple",
+      "asset_id": "word_291",
+      "source": "fluent",
+      "detail": "Red apple",
+      "file": "word_291.png",
+      "is_review": true
+    },
+    {
+      "id": 292,
+      "word": "dog",
+      "asset_id": "word_292",
+      "source": "fluent",
+      "detail": "Dog",
+      "file": "word_292.png",
+      "is_review": true
+    },
+    {
+      "id": 293,
+      "word": "happy",
+      "asset_id": "word_293",
+      "source": "fluent",
+      "detail": "Grinning face",
+      "file": "word_293.png",
+      "is_review": true
+    },
+    {
+      "id": 294,
+      "word": "red",
+      "asset_id": "word_294",
+      "source": "fluent",
+      "detail": "Red circle",
+      "file": "word_294.png",
+      "is_review": true
+    },
+    {
+      "id": 295,
+      "word": "mother",
+      "asset_id": "word_295",
+      "source": "twemoji",
+      "detail": "👩",
+      "file": "word_295.png",
+      "is_review": true
+    },
+    {
+      "id": 296,
+      "word": "water",
+      "asset_id": "word_296",
+      "source": "fluent",
+      "detail": "Water wave",
+      "file": "word_296.png",
+      "is_review": true
+    },
+    {
+      "id": 297,
+      "word": "book",
+      "asset_id": "word_297",
+      "source": "fluent",
+      "detail": "Closed book",
+      "file": "word_297.png",
+      "is_review": true
+    },
+    {
+      "id": 298,
+      "word": "car",
+      "asset_id": "word_298",
+      "source": "fluent",
+      "detail": "Automobile",
+      "file": "word_298.png",
+      "is_review": true
+    },
+    {
+      "id": 299,
+      "word": "hello",
+      "asset_id": "word_299",
+      "source": "twemoji",
+      "detail": "👋",
+      "file": "word_299.png",
+      "is_review": true
+    },
+    {
+      "id": 300,
+      "word": "I like it.",
+      "asset_id": "word_300",
+      "source": "twemoji",
+      "detail": "👍",
+      "file": "word_300.png",
+      "is_review": true
+    }
+  ]
+}

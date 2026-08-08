@@ -1,5 +1,8 @@
 # Прототип: слово на iPhone (пассивный виджет)
 
+> Scriptable / взрослый трек → `projects/vocab-iphone-widget/`  
+> Детский native (SwiftUI) → `projects/english-word-widget-kids/` (отдельный продукт)
+
 ## Идея
 Слово всегда на виду (домашний экран / блокировка).  
 Без кнопок и без переходов в Scriptable для учёбы.

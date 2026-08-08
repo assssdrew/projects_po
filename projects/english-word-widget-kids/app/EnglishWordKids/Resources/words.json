@@ -1,0 +1,6024 @@
+{
+  "version": 2,
+  "title": "English Word Widget Kids",
+  "locale_hint": "ru-child",
+  "count": 300,
+  "days": 30,
+  "words_per_day": 10,
+  "visual_strategy": "fluent_3d_then_twemoji_then_sf_symbol",
+  "curriculum_notes": "v2: fewer duplicates, more Starters basics, day 30 = review",
+  "attribution": {
+    "fluent_ui_emoji": {
+      "source": "https://github.com/microsoft/fluentui-emoji",
+      "license": "MIT",
+      "credit": "Fluent Emoji by Microsoft (MIT)"
+    },
+    "twemoji": {
+      "source": "https://github.com/jdecked/twemoji",
+      "license": "CC-BY 4.0 (graphics), MIT (code)",
+      "credit": "Twemoji graphics © Twitter/jdecked, CC-BY 4.0"
+    }
+  },
+  "words": [
+    {
+      "id": 1,
+      "asset_id": "word_001",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "wake up",
+      "pronunciation": "уэйк ап",
+      "translation": "просыпаться",
+      "example": "I wake up at seven.",
+      "image_concept": "child waking up",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sunrise.fill",
+        "image_file": "WordImages.xcassets/word_001.imageset/word_001.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
+      },
+      "is_review": false
+    },
+    {
+      "id": 2,
+      "asset_id": "word_002",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "get up",
+      "pronunciation": "гет ап",
+      "translation": "вставать",
+      "example": "I get up early.",
+      "image_concept": "child getting out of bed",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand",
+        "image_file": "WordImages.xcassets/word_002.imageset/word_002.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🛏️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 3,
+      "asset_id": "word_003",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "wash",
+      "pronunciation": "вош",
+      "translation": "мыть(ся)",
+      "example": "I wash my face.",
+      "image_concept": "child washing face",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "drop.fill",
+        "image_file": "WordImages.xcassets/word_003.imageset/word_003.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soap"
+      },
+      "is_review": false
+    },
+    {
+      "id": 4,
+      "asset_id": "word_004",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "brush teeth",
+      "pronunciation": "браш тис",
+      "translation": "чистить зубы",
+      "example": "I brush my teeth.",
+      "image_concept": "child brushing teeth",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mouth.fill",
+        "image_file": "WordImages.xcassets/word_004.imageset/word_004.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦷"
+      },
+      "is_review": false
+    },
+    {
+      "id": 5,
+      "asset_id": "word_005",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "get dressed",
+      "pronunciation": "гет дрест",
+      "translation": "одеваться",
+      "example": "I get dressed.",
+      "image_concept": "child getting dressed",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tshirt.fill",
+        "image_file": "WordImages.xcassets/word_005.imageset/word_005.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
+      },
+      "is_review": false
+    },
+    {
+      "id": 6,
+      "asset_id": "word_006",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "breakfast",
+      "pronunciation": "брэкфаст",
+      "translation": "завтрак",
+      "example": "I eat breakfast.",
+      "image_concept": "breakfast on table",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cup.and.saucer.fill",
+        "image_file": "WordImages.xcassets/word_006.imageset/word_006.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cooking"
+      },
+      "is_review": false
+    },
+    {
+      "id": 7,
+      "asset_id": "word_007",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "go to school",
+      "pronunciation": "гоу ту скул",
+      "translation": "идти в школу",
+      "example": "I go to school.",
+      "image_concept": "child going to school",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "building.columns.fill",
+        "image_file": "WordImages.xcassets/word_007.imageset/word_007.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏫"
+      },
+      "is_review": false
+    },
+    {
+      "id": 8,
+      "asset_id": "word_008",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "homework",
+      "pronunciation": "хоумвёрк",
+      "translation": "домашнее задание",
+      "example": "I do my homework.",
+      "image_concept": "child doing homework",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pencil.and.outline",
+        "image_file": "WordImages.xcassets/word_008.imageset/word_008.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Memo"
+      },
+      "is_review": false
+    },
+    {
+      "id": 9,
+      "asset_id": "word_009",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "play",
+      "pronunciation": "плэй",
+      "translation": "играть",
+      "example": "We play after school.",
+      "image_concept": "children playing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "gamecontroller.fill",
+        "image_file": "WordImages.xcassets/word_009.imageset/word_009.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🎮"
+      },
+      "is_review": false
+    },
+    {
+      "id": 10,
+      "asset_id": "word_010",
+      "day": 1,
+      "theme": "Daily routine",
+      "word": "sleep",
+      "pronunciation": "слип",
+      "translation": "спать",
+      "example": "I sleep at night.",
+      "image_concept": "child sleeping",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bed.double.fill",
+        "image_file": "WordImages.xcassets/word_010.imageset/word_010.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleeping face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 11,
+      "asset_id": "word_011",
+      "day": 2,
+      "theme": "Family",
+      "word": "family",
+      "pronunciation": "фэмили",
+      "translation": "семья",
+      "example": "I love my family.",
+      "image_concept": "happy family",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.2.and.child.holdinghands",
+        "image_file": "WordImages.xcassets/word_011.imageset/word_011.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨‍👩‍👧‍👦"
+      },
+      "is_review": false
+    },
+    {
+      "id": 12,
+      "asset_id": "word_012",
+      "day": 2,
+      "theme": "Family",
+      "word": "mother",
+      "pronunciation": "ма́зе",
+      "translation": "мама",
+      "example": "This is my mother.",
+      "image_concept": "mother with child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand.dress",
+        "image_file": "WordImages.xcassets/word_012.imageset/word_012.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩"
+      },
+      "is_review": false
+    },
+    {
+      "id": 13,
+      "asset_id": "word_013",
+      "day": 2,
+      "theme": "Family",
+      "word": "father",
+      "pronunciation": "фа́зе",
+      "translation": "папа",
+      "example": "This is my father.",
+      "image_concept": "father with child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand",
+        "image_file": "WordImages.xcassets/word_013.imageset/word_013.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨"
+      },
+      "is_review": false
+    },
+    {
+      "id": 14,
+      "asset_id": "word_014",
+      "day": 2,
+      "theme": "Family",
+      "word": "brother",
+      "pronunciation": "бра́зе",
+      "translation": "брат",
+      "example": "I have a brother.",
+      "image_concept": "two brothers",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.2.fill",
+        "image_file": "WordImages.xcassets/word_014.imageset/word_014.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👦"
+      },
+      "is_review": false
+    },
+    {
+      "id": 15,
+      "asset_id": "word_015",
+      "day": 2,
+      "theme": "Family",
+      "word": "sister",
+      "pronunciation": "си́сте",
+      "translation": "сестра",
+      "example": "I have a sister.",
+      "image_concept": "two sisters",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.2.fill",
+        "image_file": "WordImages.xcassets/word_015.imageset/word_015.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👧"
+      },
+      "is_review": false
+    },
+    {
+      "id": 16,
+      "asset_id": "word_016",
+      "day": 2,
+      "theme": "Family",
+      "word": "grandma",
+      "pronunciation": "грэнма",
+      "translation": "бабушка",
+      "example": "I visit grandma.",
+      "image_concept": "grandmother",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand.dress",
+        "image_file": "WordImages.xcassets/word_016.imageset/word_016.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👵"
+      },
+      "is_review": false
+    },
+    {
+      "id": 17,
+      "asset_id": "word_017",
+      "day": 2,
+      "theme": "Family",
+      "word": "grandpa",
+      "pronunciation": "грэнпа",
+      "translation": "дедушка",
+      "example": "I visit grandpa.",
+      "image_concept": "grandfather",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand",
+        "image_file": "WordImages.xcassets/word_017.imageset/word_017.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👴"
+      },
+      "is_review": false
+    },
+    {
+      "id": 18,
+      "asset_id": "word_018",
+      "day": 2,
+      "theme": "Family",
+      "word": "baby",
+      "pronunciation": "бэйби",
+      "translation": "малыш",
+      "example": "The baby is small.",
+      "image_concept": "baby",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.child",
+        "image_file": "WordImages.xcassets/word_018.imageset/word_018.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👶"
+      },
+      "is_review": false
+    },
+    {
+      "id": 19,
+      "asset_id": "word_019",
+      "day": 2,
+      "theme": "Family",
+      "word": "parents",
+      "pronunciation": "пэ́рэнтс",
+      "translation": "родители",
+      "example": "My parents are kind.",
+      "image_concept": "parents with child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.2.fill",
+        "image_file": "WordImages.xcassets/word_019.imageset/word_019.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👨‍👩‍👧"
+      },
+      "is_review": false
+    },
+    {
+      "id": 20,
+      "asset_id": "word_020",
+      "day": 2,
+      "theme": "Family",
+      "word": "child",
+      "pronunciation": "чайлд",
+      "translation": "ребёнок",
+      "example": "The child is happy.",
+      "image_concept": "school-age child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.child",
+        "image_file": "WordImages.xcassets/word_020.imageset/word_020.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧒"
+      },
+      "is_review": false
+    },
+    {
+      "id": 21,
+      "asset_id": "word_021",
+      "day": 3,
+      "theme": "School",
+      "word": "teacher",
+      "pronunciation": "ти́чэ",
+      "translation": "учитель",
+      "example": "Our teacher is nice.",
+      "image_concept": "teacher in class",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.fill",
+        "image_file": "WordImages.xcassets/word_021.imageset/word_021.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩‍🏫"
+      },
+      "is_review": false
+    },
+    {
+      "id": 22,
+      "asset_id": "word_022",
+      "day": 3,
+      "theme": "School",
+      "word": "student",
+      "pronunciation": "стьюдэнт",
+      "translation": "ученик",
+      "example": "I am a student.",
+      "image_concept": "student at desk",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "studentdesk",
+        "image_file": "WordImages.xcassets/word_022.imageset/word_022.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧑‍🎓"
+      },
+      "is_review": false
+    },
+    {
+      "id": 23,
+      "asset_id": "word_023",
+      "day": 3,
+      "theme": "School",
+      "word": "class",
+      "pronunciation": "клас",
+      "translation": "класс",
+      "example": "Our class is big.",
+      "image_concept": "classroom",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.3.sequence",
+        "image_file": "WordImages.xcassets/word_023.imageset/word_023.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏫"
+      },
+      "is_review": false
+    },
+    {
+      "id": 24,
+      "asset_id": "word_024",
+      "day": 3,
+      "theme": "School",
+      "word": "book",
+      "pronunciation": "бук",
+      "translation": "книга",
+      "example": "I read a book.",
+      "image_concept": "book",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "book.fill",
+        "image_file": "WordImages.xcassets/word_024.imageset/word_024.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Closed book"
+      },
+      "is_review": false
+    },
+    {
+      "id": 25,
+      "asset_id": "word_025",
+      "day": 3,
+      "theme": "School",
+      "word": "pen",
+      "pronunciation": "пен",
+      "translation": "ручка",
+      "example": "I write with a pen.",
+      "image_concept": "pen",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pencil.tip",
+        "image_file": "WordImages.xcassets/word_025.imageset/word_025.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pen"
+      },
+      "is_review": false
+    },
+    {
+      "id": 26,
+      "asset_id": "word_026",
+      "day": 3,
+      "theme": "School",
+      "word": "pencil",
+      "pronunciation": "пэнсл",
+      "translation": "карандаш",
+      "example": "I need a pencil.",
+      "image_concept": "pencil",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pencil",
+        "image_file": "WordImages.xcassets/word_026.imageset/word_026.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pencil"
+      },
+      "is_review": false
+    },
+    {
+      "id": 27,
+      "asset_id": "word_027",
+      "day": 3,
+      "theme": "School",
+      "word": "desk",
+      "pronunciation": "деск",
+      "translation": "парта / стол",
+      "example": "My desk is clean.",
+      "image_concept": "school desk",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "table.furniture.fill",
+        "image_file": "WordImages.xcassets/word_027.imageset/word_027.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🪑"
+      },
+      "is_review": false
+    },
+    {
+      "id": 28,
+      "asset_id": "word_028",
+      "day": 3,
+      "theme": "School",
+      "word": "bag",
+      "pronunciation": "бэг",
+      "translation": "сумка / портфель",
+      "example": "My bag is heavy.",
+      "image_concept": "school bag",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bag.fill",
+        "image_file": "WordImages.xcassets/word_028.imageset/word_028.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Backpack"
+      },
+      "is_review": false
+    },
+    {
+      "id": 29,
+      "asset_id": "word_029",
+      "day": 3,
+      "theme": "School",
+      "word": "rubber",
+      "pronunciation": "ра́бэ",
+      "translation": "ластик",
+      "example": "I use a rubber.",
+      "image_concept": "eraser",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "eraser",
+        "image_file": "WordImages.xcassets/word_029.imageset/word_029.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧽"
+      },
+      "is_review": false
+    },
+    {
+      "id": 30,
+      "asset_id": "word_030",
+      "day": 3,
+      "theme": "School",
+      "word": "ruler",
+      "pronunciation": "ру́лэ",
+      "translation": "линейка",
+      "example": "This is a ruler.",
+      "image_concept": "ruler",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ruler.fill",
+        "image_file": "WordImages.xcassets/word_030.imageset/word_030.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📏"
+      },
+      "is_review": false
+    },
+    {
+      "id": 31,
+      "asset_id": "word_031",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "friend",
+      "pronunciation": "френд",
+      "translation": "друг",
+      "example": "This is my friend.",
+      "image_concept": "two friends",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.2.fill",
+        "image_file": "WordImages.xcassets/word_031.imageset/word_031.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "People hugging"
+      },
+      "is_review": false
+    },
+    {
+      "id": 32,
+      "asset_id": "word_032",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "game",
+      "pronunciation": "гейм",
+      "translation": "игра",
+      "example": "This game is fun.",
+      "image_concept": "children game",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "dice.fill",
+        "image_file": "WordImages.xcassets/word_032.imageset/word_032.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Video game"
+      },
+      "is_review": false
+    },
+    {
+      "id": 33,
+      "asset_id": "word_033",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "fun",
+      "pronunciation": "фан",
+      "translation": "весело",
+      "example": "The party is fun.",
+      "image_concept": "fun party",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "party.popper.fill",
+        "image_file": "WordImages.xcassets/word_033.imageset/word_033.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Party popper"
+      },
+      "is_review": false
+    },
+    {
+      "id": 34,
+      "asset_id": "word_034",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "laugh",
+      "pronunciation": "лаф",
+      "translation": "смеяться",
+      "example": "We laugh a lot.",
+      "image_concept": "children laughing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.smiling.fill",
+        "image_file": "WordImages.xcassets/word_034.imageset/word_034.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Face with tears of joy"
+      },
+      "is_review": false
+    },
+    {
+      "id": 35,
+      "asset_id": "word_035",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "help",
+      "pronunciation": "хелп",
+      "translation": "помогать",
+      "example": "Can you help me?",
+      "image_concept": "child helping",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hands.clap.fill",
+        "image_file": "WordImages.xcassets/word_035.imageset/word_035.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🆘"
+      },
+      "is_review": false
+    },
+    {
+      "id": 36,
+      "asset_id": "word_036",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "kind",
+      "pronunciation": "кайнд",
+      "translation": "добрый",
+      "example": "She is kind.",
+      "image_concept": "kind child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "heart.fill",
+        "image_file": "WordImages.xcassets/word_036.imageset/word_036.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💗"
+      },
+      "is_review": false
+    },
+    {
+      "id": 37,
+      "asset_id": "word_037",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "nice",
+      "pronunciation": "найс",
+      "translation": "милый / хороший",
+      "example": "He is nice.",
+      "image_concept": "nice smile",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsup.fill",
+        "image_file": "WordImages.xcassets/word_037.imageset/word_037.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "😊"
+      },
+      "is_review": false
+    },
+    {
+      "id": 38,
+      "asset_id": "word_038",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "smile",
+      "pronunciation": "смайл",
+      "translation": "улыбка / улыбаться",
+      "example": "Smile, please!",
+      "image_concept": "smiling child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.smiling",
+        "image_file": "WordImages.xcassets/word_038.imageset/word_038.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Slightly smiling face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 39,
+      "asset_id": "word_039",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "hug",
+      "pronunciation": "хаг",
+      "translation": "обнимать",
+      "example": "Give me a hug.",
+      "image_concept": "two children hugging",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.2.arms.open",
+        "image_file": "WordImages.xcassets/word_039.imageset/word_039.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "People hugging"
+      },
+      "is_review": false
+    },
+    {
+      "id": 40,
+      "asset_id": "word_040",
+      "day": 4,
+      "theme": "Friends & play",
+      "word": "invite",
+      "pronunciation": "инвайт",
+      "translation": "приглашать",
+      "example": "I invite my friend.",
+      "image_concept": "invitation",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "envelope.fill",
+        "image_file": "WordImages.xcassets/word_040.imageset/word_040.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📨"
+      },
+      "is_review": false
+    },
+    {
+      "id": 41,
+      "asset_id": "word_041",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "sit",
+      "pronunciation": "сит",
+      "translation": "сидеть",
+      "example": "Sit down, please.",
+      "image_concept": "child sitting",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.seated",
+        "image_file": "WordImages.xcassets/word_041.imageset/word_041.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Chair"
+      },
+      "is_review": false
+    },
+    {
+      "id": 42,
+      "asset_id": "word_042",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "stand",
+      "pronunciation": "стэнд",
+      "translation": "стоять",
+      "example": "Please stand up.",
+      "image_concept": "child standing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand",
+        "image_file": "WordImages.xcassets/word_042.imageset/word_042.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧍"
+      },
+      "is_review": false
+    },
+    {
+      "id": 43,
+      "asset_id": "word_043",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "run",
+      "pronunciation": "ран",
+      "translation": "бегать",
+      "example": "I can run fast.",
+      "image_concept": "child running",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.run",
+        "image_file": "WordImages.xcassets/word_043.imageset/word_043.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏃"
+      },
+      "is_review": false
+    },
+    {
+      "id": 44,
+      "asset_id": "word_044",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "jump",
+      "pronunciation": "джамп",
+      "translation": "прыгать",
+      "example": "I can jump.",
+      "image_concept": "child jumping",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.jumprope",
+        "image_file": "WordImages.xcassets/word_044.imageset/word_044.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦘"
+      },
+      "is_review": false
+    },
+    {
+      "id": 45,
+      "asset_id": "word_045",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "walk",
+      "pronunciation": "вок",
+      "translation": "ходить пешком",
+      "example": "We walk to school.",
+      "image_concept": "child walking",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.walk",
+        "image_file": "WordImages.xcassets/word_045.imageset/word_045.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🚶"
+      },
+      "is_review": false
+    },
+    {
+      "id": 46,
+      "asset_id": "word_046",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "eat",
+      "pronunciation": "ит",
+      "translation": "есть",
+      "example": "I eat an apple.",
+      "image_concept": "child eating",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fork.knife",
+        "image_file": "WordImages.xcassets/word_046.imageset/word_046.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife"
+      },
+      "is_review": false
+    },
+    {
+      "id": 47,
+      "asset_id": "word_047",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "drink",
+      "pronunciation": "дринк",
+      "translation": "пить",
+      "example": "I drink water.",
+      "image_concept": "child drinking",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cup.fill",
+        "image_file": "WordImages.xcassets/word_047.imageset/word_047.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cup with straw"
+      },
+      "is_review": false
+    },
+    {
+      "id": 48,
+      "asset_id": "word_048",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "draw",
+      "pronunciation": "дро",
+      "translation": "рисовать",
+      "example": "I draw a cat.",
+      "image_concept": "child drawing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pencil.and.outline",
+        "image_file": "WordImages.xcassets/word_048.imageset/word_048.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Crayon"
+      },
+      "is_review": false
+    },
+    {
+      "id": 49,
+      "asset_id": "word_049",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "sing",
+      "pronunciation": "синг",
+      "translation": "петь",
+      "example": "We sing a song.",
+      "image_concept": "child singing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "music.mic",
+        "image_file": "WordImages.xcassets/word_049.imageset/word_049.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Microphone"
+      },
+      "is_review": false
+    },
+    {
+      "id": 50,
+      "asset_id": "word_050",
+      "day": 5,
+      "theme": "Action verbs",
+      "word": "dance",
+      "pronunciation": "данс",
+      "translation": "танцевать",
+      "example": "I like to dance.",
+      "image_concept": "child dancing",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.dance",
+        "image_file": "WordImages.xcassets/word_050.imageset/word_050.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💃"
+      },
+      "is_review": false
+    },
+    {
+      "id": 51,
+      "asset_id": "word_051",
+      "day": 6,
+      "theme": "Food",
+      "word": "food",
+      "pronunciation": "фуд",
+      "translation": "еда",
+      "example": "The food is good.",
+      "image_concept": "plate of food",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fork.knife",
+        "image_file": "WordImages.xcassets/word_051.imageset/word_051.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife with plate"
+      },
+      "is_review": false
+    },
+    {
+      "id": 52,
+      "asset_id": "word_052",
+      "day": 6,
+      "theme": "Food",
+      "word": "lunch",
+      "pronunciation": "ланч",
+      "translation": "обед",
+      "example": "We eat lunch.",
+      "image_concept": "lunch",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "takeoutbag.and.cup.and.straw.fill",
+        "image_file": "WordImages.xcassets/word_052.imageset/word_052.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sandwich"
+      },
+      "is_review": false
+    },
+    {
+      "id": 53,
+      "asset_id": "word_053",
+      "day": 6,
+      "theme": "Food",
+      "word": "dinner",
+      "pronunciation": "ди́нэ",
+      "translation": "ужин",
+      "example": "Dinner is ready.",
+      "image_concept": "dinner",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fork.knife.circle.fill",
+        "image_file": "WordImages.xcassets/word_053.imageset/word_053.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pot of food"
+      },
+      "is_review": false
+    },
+    {
+      "id": 54,
+      "asset_id": "word_054",
+      "day": 6,
+      "theme": "Food",
+      "word": "bread",
+      "pronunciation": "бред",
+      "translation": "хлеб",
+      "example": "I eat bread.",
+      "image_concept": "bread",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "birthday.cake.fill",
+        "image_file": "WordImages.xcassets/word_054.imageset/word_054.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bread"
+      },
+      "is_review": false
+    },
+    {
+      "id": 55,
+      "asset_id": "word_055",
+      "day": 6,
+      "theme": "Food",
+      "word": "apple",
+      "pronunciation": "эпл",
+      "translation": "яблоко",
+      "example": "I like apples.",
+      "image_concept": "red apple",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "apple.logo",
+        "image_file": "WordImages.xcassets/word_055.imageset/word_055.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red apple"
+      },
+      "is_review": false
+    },
+    {
+      "id": 56,
+      "asset_id": "word_056",
+      "day": 6,
+      "theme": "Food",
+      "word": "banana",
+      "pronunciation": "банáна",
+      "translation": "банан",
+      "example": "A yellow banana.",
+      "image_concept": "banana",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "leaf.fill",
+        "image_file": "WordImages.xcassets/word_056.imageset/word_056.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Banana"
+      },
+      "is_review": false
+    },
+    {
+      "id": 57,
+      "asset_id": "word_057",
+      "day": 6,
+      "theme": "Food",
+      "word": "egg",
+      "pronunciation": "эг",
+      "translation": "яйцо",
+      "example": "I eat an egg.",
+      "image_concept": "egg",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "oval.portrait.fill",
+        "image_file": "WordImages.xcassets/word_057.imageset/word_057.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Egg"
+      },
+      "is_review": false
+    },
+    {
+      "id": 58,
+      "asset_id": "word_058",
+      "day": 6,
+      "theme": "Food",
+      "word": "cake",
+      "pronunciation": "кейк",
+      "translation": "торт / пирожное",
+      "example": "Happy birthday cake!",
+      "image_concept": "cake",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "birthday.cake.fill",
+        "image_file": "WordImages.xcassets/word_058.imageset/word_058.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shortcake"
+      },
+      "is_review": false
+    },
+    {
+      "id": 59,
+      "asset_id": "word_059",
+      "day": 6,
+      "theme": "Food",
+      "word": "cheese",
+      "pronunciation": "чиз",
+      "translation": "сыр",
+      "example": "I like cheese.",
+      "image_concept": "cheese",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "square.grid.2x2.fill",
+        "image_file": "WordImages.xcassets/word_059.imageset/word_059.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cheese wedge"
+      },
+      "is_review": false
+    },
+    {
+      "id": 60,
+      "asset_id": "word_060",
+      "day": 6,
+      "theme": "Food",
+      "word": "pizza",
+      "pronunciation": "пи́тса",
+      "translation": "пицца",
+      "example": "We eat pizza.",
+      "image_concept": "pizza",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.grid.3x3.fill",
+        "image_file": "WordImages.xcassets/word_060.imageset/word_060.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pizza"
+      },
+      "is_review": false
+    },
+    {
+      "id": 61,
+      "asset_id": "word_061",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "water",
+      "pronunciation": "во́тэ",
+      "translation": "вода",
+      "example": "I drink water.",
+      "image_concept": "glass of water",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "drop.fill",
+        "image_file": "WordImages.xcassets/word_061.imageset/word_061.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
+      },
+      "is_review": false
+    },
+    {
+      "id": 62,
+      "asset_id": "word_062",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "milk",
+      "pronunciation": "милк",
+      "translation": "молоко",
+      "example": "I like milk.",
+      "image_concept": "milk",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cup.fill",
+        "image_file": "WordImages.xcassets/word_062.imageset/word_062.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Glass of milk"
+      },
+      "is_review": false
+    },
+    {
+      "id": 63,
+      "asset_id": "word_063",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "juice",
+      "pronunciation": "джус",
+      "translation": "сок",
+      "example": "Orange juice, please.",
+      "image_concept": "juice",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mug.fill",
+        "image_file": "WordImages.xcassets/word_063.imageset/word_063.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Beverage box"
+      },
+      "is_review": false
+    },
+    {
+      "id": 64,
+      "asset_id": "word_064",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "tea",
+      "pronunciation": "ти",
+      "translation": "чай",
+      "example": "Mum drinks tea.",
+      "image_concept": "tea",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cup.and.saucer.fill",
+        "image_file": "WordImages.xcassets/word_064.imageset/word_064.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Teacup without handle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 65,
+      "asset_id": "word_065",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "ice cream",
+      "pronunciation": "айс крим",
+      "translation": "мороженое",
+      "example": "I love ice cream.",
+      "image_concept": "ice cream",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cone.fill",
+        "image_file": "WordImages.xcassets/word_065.imageset/word_065.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soft ice cream"
+      },
+      "is_review": false
+    },
+    {
+      "id": 66,
+      "asset_id": "word_066",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "chicken",
+      "pronunciation": "чи́кин",
+      "translation": "курица / курятина",
+      "example": "We eat chicken.",
+      "image_concept": "chicken",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bird.fill",
+        "image_file": "WordImages.xcassets/word_066.imageset/word_066.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🍗"
+      },
+      "is_review": false
+    },
+    {
+      "id": 67,
+      "asset_id": "word_067",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "hungry",
+      "pronunciation": "ха́нгри",
+      "translation": "голодный",
+      "example": "I am hungry.",
+      "image_concept": "hungry child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fork.knife",
+        "image_file": "WordImages.xcassets/word_067.imageset/word_067.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife"
+      },
+      "is_review": false
+    },
+    {
+      "id": 68,
+      "asset_id": "word_068",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "thirsty",
+      "pronunciation": "сёсти",
+      "translation": "хочет пить",
+      "example": "I am thirsty.",
+      "image_concept": "thirsty child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "drop.circle.fill",
+        "image_file": "WordImages.xcassets/word_068.imageset/word_068.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Potable water"
+      },
+      "is_review": false
+    },
+    {
+      "id": 69,
+      "asset_id": "word_069",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "sweet",
+      "pronunciation": "свит",
+      "translation": "сладкий",
+      "example": "This cake is sweet.",
+      "image_concept": "sweet candy",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "birthday.cake.fill",
+        "image_file": "WordImages.xcassets/word_069.imageset/word_069.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shortcake"
+      },
+      "is_review": false
+    },
+    {
+      "id": 70,
+      "asset_id": "word_070",
+      "day": 7,
+      "theme": "Drinks & snacks",
+      "word": "salty",
+      "pronunciation": "со́лти",
+      "translation": "солёный",
+      "example": "The soup is salty.",
+      "image_concept": "salt",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sparkles",
+        "image_file": "WordImages.xcassets/word_070.imageset/word_070.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Salt"
+      },
+      "is_review": false
+    },
+    {
+      "id": 71,
+      "asset_id": "word_071",
+      "day": 8,
+      "theme": "Home",
+      "word": "house",
+      "pronunciation": "хаус",
+      "translation": "дом",
+      "example": "This is my house.",
+      "image_concept": "house",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "house.fill",
+        "image_file": "WordImages.xcassets/word_071.imageset/word_071.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "House"
+      },
+      "is_review": false
+    },
+    {
+      "id": 72,
+      "asset_id": "word_072",
+      "day": 8,
+      "theme": "Home",
+      "word": "room",
+      "pronunciation": "рум",
+      "translation": "комната",
+      "example": "My room is nice.",
+      "image_concept": "room",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "square.split.2x1.fill",
+        "image_file": "WordImages.xcassets/word_072.imageset/word_072.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🚪"
+      },
+      "is_review": false
+    },
+    {
+      "id": 73,
+      "asset_id": "word_073",
+      "day": 8,
+      "theme": "Home",
+      "word": "bedroom",
+      "pronunciation": "бэ́друм",
+      "translation": "спальня",
+      "example": "I sleep in my bedroom.",
+      "image_concept": "bedroom",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bed.double.fill",
+        "image_file": "WordImages.xcassets/word_073.imageset/word_073.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bed"
+      },
+      "is_review": false
+    },
+    {
+      "id": 74,
+      "asset_id": "word_074",
+      "day": 8,
+      "theme": "Home",
+      "word": "kitchen",
+      "pronunciation": "ки́чн",
+      "translation": "кухня",
+      "example": "Mum is in the kitchen.",
+      "image_concept": "kitchen",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cooktop.fill",
+        "image_file": "WordImages.xcassets/word_074.imageset/word_074.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩‍🍳"
+      },
+      "is_review": false
+    },
+    {
+      "id": 75,
+      "asset_id": "word_075",
+      "day": 8,
+      "theme": "Home",
+      "word": "bathroom",
+      "pronunciation": "ба́срум",
+      "translation": "ванная",
+      "example": "I wash in the bathroom.",
+      "image_concept": "bathroom",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "shower.fill",
+        "image_file": "WordImages.xcassets/word_075.imageset/word_075.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Toilet"
+      },
+      "is_review": false
+    },
+    {
+      "id": 76,
+      "asset_id": "word_076",
+      "day": 8,
+      "theme": "Home",
+      "word": "door",
+      "pronunciation": "до",
+      "translation": "дверь",
+      "example": "Open the door.",
+      "image_concept": "door",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "door.left.hand.open",
+        "image_file": "WordImages.xcassets/word_076.imageset/word_076.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Door"
+      },
+      "is_review": false
+    },
+    {
+      "id": 77,
+      "asset_id": "word_077",
+      "day": 8,
+      "theme": "Home",
+      "word": "window",
+      "pronunciation": "уи́ндоу",
+      "translation": "окно",
+      "example": "Look out the window.",
+      "image_concept": "window",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "window.ceiling",
+        "image_file": "WordImages.xcassets/word_077.imageset/word_077.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Window"
+      },
+      "is_review": false
+    },
+    {
+      "id": 78,
+      "asset_id": "word_078",
+      "day": 8,
+      "theme": "Home",
+      "word": "table",
+      "pronunciation": "тэйбл",
+      "translation": "стол",
+      "example": "The book is on the table.",
+      "image_concept": "table",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "table.furniture.fill",
+        "image_file": "WordImages.xcassets/word_078.imageset/word_078.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🪑"
+      },
+      "is_review": false
+    },
+    {
+      "id": 79,
+      "asset_id": "word_079",
+      "day": 8,
+      "theme": "Home",
+      "word": "chair",
+      "pronunciation": "чэа",
+      "translation": "стул",
+      "example": "Sit on the chair.",
+      "image_concept": "chair",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "chair.fill",
+        "image_file": "WordImages.xcassets/word_079.imageset/word_079.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Chair"
+      },
+      "is_review": false
+    },
+    {
+      "id": 80,
+      "asset_id": "word_080",
+      "day": 8,
+      "theme": "Home",
+      "word": "bed",
+      "pronunciation": "бед",
+      "translation": "кровать",
+      "example": "I sleep in bed.",
+      "image_concept": "bed",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bed.double.fill",
+        "image_file": "WordImages.xcassets/word_080.imageset/word_080.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bed"
+      },
+      "is_review": false
+    },
+    {
+      "id": 81,
+      "asset_id": "word_081",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "phone",
+      "pronunciation": "фоун",
+      "translation": "телефон",
+      "example": "My phone is new.",
+      "image_concept": "phone",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "iphone",
+        "image_file": "WordImages.xcassets/word_081.imageset/word_081.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mobile phone"
+      },
+      "is_review": false
+    },
+    {
+      "id": 82,
+      "asset_id": "word_082",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "computer",
+      "pronunciation": "кэмпью́тэ",
+      "translation": "компьютер",
+      "example": "I use a computer.",
+      "image_concept": "computer",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "desktopcomputer",
+        "image_file": "WordImages.xcassets/word_082.imageset/word_082.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Laptop"
+      },
+      "is_review": false
+    },
+    {
+      "id": 83,
+      "asset_id": "word_083",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "TV",
+      "pronunciation": "ти-ви",
+      "translation": "телевизор",
+      "example": "We watch TV.",
+      "image_concept": "television",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tv.fill",
+        "image_file": "WordImages.xcassets/word_083.imageset/word_083.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Television"
+      },
+      "is_review": false
+    },
+    {
+      "id": 84,
+      "asset_id": "word_084",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "lamp",
+      "pronunciation": "лэмп",
+      "translation": "лампа",
+      "example": "Turn on the lamp.",
+      "image_concept": "lamp",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "lightbulb.fill",
+        "image_file": "WordImages.xcassets/word_084.imageset/word_084.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Light bulb"
+      },
+      "is_review": false
+    },
+    {
+      "id": 85,
+      "asset_id": "word_085",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "clock",
+      "pronunciation": "клок",
+      "translation": "часы",
+      "example": "Look at the clock.",
+      "image_concept": "clock",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "clock.fill",
+        "image_file": "WordImages.xcassets/word_085.imageset/word_085.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
+      },
+      "is_review": false
+    },
+    {
+      "id": 86,
+      "asset_id": "word_086",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "key",
+      "pronunciation": "ки",
+      "translation": "ключ",
+      "example": "Where is my key?",
+      "image_concept": "key",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "key.fill",
+        "image_file": "WordImages.xcassets/word_086.imageset/word_086.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Key"
+      },
+      "is_review": false
+    },
+    {
+      "id": 87,
+      "asset_id": "word_087",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "toy",
+      "pronunciation": "той",
+      "translation": "игрушка",
+      "example": "This toy is soft.",
+      "image_concept": "toy",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "teddybear.fill",
+        "image_file": "WordImages.xcassets/word_087.imageset/word_087.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Teddy bear"
+      },
+      "is_review": false
+    },
+    {
+      "id": 88,
+      "asset_id": "word_088",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "plant",
+      "pronunciation": "плант",
+      "translation": "растение",
+      "example": "A green plant.",
+      "image_concept": "house plant",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "leaf.fill",
+        "image_file": "WordImages.xcassets/word_088.imageset/word_088.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Potted plant"
+      },
+      "is_review": false
+    },
+    {
+      "id": 89,
+      "asset_id": "word_089",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "mirror",
+      "pronunciation": "ми́рэ",
+      "translation": "зеркало",
+      "example": "Look in the mirror.",
+      "image_concept": "mirror",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mirror",
+        "image_file": "WordImages.xcassets/word_089.imageset/word_089.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mirror"
+      },
+      "is_review": false
+    },
+    {
+      "id": 90,
+      "asset_id": "word_090",
+      "day": 9,
+      "theme": "Things at home",
+      "word": "sofa",
+      "pronunciation": "со́уфа",
+      "translation": "диван",
+      "example": "Sit on the sofa.",
+      "image_concept": "sofa",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sofa.fill",
+        "image_file": "WordImages.xcassets/word_090.imageset/word_090.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Couch and lamp"
+      },
+      "is_review": false
+    },
+    {
+      "id": 91,
+      "asset_id": "word_091",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "happy",
+      "pronunciation": "хэ́пи",
+      "translation": "счастливый",
+      "example": "I am happy.",
+      "image_concept": "happy child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.smiling.fill",
+        "image_file": "WordImages.xcassets/word_091.imageset/word_091.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Grinning face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 92,
+      "asset_id": "word_092",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "sad",
+      "pronunciation": "сэд",
+      "translation": "грустный",
+      "example": "She is sad.",
+      "image_concept": "sad child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.dashed",
+        "image_file": "WordImages.xcassets/word_092.imageset/word_092.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Crying face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 93,
+      "asset_id": "word_093",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "angry",
+      "pronunciation": "э́нгри",
+      "translation": "сердитый",
+      "example": "Don't be angry.",
+      "image_concept": "angry child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "flame.fill",
+        "image_file": "WordImages.xcassets/word_093.imageset/word_093.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Angry face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 94,
+      "asset_id": "word_094",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "scared",
+      "pronunciation": "скэад",
+      "translation": "испуганный",
+      "example": "I am scared.",
+      "image_concept": "scared child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "eye.trianglebadge.exclamationmark",
+        "image_file": "WordImages.xcassets/word_094.imageset/word_094.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fearful face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 95,
+      "asset_id": "word_095",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "tired",
+      "pronunciation": "та́йэд",
+      "translation": "уставший",
+      "example": "I am tired.",
+      "image_concept": "tired child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bed.double.fill",
+        "image_file": "WordImages.xcassets/word_095.imageset/word_095.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleepy face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 96,
+      "asset_id": "word_096",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "bored",
+      "pronunciation": "бод",
+      "translation": "скучающий",
+      "example": "I am bored.",
+      "image_concept": "bored child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "zzz",
+        "image_file": "WordImages.xcassets/word_096.imageset/word_096.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleeping face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 97,
+      "asset_id": "word_097",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "surprised",
+      "pronunciation": "сэпра́йзд",
+      "translation": "удивлённый",
+      "example": "I am surprised!",
+      "image_concept": "surprised child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "eyes",
+        "image_file": "WordImages.xcassets/word_097.imageset/word_097.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Astonished face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 98,
+      "asset_id": "word_098",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "excited",
+      "pronunciation": "икса́йтид",
+      "translation": "взволнованный",
+      "example": "I am excited!",
+      "image_concept": "excited child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "star.fill",
+        "image_file": "WordImages.xcassets/word_098.imageset/word_098.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Star-struck"
+      },
+      "is_review": false
+    },
+    {
+      "id": 99,
+      "asset_id": "word_099",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "fine",
+      "pronunciation": "файн",
+      "translation": "в порядке",
+      "example": "I am fine.",
+      "image_concept": "OK child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "checkmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_099.imageset/word_099.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
+      },
+      "is_review": false
+    },
+    {
+      "id": 100,
+      "asset_id": "word_100",
+      "day": 10,
+      "theme": "Feelings",
+      "word": "ill",
+      "pronunciation": "ил",
+      "translation": "больной",
+      "example": "I am ill today.",
+      "image_concept": "ill child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cross.case.fill",
+        "image_file": "WordImages.xcassets/word_100.imageset/word_100.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Face with thermometer"
+      },
+      "is_review": false
+    },
+    {
+      "id": 101,
+      "asset_id": "word_101",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "football",
+      "pronunciation": "футбол",
+      "translation": "футбол",
+      "example": "We play football.",
+      "image_concept": "football",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "soccerball",
+        "image_file": "WordImages.xcassets/word_101.imageset/word_101.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soccer ball"
+      },
+      "is_review": false
+    },
+    {
+      "id": 102,
+      "asset_id": "word_102",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "basketball",
+      "pronunciation": "ба́скетбол",
+      "translation": "баскетбол",
+      "example": "I like basketball.",
+      "image_concept": "basketball",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "basketball.fill",
+        "image_file": "WordImages.xcassets/word_102.imageset/word_102.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Basketball"
+      },
+      "is_review": false
+    },
+    {
+      "id": 103,
+      "asset_id": "word_103",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "tennis",
+      "pronunciation": "тэнис",
+      "translation": "теннис",
+      "example": "She plays tennis.",
+      "image_concept": "tennis",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tennisball.fill",
+        "image_file": "WordImages.xcassets/word_103.imageset/word_103.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Tennis"
+      },
+      "is_review": false
+    },
+    {
+      "id": 104,
+      "asset_id": "word_104",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "swimming",
+      "pronunciation": "суи́минг",
+      "translation": "плавание",
+      "example": "Swimming is fun.",
+      "image_concept": "swimming",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.pool.swim",
+        "image_file": "WordImages.xcassets/word_104.imageset/word_104.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏊"
+      },
+      "is_review": false
+    },
+    {
+      "id": 105,
+      "asset_id": "word_105",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "bike",
+      "pronunciation": "байк",
+      "translation": "велосипед",
+      "example": "I ride a bike.",
+      "image_concept": "bike",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bicycle",
+        "image_file": "WordImages.xcassets/word_105.imageset/word_105.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bicycle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 106,
+      "asset_id": "word_106",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "kick",
+      "pronunciation": "кик",
+      "translation": "пинать",
+      "example": "Kick the ball.",
+      "image_concept": "kicking ball",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.soccer",
+        "image_file": "WordImages.xcassets/word_106.imageset/word_106.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⚽"
+      },
+      "is_review": false
+    },
+    {
+      "id": 107,
+      "asset_id": "word_107",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "catch",
+      "pronunciation": "кэч",
+      "translation": "ловить",
+      "example": "Catch the ball!",
+      "image_concept": "catching ball",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.raised.fill",
+        "image_file": "WordImages.xcassets/word_107.imageset/word_107.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🥎"
+      },
+      "is_review": false
+    },
+    {
+      "id": 108,
+      "asset_id": "word_108",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "throw",
+      "pronunciation": "сроу",
+      "translation": "бросать",
+      "example": "Throw the ball.",
+      "image_concept": "throwing ball",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.boxing",
+        "image_file": "WordImages.xcassets/word_108.imageset/word_108.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⚾"
+      },
+      "is_review": false
+    },
+    {
+      "id": 109,
+      "asset_id": "word_109",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "ride",
+      "pronunciation": "райд",
+      "translation": "ездить верхом / кататься",
+      "example": "I ride my bike.",
+      "image_concept": "riding bike",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bicycle",
+        "image_file": "WordImages.xcassets/word_109.imageset/word_109.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🚴"
+      },
+      "is_review": false
+    },
+    {
+      "id": 110,
+      "asset_id": "word_110",
+      "day": 11,
+      "theme": "Sport & move",
+      "word": "win",
+      "pronunciation": "вин",
+      "translation": "побеждать",
+      "example": "We want to win.",
+      "image_concept": "trophy",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "trophy.fill",
+        "image_file": "WordImages.xcassets/word_110.imageset/word_110.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Trophy"
+      },
+      "is_review": false
+    },
+    {
+      "id": 111,
+      "asset_id": "word_111",
+      "day": 12,
+      "theme": "Body",
+      "word": "head",
+      "pronunciation": "хед",
+      "translation": "голова",
+      "example": "My head hurts.",
+      "image_concept": "head",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "brain.head.profile",
+        "image_file": "WordImages.xcassets/word_111.imageset/word_111.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bust in silhouette"
+      },
+      "is_review": false
+    },
+    {
+      "id": 112,
+      "asset_id": "word_112",
+      "day": 12,
+      "theme": "Body",
+      "word": "face",
+      "pronunciation": "фэйс",
+      "translation": "лицо",
+      "example": "Wash your face.",
+      "image_concept": "face",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.smiling",
+        "image_file": "WordImages.xcassets/word_112.imageset/word_112.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Slightly smiling face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 113,
+      "asset_id": "word_113",
+      "day": 12,
+      "theme": "Body",
+      "word": "eye",
+      "pronunciation": "ай",
+      "translation": "глаз",
+      "example": "I have brown eyes.",
+      "image_concept": "eye",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "eye.fill",
+        "image_file": "WordImages.xcassets/word_113.imageset/word_113.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Eye"
+      },
+      "is_review": false
+    },
+    {
+      "id": 114,
+      "asset_id": "word_114",
+      "day": 12,
+      "theme": "Body",
+      "word": "ear",
+      "pronunciation": "иэ",
+      "translation": "ухо",
+      "example": "Listen with your ears.",
+      "image_concept": "ear",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ear.fill",
+        "image_file": "WordImages.xcassets/word_114.imageset/word_114.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👂"
+      },
+      "is_review": false
+    },
+    {
+      "id": 115,
+      "asset_id": "word_115",
+      "day": 12,
+      "theme": "Body",
+      "word": "nose",
+      "pronunciation": "ноуз",
+      "translation": "нос",
+      "example": "My nose is cold.",
+      "image_concept": "nose",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "nose.fill",
+        "image_file": "WordImages.xcassets/word_115.imageset/word_115.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👃"
+      },
+      "is_review": false
+    },
+    {
+      "id": 116,
+      "asset_id": "word_116",
+      "day": 12,
+      "theme": "Body",
+      "word": "mouth",
+      "pronunciation": "маус",
+      "translation": "рот",
+      "example": "Open your mouth.",
+      "image_concept": "mouth",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mouth.fill",
+        "image_file": "WordImages.xcassets/word_116.imageset/word_116.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mouth"
+      },
+      "is_review": false
+    },
+    {
+      "id": 117,
+      "asset_id": "word_117",
+      "day": 12,
+      "theme": "Body",
+      "word": "hand",
+      "pronunciation": "хэнд",
+      "translation": "рука (кисть)",
+      "example": "Raise your hand.",
+      "image_concept": "hand",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.raised.fill",
+        "image_file": "WordImages.xcassets/word_117.imageset/word_117.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "✋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 118,
+      "asset_id": "word_118",
+      "day": 12,
+      "theme": "Body",
+      "word": "arm",
+      "pronunciation": "ам",
+      "translation": "рука (от плеча)",
+      "example": "My arm is long.",
+      "image_concept": "arm",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.raised.fill",
+        "image_file": "WordImages.xcassets/word_118.imageset/word_118.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💪"
+      },
+      "is_review": false
+    },
+    {
+      "id": 119,
+      "asset_id": "word_119",
+      "day": 12,
+      "theme": "Body",
+      "word": "leg",
+      "pronunciation": "лег",
+      "translation": "нога",
+      "example": "My leg is strong.",
+      "image_concept": "leg",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.walk",
+        "image_file": "WordImages.xcassets/word_119.imageset/word_119.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦵"
+      },
+      "is_review": false
+    },
+    {
+      "id": 120,
+      "asset_id": "word_120",
+      "day": 12,
+      "theme": "Body",
+      "word": "foot",
+      "pronunciation": "фут",
+      "translation": "ступня",
+      "example": "My foot is small.",
+      "image_concept": "foot",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "shoe.fill",
+        "image_file": "WordImages.xcassets/word_120.imageset/word_120.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🦶"
+      },
+      "is_review": false
+    },
+    {
+      "id": 121,
+      "asset_id": "word_121",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "T-shirt",
+      "pronunciation": "ти-шёт",
+      "translation": "футболка",
+      "example": "I wear a T-shirt.",
+      "image_concept": "T-shirt",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tshirt.fill",
+        "image_file": "WordImages.xcassets/word_121.imageset/word_121.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
+      },
+      "is_review": false
+    },
+    {
+      "id": 122,
+      "asset_id": "word_122",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "trousers",
+      "pronunciation": "тра́узез",
+      "translation": "брюки",
+      "example": "These trousers are new.",
+      "image_concept": "trousers",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pants.fill",
+        "image_file": "WordImages.xcassets/word_122.imageset/word_122.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Jeans"
+      },
+      "is_review": false
+    },
+    {
+      "id": 123,
+      "asset_id": "word_123",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "shorts",
+      "pronunciation": "шотс",
+      "translation": "шорты",
+      "example": "I wear shorts.",
+      "image_concept": "shorts",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pants.fill",
+        "image_file": "WordImages.xcassets/word_123.imageset/word_123.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shorts"
+      },
+      "is_review": false
+    },
+    {
+      "id": 124,
+      "asset_id": "word_124",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "jacket",
+      "pronunciation": "джэ́кит",
+      "translation": "куртка",
+      "example": "Put on your jacket.",
+      "image_concept": "jacket",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "jacket.fill",
+        "image_file": "WordImages.xcassets/word_124.imageset/word_124.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Coat"
+      },
+      "is_review": false
+    },
+    {
+      "id": 125,
+      "asset_id": "word_125",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "coat",
+      "pronunciation": "коут",
+      "translation": "пальто",
+      "example": "My coat is warm.",
+      "image_concept": "coat",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "jacket.fill",
+        "image_file": "WordImages.xcassets/word_125.imageset/word_125.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Coat"
+      },
+      "is_review": false
+    },
+    {
+      "id": 126,
+      "asset_id": "word_126",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "socks",
+      "pronunciation": "сокс",
+      "translation": "носки",
+      "example": "I need clean socks.",
+      "image_concept": "socks",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sock.fill",
+        "image_file": "WordImages.xcassets/word_126.imageset/word_126.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Socks"
+      },
+      "is_review": false
+    },
+    {
+      "id": 127,
+      "asset_id": "word_127",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "hat",
+      "pronunciation": "хэт",
+      "translation": "шапка / шляпа",
+      "example": "This hat is warm.",
+      "image_concept": "hat",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "crown.fill",
+        "image_file": "WordImages.xcassets/word_127.imageset/word_127.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Top hat"
+      },
+      "is_review": false
+    },
+    {
+      "id": 128,
+      "asset_id": "word_128",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "dress",
+      "pronunciation": "дрес",
+      "translation": "платье",
+      "example": "She wears a dress.",
+      "image_concept": "dress",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand.dress",
+        "image_file": "WordImages.xcassets/word_128.imageset/word_128.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Dress"
+      },
+      "is_review": false
+    },
+    {
+      "id": 129,
+      "asset_id": "word_129",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "shoes",
+      "pronunciation": "шуз",
+      "translation": "обувь",
+      "example": "Put on your shoes.",
+      "image_concept": "shoes",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "shoe.fill",
+        "image_file": "WordImages.xcassets/word_129.imageset/word_129.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Running shoe"
+      },
+      "is_review": false
+    },
+    {
+      "id": 130,
+      "asset_id": "word_130",
+      "day": 13,
+      "theme": "Clothes",
+      "word": "wear",
+      "pronunciation": "вэа",
+      "translation": "носить (одежду)",
+      "example": "I wear shoes.",
+      "image_concept": "wearing clothes",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tshirt.fill",
+        "image_file": "WordImages.xcassets/word_130.imageset/word_130.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "T-shirt"
+      },
+      "is_review": false
+    },
+    {
+      "id": 131,
+      "asset_id": "word_131",
+      "day": 14,
+      "theme": "Weather",
+      "word": "sunny",
+      "pronunciation": "са́ни",
+      "translation": "солнечно",
+      "example": "It is sunny.",
+      "image_concept": "sunny day",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sun.max.fill",
+        "image_file": "WordImages.xcassets/word_131.imageset/word_131.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
+      },
+      "is_review": false
+    },
+    {
+      "id": 132,
+      "asset_id": "word_132",
+      "day": 14,
+      "theme": "Weather",
+      "word": "rainy",
+      "pronunciation": "рэ́йни",
+      "translation": "дождливо",
+      "example": "It is rainy.",
+      "image_concept": "rainy day",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cloud.rain.fill",
+        "image_file": "WordImages.xcassets/word_132.imageset/word_132.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cloud with rain"
+      },
+      "is_review": false
+    },
+    {
+      "id": 133,
+      "asset_id": "word_133",
+      "day": 14,
+      "theme": "Weather",
+      "word": "cloudy",
+      "pronunciation": "кла́уди",
+      "translation": "облачно",
+      "example": "It is cloudy.",
+      "image_concept": "cloudy sky",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cloud.fill",
+        "image_file": "WordImages.xcassets/word_133.imageset/word_133.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cloud"
+      },
+      "is_review": false
+    },
+    {
+      "id": 134,
+      "asset_id": "word_134",
+      "day": 14,
+      "theme": "Weather",
+      "word": "windy",
+      "pronunciation": "уи́нди",
+      "translation": "ветрено",
+      "example": "It is windy.",
+      "image_concept": "windy day",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "wind",
+        "image_file": "WordImages.xcassets/word_134.imageset/word_134.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Leaf fluttering in wind"
+      },
+      "is_review": false
+    },
+    {
+      "id": 135,
+      "asset_id": "word_135",
+      "day": 14,
+      "theme": "Weather",
+      "word": "snow",
+      "pronunciation": "сноу",
+      "translation": "снег",
+      "example": "I like snow.",
+      "image_concept": "snow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "snowflake",
+        "image_file": "WordImages.xcassets/word_135.imageset/word_135.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Snowflake"
+      },
+      "is_review": false
+    },
+    {
+      "id": 136,
+      "asset_id": "word_136",
+      "day": 14,
+      "theme": "Weather",
+      "word": "hot",
+      "pronunciation": "хот",
+      "translation": "горячий / жаркий",
+      "example": "It is hot.",
+      "image_concept": "hot sun",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "thermometer.sun.fill",
+        "image_file": "WordImages.xcassets/word_136.imageset/word_136.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hot beverage"
+      },
+      "is_review": false
+    },
+    {
+      "id": 137,
+      "asset_id": "word_137",
+      "day": 14,
+      "theme": "Weather",
+      "word": "cold",
+      "pronunciation": "коулд",
+      "translation": "холодный",
+      "example": "It is cold.",
+      "image_concept": "cold weather",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "thermometer.snowflake",
+        "image_file": "WordImages.xcassets/word_137.imageset/word_137.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cold face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 138,
+      "asset_id": "word_138",
+      "day": 14,
+      "theme": "Weather",
+      "word": "warm",
+      "pronunciation": "вом",
+      "translation": "тёплый",
+      "example": "It is warm today.",
+      "image_concept": "warm day",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sun.min.fill",
+        "image_file": "WordImages.xcassets/word_138.imageset/word_138.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun"
+      },
+      "is_review": false
+    },
+    {
+      "id": 139,
+      "asset_id": "word_139",
+      "day": 14,
+      "theme": "Weather",
+      "word": "rainbow",
+      "pronunciation": "рэ́йнбоу",
+      "translation": "радуга",
+      "example": "Look at the rainbow!",
+      "image_concept": "rainbow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "rainbow",
+        "image_file": "WordImages.xcassets/word_139.imageset/word_139.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Rainbow"
+      },
+      "is_review": false
+    },
+    {
+      "id": 140,
+      "asset_id": "word_140",
+      "day": 14,
+      "theme": "Weather",
+      "word": "umbrella",
+      "pronunciation": "амбрэ́ла",
+      "translation": "зонт",
+      "example": "Take an umbrella.",
+      "image_concept": "umbrella",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "umbrella.fill",
+        "image_file": "WordImages.xcassets/word_140.imageset/word_140.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Umbrella"
+      },
+      "is_review": false
+    },
+    {
+      "id": 141,
+      "asset_id": "word_141",
+      "day": 15,
+      "theme": "Nature",
+      "word": "tree",
+      "pronunciation": "три",
+      "translation": "дерево",
+      "example": "The tree is tall.",
+      "image_concept": "tree",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tree.fill",
+        "image_file": "WordImages.xcassets/word_141.imageset/word_141.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Deciduous tree"
+      },
+      "is_review": false
+    },
+    {
+      "id": 142,
+      "asset_id": "word_142",
+      "day": 15,
+      "theme": "Nature",
+      "word": "flower",
+      "pronunciation": "фла́уэ",
+      "translation": "цветок",
+      "example": "This flower is red.",
+      "image_concept": "flower",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "camera.macro",
+        "image_file": "WordImages.xcassets/word_142.imageset/word_142.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sunflower"
+      },
+      "is_review": false
+    },
+    {
+      "id": 143,
+      "asset_id": "word_143",
+      "day": 15,
+      "theme": "Nature",
+      "word": "grass",
+      "pronunciation": "грас",
+      "translation": "трава",
+      "example": "The grass is green.",
+      "image_concept": "grass",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "leaf.fill",
+        "image_file": "WordImages.xcassets/word_143.imageset/word_143.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Seedling"
+      },
+      "is_review": false
+    },
+    {
+      "id": 144,
+      "asset_id": "word_144",
+      "day": 15,
+      "theme": "Nature",
+      "word": "river",
+      "pronunciation": "ри́вэ",
+      "translation": "река",
+      "example": "We sit by the river.",
+      "image_concept": "river",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "water.waves",
+        "image_file": "WordImages.xcassets/word_144.imageset/word_144.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
+      },
+      "is_review": false
+    },
+    {
+      "id": 145,
+      "asset_id": "word_145",
+      "day": 15,
+      "theme": "Nature",
+      "word": "sea",
+      "pronunciation": "си",
+      "translation": "море",
+      "example": "The sea is big.",
+      "image_concept": "sea",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "water.waves",
+        "image_file": "WordImages.xcassets/word_145.imageset/word_145.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
+      },
+      "is_review": false
+    },
+    {
+      "id": 146,
+      "asset_id": "word_146",
+      "day": 15,
+      "theme": "Nature",
+      "word": "beach",
+      "pronunciation": "бич",
+      "translation": "пляж",
+      "example": "We play on the beach.",
+      "image_concept": "beach",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "beach.umbrella.fill",
+        "image_file": "WordImages.xcassets/word_146.imageset/word_146.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Beach with umbrella"
+      },
+      "is_review": false
+    },
+    {
+      "id": 147,
+      "asset_id": "word_147",
+      "day": 15,
+      "theme": "Nature",
+      "word": "mountain",
+      "pronunciation": "ма́унтин",
+      "translation": "гора",
+      "example": "The mountain is high.",
+      "image_concept": "mountain",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mountain.2.fill",
+        "image_file": "WordImages.xcassets/word_147.imageset/word_147.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mountain"
+      },
+      "is_review": false
+    },
+    {
+      "id": 148,
+      "asset_id": "word_148",
+      "day": 15,
+      "theme": "Nature",
+      "word": "forest",
+      "pronunciation": "фо́рист",
+      "translation": "лес",
+      "example": "Animals live in the forest.",
+      "image_concept": "forest",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tree.fill",
+        "image_file": "WordImages.xcassets/word_148.imageset/word_148.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "National park"
+      },
+      "is_review": false
+    },
+    {
+      "id": 149,
+      "asset_id": "word_149",
+      "day": 15,
+      "theme": "Nature",
+      "word": "park",
+      "pronunciation": "пак",
+      "translation": "парк",
+      "example": "We play in the park.",
+      "image_concept": "park",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tree.fill",
+        "image_file": "WordImages.xcassets/word_149.imageset/word_149.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "National park"
+      },
+      "is_review": false
+    },
+    {
+      "id": 150,
+      "asset_id": "word_150",
+      "day": 15,
+      "theme": "Nature",
+      "word": "sky",
+      "pronunciation": "скай",
+      "translation": "небо",
+      "example": "The sky is blue.",
+      "image_concept": "sky",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cloud.fill",
+        "image_file": "WordImages.xcassets/word_150.imageset/word_150.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sun behind large cloud"
+      },
+      "is_review": false
+    },
+    {
+      "id": 151,
+      "asset_id": "word_151",
+      "day": 16,
+      "theme": "Animals",
+      "word": "dog",
+      "pronunciation": "дог",
+      "translation": "собака",
+      "example": "The dog is friendly.",
+      "image_concept": "dog",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "dog.fill",
+        "image_file": "WordImages.xcassets/word_151.imageset/word_151.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Dog"
+      },
+      "is_review": false
+    },
+    {
+      "id": 152,
+      "asset_id": "word_152",
+      "day": 16,
+      "theme": "Animals",
+      "word": "cat",
+      "pronunciation": "кэт",
+      "translation": "кошка",
+      "example": "The cat sleeps.",
+      "image_concept": "cat",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cat.fill",
+        "image_file": "WordImages.xcassets/word_152.imageset/word_152.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cat"
+      },
+      "is_review": false
+    },
+    {
+      "id": 153,
+      "asset_id": "word_153",
+      "day": 16,
+      "theme": "Animals",
+      "word": "bird",
+      "pronunciation": "бёд",
+      "translation": "птица",
+      "example": "The bird can fly.",
+      "image_concept": "bird",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bird.fill",
+        "image_file": "WordImages.xcassets/word_153.imageset/word_153.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bird"
+      },
+      "is_review": false
+    },
+    {
+      "id": 154,
+      "asset_id": "word_154",
+      "day": 16,
+      "theme": "Animals",
+      "word": "fish",
+      "pronunciation": "фиш",
+      "translation": "рыба",
+      "example": "The fish is orange.",
+      "image_concept": "fish",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fish.fill",
+        "image_file": "WordImages.xcassets/word_154.imageset/word_154.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fish"
+      },
+      "is_review": false
+    },
+    {
+      "id": 155,
+      "asset_id": "word_155",
+      "day": 16,
+      "theme": "Animals",
+      "word": "rabbit",
+      "pronunciation": "рэ́бит",
+      "translation": "кролик",
+      "example": "The rabbit is white.",
+      "image_concept": "rabbit",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hare.fill",
+        "image_file": "WordImages.xcassets/word_155.imageset/word_155.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Rabbit"
+      },
+      "is_review": false
+    },
+    {
+      "id": 156,
+      "asset_id": "word_156",
+      "day": 16,
+      "theme": "Animals",
+      "word": "horse",
+      "pronunciation": "хорс",
+      "translation": "лошадь",
+      "example": "The horse is fast.",
+      "image_concept": "horse",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hare.fill",
+        "image_file": "WordImages.xcassets/word_156.imageset/word_156.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Horse"
+      },
+      "is_review": false
+    },
+    {
+      "id": 157,
+      "asset_id": "word_157",
+      "day": 16,
+      "theme": "Animals",
+      "word": "cow",
+      "pronunciation": "кау",
+      "translation": "корова",
+      "example": "The cow eats grass.",
+      "image_concept": "cow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hare.fill",
+        "image_file": "WordImages.xcassets/word_157.imageset/word_157.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cow"
+      },
+      "is_review": false
+    },
+    {
+      "id": 158,
+      "asset_id": "word_158",
+      "day": 16,
+      "theme": "Animals",
+      "word": "duck",
+      "pronunciation": "дак",
+      "translation": "утка",
+      "example": "The duck swims.",
+      "image_concept": "duck",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bird.fill",
+        "image_file": "WordImages.xcassets/word_158.imageset/word_158.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Duck"
+      },
+      "is_review": false
+    },
+    {
+      "id": 159,
+      "asset_id": "word_159",
+      "day": 16,
+      "theme": "Animals",
+      "word": "frog",
+      "pronunciation": "фрог",
+      "translation": "лягушка",
+      "example": "The frog is green.",
+      "image_concept": "frog",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "lizard.fill",
+        "image_file": "WordImages.xcassets/word_159.imageset/word_159.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Frog"
+      },
+      "is_review": false
+    },
+    {
+      "id": 160,
+      "asset_id": "word_160",
+      "day": 16,
+      "theme": "Animals",
+      "word": "mouse",
+      "pronunciation": "маус",
+      "translation": "мышь",
+      "example": "A small mouse.",
+      "image_concept": "mouse",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hare.fill",
+        "image_file": "WordImages.xcassets/word_160.imageset/word_160.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mouse"
+      },
+      "is_review": false
+    },
+    {
+      "id": 161,
+      "asset_id": "word_161",
+      "day": 17,
+      "theme": "City & places",
+      "word": "city",
+      "pronunciation": "си́ти",
+      "translation": "город",
+      "example": "I live in a city.",
+      "image_concept": "city",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "building.2.fill",
+        "image_file": "WordImages.xcassets/word_161.imageset/word_161.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cityscape"
+      },
+      "is_review": false
+    },
+    {
+      "id": 162,
+      "asset_id": "word_162",
+      "day": 17,
+      "theme": "City & places",
+      "word": "street",
+      "pronunciation": "стрит",
+      "translation": "улица",
+      "example": "This street is quiet.",
+      "image_concept": "street",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "road.lanes",
+        "image_file": "WordImages.xcassets/word_162.imageset/word_162.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Motorway"
+      },
+      "is_review": false
+    },
+    {
+      "id": 163,
+      "asset_id": "word_163",
+      "day": 17,
+      "theme": "City & places",
+      "word": "shop",
+      "pronunciation": "шоп",
+      "translation": "магазин",
+      "example": "I buy bread in the shop.",
+      "image_concept": "shop",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "storefront.fill",
+        "image_file": "WordImages.xcassets/word_163.imageset/word_163.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Department store"
+      },
+      "is_review": false
+    },
+    {
+      "id": 164,
+      "asset_id": "word_164",
+      "day": 17,
+      "theme": "City & places",
+      "word": "school",
+      "pronunciation": "скул",
+      "translation": "школа",
+      "example": "I go to school.",
+      "image_concept": "school",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "building.columns.fill",
+        "image_file": "WordImages.xcassets/word_164.imageset/word_164.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "School"
+      },
+      "is_review": false
+    },
+    {
+      "id": 165,
+      "asset_id": "word_165",
+      "day": 17,
+      "theme": "City & places",
+      "word": "hospital",
+      "pronunciation": "хо́спитл",
+      "translation": "больница",
+      "example": "The hospital is near.",
+      "image_concept": "hospital",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cross.case.fill",
+        "image_file": "WordImages.xcassets/word_165.imageset/word_165.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hospital"
+      },
+      "is_review": false
+    },
+    {
+      "id": 166,
+      "asset_id": "word_166",
+      "day": 17,
+      "theme": "City & places",
+      "word": "zoo",
+      "pronunciation": "зу",
+      "translation": "зоопарк",
+      "example": "We go to the zoo.",
+      "image_concept": "zoo",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pawprint.fill",
+        "image_file": "WordImages.xcassets/word_166.imageset/word_166.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Lion"
+      },
+      "is_review": false
+    },
+    {
+      "id": 167,
+      "asset_id": "word_167",
+      "day": 17,
+      "theme": "City & places",
+      "word": "farm",
+      "pronunciation": "фам",
+      "translation": "ферма",
+      "example": "Animals live on a farm.",
+      "image_concept": "farm",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "leaf.fill",
+        "image_file": "WordImages.xcassets/word_167.imageset/word_167.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sheaf of rice"
+      },
+      "is_review": false
+    },
+    {
+      "id": 168,
+      "asset_id": "word_168",
+      "day": 17,
+      "theme": "City & places",
+      "word": "cinema",
+      "pronunciation": "си́нема",
+      "translation": "кинотеатр",
+      "example": "We go to the cinema.",
+      "image_concept": "cinema",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "film.fill",
+        "image_file": "WordImages.xcassets/word_168.imageset/word_168.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Movie camera"
+      },
+      "is_review": false
+    },
+    {
+      "id": 169,
+      "asset_id": "word_169",
+      "day": 17,
+      "theme": "City & places",
+      "word": "pool",
+      "pronunciation": "пул",
+      "translation": "бассейн",
+      "example": "I swim in the pool.",
+      "image_concept": "swimming pool",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.pool.swim",
+        "image_file": "WordImages.xcassets/word_169.imageset/word_169.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏊"
+      },
+      "is_review": false
+    },
+    {
+      "id": 170,
+      "asset_id": "word_170",
+      "day": 17,
+      "theme": "City & places",
+      "word": "playground",
+      "pronunciation": "плэ́йграунд",
+      "translation": "детская площадка",
+      "example": "We run in the playground.",
+      "image_concept": "playground",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.play",
+        "image_file": "WordImages.xcassets/word_170.imageset/word_170.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🛝"
+      },
+      "is_review": false
+    },
+    {
+      "id": 171,
+      "asset_id": "word_171",
+      "day": 18,
+      "theme": "Transport",
+      "word": "car",
+      "pronunciation": "ка",
+      "translation": "машина",
+      "example": "Dad drives a car.",
+      "image_concept": "car",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "car.fill",
+        "image_file": "WordImages.xcassets/word_171.imageset/word_171.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Automobile"
+      },
+      "is_review": false
+    },
+    {
+      "id": 172,
+      "asset_id": "word_172",
+      "day": 18,
+      "theme": "Transport",
+      "word": "bus",
+      "pronunciation": "бас",
+      "translation": "автобус",
+      "example": "I go by bus.",
+      "image_concept": "bus",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bus.fill",
+        "image_file": "WordImages.xcassets/word_172.imageset/word_172.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bus"
+      },
+      "is_review": false
+    },
+    {
+      "id": 173,
+      "asset_id": "word_173",
+      "day": 18,
+      "theme": "Transport",
+      "word": "train",
+      "pronunciation": "трэйн",
+      "translation": "поезд",
+      "example": "The train is fast.",
+      "image_concept": "train",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tram.fill",
+        "image_file": "WordImages.xcassets/word_173.imageset/word_173.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Train"
+      },
+      "is_review": false
+    },
+    {
+      "id": 174,
+      "asset_id": "word_174",
+      "day": 18,
+      "theme": "Transport",
+      "word": "plane",
+      "pronunciation": "плэйн",
+      "translation": "самолёт",
+      "example": "The plane flies.",
+      "image_concept": "plane",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "airplane",
+        "image_file": "WordImages.xcassets/word_174.imageset/word_174.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Airplane"
+      },
+      "is_review": false
+    },
+    {
+      "id": 175,
+      "asset_id": "word_175",
+      "day": 18,
+      "theme": "Transport",
+      "word": "bicycle",
+      "pronunciation": "ба́йсикл",
+      "translation": "велосипед",
+      "example": "I ride a bicycle.",
+      "image_concept": "bicycle",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bicycle",
+        "image_file": "WordImages.xcassets/word_175.imageset/word_175.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bicycle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 176,
+      "asset_id": "word_176",
+      "day": 18,
+      "theme": "Transport",
+      "word": "boat",
+      "pronunciation": "боут",
+      "translation": "лодка / корабль",
+      "example": "We are on a boat.",
+      "image_concept": "boat",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ferry.fill",
+        "image_file": "WordImages.xcassets/word_176.imageset/word_176.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sailboat"
+      },
+      "is_review": false
+    },
+    {
+      "id": 177,
+      "asset_id": "word_177",
+      "day": 18,
+      "theme": "Transport",
+      "word": "taxi",
+      "pronunciation": "тэ́кси",
+      "translation": "такси",
+      "example": "We take a taxi.",
+      "image_concept": "taxi",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "car.fill",
+        "image_file": "WordImages.xcassets/word_177.imageset/word_177.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Oncoming taxi"
+      },
+      "is_review": false
+    },
+    {
+      "id": 178,
+      "asset_id": "word_178",
+      "day": 18,
+      "theme": "Transport",
+      "word": "station",
+      "pronunciation": "стэйшн",
+      "translation": "станция / вокзал",
+      "example": "Wait at the station.",
+      "image_concept": "station",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tram.fill",
+        "image_file": "WordImages.xcassets/word_178.imageset/word_178.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Station"
+      },
+      "is_review": false
+    },
+    {
+      "id": 179,
+      "asset_id": "word_179",
+      "day": 18,
+      "theme": "Transport",
+      "word": "ticket",
+      "pronunciation": "ти́кит",
+      "translation": "билет",
+      "example": "I have a ticket.",
+      "image_concept": "ticket",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ticket.fill",
+        "image_file": "WordImages.xcassets/word_179.imageset/word_179.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Ticket"
+      },
+      "is_review": false
+    },
+    {
+      "id": 180,
+      "asset_id": "word_180",
+      "day": 18,
+      "theme": "Transport",
+      "word": "bridge",
+      "pronunciation": "бридж",
+      "translation": "мост",
+      "example": "Look at the bridge.",
+      "image_concept": "bridge",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "road.lanes",
+        "image_file": "WordImages.xcassets/word_180.imageset/word_180.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bridge at night"
+      },
+      "is_review": false
+    },
+    {
+      "id": 181,
+      "asset_id": "word_181",
+      "day": 19,
+      "theme": "Colours",
+      "word": "red",
+      "pronunciation": "ред",
+      "translation": "красный",
+      "example": "A red apple.",
+      "image_concept": "red colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_181.imageset/word_181.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 182,
+      "asset_id": "word_182",
+      "day": 19,
+      "theme": "Colours",
+      "word": "blue",
+      "pronunciation": "блу",
+      "translation": "синий",
+      "example": "A blue sky.",
+      "image_concept": "blue colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_182.imageset/word_182.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Blue circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 183,
+      "asset_id": "word_183",
+      "day": 19,
+      "theme": "Colours",
+      "word": "yellow",
+      "pronunciation": "йе́лоу",
+      "translation": "жёлтый",
+      "example": "A yellow banana.",
+      "image_concept": "yellow colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_183.imageset/word_183.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Yellow circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 184,
+      "asset_id": "word_184",
+      "day": 19,
+      "theme": "Colours",
+      "word": "green",
+      "pronunciation": "грин",
+      "translation": "зелёный",
+      "example": "Green grass.",
+      "image_concept": "green colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_184.imageset/word_184.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Green circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 185,
+      "asset_id": "word_185",
+      "day": 19,
+      "theme": "Colours",
+      "word": "black",
+      "pronunciation": "блэк",
+      "translation": "чёрный",
+      "example": "A black cat.",
+      "image_concept": "black colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_185.imageset/word_185.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Black circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 186,
+      "asset_id": "word_186",
+      "day": 19,
+      "theme": "Colours",
+      "word": "white",
+      "pronunciation": "уайт",
+      "translation": "белый",
+      "example": "A white rabbit.",
+      "image_concept": "white colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_186.imageset/word_186.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "White circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 187,
+      "asset_id": "word_187",
+      "day": 19,
+      "theme": "Colours",
+      "word": "orange",
+      "pronunciation": "о́риндж",
+      "translation": "оранжевый",
+      "example": "An orange ball.",
+      "image_concept": "orange colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_187.imageset/word_187.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Orange circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 188,
+      "asset_id": "word_188",
+      "day": 19,
+      "theme": "Colours",
+      "word": "pink",
+      "pronunciation": "пинк",
+      "translation": "розовый",
+      "example": "A pink hat.",
+      "image_concept": "pink colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_188.imageset/word_188.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "💗"
+      },
+      "is_review": false
+    },
+    {
+      "id": 189,
+      "asset_id": "word_189",
+      "day": 19,
+      "theme": "Colours",
+      "word": "brown",
+      "pronunciation": "браун",
+      "translation": "коричневый",
+      "example": "Brown eyes.",
+      "image_concept": "brown colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_189.imageset/word_189.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Brown circle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 190,
+      "asset_id": "word_190",
+      "day": 19,
+      "theme": "Colours",
+      "word": "grey",
+      "pronunciation": "грей",
+      "translation": "серый",
+      "example": "A grey cloud.",
+      "image_concept": "grey colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_190.imageset/word_190.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⚪"
+      },
+      "is_review": false
+    },
+    {
+      "id": 191,
+      "asset_id": "word_191",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "one",
+      "pronunciation": "уан",
+      "translation": "один",
+      "example": "I have one book.",
+      "image_concept": "number 1",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "1.circle.fill",
+        "image_file": "WordImages.xcassets/word_191.imageset/word_191.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 1"
+      },
+      "is_review": false
+    },
+    {
+      "id": 192,
+      "asset_id": "word_192",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "two",
+      "pronunciation": "ту",
+      "translation": "два",
+      "example": "I have two cats.",
+      "image_concept": "number 2",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "2.circle.fill",
+        "image_file": "WordImages.xcassets/word_192.imageset/word_192.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 2"
+      },
+      "is_review": false
+    },
+    {
+      "id": 193,
+      "asset_id": "word_193",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "three",
+      "pronunciation": "сри",
+      "translation": "три",
+      "example": "I see three birds.",
+      "image_concept": "number 3",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "3.circle.fill",
+        "image_file": "WordImages.xcassets/word_193.imageset/word_193.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 3"
+      },
+      "is_review": false
+    },
+    {
+      "id": 194,
+      "asset_id": "word_194",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "four",
+      "pronunciation": "фо",
+      "translation": "четыре",
+      "example": "Four chairs.",
+      "image_concept": "number 4",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "4.circle.fill",
+        "image_file": "WordImages.xcassets/word_194.imageset/word_194.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 4"
+      },
+      "is_review": false
+    },
+    {
+      "id": 195,
+      "asset_id": "word_195",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "five",
+      "pronunciation": "файв",
+      "translation": "пять",
+      "example": "Five fingers.",
+      "image_concept": "number 5",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "5.circle.fill",
+        "image_file": "WordImages.xcassets/word_195.imageset/word_195.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 5"
+      },
+      "is_review": false
+    },
+    {
+      "id": 196,
+      "asset_id": "word_196",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "six",
+      "pronunciation": "сикс",
+      "translation": "шесть",
+      "example": "Six eggs.",
+      "image_concept": "number 6",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "6.circle.fill",
+        "image_file": "WordImages.xcassets/word_196.imageset/word_196.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 6"
+      },
+      "is_review": false
+    },
+    {
+      "id": 197,
+      "asset_id": "word_197",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "seven",
+      "pronunciation": "сэвн",
+      "translation": "семь",
+      "example": "Seven days.",
+      "image_concept": "number 7",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "7.circle.fill",
+        "image_file": "WordImages.xcassets/word_197.imageset/word_197.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 7"
+      },
+      "is_review": false
+    },
+    {
+      "id": 198,
+      "asset_id": "word_198",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "eight",
+      "pronunciation": "эйт",
+      "translation": "восемь",
+      "example": "Eight apples.",
+      "image_concept": "number 8",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "8.circle.fill",
+        "image_file": "WordImages.xcassets/word_198.imageset/word_198.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 8"
+      },
+      "is_review": false
+    },
+    {
+      "id": 199,
+      "asset_id": "word_199",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "nine",
+      "pronunciation": "найн",
+      "translation": "девять",
+      "example": "Nine books.",
+      "image_concept": "number 9",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "9.circle.fill",
+        "image_file": "WordImages.xcassets/word_199.imageset/word_199.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 9"
+      },
+      "is_review": false
+    },
+    {
+      "id": 200,
+      "asset_id": "word_200",
+      "day": 20,
+      "theme": "Numbers",
+      "word": "ten",
+      "pronunciation": "тен",
+      "translation": "десять",
+      "example": "Ten toes.",
+      "image_concept": "number 10",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "10.circle.fill",
+        "image_file": "WordImages.xcassets/word_200.imageset/word_200.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Keycap 10"
+      },
+      "is_review": false
+    },
+    {
+      "id": 201,
+      "asset_id": "word_201",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Monday",
+      "pronunciation": "ма́ндей",
+      "translation": "понедельник",
+      "example": "Today is Monday.",
+      "image_concept": "Monday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_201.imageset/word_201.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 202,
+      "asset_id": "word_202",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Tuesday",
+      "pronunciation": "тью́здей",
+      "translation": "вторник",
+      "example": "Today is Tuesday.",
+      "image_concept": "Tuesday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_202.imageset/word_202.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 203,
+      "asset_id": "word_203",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Wednesday",
+      "pronunciation": "уэ́нздей",
+      "translation": "среда",
+      "example": "Today is Wednesday.",
+      "image_concept": "Wednesday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_203.imageset/word_203.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 204,
+      "asset_id": "word_204",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Thursday",
+      "pronunciation": "сё́здей",
+      "translation": "четверг",
+      "example": "Today is Thursday.",
+      "image_concept": "Thursday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_204.imageset/word_204.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 205,
+      "asset_id": "word_205",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Friday",
+      "pronunciation": "фра́йдей",
+      "translation": "пятница",
+      "example": "Today is Friday.",
+      "image_concept": "Friday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_205.imageset/word_205.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 206,
+      "asset_id": "word_206",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Saturday",
+      "pronunciation": "сэ́тедей",
+      "translation": "суббота",
+      "example": "Today is Saturday.",
+      "image_concept": "Saturday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_206.imageset/word_206.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 207,
+      "asset_id": "word_207",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "Sunday",
+      "pronunciation": "са́ндей",
+      "translation": "воскресенье",
+      "example": "Today is Sunday.",
+      "image_concept": "Sunday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_207.imageset/word_207.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📅"
+      },
+      "is_review": false
+    },
+    {
+      "id": 208,
+      "asset_id": "word_208",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "today",
+      "pronunciation": "тудэй",
+      "translation": "сегодня",
+      "example": "Today is fun.",
+      "image_concept": "today",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar",
+        "image_file": "WordImages.xcassets/word_208.imageset/word_208.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
+      },
+      "is_review": false
+    },
+    {
+      "id": 209,
+      "asset_id": "word_209",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "tomorrow",
+      "pronunciation": "тумо́роу",
+      "translation": "завтра",
+      "example": "See you tomorrow.",
+      "image_concept": "tomorrow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar.badge.plus",
+        "image_file": "WordImages.xcassets/word_209.imageset/word_209.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Tear-off calendar"
+      },
+      "is_review": false
+    },
+    {
+      "id": 210,
+      "asset_id": "word_210",
+      "day": 21,
+      "theme": "Days & time",
+      "word": "yesterday",
+      "pronunciation": "йе́стэдэй",
+      "translation": "вчера",
+      "example": "Yesterday was nice.",
+      "image_concept": "yesterday",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar.badge.minus",
+        "image_file": "WordImages.xcassets/word_210.imageset/word_210.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Calendar"
+      },
+      "is_review": false
+    },
+    {
+      "id": 211,
+      "asset_id": "word_211",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "big",
+      "pronunciation": "биг",
+      "translation": "большой",
+      "example": "A big dog.",
+      "image_concept": "big object",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.up.left.and.arrow.down.right",
+        "image_file": "WordImages.xcassets/word_211.imageset/word_211.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Elephant"
+      },
+      "is_review": false
+    },
+    {
+      "id": 212,
+      "asset_id": "word_212",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "small",
+      "pronunciation": "смол",
+      "translation": "маленький",
+      "example": "A small cat.",
+      "image_concept": "small object",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.down.right.and.arrow.up.left",
+        "image_file": "WordImages.xcassets/word_212.imageset/word_212.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Mouse"
+      },
+      "is_review": false
+    },
+    {
+      "id": 213,
+      "asset_id": "word_213",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "long",
+      "pronunciation": "лонг",
+      "translation": "длинный",
+      "example": "Long hair.",
+      "image_concept": "long object",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ruler.fill",
+        "image_file": "WordImages.xcassets/word_213.imageset/word_213.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Straight ruler"
+      },
+      "is_review": false
+    },
+    {
+      "id": 214,
+      "asset_id": "word_214",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "short",
+      "pronunciation": "шот",
+      "translation": "короткий",
+      "example": "Short hair.",
+      "image_concept": "short object",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ruler",
+        "image_file": "WordImages.xcassets/word_214.imageset/word_214.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Straight ruler"
+      },
+      "is_review": false
+    },
+    {
+      "id": 215,
+      "asset_id": "word_215",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "new",
+      "pronunciation": "нью",
+      "translation": "новый",
+      "example": "A new bag.",
+      "image_concept": "new item",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sparkles",
+        "image_file": "WordImages.xcassets/word_215.imageset/word_215.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sparkles"
+      },
+      "is_review": false
+    },
+    {
+      "id": 216,
+      "asset_id": "word_216",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "old",
+      "pronunciation": "оулд",
+      "translation": "старый",
+      "example": "An old book.",
+      "image_concept": "old item",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "clock.fill",
+        "image_file": "WordImages.xcassets/word_216.imageset/word_216.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧓"
+      },
+      "is_review": false
+    },
+    {
+      "id": 217,
+      "asset_id": "word_217",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "clean",
+      "pronunciation": "клин",
+      "translation": "чистый",
+      "example": "My room is clean.",
+      "image_concept": "clean room",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sparkles",
+        "image_file": "WordImages.xcassets/word_217.imageset/word_217.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soap"
+      },
+      "is_review": false
+    },
+    {
+      "id": 218,
+      "asset_id": "word_218",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "dirty",
+      "pronunciation": "дёти",
+      "translation": "грязный",
+      "example": "My shoes are dirty.",
+      "image_concept": "dirty shoes",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "trash.fill",
+        "image_file": "WordImages.xcassets/word_218.imageset/word_218.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧽"
+      },
+      "is_review": false
+    },
+    {
+      "id": 219,
+      "asset_id": "word_219",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "fast",
+      "pronunciation": "фаст",
+      "translation": "быстрый",
+      "example": "A fast car.",
+      "image_concept": "fast car",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hare.fill",
+        "image_file": "WordImages.xcassets/word_219.imageset/word_219.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Rabbit"
+      },
+      "is_review": false
+    },
+    {
+      "id": 220,
+      "asset_id": "word_220",
+      "day": 22,
+      "theme": "Adjectives",
+      "word": "slow",
+      "pronunciation": "слоу",
+      "translation": "медленный",
+      "example": "A slow turtle.",
+      "image_concept": "slow animal",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "tortoise.fill",
+        "image_file": "WordImages.xcassets/word_220.imageset/word_220.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Turtle"
+      },
+      "is_review": false
+    },
+    {
+      "id": 221,
+      "asset_id": "word_221",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "good",
+      "pronunciation": "гуд",
+      "translation": "хороший",
+      "example": "Good job!",
+      "image_concept": "thumbs up",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsup.fill",
+        "image_file": "WordImages.xcassets/word_221.imageset/word_221.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
+      },
+      "is_review": false
+    },
+    {
+      "id": 222,
+      "asset_id": "word_222",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "bad",
+      "pronunciation": "бэд",
+      "translation": "плохой",
+      "example": "Bad idea.",
+      "image_concept": "thumbs down",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsdown.fill",
+        "image_file": "WordImages.xcassets/word_222.imageset/word_222.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👎"
+      },
+      "is_review": false
+    },
+    {
+      "id": 223,
+      "asset_id": "word_223",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "young",
+      "pronunciation": "янг",
+      "translation": "молодой",
+      "example": "A young child.",
+      "image_concept": "young person",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.child",
+        "image_file": "WordImages.xcassets/word_223.imageset/word_223.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🧒"
+      },
+      "is_review": false
+    },
+    {
+      "id": 224,
+      "asset_id": "word_224",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "tall",
+      "pronunciation": "тол",
+      "translation": "высокий",
+      "example": "A tall tree.",
+      "image_concept": "tall person",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.up",
+        "image_file": "WordImages.xcassets/word_224.imageset/word_224.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📏"
+      },
+      "is_review": false
+    },
+    {
+      "id": 225,
+      "asset_id": "word_225",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "quiet",
+      "pronunciation": "куа́йет",
+      "translation": "тихий",
+      "example": "Please be quiet.",
+      "image_concept": "quiet",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "speaker.slash.fill",
+        "image_file": "WordImages.xcassets/word_225.imageset/word_225.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤫"
+      },
+      "is_review": false
+    },
+    {
+      "id": 226,
+      "asset_id": "word_226",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "noisy",
+      "pronunciation": "но́йзи",
+      "translation": "шумный",
+      "example": "The street is noisy.",
+      "image_concept": "noisy",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "speaker.wave.3.fill",
+        "image_file": "WordImages.xcassets/word_226.imageset/word_226.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🔊"
+      },
+      "is_review": false
+    },
+    {
+      "id": 227,
+      "asset_id": "word_227",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "left",
+      "pronunciation": "лефт",
+      "translation": "левый / налево",
+      "example": "Turn left.",
+      "image_concept": "left arrow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.left",
+        "image_file": "WordImages.xcassets/word_227.imageset/word_227.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⬅️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 228,
+      "asset_id": "word_228",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "right",
+      "pronunciation": "райт",
+      "translation": "правый / направо",
+      "example": "Turn right.",
+      "image_concept": "right arrow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.right",
+        "image_file": "WordImages.xcassets/word_228.imageset/word_228.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "➡️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 229,
+      "asset_id": "word_229",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "up",
+      "pronunciation": "ап",
+      "translation": "вверх",
+      "example": "Look up!",
+      "image_concept": "up arrow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.up",
+        "image_file": "WordImages.xcassets/word_229.imageset/word_229.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⬆️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 230,
+      "asset_id": "word_230",
+      "day": 23,
+      "theme": "More adjectives",
+      "word": "down",
+      "pronunciation": "даун",
+      "translation": "вниз",
+      "example": "Sit down.",
+      "image_concept": "down arrow",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "arrow.down",
+        "image_file": "WordImages.xcassets/word_230.imageset/word_230.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⬇️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 231,
+      "asset_id": "word_231",
+      "day": 24,
+      "theme": "Little words",
+      "word": "yes",
+      "pronunciation": "йес",
+      "translation": "да",
+      "example": "Yes, please.",
+      "image_concept": "yes",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "checkmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_231.imageset/word_231.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Check mark button"
+      },
+      "is_review": false
+    },
+    {
+      "id": 232,
+      "asset_id": "word_232",
+      "day": 24,
+      "theme": "Little words",
+      "word": "no",
+      "pronunciation": "ноу",
+      "translation": "нет",
+      "example": "No, thanks.",
+      "image_concept": "no",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "xmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_232.imageset/word_232.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Cross mark"
+      },
+      "is_review": false
+    },
+    {
+      "id": 233,
+      "asset_id": "word_233",
+      "day": 24,
+      "theme": "Little words",
+      "word": "can",
+      "pronunciation": "кэн",
+      "translation": "мочь / уметь",
+      "example": "I can swim.",
+      "image_concept": "can do",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.raised.fill",
+        "image_file": "WordImages.xcassets/word_233.imageset/word_233.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
+      },
+      "is_review": false
+    },
+    {
+      "id": 234,
+      "asset_id": "word_234",
+      "day": 24,
+      "theme": "Little words",
+      "word": "have",
+      "pronunciation": "хэв",
+      "translation": "иметь",
+      "example": "I have a dog.",
+      "image_concept": "have",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "gift.fill",
+        "image_file": "WordImages.xcassets/word_234.imageset/word_234.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Wrapped gift"
+      },
+      "is_review": false
+    },
+    {
+      "id": 235,
+      "asset_id": "word_235",
+      "day": 24,
+      "theme": "Little words",
+      "word": "in",
+      "pronunciation": "ин",
+      "translation": "в",
+      "example": "The book is in the bag.",
+      "image_concept": "in",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "square.filled.on.square",
+        "image_file": "WordImages.xcassets/word_235.imageset/word_235.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📥"
+      },
+      "is_review": false
+    },
+    {
+      "id": 236,
+      "asset_id": "word_236",
+      "day": 24,
+      "theme": "Little words",
+      "word": "on",
+      "pronunciation": "он",
+      "translation": "на",
+      "example": "The book is on the table.",
+      "image_concept": "on",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "square.on.square",
+        "image_file": "WordImages.xcassets/word_236.imageset/word_236.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "📌"
+      },
+      "is_review": false
+    },
+    {
+      "id": 237,
+      "asset_id": "word_237",
+      "day": 24,
+      "theme": "Little words",
+      "word": "under",
+      "pronunciation": "а́ндэ",
+      "translation": "под",
+      "example": "Under the table.",
+      "image_concept": "under",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "rectangle.bottomhalf.filled",
+        "image_file": "WordImages.xcassets/word_237.imageset/word_237.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "⬇️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 238,
+      "asset_id": "word_238",
+      "day": 24,
+      "theme": "Little words",
+      "word": "next to",
+      "pronunciation": "некст ту",
+      "translation": "рядом с",
+      "example": "Next to the door.",
+      "image_concept": "next to",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "rectangle.split.2x1",
+        "image_file": "WordImages.xcassets/word_238.imageset/word_238.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "↔️"
+      },
+      "is_review": false
+    },
+    {
+      "id": 239,
+      "asset_id": "word_239",
+      "day": 24,
+      "theme": "Little words",
+      "word": "between",
+      "pronunciation": "битуи́н",
+      "translation": "между",
+      "example": "Between two chairs.",
+      "image_concept": "between",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "rectangle.split.3x1",
+        "image_file": "WordImages.xcassets/word_239.imageset/word_239.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🔀"
+      },
+      "is_review": false
+    },
+    {
+      "id": 240,
+      "asset_id": "word_240",
+      "day": 24,
+      "theme": "Little words",
+      "word": "behind",
+      "pronunciation": "биха́йнд",
+      "translation": "за",
+      "example": "Behind the door.",
+      "image_concept": "behind",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "rectangle.portrait.bottomthird.inset.filled",
+        "image_file": "WordImages.xcassets/word_240.imageset/word_240.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🔙"
+      },
+      "is_review": false
+    },
+    {
+      "id": 241,
+      "asset_id": "word_241",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Come here.",
+      "pronunciation": "кам хиэ",
+      "translation": "Иди сюда.",
+      "example": "Come here, please.",
+      "image_concept": "come here",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave.fill",
+        "image_file": "WordImages.xcassets/word_241.imageset/word_241.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👈"
+      },
+      "is_review": false
+    },
+    {
+      "id": 242,
+      "asset_id": "word_242",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Wait a minute.",
+      "pronunciation": "уэйт э ми́нит",
+      "translation": "Подожди минуту.",
+      "example": "Wait a minute.",
+      "image_concept": "waiting",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "clock.fill",
+        "image_file": "WordImages.xcassets/word_242.imageset/word_242.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Hourglass not done"
+      },
+      "is_review": false
+    },
+    {
+      "id": 243,
+      "asset_id": "word_243",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Let's go.",
+      "pronunciation": "летс гоу",
+      "translation": "Пойдём.",
+      "example": "Let's go home.",
+      "image_concept": "let's go",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.walk",
+        "image_file": "WordImages.xcassets/word_243.imageset/word_243.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🏃"
+      },
+      "is_review": false
+    },
+    {
+      "id": 244,
+      "asset_id": "word_244",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "I don't know.",
+      "pronunciation": "ай доунт ноу",
+      "translation": "Я не знаю.",
+      "example": "I don't know.",
+      "image_concept": "I don't know",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "questionmark.circle",
+        "image_file": "WordImages.xcassets/word_244.imageset/word_244.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤷"
+      },
+      "is_review": false
+    },
+    {
+      "id": 245,
+      "asset_id": "word_245",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "I don't understand.",
+      "pronunciation": "ай доунт андэстэнд",
+      "translation": "Я не понимаю.",
+      "example": "I don't understand.",
+      "image_concept": "confused",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ear",
+        "image_file": "WordImages.xcassets/word_245.imageset/word_245.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Thinking face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 246,
+      "asset_id": "word_246",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Can you help me?",
+      "pronunciation": "кэн ю хелп ми",
+      "translation": "Можешь помочь?",
+      "example": "Can you help me?",
+      "image_concept": "asking help",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hands.clap.fill",
+        "image_file": "WordImages.xcassets/word_246.imageset/word_246.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 247,
+      "asset_id": "word_247",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "What is this?",
+      "pronunciation": "вот из зис",
+      "translation": "Что это?",
+      "example": "What is this?",
+      "image_concept": "what is this",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "questionmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_247.imageset/word_247.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
+      },
+      "is_review": false
+    },
+    {
+      "id": 248,
+      "asset_id": "word_248",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Where is it?",
+      "pronunciation": "вэа из ит",
+      "translation": "Где это?",
+      "example": "Where is it?",
+      "image_concept": "where",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mappin.circle.fill",
+        "image_file": "WordImages.xcassets/word_248.imageset/word_248.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Round pushpin"
+      },
+      "is_review": false
+    },
+    {
+      "id": 249,
+      "asset_id": "word_249",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Are you OK?",
+      "pronunciation": "а ю оу-кей",
+      "translation": "Ты в порядке?",
+      "example": "Are you OK?",
+      "image_concept": "are you ok",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "heart.circle.fill",
+        "image_file": "WordImages.xcassets/word_249.imageset/word_249.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
+      },
+      "is_review": false
+    },
+    {
+      "id": 250,
+      "asset_id": "word_250",
+      "day": 25,
+      "theme": "Everyday phrases",
+      "word": "Thank you.",
+      "pronunciation": "сэнк ю",
+      "translation": "Спасибо.",
+      "example": "Thank you!",
+      "image_concept": "thank you",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hands.clap.fill",
+        "image_file": "WordImages.xcassets/word_250.imageset/word_250.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙏"
+      },
+      "is_review": false
+    },
+    {
+      "id": 251,
+      "asset_id": "word_251",
+      "day": 26,
+      "theme": "Questions",
+      "word": "what",
+      "pronunciation": "вот",
+      "translation": "что / какой",
+      "example": "What is your name?",
+      "image_concept": "what",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "questionmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_251.imageset/word_251.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
+      },
+      "is_review": false
+    },
+    {
+      "id": 252,
+      "asset_id": "word_252",
+      "day": 26,
+      "theme": "Questions",
+      "word": "who",
+      "pronunciation": "ху",
+      "translation": "кто",
+      "example": "Who is that?",
+      "image_concept": "who",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.crop.circle.badge.questionmark",
+        "image_file": "WordImages.xcassets/word_252.imageset/word_252.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Bust in silhouette"
+      },
+      "is_review": false
+    },
+    {
+      "id": 253,
+      "asset_id": "word_253",
+      "day": 26,
+      "theme": "Questions",
+      "word": "where",
+      "pronunciation": "вэа",
+      "translation": "где",
+      "example": "Where do you live?",
+      "image_concept": "where",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "mappin.and.ellipse",
+        "image_file": "WordImages.xcassets/word_253.imageset/word_253.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Round pushpin"
+      },
+      "is_review": false
+    },
+    {
+      "id": 254,
+      "asset_id": "word_254",
+      "day": 26,
+      "theme": "Questions",
+      "word": "when",
+      "pronunciation": "уэн",
+      "translation": "когда",
+      "example": "When is the lesson?",
+      "image_concept": "when",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "calendar.circle.fill",
+        "image_file": "WordImages.xcassets/word_254.imageset/word_254.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Alarm clock"
+      },
+      "is_review": false
+    },
+    {
+      "id": 255,
+      "asset_id": "word_255",
+      "day": 26,
+      "theme": "Questions",
+      "word": "why",
+      "pronunciation": "уай",
+      "translation": "почему",
+      "example": "Why are you sad?",
+      "image_concept": "why",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "questionmark.bubble.fill",
+        "image_file": "WordImages.xcassets/word_255.imageset/word_255.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
+      },
+      "is_review": false
+    },
+    {
+      "id": 256,
+      "asset_id": "word_256",
+      "day": 26,
+      "theme": "Questions",
+      "word": "how",
+      "pronunciation": "хау",
+      "translation": "как",
+      "example": "How are you?",
+      "image_concept": "how",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "gearshape.fill",
+        "image_file": "WordImages.xcassets/word_256.imageset/word_256.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red question mark"
+      },
+      "is_review": false
+    },
+    {
+      "id": 257,
+      "asset_id": "word_257",
+      "day": 26,
+      "theme": "Questions",
+      "word": "how many",
+      "pronunciation": "хау мэни",
+      "translation": "сколько (штук)",
+      "example": "How many books?",
+      "image_concept": "how many",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "number.circle.fill",
+        "image_file": "WordImages.xcassets/word_257.imageset/word_257.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Input numbers"
+      },
+      "is_review": false
+    },
+    {
+      "id": 258,
+      "asset_id": "word_258",
+      "day": 26,
+      "theme": "Questions",
+      "word": "how much",
+      "pronunciation": "хау мач",
+      "translation": "сколько (цены/неисч.)",
+      "example": "How much is it?",
+      "image_concept": "how much",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "yensign.circle.fill",
+        "image_file": "WordImages.xcassets/word_258.imageset/word_258.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Money bag"
+      },
+      "is_review": false
+    },
+    {
+      "id": 259,
+      "asset_id": "word_259",
+      "day": 26,
+      "theme": "Questions",
+      "word": "what time",
+      "pronunciation": "вот тайм",
+      "translation": "который час",
+      "example": "What time is it?",
+      "image_concept": "what time",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "clock.fill",
+        "image_file": "WordImages.xcassets/word_259.imageset/word_259.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🕐"
+      },
+      "is_review": false
+    },
+    {
+      "id": 260,
+      "asset_id": "word_260",
+      "day": 26,
+      "theme": "Questions",
+      "word": "which one",
+      "pronunciation": "уич уан",
+      "translation": "который / какой из",
+      "example": "Which one do you want?",
+      "image_concept": "which one",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "checklist",
+        "image_file": "WordImages.xcassets/word_260.imageset/word_260.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🔢"
+      },
+      "is_review": false
+    },
+    {
+      "id": 261,
+      "asset_id": "word_261",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "hello",
+      "pronunciation": "хелóу",
+      "translation": "привет",
+      "example": "Hello!",
+      "image_concept": "hello",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave.fill",
+        "image_file": "WordImages.xcassets/word_261.imageset/word_261.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 262,
+      "asset_id": "word_262",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "goodbye",
+      "pronunciation": "гудба́й",
+      "translation": "до свидания",
+      "example": "Goodbye!",
+      "image_concept": "goodbye",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave",
+        "image_file": "WordImages.xcassets/word_262.imageset/word_262.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 263,
+      "asset_id": "word_263",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "please",
+      "pronunciation": "плиз",
+      "translation": "пожалуйста",
+      "example": "Help me, please.",
+      "image_concept": "please",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "heart.fill",
+        "image_file": "WordImages.xcassets/word_263.imageset/word_263.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙏"
+      },
+      "is_review": false
+    },
+    {
+      "id": 264,
+      "asset_id": "word_264",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "thanks",
+      "pronunciation": "сэнкс",
+      "translation": "спасибо",
+      "example": "Thanks a lot!",
+      "image_concept": "thanks",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hands.clap.fill",
+        "image_file": "WordImages.xcassets/word_264.imageset/word_264.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙏"
+      },
+      "is_review": false
+    },
+    {
+      "id": 265,
+      "asset_id": "word_265",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "sorry",
+      "pronunciation": "со́ри",
+      "translation": "извини",
+      "example": "I am sorry.",
+      "image_concept": "sorry",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.dashed",
+        "image_file": "WordImages.xcassets/word_265.imageset/word_265.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Pensive face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 266,
+      "asset_id": "word_266",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "excuse me",
+      "pronunciation": "икскьюз ми",
+      "translation": "извините",
+      "example": "Excuse me!",
+      "image_concept": "excuse me",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.raised.fill",
+        "image_file": "WordImages.xcassets/word_266.imageset/word_266.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🙋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 267,
+      "asset_id": "word_267",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "welcome",
+      "pronunciation": "уэлкам",
+      "translation": "добро пожаловать",
+      "example": "Welcome!",
+      "image_concept": "welcome",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "house.fill",
+        "image_file": "WordImages.xcassets/word_267.imageset/word_267.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "House with garden"
+      },
+      "is_review": false
+    },
+    {
+      "id": 268,
+      "asset_id": "word_268",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "good morning",
+      "pronunciation": "гуд мо́нинг",
+      "translation": "доброе утро",
+      "example": "Good morning!",
+      "image_concept": "good morning",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sunrise.fill",
+        "image_file": "WordImages.xcassets/word_268.imageset/word_268.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sunrise"
+      },
+      "is_review": false
+    },
+    {
+      "id": 269,
+      "asset_id": "word_269",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "good night",
+      "pronunciation": "гуд найт",
+      "translation": "спокойной ночи",
+      "example": "Good night!",
+      "image_concept": "good night",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "moon.stars.fill",
+        "image_file": "WordImages.xcassets/word_269.imageset/word_269.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Night with stars"
+      },
+      "is_review": false
+    },
+    {
+      "id": 270,
+      "asset_id": "word_270",
+      "day": 27,
+      "theme": "Conversation",
+      "word": "see you",
+      "pronunciation": "си ю",
+      "translation": "увидимся",
+      "example": "See you!",
+      "image_concept": "see you",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave",
+        "image_file": "WordImages.xcassets/word_270.imageset/word_270.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 271,
+      "asset_id": "word_271",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I like it.",
+      "pronunciation": "ай лайк ит",
+      "translation": "Мне нравится.",
+      "example": "I like it.",
+      "image_concept": "I like it",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsup.fill",
+        "image_file": "WordImages.xcassets/word_271.imageset/word_271.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
+      },
+      "is_review": false
+    },
+    {
+      "id": 272,
+      "asset_id": "word_272",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I don't like it.",
+      "pronunciation": "ай доунт лайк ит",
+      "translation": "Мне не нравится.",
+      "example": "I don't like it.",
+      "image_concept": "dislike",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsdown.fill",
+        "image_file": "WordImages.xcassets/word_272.imageset/word_272.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👎"
+      },
+      "is_review": false
+    },
+    {
+      "id": 273,
+      "asset_id": "word_273",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I'm hungry.",
+      "pronunciation": "айм ха́нгри",
+      "translation": "Я голодный.",
+      "example": "I'm hungry.",
+      "image_concept": "hungry",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "fork.knife",
+        "image_file": "WordImages.xcassets/word_273.imageset/word_273.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Fork and knife"
+      },
+      "is_review": false
+    },
+    {
+      "id": 274,
+      "asset_id": "word_274",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I'm tired.",
+      "pronunciation": "айм та́йэд",
+      "translation": "Я устал.",
+      "example": "I'm tired.",
+      "image_concept": "tired",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "bed.double.fill",
+        "image_file": "WordImages.xcassets/word_274.imageset/word_274.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Sleepy face"
+      },
+      "is_review": false
+    },
+    {
+      "id": 275,
+      "asset_id": "word_275",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I'm fine.",
+      "pronunciation": "айм файн",
+      "translation": "У меня всё хорошо.",
+      "example": "I'm fine.",
+      "image_concept": "I'm fine",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "checkmark.circle.fill",
+        "image_file": "WordImages.xcassets/word_275.imageset/word_275.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "😊"
+      },
+      "is_review": false
+    },
+    {
+      "id": 276,
+      "asset_id": "word_276",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "It's OK.",
+      "pronunciation": "итс оу-кей",
+      "translation": "Всё нормально.",
+      "example": "It's OK.",
+      "image_concept": "OK",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "checkmark.circle",
+        "image_file": "WordImages.xcassets/word_276.imageset/word_276.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👌"
+      },
+      "is_review": false
+    },
+    {
+      "id": 277,
+      "asset_id": "word_277",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "That's great!",
+      "pronunciation": "зэтс грейт",
+      "translation": "Отлично!",
+      "example": "That's great!",
+      "image_concept": "great",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "star.fill",
+        "image_file": "WordImages.xcassets/word_277.imageset/word_277.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Star-struck"
+      },
+      "is_review": false
+    },
+    {
+      "id": 278,
+      "asset_id": "word_278",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "I love it.",
+      "pronunciation": "ай лав ит",
+      "translation": "Я обожаю это.",
+      "example": "I love it!",
+      "image_concept": "love it",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "heart.fill",
+        "image_file": "WordImages.xcassets/word_278.imageset/word_278.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red heart"
+      },
+      "is_review": false
+    },
+    {
+      "id": 279,
+      "asset_id": "word_279",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "Me too.",
+      "pronunciation": "ми ту",
+      "translation": "Я тоже.",
+      "example": "Me too!",
+      "image_concept": "me too",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "person.2.fill",
+        "image_file": "WordImages.xcassets/word_279.imageset/word_279.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🤝"
+      },
+      "is_review": false
+    },
+    {
+      "id": 280,
+      "asset_id": "word_280",
+      "day": 28,
+      "theme": "Useful phrases",
+      "word": "See you later.",
+      "pronunciation": "си ю лэ́йтэ",
+      "translation": "Увидимся позже.",
+      "example": "See you later!",
+      "image_concept": "see you later",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave",
+        "image_file": "WordImages.xcassets/word_280.imageset/word_280.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
+      },
+      "is_review": false
+    },
+    {
+      "id": 281,
+      "asset_id": "word_281",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "open",
+      "pronunciation": "о́упэн",
+      "translation": "открывать",
+      "example": "Open the window.",
+      "image_concept": "open",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "door.left.hand.open",
+        "image_file": "WordImages.xcassets/word_281.imageset/word_281.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Open file folder"
+      },
+      "is_review": false
+    },
+    {
+      "id": 282,
+      "asset_id": "word_282",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "close",
+      "pronunciation": "клоуз",
+      "translation": "закрывать",
+      "example": "Close the door.",
+      "image_concept": "close",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "door.left.hand.closed",
+        "image_file": "WordImages.xcassets/word_282.imageset/word_282.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Locked"
+      },
+      "is_review": false
+    },
+    {
+      "id": 283,
+      "asset_id": "word_283",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "buy",
+      "pronunciation": "бай",
+      "translation": "покупать",
+      "example": "I buy milk.",
+      "image_concept": "buy",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "cart.fill",
+        "image_file": "WordImages.xcassets/word_283.imageset/word_283.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Shopping cart"
+      },
+      "is_review": false
+    },
+    {
+      "id": 284,
+      "asset_id": "word_284",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "put",
+      "pronunciation": "пут",
+      "translation": "класть / ставить",
+      "example": "Put it here.",
+      "image_concept": "put",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "square.and.arrow.down.fill",
+        "image_file": "WordImages.xcassets/word_284.imageset/word_284.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Inbox tray"
+      },
+      "is_review": false
+    },
+    {
+      "id": 285,
+      "asset_id": "word_285",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "look",
+      "pronunciation": "лук",
+      "translation": "смотреть",
+      "example": "Look at me!",
+      "image_concept": "look",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "eye.fill",
+        "image_file": "WordImages.xcassets/word_285.imageset/word_285.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Eye"
+      },
+      "is_review": false
+    },
+    {
+      "id": 286,
+      "asset_id": "word_286",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "listen",
+      "pronunciation": "ли́сн",
+      "translation": "слушать",
+      "example": "Listen to me.",
+      "image_concept": "listen",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "ear.fill",
+        "image_file": "WordImages.xcassets/word_286.imageset/word_286.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👂"
+      },
+      "is_review": false
+    },
+    {
+      "id": 287,
+      "asset_id": "word_287",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "read",
+      "pronunciation": "рид",
+      "translation": "читать",
+      "example": "I read every day.",
+      "image_concept": "read",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "book.fill",
+        "image_file": "WordImages.xcassets/word_287.imageset/word_287.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Open book"
+      },
+      "is_review": false
+    },
+    {
+      "id": 288,
+      "asset_id": "word_288",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "write",
+      "pronunciation": "райт",
+      "translation": "писать",
+      "example": "Write your name.",
+      "image_concept": "write",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "pencil",
+        "image_file": "WordImages.xcassets/word_288.imageset/word_288.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Memo"
+      },
+      "is_review": false
+    },
+    {
+      "id": 289,
+      "asset_id": "word_289",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "cook",
+      "pronunciation": "кук",
+      "translation": "готовить",
+      "example": "Mum can cook.",
+      "image_concept": "cook",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "frying.pan.fill",
+        "image_file": "WordImages.xcassets/word_289.imageset/word_289.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "🍳"
+      },
+      "is_review": false
+    },
+    {
+      "id": 290,
+      "asset_id": "word_290",
+      "day": 29,
+      "theme": "More verbs",
+      "word": "tidy",
+      "pronunciation": "та́йди",
+      "translation": "убирать / приводить в порядок",
+      "example": "Tidy your room.",
+      "image_concept": "tidying room",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "sparkles",
+        "image_file": "WordImages.xcassets/word_290.imageset/word_290.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Soap"
+      },
+      "is_review": false
+    },
+    {
+      "id": 291,
+      "asset_id": "word_291",
+      "day": 30,
+      "theme": "Review week",
+      "word": "apple",
+      "pronunciation": "эпл",
+      "translation": "яблоко",
+      "example": "I like apples.",
+      "image_concept": "red apple",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "apple.logo",
+        "image_file": "WordImages.xcassets/word_291.imageset/word_291.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red apple"
+      },
+      "is_review": true
+    },
+    {
+      "id": 292,
+      "asset_id": "word_292",
+      "day": 30,
+      "theme": "Review week",
+      "word": "dog",
+      "pronunciation": "дог",
+      "translation": "собака",
+      "example": "The dog is friendly.",
+      "image_concept": "dog",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "dog.fill",
+        "image_file": "WordImages.xcassets/word_292.imageset/word_292.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Dog"
+      },
+      "is_review": true
+    },
+    {
+      "id": 293,
+      "asset_id": "word_293",
+      "day": 30,
+      "theme": "Review week",
+      "word": "happy",
+      "pronunciation": "хэ́пи",
+      "translation": "счастливый",
+      "example": "I am happy.",
+      "image_concept": "happy child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "face.smiling.fill",
+        "image_file": "WordImages.xcassets/word_293.imageset/word_293.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Grinning face"
+      },
+      "is_review": true
+    },
+    {
+      "id": 294,
+      "asset_id": "word_294",
+      "day": 30,
+      "theme": "Review week",
+      "word": "red",
+      "pronunciation": "ред",
+      "translation": "красный",
+      "example": "A red apple.",
+      "image_concept": "red colour",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "circle.fill",
+        "image_file": "WordImages.xcassets/word_294.imageset/word_294.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Red circle"
+      },
+      "is_review": true
+    },
+    {
+      "id": 295,
+      "asset_id": "word_295",
+      "day": 30,
+      "theme": "Review week",
+      "word": "mother",
+      "pronunciation": "ма́зе",
+      "translation": "мама",
+      "example": "This is my mother.",
+      "image_concept": "mother with child",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "figure.stand.dress",
+        "image_file": "WordImages.xcassets/word_295.imageset/word_295.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👩"
+      },
+      "is_review": true
+    },
+    {
+      "id": 296,
+      "asset_id": "word_296",
+      "day": 30,
+      "theme": "Review week",
+      "word": "water",
+      "pronunciation": "во́тэ",
+      "translation": "вода",
+      "example": "I drink water.",
+      "image_concept": "glass of water",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "drop.fill",
+        "image_file": "WordImages.xcassets/word_296.imageset/word_296.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Water wave"
+      },
+      "is_review": true
+    },
+    {
+      "id": 297,
+      "asset_id": "word_297",
+      "day": 30,
+      "theme": "Review week",
+      "word": "book",
+      "pronunciation": "бук",
+      "translation": "книга",
+      "example": "I read a book.",
+      "image_concept": "book",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "book.fill",
+        "image_file": "WordImages.xcassets/word_297.imageset/word_297.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Closed book"
+      },
+      "is_review": true
+    },
+    {
+      "id": 298,
+      "asset_id": "word_298",
+      "day": 30,
+      "theme": "Review week",
+      "word": "car",
+      "pronunciation": "ка",
+      "translation": "машина",
+      "example": "Dad drives a car.",
+      "image_concept": "car",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "car.fill",
+        "image_file": "WordImages.xcassets/word_298.imageset/word_298.png",
+        "wikivoc_file": null,
+        "image_source": "fluent",
+        "image_detail": "Automobile"
+      },
+      "is_review": true
+    },
+    {
+      "id": 299,
+      "asset_id": "word_299",
+      "day": 30,
+      "theme": "Review week",
+      "word": "hello",
+      "pronunciation": "хелóу",
+      "translation": "привет",
+      "example": "Hello!",
+      "image_concept": "hello",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.wave.fill",
+        "image_file": "WordImages.xcassets/word_299.imageset/word_299.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👋"
+      },
+      "is_review": true
+    },
+    {
+      "id": 300,
+      "asset_id": "word_300",
+      "day": 30,
+      "theme": "Review week",
+      "word": "I like it.",
+      "pronunciation": "ай лайк ит",
+      "translation": "Мне нравится.",
+      "example": "I like it.",
+      "image_concept": "I like it",
+      "visual": {
+        "mode": "image",
+        "sf_symbol": "hand.thumbsup.fill",
+        "image_file": "WordImages.xcassets/word_300.imageset/word_300.png",
+        "wikivoc_file": null,
+        "image_source": "twemoji",
+        "image_detail": "👍"
+      },
+      "is_review": true
+    }
+  ]
+}
