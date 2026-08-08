@@ -3,11 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v11: перенос только если sizeForText реально не влезает
+// v12: экран блокировки (accessory) + точный перенос
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/821ae26d438781bc2d27725d816a22eff3cce8f0/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@821ae26d438781bc2d27725d816a22eff3cce8f0/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/bd92d84cb2f1a883031a5cf9f750a8078b80371c/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@bd92d84cb2f1a883031a5cf9f750a8078b80371c/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -35,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V11") &&
-        code.includes("measureTextWidth")
+        code.includes("PASSIVE_WIDGET_V12") &&
+        code.includes("isAccessoryFamily")
       ) {
         return code;
       }
@@ -69,7 +69,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V11") || !local.includes("measureTextWidth")) {
+  if (!local.includes("PASSIVE_WIDGET_V12") || !local.includes("isAccessoryFamily")) {
     await downloadCore();
   }
 }
