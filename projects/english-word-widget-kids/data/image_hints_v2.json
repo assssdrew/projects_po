@@ -1,0 +1,1162 @@
+{
+  "wake up": {
+    "fluent": "Alarm clock",
+    "emoji": "⏰"
+  },
+  "get up": {
+    "fluent": null,
+    "emoji": "🛏️"
+  },
+  "wash": {
+    "fluent": "Soap",
+    "emoji": "🧼"
+  },
+  "brush teeth": {
+    "fluent": null,
+    "emoji": "🦷"
+  },
+  "get dressed": {
+    "fluent": "T-shirt",
+    "emoji": "👕"
+  },
+  "breakfast": {
+    "fluent": "Cooking",
+    "emoji": "🍳"
+  },
+  "go to school": {
+    "fluent": null,
+    "emoji": "🏫"
+  },
+  "homework": {
+    "fluent": "Memo",
+    "emoji": "📝"
+  },
+  "play": {
+    "fluent": "Jigsaw",
+    "emoji": "🎮"
+  },
+  "sleep": {
+    "fluent": "Sleeping face",
+    "emoji": "😴"
+  },
+  "family": {
+    "fluent": "Family",
+    "emoji": "👨‍👩‍👧‍👦"
+  },
+  "mother": {
+    "fluent": null,
+    "emoji": "👩"
+  },
+  "father": {
+    "fluent": null,
+    "emoji": "👨"
+  },
+  "brother": {
+    "fluent": null,
+    "emoji": "👦"
+  },
+  "sister": {
+    "fluent": null,
+    "emoji": "👧"
+  },
+  "grandma": {
+    "fluent": null,
+    "emoji": "👵"
+  },
+  "grandpa": {
+    "fluent": null,
+    "emoji": "👴"
+  },
+  "baby": {
+    "fluent": "Baby",
+    "emoji": "👶"
+  },
+  "parents": {
+    "fluent": null,
+    "emoji": "👨‍👩‍👧"
+  },
+  "child": {
+    "fluent": null,
+    "emoji": "🧒"
+  },
+  "teacher": {
+    "fluent": "Teacher",
+    "emoji": "👩‍🏫"
+  },
+  "student": {
+    "fluent": "Student",
+    "emoji": "🧑‍🎓"
+  },
+  "class": {
+    "fluent": null,
+    "emoji": "🏫"
+  },
+  "book": {
+    "fluent": "Closed book",
+    "emoji": "📖"
+  },
+  "pen": {
+    "fluent": "Pen",
+    "emoji": "🖊️"
+  },
+  "pencil": {
+    "fluent": "Pencil",
+    "emoji": "✏️"
+  },
+  "desk": {
+    "fluent": null,
+    "emoji": "🪑"
+  },
+  "bag": {
+    "fluent": "Backpack",
+    "emoji": "🎒"
+  },
+  "rubber": {
+    "fluent": null,
+    "emoji": "🧽"
+  },
+  "ruler": {
+    "fluent": null,
+    "emoji": "📏"
+  },
+  "friend": {
+    "fluent": "People hugging",
+    "emoji": "👫"
+  },
+  "game": {
+    "fluent": "Video game",
+    "emoji": "🎲"
+  },
+  "fun": {
+    "fluent": "Party popper",
+    "emoji": "🎉"
+  },
+  "laugh": {
+    "fluent": "Face with tears of joy",
+    "emoji": "😂"
+  },
+  "help": {
+    "fluent": null,
+    "emoji": "🆘"
+  },
+  "kind": {
+    "fluent": null,
+    "emoji": "💗"
+  },
+  "nice": {
+    "fluent": null,
+    "emoji": "😊"
+  },
+  "smile": {
+    "fluent": "Slightly smiling face",
+    "emoji": "😄"
+  },
+  "hug": {
+    "fluent": "People hugging",
+    "emoji": "🤗"
+  },
+  "invite": {
+    "fluent": null,
+    "emoji": "📨"
+  },
+  "sit": {
+    "fluent": "Chair",
+    "emoji": "🪑"
+  },
+  "stand": {
+    "fluent": null,
+    "emoji": "🧍"
+  },
+  "run": {
+    "fluent": "Person running",
+    "emoji": "🏃"
+  },
+  "jump": {
+    "fluent": null,
+    "emoji": "🦘"
+  },
+  "walk": {
+    "fluent": "Person walking",
+    "emoji": "🚶"
+  },
+  "eat": {
+    "fluent": "Fork and knife",
+    "emoji": "🍽️"
+  },
+  "drink": {
+    "fluent": "Cup with straw",
+    "emoji": "🥤"
+  },
+  "draw": {
+    "fluent": "Crayon",
+    "emoji": "🎨"
+  },
+  "sing": {
+    "fluent": "Microphone",
+    "emoji": "🎤"
+  },
+  "dance": {
+    "fluent": "Woman dancing",
+    "emoji": "💃"
+  },
+  "food": {
+    "fluent": "Fork and knife with plate",
+    "emoji": "🍽️"
+  },
+  "lunch": {
+    "fluent": "Sandwich",
+    "emoji": "🥪"
+  },
+  "dinner": {
+    "fluent": "Pot of food",
+    "emoji": "🍲"
+  },
+  "bread": {
+    "fluent": "Bread",
+    "emoji": "🍞"
+  },
+  "apple": {
+    "fluent": "Red apple",
+    "emoji": "🍎"
+  },
+  "banana": {
+    "fluent": "Banana",
+    "emoji": "🍌"
+  },
+  "egg": {
+    "fluent": "Egg",
+    "emoji": "🥚"
+  },
+  "cake": {
+    "fluent": "Shortcake",
+    "emoji": "🎂"
+  },
+  "cheese": {
+    "fluent": "Cheese wedge",
+    "emoji": "🧀"
+  },
+  "pizza": {
+    "fluent": "Pizza",
+    "emoji": "🍕"
+  },
+  "water": {
+    "fluent": "Water wave",
+    "emoji": "💧"
+  },
+  "milk": {
+    "fluent": "Glass of milk",
+    "emoji": "🥛"
+  },
+  "juice": {
+    "fluent": "Beverage box",
+    "emoji": "🧃"
+  },
+  "tea": {
+    "fluent": "Teacup without handle",
+    "emoji": "🍵"
+  },
+  "ice cream": {
+    "fluent": "Soft ice cream",
+    "emoji": "🍦"
+  },
+  "chicken": {
+    "fluent": "Cooked chicken",
+    "emoji": "🍗"
+  },
+  "hungry": {
+    "fluent": "Fork and knife",
+    "emoji": "😋"
+  },
+  "thirsty": {
+    "fluent": "Potable water",
+    "emoji": "🥤"
+  },
+  "sweet": {
+    "fluent": "Shortcake",
+    "emoji": "🍬"
+  },
+  "salty": {
+    "fluent": "Salt",
+    "emoji": "🧂"
+  },
+  "house": {
+    "fluent": "House",
+    "emoji": "🏠"
+  },
+  "room": {
+    "fluent": null,
+    "emoji": "🚪"
+  },
+  "bedroom": {
+    "fluent": "Bed",
+    "emoji": "🛏️"
+  },
+  "kitchen": {
+    "fluent": null,
+    "emoji": "👩‍🍳"
+  },
+  "bathroom": {
+    "fluent": "Toilet",
+    "emoji": "🚽"
+  },
+  "door": {
+    "fluent": "Door",
+    "emoji": "🚪"
+  },
+  "window": {
+    "fluent": "Window",
+    "emoji": "🪟"
+  },
+  "table": {
+    "fluent": null,
+    "emoji": "🪑"
+  },
+  "chair": {
+    "fluent": "Chair",
+    "emoji": "🪑"
+  },
+  "bed": {
+    "fluent": "Bed",
+    "emoji": "🛏️"
+  },
+  "phone": {
+    "fluent": "Mobile phone",
+    "emoji": "📱"
+  },
+  "computer": {
+    "fluent": "Laptop",
+    "emoji": "💻"
+  },
+  "TV": {
+    "fluent": "Television",
+    "emoji": "📺"
+  },
+  "lamp": {
+    "fluent": "Light bulb",
+    "emoji": "💡"
+  },
+  "clock": {
+    "fluent": "Alarm clock",
+    "emoji": "⏰"
+  },
+  "key": {
+    "fluent": "Key",
+    "emoji": "🔑"
+  },
+  "toy": {
+    "fluent": "Teddy bear",
+    "emoji": "🧸"
+  },
+  "plant": {
+    "fluent": "Potted plant",
+    "emoji": "🪴"
+  },
+  "mirror": {
+    "fluent": "Mirror",
+    "emoji": "🪞"
+  },
+  "sofa": {
+    "fluent": "Couch and lamp",
+    "emoji": "🛋️"
+  },
+  "happy": {
+    "fluent": "Grinning face",
+    "emoji": "😄"
+  },
+  "sad": {
+    "fluent": "Crying face",
+    "emoji": "😢"
+  },
+  "angry": {
+    "fluent": "Angry face",
+    "emoji": "😠"
+  },
+  "scared": {
+    "fluent": "Fearful face",
+    "emoji": "😨"
+  },
+  "tired": {
+    "fluent": "Sleepy face",
+    "emoji": "😴"
+  },
+  "bored": {
+    "fluent": "Sleeping face",
+    "emoji": "😑"
+  },
+  "surprised": {
+    "fluent": "Astonished face",
+    "emoji": "😲"
+  },
+  "excited": {
+    "fluent": "Star-struck",
+    "emoji": "🤩"
+  },
+  "fine": {
+    "fluent": "OK hand",
+    "emoji": "👌"
+  },
+  "ill": {
+    "fluent": "Face with thermometer",
+    "emoji": "🤒"
+  },
+  "football": {
+    "fluent": "Soccer ball",
+    "emoji": "⚽"
+  },
+  "basketball": {
+    "fluent": "Basketball",
+    "emoji": "🏀"
+  },
+  "tennis": {
+    "fluent": "Tennis",
+    "emoji": "🎾"
+  },
+  "swimming": {
+    "fluent": null,
+    "emoji": "🏊"
+  },
+  "bike": {
+    "fluent": "Bicycle",
+    "emoji": "🚲"
+  },
+  "kick": {
+    "fluent": null,
+    "emoji": "⚽"
+  },
+  "catch": {
+    "fluent": null,
+    "emoji": "🥎"
+  },
+  "throw": {
+    "fluent": null,
+    "emoji": "⚾"
+  },
+  "ride": {
+    "fluent": null,
+    "emoji": "🚴"
+  },
+  "win": {
+    "fluent": "Trophy",
+    "emoji": "🏆"
+  },
+  "head": {
+    "fluent": "Bust in silhouette",
+    "emoji": "🙂"
+  },
+  "face": {
+    "fluent": "Slightly smiling face",
+    "emoji": "😊"
+  },
+  "eye": {
+    "fluent": "Eye",
+    "emoji": "👁️"
+  },
+  "ear": {
+    "fluent": null,
+    "emoji": "👂"
+  },
+  "nose": {
+    "fluent": null,
+    "emoji": "👃"
+  },
+  "mouth": {
+    "fluent": "Mouth",
+    "emoji": "👄"
+  },
+  "hand": {
+    "fluent": null,
+    "emoji": "✋"
+  },
+  "arm": {
+    "fluent": null,
+    "emoji": "💪"
+  },
+  "leg": {
+    "fluent": null,
+    "emoji": "🦵"
+  },
+  "foot": {
+    "fluent": null,
+    "emoji": "🦶"
+  },
+  "T-shirt": {
+    "fluent": "T-shirt",
+    "emoji": "👕"
+  },
+  "trousers": {
+    "fluent": "Jeans",
+    "emoji": "👖"
+  },
+  "shorts": {
+    "fluent": "Shorts",
+    "emoji": "🩳"
+  },
+  "jacket": {
+    "fluent": "Coat",
+    "emoji": "🧥"
+  },
+  "coat": {
+    "fluent": "Coat",
+    "emoji": "🧥"
+  },
+  "socks": {
+    "fluent": "Socks",
+    "emoji": "🧦"
+  },
+  "hat": {
+    "fluent": "Top hat",
+    "emoji": "🎩"
+  },
+  "dress": {
+    "fluent": "Dress",
+    "emoji": "👗"
+  },
+  "shoes": {
+    "fluent": "Running shoe",
+    "emoji": "👟"
+  },
+  "wear": {
+    "fluent": "T-shirt",
+    "emoji": "👕"
+  },
+  "sunny": {
+    "fluent": "Sun",
+    "emoji": "☀️"
+  },
+  "rainy": {
+    "fluent": "Cloud with rain",
+    "emoji": "🌧️"
+  },
+  "cloudy": {
+    "fluent": "Cloud",
+    "emoji": "☁️"
+  },
+  "windy": {
+    "fluent": "Leaf fluttering in wind",
+    "emoji": "💨"
+  },
+  "snow": {
+    "fluent": "Snowflake",
+    "emoji": "❄️"
+  },
+  "hot": {
+    "fluent": "Hot beverage",
+    "emoji": "🥵"
+  },
+  "cold": {
+    "fluent": "Cold face",
+    "emoji": "🥶"
+  },
+  "warm": {
+    "fluent": "Sun",
+    "emoji": "🌞"
+  },
+  "rainbow": {
+    "fluent": "Rainbow",
+    "emoji": "🌈"
+  },
+  "umbrella": {
+    "fluent": "Umbrella",
+    "emoji": "☂️"
+  },
+  "tree": {
+    "fluent": "Deciduous tree",
+    "emoji": "🌳"
+  },
+  "flower": {
+    "fluent": "Sunflower",
+    "emoji": "🌻"
+  },
+  "grass": {
+    "fluent": "Seedling",
+    "emoji": "🌱"
+  },
+  "river": {
+    "fluent": "Water wave",
+    "emoji": "🏞️"
+  },
+  "sea": {
+    "fluent": "Water wave",
+    "emoji": "🌊"
+  },
+  "beach": {
+    "fluent": "Beach with umbrella",
+    "emoji": "🏖️"
+  },
+  "mountain": {
+    "fluent": "Mountain",
+    "emoji": "⛰️"
+  },
+  "forest": {
+    "fluent": "National park",
+    "emoji": "🌲"
+  },
+  "park": {
+    "fluent": "National park",
+    "emoji": "🏞️"
+  },
+  "sky": {
+    "fluent": "Sun behind large cloud",
+    "emoji": "🌌"
+  },
+  "dog": {
+    "fluent": "Dog",
+    "emoji": "🐶"
+  },
+  "cat": {
+    "fluent": "Cat",
+    "emoji": "🐱"
+  },
+  "bird": {
+    "fluent": "Bird",
+    "emoji": "🐦"
+  },
+  "fish": {
+    "fluent": "Fish",
+    "emoji": "🐟"
+  },
+  "rabbit": {
+    "fluent": "Rabbit",
+    "emoji": "🐰"
+  },
+  "horse": {
+    "fluent": "Horse",
+    "emoji": "🐴"
+  },
+  "cow": {
+    "fluent": "Cow",
+    "emoji": "🐮"
+  },
+  "duck": {
+    "fluent": "Duck",
+    "emoji": "🦆"
+  },
+  "frog": {
+    "fluent": "Frog",
+    "emoji": "🐸"
+  },
+  "mouse": {
+    "fluent": "Mouse",
+    "emoji": "🐭"
+  },
+  "city": {
+    "fluent": "Cityscape",
+    "emoji": "🏙️"
+  },
+  "street": {
+    "fluent": "Motorway",
+    "emoji": "🛣️"
+  },
+  "shop": {
+    "fluent": "Department store",
+    "emoji": "🛍️"
+  },
+  "school": {
+    "fluent": "School",
+    "emoji": "🏫"
+  },
+  "hospital": {
+    "fluent": "Hospital",
+    "emoji": "🏥"
+  },
+  "zoo": {
+    "fluent": "Lion",
+    "emoji": "🦁"
+  },
+  "farm": {
+    "fluent": "Sheaf of rice",
+    "emoji": "🌾"
+  },
+  "cinema": {
+    "fluent": "Movie camera",
+    "emoji": "🎬"
+  },
+  "pool": {
+    "fluent": null,
+    "emoji": "🏊"
+  },
+  "playground": {
+    "fluent": null,
+    "emoji": "🛝"
+  },
+  "car": {
+    "fluent": "Automobile",
+    "emoji": "🚗"
+  },
+  "bus": {
+    "fluent": "Bus",
+    "emoji": "🚌"
+  },
+  "train": {
+    "fluent": "Train",
+    "emoji": "🚆"
+  },
+  "plane": {
+    "fluent": "Airplane",
+    "emoji": "✈️"
+  },
+  "bicycle": {
+    "fluent": "Bicycle",
+    "emoji": "🚲"
+  },
+  "boat": {
+    "fluent": "Sailboat",
+    "emoji": "⛵"
+  },
+  "taxi": {
+    "fluent": "Oncoming taxi",
+    "emoji": "🚕"
+  },
+  "station": {
+    "fluent": "Station",
+    "emoji": "🚉"
+  },
+  "ticket": {
+    "fluent": "Ticket",
+    "emoji": "🎫"
+  },
+  "bridge": {
+    "fluent": "Bridge at night",
+    "emoji": "🌉"
+  },
+  "red": {
+    "fluent": "Red circle",
+    "emoji": "🔴"
+  },
+  "blue": {
+    "fluent": "Blue circle",
+    "emoji": "🔵"
+  },
+  "yellow": {
+    "fluent": "Yellow circle",
+    "emoji": "🟡"
+  },
+  "green": {
+    "fluent": "Green circle",
+    "emoji": "🟢"
+  },
+  "black": {
+    "fluent": "Black circle",
+    "emoji": "⚫"
+  },
+  "white": {
+    "fluent": "White circle",
+    "emoji": "⚪"
+  },
+  "orange": {
+    "fluent": "Orange circle",
+    "emoji": "🟠"
+  },
+  "pink": {
+    "fluent": null,
+    "emoji": "💗"
+  },
+  "brown": {
+    "fluent": "Brown circle",
+    "emoji": "🟤"
+  },
+  "grey": {
+    "fluent": null,
+    "emoji": "⚪"
+  },
+  "one": {
+    "fluent": "Keycap 1",
+    "emoji": "1️⃣"
+  },
+  "two": {
+    "fluent": "Keycap 2",
+    "emoji": "2️⃣"
+  },
+  "three": {
+    "fluent": "Keycap 3",
+    "emoji": "3️⃣"
+  },
+  "four": {
+    "fluent": "Keycap 4",
+    "emoji": "4️⃣"
+  },
+  "five": {
+    "fluent": "Keycap 5",
+    "emoji": "5️⃣"
+  },
+  "six": {
+    "fluent": "Keycap 6",
+    "emoji": "6️⃣"
+  },
+  "seven": {
+    "fluent": "Keycap 7",
+    "emoji": "7️⃣"
+  },
+  "eight": {
+    "fluent": "Keycap 8",
+    "emoji": "8️⃣"
+  },
+  "nine": {
+    "fluent": "Keycap 9",
+    "emoji": "9️⃣"
+  },
+  "ten": {
+    "fluent": "Keycap 10",
+    "emoji": "🔟"
+  },
+  "Monday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Tuesday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Wednesday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Thursday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Friday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Saturday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "Sunday": {
+    "fluent": null,
+    "emoji": "📅"
+  },
+  "today": {
+    "fluent": "Calendar",
+    "emoji": "📅"
+  },
+  "tomorrow": {
+    "fluent": "Tear-off calendar",
+    "emoji": "📆"
+  },
+  "yesterday": {
+    "fluent": "Calendar",
+    "emoji": "🗓️"
+  },
+  "big": {
+    "fluent": "Elephant",
+    "emoji": "🐘"
+  },
+  "small": {
+    "fluent": "Mouse",
+    "emoji": "🐭"
+  },
+  "long": {
+    "fluent": "Straight ruler",
+    "emoji": "📏"
+  },
+  "short": {
+    "fluent": "Straight ruler",
+    "emoji": "📐"
+  },
+  "new": {
+    "fluent": "Sparkles",
+    "emoji": "🆕"
+  },
+  "old": {
+    "fluent": null,
+    "emoji": "🧓"
+  },
+  "clean": {
+    "fluent": "Soap",
+    "emoji": "✨"
+  },
+  "dirty": {
+    "fluent": null,
+    "emoji": "🧽"
+  },
+  "fast": {
+    "fluent": "Rabbit",
+    "emoji": "🐇"
+  },
+  "slow": {
+    "fluent": "Turtle",
+    "emoji": "🐢"
+  },
+  "good": {
+    "fluent": null,
+    "emoji": "👍"
+  },
+  "bad": {
+    "fluent": null,
+    "emoji": "👎"
+  },
+  "young": {
+    "fluent": "Child",
+    "emoji": "🧒"
+  },
+  "tall": {
+    "fluent": null,
+    "emoji": "📏"
+  },
+  "quiet": {
+    "fluent": null,
+    "emoji": "🤫"
+  },
+  "noisy": {
+    "fluent": null,
+    "emoji": "🔊"
+  },
+  "left": {
+    "fluent": null,
+    "emoji": "⬅️"
+  },
+  "right": {
+    "fluent": null,
+    "emoji": "➡️"
+  },
+  "up": {
+    "fluent": null,
+    "emoji": "⬆️"
+  },
+  "down": {
+    "fluent": null,
+    "emoji": "⬇️"
+  },
+  "yes": {
+    "fluent": "Check mark button",
+    "emoji": "✅"
+  },
+  "no": {
+    "fluent": "Cross mark",
+    "emoji": "❌"
+  },
+  "can": {
+    "fluent": "OK hand",
+    "emoji": "👍"
+  },
+  "have": {
+    "fluent": "Wrapped gift",
+    "emoji": "🎁"
+  },
+  "in": {
+    "fluent": null,
+    "emoji": "📥"
+  },
+  "on": {
+    "fluent": null,
+    "emoji": "📌"
+  },
+  "under": {
+    "fluent": null,
+    "emoji": "⬇️"
+  },
+  "next to": {
+    "fluent": null,
+    "emoji": "↔️"
+  },
+  "between": {
+    "fluent": null,
+    "emoji": "🔀"
+  },
+  "behind": {
+    "fluent": null,
+    "emoji": "🔙"
+  },
+  "Come here.": {
+    "fluent": null,
+    "emoji": "👈"
+  },
+  "Wait a minute.": {
+    "fluent": "Hourglass not done",
+    "emoji": "⏳"
+  },
+  "Let's go.": {
+    "fluent": null,
+    "emoji": "🏃"
+  },
+  "I don't know.": {
+    "fluent": null,
+    "emoji": "🤷"
+  },
+  "I don't understand.": {
+    "fluent": "Thinking face",
+    "emoji": "🤔"
+  },
+  "Can you help me?": {
+    "fluent": null,
+    "emoji": "🙋"
+  },
+  "What is this?": {
+    "fluent": "Red question mark",
+    "emoji": "❓"
+  },
+  "Where is it?": {
+    "fluent": "Round pushpin",
+    "emoji": "📍"
+  },
+  "Are you OK?": {
+    "fluent": null,
+    "emoji": "👌"
+  },
+  "Thank you.": {
+    "fluent": null,
+    "emoji": "🙏"
+  },
+  "what": {
+    "fluent": "Red question mark",
+    "emoji": "❓"
+  },
+  "who": {
+    "fluent": "Bust in silhouette",
+    "emoji": "👤"
+  },
+  "where": {
+    "fluent": "Round pushpin",
+    "emoji": "📍"
+  },
+  "when": {
+    "fluent": "Alarm clock",
+    "emoji": "⏰"
+  },
+  "why": {
+    "fluent": "Red question mark",
+    "emoji": "❓"
+  },
+  "how": {
+    "fluent": "Red question mark",
+    "emoji": "❓"
+  },
+  "how many": {
+    "fluent": "Input numbers",
+    "emoji": "🔢"
+  },
+  "how much": {
+    "fluent": "Money bag",
+    "emoji": "💰"
+  },
+  "what time": {
+    "fluent": null,
+    "emoji": "🕐"
+  },
+  "which one": {
+    "fluent": null,
+    "emoji": "🔢"
+  },
+  "hello": {
+    "fluent": "Waving hand",
+    "emoji": "👋"
+  },
+  "goodbye": {
+    "fluent": null,
+    "emoji": "👋"
+  },
+  "please": {
+    "fluent": null,
+    "emoji": "🙏"
+  },
+  "thanks": {
+    "fluent": null,
+    "emoji": "🙏"
+  },
+  "sorry": {
+    "fluent": "Pensive face",
+    "emoji": "😔"
+  },
+  "excuse me": {
+    "fluent": null,
+    "emoji": "🙋"
+  },
+  "welcome": {
+    "fluent": "House with garden",
+    "emoji": "🏡"
+  },
+  "good morning": {
+    "fluent": "Sunrise",
+    "emoji": "🌅"
+  },
+  "good night": {
+    "fluent": "Night with stars",
+    "emoji": "🌙"
+  },
+  "see you": {
+    "fluent": null,
+    "emoji": "👋"
+  },
+  "I like it.": {
+    "fluent": "Thumbs up",
+    "emoji": "👍"
+  },
+  "I don't like it.": {
+    "fluent": "Thumbs down",
+    "emoji": "👎"
+  },
+  "I'm hungry.": {
+    "fluent": "Fork and knife",
+    "emoji": "🍽️"
+  },
+  "I'm tired.": {
+    "fluent": "Sleepy face",
+    "emoji": "😴"
+  },
+  "I'm fine.": {
+    "fluent": "OK hand",
+    "emoji": "😊"
+  },
+  "It's OK.": {
+    "fluent": null,
+    "emoji": "👌"
+  },
+  "That's great!": {
+    "fluent": "Star-struck",
+    "emoji": "🤩"
+  },
+  "I love it.": {
+    "fluent": "Red heart",
+    "emoji": "❤️"
+  },
+  "Me too.": {
+    "fluent": null,
+    "emoji": "🤝"
+  },
+  "See you later.": {
+    "fluent": null,
+    "emoji": "👋"
+  },
+  "open": {
+    "fluent": "Open file folder",
+    "emoji": "📂"
+  },
+  "close": {
+    "fluent": "Locked",
+    "emoji": "🔒"
+  },
+  "buy": {
+    "fluent": "Shopping cart",
+    "emoji": "🛒"
+  },
+  "put": {
+    "fluent": "Inbox tray",
+    "emoji": "📥"
+  },
+  "look": {
+    "fluent": "Eye",
+    "emoji": "👀"
+  },
+  "listen": {
+    "fluent": "Ear",
+    "emoji": "👂"
+  },
+  "read": {
+    "fluent": "Open book",
+    "emoji": "📖"
+  },
+  "write": {
+    "fluent": "Memo",
+    "emoji": "✍️"
+  },
+  "cook": {
+    "fluent": "Cook",
+    "emoji": "🍳"
+  },
+  "tidy": {
+    "fluent": "Soap",
+    "emoji": "🧹"
+  }
+}
