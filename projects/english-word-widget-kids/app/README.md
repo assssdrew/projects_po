@@ -2,19 +2,12 @@
 
 ## prototypes/
 
-Ранние экраны приложения (ещё не полный Xcode-проект):
-
-| Файл | Что делает |
+| Файл | Назначение |
 |------|------------|
-| `ContentView+List.swift` | `List` по `WordStore.words`: symbol + word + pronunciation + translation |
-| `ContentView+FlashcardTTS.swift` | одна карточка, AVSpeech en-US, Prev/Next, example |
+| `WordStore.swift` | читает `words.json` из бандла; даёт `symbol` для старых ContentView |
+| `ContentView+FlashcardTTS.swift` | карточка + TTS (база app UI) |
+| `ContentView+List.swift` | список словаря |
 
-Оба варианта используют **SF Symbols** (`Image(systemName:)`), не тематические картинки.
+В Xcode нужно добавить в target: `data/words.json` (+ позже WikiVoc SVG при `visual.mode == wikivoc`).
 
-Зависимости, которых пока нет в репо:
-- `WordStore` / модель слова
-- `words.json` в бандле
-- WidgetKit-таргет
-- ассеты `word_001`…`word_300`
-
-Не смешивать с Scriptable-кодом из `projects/vocab-iphone-widget/`.
+Полного `.xcodeproj` в репо пока нет.

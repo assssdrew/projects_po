@@ -7,54 +7,51 @@
 ## Стек
 
 - Swift / SwiftUI / WidgetKit
-- Локальный `words.json` + картинки в Assets
+- Локальный `data/words.json` + SF Symbols / WikiVoc
 - Цель: iOS 26.x (нужен современный Mac + актуальный Xcode)
+
+## Визуальная стратегия (вариант WikiVoc)
+
+1. Если есть ясное совпадение — картинка WikiVoc (Public Domain)  
+2. Иначе — SF Symbol  
+3. Позже можно догенерировать недостающие иллюстрации в стиле WikiVoc
+
+Сейчас: **6** карточек на WikiVoc, **294** на SF Symbol.  
+Подробности: `data/image_coverage.md`.
 
 ## Продукт
 
 | Часть | Содержание |
 |-------|------------|
-| Виджет Small | картинка + EN + RU |
-| Виджет Medium | картинка + EN + произношение + RU |
-| Приложение | сегодняшние 10 слов, TTS, «знаю / повторить», обзор по дням |
+| Виджет Small | картинка/symbol + EN + RU |
+| Виджет Medium | + произношение |
+| Приложение | 10 слов дня, TTS, обзор |
 
-Контент: **300 слов**, 30 дней × 10 слов/день, 30 тем.
+Контент: **300 слов**, 30×10, 30 тем.
 
-## Структура папки
+## Структура
 
 ```
 english-word-widget-kids/
-  README.md
-  docs/PROJECT_HANDOFF.md
   data/
-    image_plan_300.csv     ✅ есть
-    words.json             ❌ ещё нет
-  app/
-    prototypes/            ✅ ранние ContentView (SF Symbols + TTS)
-    …                      ❌ полный Xcode/WidgetKit проект ещё нет
+    words.json                 ✅ словарь (EN/RU/pronunciation/example/visual)
+    image_plan_300.csv         ✅ план картинок
+    image_coverage.*           ✅ отчёт WikiVoc vs SF Symbol
+    images/wikivoc/            ✅ скачанный маленький набор WikiVoc
+    ATTRIBUTION_WIKIVOC.md
+  app/prototypes/              ✅ ContentView + WordStore
+  scripts/build_words_json.py  ✅ пересборка words.json
+  docs/PROJECT_HANDOFF.md
 ```
 
-## Что уже в репо
+## Чего ещё нет
 
-| Артефакт | Статус |
-|----------|--------|
-| `data/image_plan_300.csv` | 300 строк, 30 дней × 10, план картинок |
-| `app/prototypes/ContentView+List.swift` | список всех слов |
-| `app/prototypes/ContentView+FlashcardTTS.swift` | карточка + en-US TTS + prev/next |
-| `docs/PROJECT_HANDOFF.md` | полный handoff |
+- Полный Xcode / WidgetKit проект
+- 300 единых иллюстраций (WikiVoc на Commons почти пустой)
+- Сборка на современном Mac под iOS 26.x
 
-Прототипы ссылаются на `WordStore.words` и `item.symbol` (SF Symbols) — самих `WordStore`, `words.json` и картинок в репо нет.
+## Пересборка словаря
 
-## Замечания по CSV
-
-- Структура дней/тем ровная: 30×10.
-- ~20 слов повторяются в разных днях (`friend`, `play`, `question`…; `answer` — 3 раза). Для обучения это ок (recycling), для уникальных ассетов — решать: один файл на слово или отдельный `word_NNN` на каждую строку id.
-
-## Чего не хватает (приоритет)
-
-1. `words.json` (или полный v2/v3 пакет) — произношение, перевод, example, id ассета  
-2. Картинки / `Assets.xcassets` (v3 zip — аудит)  
-3. `WordStore` + WidgetKit-код  
-4. Сборка на современном Mac под iOS 26.x  
-
-Подробности и чеклист: `docs/PROJECT_HANDOFF.md`.
+```bash
+python3 scripts/build_words_json.py
+```

@@ -1,9 +1,11 @@
 # Data
 
-| Файл | Статус |
-|------|--------|
-| `image_plan_300.csv` | есть — id, day, theme, word, image_concept, style, query |
-| `words.json` | нет — нужен как источник истины (pronunciation, translation, example, asset id) |
-| картинки / v3 package | нет |
+| Файл / папка | Статус |
+|--------------|--------|
+| `words.json` | ✅ 300 слов: перевод, произношение, example, visual |
+| `image_plan_300.csv` | ✅ исходный план картинок |
+| `image_coverage.json` / `.md` | ✅ WikiVoc vs SF Symbol |
+| `images/wikivoc/` | ✅ ~15 SVG с Commons (мало прямых совпадений) |
+| `ATTRIBUTION_WIKIVOC.md` | ✅ как указывать источник |
 
-Не восстанавливать словарь из памяти. Когда появятся zip/json — класть сюда и аудитить.
+Пересборка: `python3 ../scripts/build_words_json.py`

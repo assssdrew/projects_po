@@ -1,0 +1,39 @@
+{
+  "strategy": "WikiVoc where a clear semantic match exists; otherwise SF Symbol",
+  "wikivoc_catalog_size_on_commons": "~20 vocabulary SVGs total",
+  "matched_count": 6,
+  "sf_symbol_fallback_count": 294,
+  "matched": [
+    {
+      "id": 59,
+      "word": "fruit",
+      "file": "WikiVoc-banana.svg"
+    },
+    {
+      "id": 75,
+      "word": "bathroom",
+      "file": "WikiVoc-toilet.svg"
+    },
+    {
+      "id": 149,
+      "word": "animal",
+      "file": "WikiVoc-otter.svg"
+    },
+    {
+      "id": 212,
+      "word": "interesting",
+      "file": "WikiVoc-lightbulb.svg"
+    },
+    {
+      "id": 232,
+      "word": "know",
+      "file": "WikiVoc-lightbulb.svg"
+    },
+    {
+      "id": 298,
+      "word": "idea",
+      "file": "WikiVoc-lightbulb.svg"
+    }
+  ],
+  "note": "WikiVoc on Wikimedia Commons currently has a very small set. Most of the 300-card curriculum uses SF Symbols until more WikiVoc-style images are generated or sourced."
+}
