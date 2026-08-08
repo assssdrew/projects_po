@@ -3,11 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v12: экран блокировки (accessory) + точный перенос
+// v13: тап = следующий набор (+ App.close), текст слева
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/bd92d84cb2f1a883031a5cf9f750a8078b80371c/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@bd92d84cb2f1a883031a5cf9f750a8078b80371c/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/35e9006d0f3b94d31b503e38c00309e1512f7ee0/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@35e9006d0f3b94d31b503e38c00309e1512f7ee0/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -35,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V12") &&
-        code.includes("isAccessoryFamily")
+        code.includes("PASSIVE_WIDGET_V13") &&
+        code.includes("tapNextUrl")
       ) {
         return code;
       }
@@ -69,7 +69,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("PASSIVE_WIDGET_V12") || !local.includes("isAccessoryFamily")) {
+  if (!local.includes("PASSIVE_WIDGET_V13") || !local.includes("tapNextUrl")) {
     await downloadCore();
   }
 }
