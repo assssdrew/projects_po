@@ -91,7 +91,7 @@
 |---|---|---|---|
 | a01 | a / an | a + consonant sound | an + vowel sound (an hour) |
 | a02 | the | the = known / unique | the sun · the job we discussed |
-| a03 | no article | Ø + plural/uncount general | Ø life is hard · Ø cats sleep |
+| a03 | no article | Ø + plural/uncount general | Life is hard · Cats sleep a lot · Ø cats sleep |
 | r01 | who / which / that | who=people · which=things | that = both (defining) |
 | r02 | where | where = place | the city where I live |
 | p01 | to vs for | to + V · for + noun/Ving | to learn · for learning English |
@@ -101,8 +101,8 @@
 
 | id | title | formula | tip |
 |---|---|---|---|
-| pc1 | Past Continuous | was/were + Ving | was doing when… / while… |
-| pc2 | PC + Past Simple | was Ving when + V2 | background + short action |
+| pc1 | Past Continuous | was/were + Ving | I was cooking when she called |
+| pc2 | PC + Past Simple | was Ving when + V2 | I was working when the power went out |
 
 ---
 
