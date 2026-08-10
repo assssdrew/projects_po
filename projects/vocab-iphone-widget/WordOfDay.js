@@ -3,12 +3,12 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v16: правки переводов, словарь 938
-// После Play: меню → Reset (сброс очереди под новый словарь).
+// v17: слова + правила (4 набора → 1 правило)
+// После Play: меню → Reset (сброс очереди).
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/b4193eea67a8a0cf27af5b4e5167775621066fb0/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@b4193eea67a8a0cf27af5b4e5167775621066fb0/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/69ce10799293da1528a0f34a9a7fd630a650d57f/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@69ce10799293da1528a0f34a9a7fd630a650d57f/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,9 +36,9 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V16") &&
-        code.includes("ensureOrder") &&
-        code.includes("VOCAB_SIZE = 938")
+        code.includes("PASSIVE_WIDGET_V17") &&
+        code.includes("WORD_SETS_PER_RULE") &&
+        code.includes("RULES_COUNT = 44")
       ) {
         return code;
       }
@@ -72,9 +72,9 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V16") ||
-    !local.includes("ensureOrder") ||
-    !local.includes("VOCAB_SIZE = 938")
+    !local.includes("PASSIVE_WIDGET_V17") ||
+    !local.includes("WORD_SETS_PER_RULE") ||
+    !local.includes("RULES_COUNT = 44")
   ) {
     await downloadCore();
   }
