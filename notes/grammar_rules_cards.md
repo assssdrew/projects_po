@@ -1,119 +1,52 @@
 # Карточки правил для виджета (из тетради Zhenya / Lidia)
 
-Источник: рабочая тетрадь, блок с **Урок 1 — времена** и дальше.  
-Формат карточки (3 строки, medium-виджет):
+Источник: рабочая тетрадь. Формат карточки: **title → meaning → formula → tip**.
 
-```
-Название
-формула
-пример / якорь
-```
+Микс: **4 набора слов → 1 правило**. Всего: **44**.
 
-Рекомендуемый микс в карусели: **4 набора слов → 1 правило**.
-
-Всего карточек ниже: **48** (только то, что реально есть в курсе; без выдуманных тем).
-
----
-
-## A. Времена Present / Past / Perfect
-
-| id | title | formula | tip |
-|---|---|---|---|
-| t01 | Present Simple | V1 / Vs · do/does | habits, facts, routines |
-| t02 | Present Continuous | am/is/are + Ving | now / temporary / around now |
-| t03 | Pr. Simple vs Continuous | usually vs now | I work here · I’m working today |
-| t04 | Past Simple | V2 / did + V1 | yesterday, ago, in 2022, last… |
-| t05 | Past Simple ?/− | Did you V1? · didn’t V1 | Did you go? — No, I didn’t |
-| t06 | Present Perfect | have/has + V3 | ever/never · since/for · just/already/yet |
-| t07 | Pr. Perfect смысл | experience / result now | я сделал это (когда — неважно) |
-| t08 | Pr. Perfect vs Past Simple | PP: no time · PS: when | I have been to VN · I went in 2022 |
-| t09 | Present Perfect Cont. | have/has been + Ving | how long / lately / still going |
-| t10 | PP vs PPC | result vs activity | I’ve done it · I’ve been doing it |
-
-Сигналы из тетради (можно крутить как отдельные мини-карточки или tip):
-
-| id | title | formula | tip |
-|---|---|---|---|
-| s01 | PP markers | never/ever · since/for | just/already/yet · recently/lately |
-| s02 | Past Simple markers | yesterday · last · ago | in 2008 · when I was… · at school |
-
-## B. Future
-
-| id | title | formula | tip |
-|---|---|---|---|
-| f01 | Future will | will + V1 | sudden decision / opinion / promise |
-| f02 | be going to | am/is/are going to + V1 | plan / evidence |
-| f03 | Present Cont. future | am/is/are + Ving | fixed arrangement (I’m meeting…) |
-| f04 | Present Simple future | V1 / Vs | timetable (The flight leaves at 9) |
-
-## C. used to / be used to / get used to
-
-| id | title | formula | tip |
-|---|---|---|---|
-| u01 | used to | used to + V1 | раньше делал, сейчас нет |
-| u02 | didn’t use to | didn’t use to + V1 | раньше не делал |
-| u03 | be used to | be used to + Ving/noun | уже привык |
-| u04 | get used to | get used to + Ving/noun | привыкаю / привыкну |
-
-## D. Modals (вкл. past modals из уроков 8–9)
-
-| id | title | formula | tip |
-|---|---|---|---|
-| m01 | must / have to | must · have to + V1 | obligation (must = speaker’s rule) |
-| m02 | should | should + V1 | advice |
-| m03 | should have | should have + V3 | надо было, но не… |
-| m04 | must have | must have + V3 | наверное было (deduction past) |
-| m05 | could have | could have + V3 | мог(ла), но не сделал(а) |
-| m06 | would have | would have + V3 | сделал(а) бы (часто + if) |
-
-## E. Gerund / Infinitive
-
-| id | title | formula | tip |
-|---|---|---|---|
-| g01 | verb + gerund | enjoy/avoid/finish + Ving | mind · suggest · recommend · keep · admit |
-| g02 | verb + to-inf | decide/hope/manage + to V | want · need · would like · fail · learn |
-| g03 | stop doing / to do | stop + Ving vs to V | stop smoking · stop to smoke |
-| g04 | forget / remember | Ving = память о прошлом | to V = не забыть сделать |
-
-## F. Conditionals
-
-| id | title | formula | tip |
-|---|---|---|---|
-| c00 | Zero Conditional | if + Present, Present | facts / always true |
-| c01 | 1st Conditional | if + Present, will + V1 | real future |
-| c02 | 2nd Conditional | if + Past, would + V1 | unreal now/future |
-| c03 | 3rd Conditional | if + Past Perfect, would have + V3 | unreal past |
-| c04 | if vs when | if = maybe · when = sure | When I get home… |
-
-## G. Articles / Relative / Prep (урок 24)
-
-| id | title | formula | tip |
-|---|---|---|---|
-| a01 | a / an | a + consonant sound | an + vowel sound (an hour) |
-| a02 | the | the = known / unique | the sun · the job we discussed |
-| a03 | no article | Ø + plural/uncount general | Life is hard · Cats sleep a lot · Ø cats sleep |
-| r01 | who / which / that | who=people · which=things | that = both (defining) |
-| r02 | where | where = place | the city where I live |
-| p01 | to vs for | to + V · for + noun/Ving | to learn · for learning English |
-| p02 | in / on / at time | at 5 · on Monday · in July | in the morning · at night |
-
-## H. Past Continuous (есть в примерах урока 24)
-
-| id | title | formula | tip |
-|---|---|---|---|
-| pc1 | Past Continuous | was/were + Ving | I was cooking when she called |
-| pc2 | PC + Past Simple | was Ving when + V2 | I was working when the power went out |
-
----
-
-## Не брать в виджет (из документа)
-
-- Домашки, ссылки Wordwall/YouTube, Quizlet sets  
-- Длинные сочинения / speaking prompts  
-- Уроки 25–32 без явной грамматической формулы (в основном vocab / interview)  
-- Картинки/слайды — текста формул в файле почти нет, карточки выше восстановлены по названиям уроков + блок Lesson 24
-
-## Следующий шаг
-
-1. Подтверди микс **4 слова → 1 правило** (или другой).  
-2. Вшью `grammar_rules.json` в карусель виджета (тип `rule`, 3 строки, left align, тап = next).
+| id | title | meaning | formula | tip |
+|---|---|---|---|---|
+| t01 | Present Simple | Привычка, факт, распорядок — то, что обычно или всегда так. | V1 / Vs · do/does | I work from cafés every day. |
+| t02 | Present Continuous | Сейчас или временно в этот период (не обязательно «прямо в эту секунду»). | am/is/are + Ving | I'm learning English now. · She's staying with us this week. |
+| t03 | Pr. Simple vs Continuous | Usually = Simple; сейчас / временно = Continuous. | usually vs now | I live here. · I'm staying at a hotel. |
+| t04 | Past Simple | Законченное действие в прошлом; время часто известно (yesterday, ago…). | V2 / did + V1 | We left Russia in 2022. |
+| t05 | Past Simple ? / − | Вопрос и отрицание: did / didn't + начальная форма (не V2). | Did you V1? · didn't V1 | Did you book the flight? — No, I didn't. |
+| t06 | Present Perfect | Связь прошлого с сейчас: опыт или результат, важный сейчас. | have/has + V3 | Have you ever tried pho? · I've lost my keys. |
+| t07 | Present Perfect: when? | Когда именно — неважно и обычно не говорим (нет yesterday / in 2020). | have/has + V3 · без when | I've already paid the rent. (не: yesterday) |
+| t08 | PP vs Past Simple | PP — без конкретного when; Past Simple — когда известно. | PP: no time · PS: when | I've been to Vietnam. · I went last year. |
+| t09 | Present Perfect Cont. | Длилось до сейчас; часто важен процесс и how long. | have/has been + Ving | I've been studying all morning. |
+| t10 | PP vs PPC | PP — результат готов; PPC — сам процесс / занятие. | result vs activity | I've written it. · I've been writing all day. |
+| s01 | PP markers | Частые сигналы Present Perfect. | ever/never · just/already/yet · since/for | I've lived here since 2022. · Have you ever…? |
+| s02 | Past Simple markers | Частые сигналы Past Simple — конкретное прошлое время. | yesterday · last… · ago · in 2020 | I bought tickets yesterday. |
+| f01 | Future will | Решение в момент речи, обещание, мнение/прогноз. | will + V1 | I'll help you with the form. · It'll be fine. |
+| f02 | be going to | Уже есть план или по ситуации видно, что случится. | am/is/are going to + V1 | I'm going to move next month. · Look — it's going to rain. |
+| f03 | Present Cont. = future | Личная договорённость / запись в календаре (не просто «хочу»). | am/is/are + Ving (+ time) | I'm meeting a friend tomorrow. |
+| f04 | Present Simple = future | Расписание: поезд, рейс, кино — официальный график. | V1 / Vs (+ time) | The flight leaves at 9 am. |
+| u01 | used to | Раньше делал / было так — сейчас уже нет. | used to + V1 | I used to play basketball. |
+| u02 | didn't use to | Раньше обычно не делал. В −/? пишем use, не used. | didn't use to + V1 | I didn't use to speak up at work. |
+| u03 | be used to | Уже привык к чему-то (это нормально). Не путать с used to. | be used to + Ving/noun | I'm used to waking up early. |
+| u04 | get used to | Привыкаю / привыкну — процесс привыкания. | get used to + Ving/noun | I'm getting used to the heat. |
+| m01 | must / have to | Надо: must — часто «я считаю»; have to — правило/обстоятельства. | must · have to + V1 | I have to renew my visa. · You must be careful. |
+| m02 | should | Совет: лучше сделать — не жёсткий приказ. | should + V1 | You should keep in touch. |
+| m03 | should have | Надо было в прошлом — но не сделал (жаль / упрёк). | should have + V3 | I should have left earlier. |
+| m04 | must have | Уверенный вывод о прошлом: наверняка так и было. | must have + V3 | He must have missed the bus. |
+| m05 | could have | Была возможность в прошлом — часто: мог, но не сделал. | could have + V3 | We could have taken a taxi. |
+| m06 | would have | Сделал бы в прошлом — но условия не было (часто + if). | would have + V3 | I would have called if I had known. |
+| g01 | verb + gerund | После этих глаголов — Ving (не to). | enjoy/avoid/keep + Ving | I enjoy learning new skills. |
+| g02 | verb + to-inf | После этих глаголов — to + V. | decide/hope/want + to V | She decided to take a chance. |
+| g03 | stop doing / to do | stop + Ving = перестать это делать; stop + to V = остановиться, чтобы… | stop + Ving vs to V | I stopped smoking. · I stopped to buy coffee. |
+| g04 | forget / remember | Ving = помню/забыл сам факт из прошлого; to V = (не) забыть сделать. | Ving = past fact · to V = to-do | I remember meeting her. · Remember to call. |
+| c00 | Zero Conditional | Всегда правда: если A, то B (факты, законы). | if + Present, Present | If you heat water, it boils. |
+| c01 | 1st Conditional | Реальный будущий исход: если случится A → будет B. | if + Present, will + V1 | If it rains, we'll stay home. |
+| c02 | 2nd Conditional | Нереально / маловероятно сейчас или в будущем. | if + Past, would + V1 | If I had more time, I'd travel more. |
+| c03 | 3rd Conditional | Нереально в прошлом: если бы тогда… — был бы другой итог. | if + Past Perfect, would have + V3 | If I had studied, I would have passed. |
+| c04 | if vs when | if = не уверен, что будет; when = уверен, что будет. | if = maybe · when = sure | If I see her… · When I get home, I'll text you. |
+| a01 | a / an | Неопределённый: один / любой, впервые. Смотри на звук, не на букву. | a + согл. звук · an + гласн. звук | a visa · a university (ju-) · an hour · an apple |
+| a02 | the | Конкретное / уже известное или единственное в контексте. | the = known / unique | the sun · the job we discussed · Open the door. |
+| a03 | без a/an/the | Общая идея: неисчисляемые и мн.ч. «вообще», без конкретного экземпляра. | без a/an/the | Life is hard. · Cats sleep a lot. · I like coffee. |
+| r01 | who / which / that | who — люди; which — вещи; that — и то и другое (в defining). | who / which / that | the friend who helped me · the book that I read |
+| r02 | where | Относительное «где» — про место. | where = place | the city where I live |
+| p01 | to vs for | Цель: to + глагол; for + существительное / Ving. | to + V · for + noun/Ving | I came to learn. · a book for learning English |
+| p02 | in / on / at (time) | at — точное время; on — день/дата; in — месяц/год/часть дня. | at 5 · on Monday · in July | at night · in the morning · on Friday |
+| pc1 | Past Continuous | Был в процессе в тот момент прошлого. | was/were + Ving | I was cooking when she called. |
+| pc2 | PC + Past Simple | Длинный фон (was Ving) + короткое событие (V2). | was Ving when + V2 | I was working when the power went out. |

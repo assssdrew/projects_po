@@ -1,46 +1,310 @@
 [
-  {"id": "t01", "title": "Present Simple", "meaning": "привычка, факт, распорядок", "formula": "V1 / Vs · do/does", "tip": "I work from cafés every day"},
-  {"id": "t02", "title": "Present Continuous", "meaning": "сейчас / временно", "formula": "am/is/are + Ving", "tip": "I’m learning English now"},
-  {"id": "t03", "title": "Pr. Simple vs Continuous", "meaning": "обычно vs прямо сейчас", "formula": "usually vs now", "tip": "I live here · I’m staying at a hotel"},
-  {"id": "t04", "title": "Past Simple", "meaning": "законченное действие в прошлом", "formula": "V2 / did + V1", "tip": "We left Russia in 2022"},
-  {"id": "t05", "title": "Past Simple ? / −", "meaning": "вопрос и отрицание в прошлом", "formula": "Did you V1? · didn’t V1", "tip": "Did you book the flight? — No, I didn’t"},
-  {"id": "t06", "title": "Present Perfect", "meaning": "опыт / результат важен сейчас", "formula": "have/has + V3", "tip": "Have you ever tried pho?"},
-  {"id": "t07", "title": "Present Perfect смысл", "meaning": "сделал — когда неважно", "formula": "experience / result now", "tip": "I’ve already paid the rent"},
-  {"id": "t08", "title": "PP vs Past Simple", "meaning": "PP без when · PS с when", "formula": "PP: no time · PS: when", "tip": "I’ve been to Vietnam · I went last year"},
-  {"id": "t09", "title": "Present Perfect Cont.", "meaning": "действие длится / только что длилось", "formula": "have/has been + Ving", "tip": "I’ve been studying all morning"},
-  {"id": "t10", "title": "PP vs PPC", "meaning": "результат vs сам процесс", "formula": "result vs activity", "tip": "I’ve written it · I’ve been writing"},
-  {"id": "s01", "title": "PP markers", "meaning": "слова-маркеры Present Perfect", "formula": "never/ever · since/for", "tip": "I’ve lived here since 2022"},
-  {"id": "s02", "title": "Past Simple markers", "meaning": "слова-маркеры Past Simple", "formula": "yesterday · last · ago", "tip": "I bought tickets yesterday"},
-  {"id": "f01", "title": "Future will", "meaning": "решение / мнение / обещание", "formula": "will + V1", "tip": "I’ll help you with the form"},
-  {"id": "f02", "title": "be going to", "meaning": "план или очевидный исход", "formula": "am/is/are going to + V1", "tip": "I’m going to move next month"},
-  {"id": "f03", "title": "Present Cont. = future", "meaning": "договорённость в календаре", "formula": "am/is/are + Ving", "tip": "I’m meeting a friend tomorrow"},
-  {"id": "f04", "title": "Present Simple = future", "meaning": "расписание (поезд, рейс)", "formula": "V1 / Vs", "tip": "The flight leaves at 9 am"},
-  {"id": "u01", "title": "used to", "meaning": "раньше делал, сейчас нет", "formula": "used to + V1", "tip": "I used to play basketball"},
-  {"id": "u02", "title": "didn’t use to", "meaning": "раньше обычно не делал", "formula": "didn’t use to + V1", "tip": "I didn’t use to speak up at work"},
-  {"id": "u03", "title": "be used to", "meaning": "уже привык к чему-то", "formula": "be used to + Ving/noun", "tip": "I’m used to waking up early"},
-  {"id": "u04", "title": "get used to", "meaning": "привыкаю / привыкну", "formula": "get used to + Ving/noun", "tip": "I’m getting used to the heat"},
-  {"id": "m01", "title": "must / have to", "meaning": "обязанность, надо", "formula": "must · have to + V1", "tip": "I have to renew my visa"},
-  {"id": "m02", "title": "should", "meaning": "совет: лучше сделать", "formula": "should + V1", "tip": "You should keep in touch"},
-  {"id": "m03", "title": "should have", "meaning": "надо было — но не сделал", "formula": "should have + V3", "tip": "I should have left earlier"},
-  {"id": "m04", "title": "must have", "meaning": "наверное так и было", "formula": "must have + V3", "tip": "He must have missed the bus"},
-  {"id": "m05", "title": "could have", "meaning": "мог сделать — но не сделал", "formula": "could have + V3", "tip": "We could have taken a taxi"},
-  {"id": "m06", "title": "would have", "meaning": "сделал бы в прошлом — но нет", "formula": "would have + V3", "tip": "I would have called if I had known"},
-  {"id": "g01", "title": "verb + gerund", "meaning": "после глагола — Ving", "formula": "enjoy/avoid/keep + Ving", "tip": "I enjoy learning new skills"},
-  {"id": "g02", "title": "verb + to-inf", "meaning": "после глагола — to V", "formula": "decide/hope/want + to V", "tip": "She decided to take a chance"},
-  {"id": "g03", "title": "stop doing / to do", "meaning": "бросить привычку vs остановиться чтобы", "formula": "stop + Ving vs to V", "tip": "I stopped smoking · stopped to buy coffee"},
-  {"id": "g04", "title": "forget / remember", "meaning": "память о прошлом vs не забыть сделать", "formula": "Ving = past · to V = future", "tip": "I remember meeting her · Remember to call"},
-  {"id": "c00", "title": "Zero Conditional", "meaning": "всегда правда: если → то", "formula": "if + Present, Present", "tip": "If you heat water, it boils"},
-  {"id": "c01", "title": "1st Conditional", "meaning": "реальный будущий исход", "formula": "if + Present, will + V1", "tip": "If it rains, we’ll stay home"},
-  {"id": "c02", "title": "2nd Conditional", "meaning": "нереально сейчас / в будущем", "formula": "if + Past, would + V1", "tip": "If I had more time, I’d travel more"},
-  {"id": "c03", "title": "3rd Conditional", "meaning": "нереально в прошлом", "formula": "if + Past Perfect, would have + V3", "tip": "If I had studied, I would have passed"},
-  {"id": "c04", "title": "if vs when", "meaning": "if = может быть · when = точно", "formula": "if = maybe · when = sure", "tip": "When I get home, I’ll text you"},
-  {"id": "a01", "title": "a / an", "meaning": "один / любой (впервые)", "formula": "a + согласный · an + гласный", "tip": "a visa · an hour · an apple"},
-  {"id": "a02", "title": "the", "meaning": "конкретное / уже известное", "formula": "the = known / unique", "tip": "the sun · the job we discussed"},
-  {"id": "a03", "title": "no article", "meaning": "вообще / как класс вещей", "formula": "без a/an/the", "tip": "Life is hard · Cats sleep a lot"},
-  {"id": "r01", "title": "who / which / that", "meaning": "who люди · which вещи", "formula": "who / which / that", "tip": "the friend who helped me"},
-  {"id": "r02", "title": "where", "meaning": "относительное «где»", "formula": "where = place", "tip": "the city where I live"},
-  {"id": "p01", "title": "to vs for", "meaning": "to + глагол · for + сущ./Ving", "formula": "to + V · for + noun/Ving", "tip": "I came to learn · a book for learning"},
-  {"id": "p02", "title": "in / on / at (time)", "meaning": "предлоги времени", "formula": "at 5 · on Monday · in July", "tip": "at night · in the morning"},
-  {"id": "pc1", "title": "Past Continuous", "meaning": "был в процессе в тот момент", "formula": "was/were + Ving", "tip": "I was cooking when she called"},
-  {"id": "pc2", "title": "PC + Past Simple", "meaning": "фон + короткое событие", "formula": "was Ving when + V2", "tip": "I was working when the power went out"}
+  {
+    "id": "t01",
+    "title": "Present Simple",
+    "meaning": "Привычка, факт, распорядок — то, что обычно или всегда так.",
+    "formula": "V1 / Vs · do/does",
+    "tip": "I work from cafés every day."
+  },
+  {
+    "id": "t02",
+    "title": "Present Continuous",
+    "meaning": "Сейчас или временно в этот период (не обязательно «прямо в эту секунду»).",
+    "formula": "am/is/are + Ving",
+    "tip": "I'm learning English now. · She's staying with us this week."
+  },
+  {
+    "id": "t03",
+    "title": "Pr. Simple vs Continuous",
+    "meaning": "Usually = Simple; сейчас / временно = Continuous.",
+    "formula": "usually vs now",
+    "tip": "I live here. · I'm staying at a hotel."
+  },
+  {
+    "id": "t04",
+    "title": "Past Simple",
+    "meaning": "Законченное действие в прошлом; время часто известно (yesterday, ago…).",
+    "formula": "V2 / did + V1",
+    "tip": "We left Russia in 2022."
+  },
+  {
+    "id": "t05",
+    "title": "Past Simple ? / −",
+    "meaning": "Вопрос и отрицание: did / didn't + начальная форма (не V2).",
+    "formula": "Did you V1? · didn't V1",
+    "tip": "Did you book the flight? — No, I didn't."
+  },
+  {
+    "id": "t06",
+    "title": "Present Perfect",
+    "meaning": "Связь прошлого с сейчас: опыт или результат, важный сейчас.",
+    "formula": "have/has + V3",
+    "tip": "Have you ever tried pho? · I've lost my keys."
+  },
+  {
+    "id": "t07",
+    "title": "Present Perfect: when?",
+    "meaning": "Когда именно — неважно и обычно не говорим (нет yesterday / in 2020).",
+    "formula": "have/has + V3 · без when",
+    "tip": "I've already paid the rent. (не: yesterday)"
+  },
+  {
+    "id": "t08",
+    "title": "PP vs Past Simple",
+    "meaning": "PP — без конкретного when; Past Simple — когда известно.",
+    "formula": "PP: no time · PS: when",
+    "tip": "I've been to Vietnam. · I went last year."
+  },
+  {
+    "id": "t09",
+    "title": "Present Perfect Cont.",
+    "meaning": "Длилось до сейчас; часто важен процесс и how long.",
+    "formula": "have/has been + Ving",
+    "tip": "I've been studying all morning."
+  },
+  {
+    "id": "t10",
+    "title": "PP vs PPC",
+    "meaning": "PP — результат готов; PPC — сам процесс / занятие.",
+    "formula": "result vs activity",
+    "tip": "I've written it. · I've been writing all day."
+  },
+  {
+    "id": "s01",
+    "title": "PP markers",
+    "meaning": "Частые сигналы Present Perfect.",
+    "formula": "ever/never · just/already/yet · since/for",
+    "tip": "I've lived here since 2022. · Have you ever…?"
+  },
+  {
+    "id": "s02",
+    "title": "Past Simple markers",
+    "meaning": "Частые сигналы Past Simple — конкретное прошлое время.",
+    "formula": "yesterday · last… · ago · in 2020",
+    "tip": "I bought tickets yesterday."
+  },
+  {
+    "id": "f01",
+    "title": "Future will",
+    "meaning": "Решение в момент речи, обещание, мнение/прогноз.",
+    "formula": "will + V1",
+    "tip": "I'll help you with the form. · It'll be fine."
+  },
+  {
+    "id": "f02",
+    "title": "be going to",
+    "meaning": "Уже есть план или по ситуации видно, что случится.",
+    "formula": "am/is/are going to + V1",
+    "tip": "I'm going to move next month. · Look — it's going to rain."
+  },
+  {
+    "id": "f03",
+    "title": "Present Cont. = future",
+    "meaning": "Личная договорённость / запись в календаре (не просто «хочу»).",
+    "formula": "am/is/are + Ving (+ time)",
+    "tip": "I'm meeting a friend tomorrow."
+  },
+  {
+    "id": "f04",
+    "title": "Present Simple = future",
+    "meaning": "Расписание: поезд, рейс, кино — официальный график.",
+    "formula": "V1 / Vs (+ time)",
+    "tip": "The flight leaves at 9 am."
+  },
+  {
+    "id": "u01",
+    "title": "used to",
+    "meaning": "Раньше делал / было так — сейчас уже нет.",
+    "formula": "used to + V1",
+    "tip": "I used to play basketball."
+  },
+  {
+    "id": "u02",
+    "title": "didn't use to",
+    "meaning": "Раньше обычно не делал. В −/? пишем use, не used.",
+    "formula": "didn't use to + V1",
+    "tip": "I didn't use to speak up at work."
+  },
+  {
+    "id": "u03",
+    "title": "be used to",
+    "meaning": "Уже привык к чему-то (это нормально). Не путать с used to.",
+    "formula": "be used to + Ving/noun",
+    "tip": "I'm used to waking up early."
+  },
+  {
+    "id": "u04",
+    "title": "get used to",
+    "meaning": "Привыкаю / привыкну — процесс привыкания.",
+    "formula": "get used to + Ving/noun",
+    "tip": "I'm getting used to the heat."
+  },
+  {
+    "id": "m01",
+    "title": "must / have to",
+    "meaning": "Надо: must — часто «я считаю»; have to — правило/обстоятельства.",
+    "formula": "must · have to + V1",
+    "tip": "I have to renew my visa. · You must be careful."
+  },
+  {
+    "id": "m02",
+    "title": "should",
+    "meaning": "Совет: лучше сделать — не жёсткий приказ.",
+    "formula": "should + V1",
+    "tip": "You should keep in touch."
+  },
+  {
+    "id": "m03",
+    "title": "should have",
+    "meaning": "Надо было в прошлом — но не сделал (жаль / упрёк).",
+    "formula": "should have + V3",
+    "tip": "I should have left earlier."
+  },
+  {
+    "id": "m04",
+    "title": "must have",
+    "meaning": "Уверенный вывод о прошлом: наверняка так и было.",
+    "formula": "must have + V3",
+    "tip": "He must have missed the bus."
+  },
+  {
+    "id": "m05",
+    "title": "could have",
+    "meaning": "Была возможность в прошлом — часто: мог, но не сделал.",
+    "formula": "could have + V3",
+    "tip": "We could have taken a taxi."
+  },
+  {
+    "id": "m06",
+    "title": "would have",
+    "meaning": "Сделал бы в прошлом — но условия не было (часто + if).",
+    "formula": "would have + V3",
+    "tip": "I would have called if I had known."
+  },
+  {
+    "id": "g01",
+    "title": "verb + gerund",
+    "meaning": "После этих глаголов — Ving (не to).",
+    "formula": "enjoy/avoid/keep + Ving",
+    "tip": "I enjoy learning new skills."
+  },
+  {
+    "id": "g02",
+    "title": "verb + to-inf",
+    "meaning": "После этих глаголов — to + V.",
+    "formula": "decide/hope/want + to V",
+    "tip": "She decided to take a chance."
+  },
+  {
+    "id": "g03",
+    "title": "stop doing / to do",
+    "meaning": "stop + Ving = перестать это делать; stop + to V = остановиться, чтобы…",
+    "formula": "stop + Ving vs to V",
+    "tip": "I stopped smoking. · I stopped to buy coffee."
+  },
+  {
+    "id": "g04",
+    "title": "forget / remember",
+    "meaning": "Ving = помню/забыл сам факт из прошлого; to V = (не) забыть сделать.",
+    "formula": "Ving = past fact · to V = to-do",
+    "tip": "I remember meeting her. · Remember to call."
+  },
+  {
+    "id": "c00",
+    "title": "Zero Conditional",
+    "meaning": "Всегда правда: если A, то B (факты, законы).",
+    "formula": "if + Present, Present",
+    "tip": "If you heat water, it boils."
+  },
+  {
+    "id": "c01",
+    "title": "1st Conditional",
+    "meaning": "Реальный будущий исход: если случится A → будет B.",
+    "formula": "if + Present, will + V1",
+    "tip": "If it rains, we'll stay home."
+  },
+  {
+    "id": "c02",
+    "title": "2nd Conditional",
+    "meaning": "Нереально / маловероятно сейчас или в будущем.",
+    "formula": "if + Past, would + V1",
+    "tip": "If I had more time, I'd travel more."
+  },
+  {
+    "id": "c03",
+    "title": "3rd Conditional",
+    "meaning": "Нереально в прошлом: если бы тогда… — был бы другой итог.",
+    "formula": "if + Past Perfect, would have + V3",
+    "tip": "If I had studied, I would have passed."
+  },
+  {
+    "id": "c04",
+    "title": "if vs when",
+    "meaning": "if = не уверен, что будет; when = уверен, что будет.",
+    "formula": "if = maybe · when = sure",
+    "tip": "If I see her… · When I get home, I'll text you."
+  },
+  {
+    "id": "a01",
+    "title": "a / an",
+    "meaning": "Неопределённый: один / любой, впервые. Смотри на звук, не на букву.",
+    "formula": "a + согл. звук · an + гласн. звук",
+    "tip": "a visa · a university (ju-) · an hour · an apple"
+  },
+  {
+    "id": "a02",
+    "title": "the",
+    "meaning": "Конкретное / уже известное или единственное в контексте.",
+    "formula": "the = known / unique",
+    "tip": "the sun · the job we discussed · Open the door."
+  },
+  {
+    "id": "a03",
+    "title": "без a/an/the",
+    "meaning": "Общая идея: неисчисляемые и мн.ч. «вообще», без конкретного экземпляра.",
+    "formula": "без a/an/the",
+    "tip": "Life is hard. · Cats sleep a lot. · I like coffee."
+  },
+  {
+    "id": "r01",
+    "title": "who / which / that",
+    "meaning": "who — люди; which — вещи; that — и то и другое (в defining).",
+    "formula": "who / which / that",
+    "tip": "the friend who helped me · the book that I read"
+  },
+  {
+    "id": "r02",
+    "title": "where",
+    "meaning": "Относительное «где» — про место.",
+    "formula": "where = place",
+    "tip": "the city where I live"
+  },
+  {
+    "id": "p01",
+    "title": "to vs for",
+    "meaning": "Цель: to + глагол; for + существительное / Ving.",
+    "formula": "to + V · for + noun/Ving",
+    "tip": "I came to learn. · a book for learning English"
+  },
+  {
+    "id": "p02",
+    "title": "in / on / at (time)",
+    "meaning": "at — точное время; on — день/дата; in — месяц/год/часть дня.",
+    "formula": "at 5 · on Monday · in July",
+    "tip": "at night · in the morning · on Friday"
+  },
+  {
+    "id": "pc1",
+    "title": "Past Continuous",
+    "meaning": "Был в процессе в тот момент прошлого.",
+    "formula": "was/were + Ving",
+    "tip": "I was cooking when she called."
+  },
+  {
+    "id": "pc2",
+    "title": "PC + Past Simple",
+    "meaning": "Длинный фон (was Ving) + короткое событие (V2).",
+    "formula": "was Ving when + V2",
+    "tip": "I was working when the power went out."
+  }
 ]
