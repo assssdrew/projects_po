@@ -3,12 +3,12 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v17: слова + правила (4 набора → 1 правило)
-// После Play: меню → Reset (сброс очереди).
+// v18: жизненные примеры правил, перенос без обрезки, без ∅
+// После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/69ce10799293da1528a0f34a9a7fd630a650d57f/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@69ce10799293da1528a0f34a9a7fd630a650d57f/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/7361e457376d2f52bf425778a137a5ec9d9d130f/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@7361e457376d2f52bf425778a137a5ec9d9d130f/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,9 +36,9 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V17") &&
-        code.includes("WORD_SETS_PER_RULE") &&
-        code.includes("RULES_COUNT = 44")
+        code.includes("PASSIVE_WIDGET_V18") &&
+        code.includes("I was cooking when she called") &&
+        code.includes("без a/an/the")
       ) {
         return code;
       }
@@ -72,9 +72,9 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V17") ||
-    !local.includes("WORD_SETS_PER_RULE") ||
-    !local.includes("RULES_COUNT = 44")
+    !local.includes("PASSIVE_WIDGET_V18") ||
+    !local.includes("I was cooking when she called") ||
+    !local.includes("без a/an/the")
   ) {
     await downloadCore();
   }
