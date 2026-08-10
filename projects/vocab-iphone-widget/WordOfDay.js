@@ -3,12 +3,12 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v18: жизненные примеры правил, перенос без обрезки, без ∅
+// v19: у правил короткий смысл (meaning)
 // После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/7361e457376d2f52bf425778a137a5ec9d9d130f/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@7361e457376d2f52bf425778a137a5ec9d9d130f/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/f6e295b81dcc64a68832c8ed575cbbbf4ec272c4/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@f6e295b81dcc64a68832c8ed575cbbbf4ec272c4/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,9 +36,9 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V18") &&
-        code.includes("I was cooking when she called") &&
-        code.includes("без a/an/the")
+        code.includes("PASSIVE_WIDGET_V19") &&
+        code.includes("сделал бы в прошлом — но нет") &&
+        code.includes("rule.meaning")
       ) {
         return code;
       }
@@ -72,9 +72,9 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V18") ||
-    !local.includes("I was cooking when she called") ||
-    !local.includes("без a/an/the")
+    !local.includes("PASSIVE_WIDGET_V19") ||
+    !local.includes("сделал бы в прошлом — но нет") ||
+    !local.includes("rule.meaning")
   ) {
     await downloadCore();
   }
