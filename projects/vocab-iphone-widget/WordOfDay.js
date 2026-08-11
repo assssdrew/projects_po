@@ -7,7 +7,8 @@
 // После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/6286fe7b6e91d84965c0528ab791a554f7c998fd/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@6286fe7b6e91d84965c0528ab791a554f7c998fd/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
