@@ -65,9 +65,9 @@
   {
     "id": "t10",
     "title": "PP vs PPC",
-    "meaning": "PP — результат готов; PPC — сам процесс / занятие.",
-    "formula": "result vs activity",
-    "tip": "I've written it. · I've been writing all day."
+    "meaning": "PP = уже сделано (итог сейчас); PPC = процесс / как долго.",
+    "formula": "have + V3 · have been + Ving",
+    "tip": "I've written it. · I've been writing for an hour."
   },
   {
     "id": "s01",

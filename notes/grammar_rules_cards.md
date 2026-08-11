@@ -15,7 +15,7 @@
 | t07 | Present Perfect: when? | Когда именно — неважно и обычно не говорим (нет yesterday / in 2020). | have/has + V3 · без when | I've already paid the rent. (не: yesterday) |
 | t08 | PP vs Past Simple | PP — без конкретного when; Past Simple — когда известно. | PP: no time · PS: when | I've been to Vietnam. · I went last year. |
 | t09 | Present Perfect Cont. | Длилось до сейчас; часто важен процесс и how long. | have/has been + Ving | I've been studying all morning. |
-| t10 | PP vs PPC | PP — результат готов; PPC — сам процесс / занятие. | result vs activity | I've written it. · I've been writing all day. |
+| t10 | PP vs PPC | PP = уже сделано (итог сейчас); PPC = процесс / как долго. | have + V3 · have been + Ving | I've written it. · I've been writing for an hour. |
 | s01 | PP markers | Частые сигналы Present Perfect. | ever/never · just/already/yet · since/for | I've lived here since 2022. · Have you ever…? |
 | s02 | Past Simple markers | Частые сигналы Past Simple — конкретное прошлое время. | yesterday · last… · ago · in 2020 | I bought tickets yesterday. |
 | f01 | Future will | Решение в момент речи, обещание, мнение/прогноз. | will + V1 | I'll help you with the form. · It'll be fine. |
