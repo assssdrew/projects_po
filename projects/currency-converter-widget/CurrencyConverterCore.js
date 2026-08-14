@@ -1,6 +1,11 @@
-// CurrencyConverterCore — v3: карточки, флаги, изменение курса, спарклайн,
-// Lock Screen виджет, раздельные тап-зоны.
+// CurrencyConverterCore — v4: 4 стиля виджета (минимальный/карточки/тикер/hero)
+// со сменой из меню, флаги, изменение курса, спарклайн, Lock Screen, тап-зоны.
 const MARKER = "CURRENCY_WIDGET_V1";
+
+// Показывается в меню — так сразу видно, подтянулась ли на телефон
+// действительно последняя версия кода (см. README → "Как проверить, что
+// обновление подтянулось"). Увеличивать при каждом заметном изменении.
+const CORE_VERSION = "4.1";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -1000,7 +1005,7 @@ async function quickPairInfo(settings, cache) {
 
 async function runMenu(settings, cache) {
   const alert = new Alert();
-  alert.title = "Конвертер валют";
+  alert.title = "Конвертер валют · v" + CORE_VERSION;
   alert.message = cacheAgeLabel(cache);
   alert.addAction("Задать сумму для виджета");
   alert.addAction("Конвертировать сумму");
@@ -1092,4 +1097,4 @@ async function main() {
   );
 }
 
-module.exports = { main, MARKER };
+module.exports = { main, MARKER, CORE_VERSION };
