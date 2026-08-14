@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; }
+  .widget {
+    width: 364px;
+    height: 170px;
+    background: #121316;
+    border-radius: 22px;
+    box-sizing: border-box;
+    padding: 12px 16px 10px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Helvetica, Arial, sans-serif;
+  }
+  .rows { display: flex; flex-direction: column; gap: 10px; }
+  .cell { display: flex; flex-direction: column; }
+  .line { display: flex; flex-direction: row; align-items: center; }
+  .from { width: 96px; font-weight: 700; font-size: 18px; color: #FFFFFF; white-space: nowrap; overflow: hidden; }
+  .arrow { width: 27px; text-align: center; font-size: 15px; color: rgba(255,255,255,0.4); }
+  .to { font-weight: 700; font-size: 18px; color: #FFFFFF; white-space: nowrap; }
+  .sub { font-size: 10px; margin-top: 2px; }
+  .up { color: #34C759; }
+  .down { color: #FF453A; }
+  .footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; }
+  .vtag { font-size: 8px; color: rgba(255,255,255,0.35); margin-right: 4px; font-family: -apple-system, sans-serif; }
+  .refresh { width: 11px; height: 11px; }
+</style>
+</head>
+<body>
+  <div class="widget">
+    <div class="rows">
+      <div class="cell">
+        <div class="line">
+          <div class="from">147 USD</div>
+          <div class="arrow">&#8594;</div>
+          <div class="to">12 240,69 RUB</div>
+        </div>
+        <div class="sub up">&#9650;0.42%&nbsp;&nbsp;за 24ч</div>
+      </div>
+      <div class="cell">
+        <div class="line">
+          <div class="from">147 EUR</div>
+          <div class="arrow">&#8594;</div>
+          <div class="to">14 233,36 RUB</div>
+        </div>
+        <div class="sub down">&#9660;0.18%&nbsp;&nbsp;за 24ч</div>
+      </div>
+      <div class="cell">
+        <div class="line">
+          <div class="from">147 RUB</div>
+          <div class="arrow">&#8594;</div>
+          <div class="to">44 839,68 VND</div>
+        </div>
+        <div class="sub up">&#9650;0.06%&nbsp;&nbsp;за 24ч</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="vtag">v5.3 &middot; 18:24:10</div>
+      <svg class="refresh" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5">
+        <path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" />
+        <path d="M18 3v5h-5M6 21v-5h5" />
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

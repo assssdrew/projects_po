@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; }
+  .widget {
+    width: 364px;
+    height: 170px;
+    background: #000000;
+    border-radius: 22px;
+    box-sizing: border-box;
+    padding: 12px 14px 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .rows { display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; flex-direction: row; align-items: center; }
+  .mono { font-family: ui-monospace, "SF Mono", "Menlo", monospace; }
+  .label { width: 52px; font-size: 10px; color: rgba(255,255,255,0.5); }
+  .value { width: 76px; text-align: right; font-weight: 700; font-size: 17px; color: #FFFFFF; }
+  .spacer { flex: 1; }
+  .change { width: 44px; text-align: right; font-size: 11px; font-weight: 600; }
+  .up { color: #34C759; }
+  .down { color: #FF453A; }
+  .spark { width: 30px; height: 14px; margin-left: 6px; }
+  .footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; }
+  .vtag { font-size: 8px; color: rgba(255,255,255,0.35); margin-right: 4px; }
+  .refresh { width: 11px; height: 11px; }
+</style>
+</head>
+<body>
+  <div class="widget">
+    <div class="rows">
+      <div class="row">
+        <div class="label mono">USD/RUB</div>
+        <div class="value mono">12&nbsp;240,69</div>
+        <div class="spacer"></div>
+        <div class="change mono up">&#9650;0.42%</div>
+        <svg class="spark" viewBox="0 0 30 14">
+          <polyline points="0,10 6,8 12,9 18,4 24,5 30,2" fill="none" stroke="#34C759" stroke-width="1.5" />
+        </svg>
+      </div>
+      <div class="row">
+        <div class="label mono">EUR/RUB</div>
+        <div class="value mono">14&nbsp;233,36</div>
+        <div class="spacer"></div>
+        <div class="change mono down">&#9660;0.18%</div>
+        <svg class="spark" viewBox="0 0 30 14">
+          <polyline points="0,4 6,6 12,5 18,9 24,8 30,11" fill="none" stroke="#FF453A" stroke-width="1.5" />
+        </svg>
+      </div>
+      <div class="row">
+        <div class="label mono">RUB/VND</div>
+        <div class="value mono">3,83&nbsp;млн</div>
+        <div class="spacer"></div>
+        <div class="change mono up">&#9650;0.06%</div>
+        <svg class="spark" viewBox="0 0 30 14">
+          <polyline points="0,9 6,8 12,7 18,7 24,5 30,4" fill="none" stroke="#34C759" stroke-width="1.5" />
+        </svg>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="vtag">v5.3 &middot; 18:24:10</div>
+      <svg class="refresh" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5">
+        <path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" />
+        <path d="M18 3v5h-5M6 21v-5h5" />
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,11 +1,14 @@
 // CurrencyConverterCore — v5: 2 стиля виджета (минимальный/тикер) со сменой
 // из меню, изменение курса, спарклайн (тикер), Lock Screen, тап-зоны.
+// v5.3: строки выровнены в колонки фиксированной ширины (симметрия), точки
+// истории курса пишутся не реже раза в 15 мин (раньше 6ч), чтобы спарклайн
+// и % изменения были видны в течение одного тестового сеанса.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "5.2";
+const CORE_VERSION = "5.3";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -72,8 +75,14 @@ const CACHE_NAME = "currency-rates-cache.json";
 const SETTINGS_NAME = "currency-settings.json";
 const HISTORY_NAME = "currency-history.json";
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // курсы обновляются раз в сутки апстримом
-const HISTORY_MAX_POINTS = 30; // ~месяц точек для изменения курса и спарклайна
-const HISTORY_MIN_GAP_MS = 6 * 60 * 60 * 1000; // не пишем точки чаще, чем раз в 6ч
+const HISTORY_MAX_POINTS = 60;
+// Раньше было 6ч — на практике это значило, что спарклайн и % изменения не
+// появлялись ~12ч после первой установки виджета (1-я точка пишется сразу,
+// 2-я — только через 6ч, а сама сеть дёргается не чаще, чем раз в
+// CACHE_TTL_MS вне ручного "Обновить сейчас"). Снижаем порог, чтобы график
+// можно было увидеть за один тестовый сеанс: открыл меню → "Обновить сейчас"
+// → подождал 15 мин → снова "Обновить сейчас" → график уже рисуется.
+const HISTORY_MIN_GAP_MS = 15 * 60 * 1000;
 
 function delay(ms) {
   return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
@@ -498,6 +507,12 @@ function createMinimalWidget(pairs, cache, amount, history) {
     return w;
   }
 
+  // Фиксированная ширина колонки "от" — иначе стрелка "→" съезжает влево/
+  // вправо от строки к строке (её позиция зависит от длины суммы и кода
+  // валюты слева), и ряд строк выглядит не выровненным. При одинаковой
+  // ширине колонки стрелки всех строк оказываются друг под другом.
+  const fromColW = family === "small" ? 78 : 96;
+
   rowsToShow.forEach((pair, i) => {
     if (i > 0) w.addSpacer(family === "small" ? 7 : 10);
 
@@ -512,19 +527,32 @@ function createMinimalWidget(pairs, cache, amount, history) {
       if (url) cell.url = url;
     }
 
-    const line = cell.addText(
-      formatNumber(displayAmount) +
-        " " +
-        pair.from +
-        " → " +
-        (converted === null ? "—" : formatNumber(converted)) +
-        " " +
-        pair.to
+    const lineRow = cell.addStack();
+    lineRow.layoutHorizontally();
+    lineRow.centerAlignContent();
+
+    const fromCell = lineRow.addStack();
+    fromCell.size = new Size(fromColW, 0);
+    const fromText = fromCell.addText(formatNumber(displayAmount) + " " + pair.from);
+    fromText.font = Font.boldSystemFont(family === "small" ? 15 : 18);
+    fromText.textColor = Color.white();
+    fromText.lineLimit = 1;
+    fromText.minimumScaleFactor = 0.65;
+
+    lineRow.addSpacer(6);
+    const arrow = lineRow.addText("→");
+    arrow.font = Font.systemFont(family === "small" ? 13 : 15);
+    arrow.textColor = new Color("#FFFFFF", 0.4);
+    arrow.lineLimit = 1;
+    lineRow.addSpacer(6);
+
+    const toText = lineRow.addText(
+      (converted === null ? "—" : formatNumber(converted)) + " " + pair.to
     );
-    line.font = Font.boldSystemFont(family === "small" ? 15 : 18);
-    line.textColor = Color.white();
-    line.lineLimit = 1;
-    line.minimumScaleFactor = 0.55;
+    toText.font = Font.boldSystemFont(family === "small" ? 15 : 18);
+    toText.textColor = Color.white();
+    toText.lineLimit = 1;
+    toText.minimumScaleFactor = 0.55;
 
     if (change) {
       const sub = cell.addText(change.text + "  за 24ч");
@@ -564,6 +592,14 @@ function createTickerWidget(pairs, cache, amount, history) {
     return w;
   }
 
+  // Фиксированная ширина колонок "пара" и "значение" — иначе разная длина
+  // курса (12 241,3 vs 3,83 млн) сдвигает начало % и графика на каждой
+  // строке по-разному, и биржевая лента выглядит "вразнобой", а не как
+  // ровная таблица.
+  const labelColW = family === "large" ? 60 : 52;
+  const valueColW = family === "small" ? 92 : family === "large" ? 84 : 76;
+  const changeColW = family === "small" ? 0 : 44;
+
   rowsToShow.forEach((pair, i) => {
     if (i > 0) w.addSpacer(family === "small" ? 6 : 9);
 
@@ -580,26 +616,36 @@ function createTickerWidget(pairs, cache, amount, history) {
     }
 
     if (family !== "small") {
-      const label = row.addText(pair.from + "/" + pair.to);
+      const labelCell = row.addStack();
+      labelCell.size = new Size(labelColW, 0);
+      const label = labelCell.addText(pair.from + "/" + pair.to);
       label.font = Font.regularMonospacedSystemFont(10);
       label.textColor = new Color("#FFFFFF", 0.5);
       label.lineLimit = 1;
-      row.addSpacer(8);
+      row.addSpacer(6);
     }
 
-    const value = row.addText(converted === null ? "—" : formatNumber(converted));
+    const valueCell = row.addStack();
+    valueCell.layoutHorizontally();
+    valueCell.size = new Size(valueColW, 0);
+    valueCell.addSpacer();
+    const value = valueCell.addText(converted === null ? "—" : formatNumber(converted));
     value.font = Font.boldMonospacedSystemFont(family === "small" ? 15 : 17);
     value.textColor = Color.white();
     value.lineLimit = 1;
     value.minimumScaleFactor = 0.55;
+    value.rightAlignText();
 
     row.addSpacer();
 
     if (change) {
-      const changeText = row.addText(change.text);
+      const changeCell = row.addStack();
+      if (changeColW) changeCell.size = new Size(changeColW, 0);
+      const changeText = changeCell.addText(change.text);
       changeText.font = Font.mediumMonospacedSystemFont(11);
       changeText.textColor = change.color;
       changeText.lineLimit = 1;
+      changeText.rightAlignText();
     }
 
     // Компактный спарклайн рядом с % — на каждой строке, а не только у
