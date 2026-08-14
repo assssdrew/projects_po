@@ -3,12 +3,22 @@
 // icon-color: green; icon-glyph: dollar-sign;
 // CurrencyConverter — вставь ОДИН раз и больше не трогай. Обновление = Play ▶
 
-// Постоянные адреса (первый рабочий победит).
+// Постоянные адреса (первый рабочий и с правильной сигнатурой — побеждает).
 // Чтобы GitHub работал: Settings репозитория projects_po → Change visibility → Public
+//
+// Пока PR не смёржен в main, файла там ещё нет (main-адрес отдаёт 404 и
+// код просто идёт дальше по списку) — актуальный код только в ветке
+// cursor/currency-converter-scriptable-widget-bfeb. После мёржа первый адрес
+// заработает сам по себе, менять ничего не придётся.
+//
+// Важно: raw.githubusercontent.com и jsdelivr — это CDN с собственным кэшем,
+// поэтому после `git push` новый код может доехать туда не мгновенно, а с
+// задержкой в несколько минут — это нормально, не баг. Проверяй актуальность
+// по номеру версии в заголовке меню (см. README).
 const RAW_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/main/projects/currency-converter-widget/CurrencyConverterCore.js",
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/currency-converter-scriptable-widget-bfeb/projects/currency-converter-widget/CurrencyConverterCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@main/projects/currency-converter-widget/CurrencyConverterCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/currency-converter-scriptable-widget-bfeb/projects/currency-converter-widget/CurrencyConverterCore.js",
 ];
 
 const MODULE_NAME = "CurrencyConverterCore";
