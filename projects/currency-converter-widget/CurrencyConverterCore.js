@@ -73,12 +73,17 @@ function saveCache(cache) {
 }
 
 function loadSettings() {
-  return loadJson(settingsPath(), {
+  const settings = loadJson(settingsPath(), {
     pairs: DEFAULT_PAIRS,
+    widgetAmount: 1,
     lastAmount: 1,
     lastFrom: "USD",
     lastTo: "RUB",
   });
+  if (!Number.isFinite(settings.widgetAmount) || settings.widgetAmount <= 0) {
+    settings.widgetAmount = 1;
+  }
+  return settings;
 }
 
 function saveSettings(settings) {
@@ -219,7 +224,7 @@ function addRefreshIndicator(w, cache) {
     : new Color("#FFFFFF", 0.4);
 }
 
-function createWidget(pairs, cache) {
+function createWidget(pairs, cache, amount) {
   const w = new ListWidget();
   w.backgroundColor = Color.clear();
   w.setPadding(12, 16, 10, 16);
@@ -229,6 +234,7 @@ function createWidget(pairs, cache) {
   const rates = cache ? cache.rates : null;
   const maxRows = family === "small" ? 3 : family === "large" ? 7 : 4;
   const rowsToShow = pairs.slice(0, maxRows);
+  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
 
   if (!rates) {
     const err = w.addText("Нет данных. Открой приложение для обновления.");
@@ -243,8 +249,15 @@ function createWidget(pairs, cache) {
   rowsToShow.forEach((pair, i) => {
     if (i > 0) w.addSpacer(family === "small" ? 3 : 6);
     const rate = getRate(rates, pair.from, pair.to);
+    const converted = rate === null ? null : displayAmount * rate;
     const line = w.addText(
-      "1 " + pair.from + " = " + (rate === null ? "—" : formatNumber(rate)) + " " + pair.to
+      formatNumber(displayAmount) +
+        " " +
+        pair.from +
+        " = " +
+        (converted === null ? "—" : formatNumber(converted)) +
+        " " +
+        pair.to
     );
     line.font = Font.boldSystemFont(family === "small" ? 14 : 17);
     line.textColor = Color.white();
@@ -295,6 +308,55 @@ async function runConvertDialog(settings, cache) {
   await r.presentAlert();
 }
 
+/** Задаёт сумму, которая пересчитывается во всех парах виджета (не только "1 X = Y"). */
+async function runAmountDialog(settings, cache) {
+  const a = new Alert();
+  a.title = "Сумма для виджета";
+  a.message = "Пересчитается сразу во всех парах на виджете";
+  a.addTextField("Сумма", String(settings.widgetAmount ?? 1));
+  a.addAction("Сохранить");
+  a.addCancelAction("Отмена");
+
+  const choice = await a.presentAlert();
+  if (choice !== 0) return;
+
+  const raw = (a.textFieldValue(0) || "").trim().replace(/\s/g, "").replace(",", ".");
+  const amount = parseFloat(raw);
+  if (!Number.isFinite(amount) || amount <= 0) {
+    const err = new Alert();
+    err.title = "Некорректная сумма";
+    err.message = "Введи положительное число, например 100";
+    err.addAction("OK");
+    await err.presentAlert();
+    return;
+  }
+
+  settings.widgetAmount = amount;
+  saveSettings(settings);
+
+  const rates = cache ? cache.rates : null;
+  if (rates) {
+    const lines = (settings.pairs || DEFAULT_PAIRS).map((pair) => {
+      const rate = getRate(rates, pair.from, pair.to);
+      const converted = rate === null ? null : amount * rate;
+      return (
+        formatNumber(amount) +
+        " " +
+        pair.from +
+        " = " +
+        (converted === null ? "—" : formatNumber(converted)) +
+        " " +
+        pair.to
+      );
+    });
+    const ok = new Alert();
+    ok.title = "Сохранено";
+    ok.message = lines.join("\n");
+    ok.addAction("OK");
+    await ok.presentAlert();
+  }
+}
+
 async function runPairsDialog(settings) {
   const current = settings.pairs
     .map((p) => p.from + "-" + p.to)
@@ -318,6 +380,7 @@ async function runMenu(settings, cache) {
   const alert = new Alert();
   alert.title = "Конвертер валют";
   alert.message = cacheAgeLabel(cache);
+  alert.addAction("Задать сумму для виджета");
   alert.addAction("Конвертировать сумму");
   alert.addAction("Настроить пары для виджета");
   alert.addAction("Обновить курсы сейчас");
@@ -325,10 +388,12 @@ async function runMenu(settings, cache) {
 
   const choice = await alert.presentSheet();
   if (choice === 0) {
-    await runConvertDialog(settings, cache);
+    await runAmountDialog(settings, cache);
   } else if (choice === 1) {
-    await runPairsDialog(settings);
+    await runConvertDialog(settings, cache);
   } else if (choice === 2) {
+    await runPairsDialog(settings);
+  } else if (choice === 3) {
     try {
       cache = await ensureRates(true);
     } catch (e) {
@@ -354,7 +419,7 @@ async function main() {
   }
 
   if (config.runsInWidget) {
-    Script.setWidget(createWidget(pairs, cache));
+    Script.setWidget(createWidget(pairs, cache, settings.widgetAmount));
     return;
   }
 
@@ -363,7 +428,9 @@ async function main() {
   const refreshedPairs =
     widgetParamPairs || refreshedSettings.pairs || DEFAULT_PAIRS;
   const refreshedCache = loadCache();
-  Script.setWidget(createWidget(refreshedPairs, refreshedCache));
+  Script.setWidget(
+    createWidget(refreshedPairs, refreshedCache, refreshedSettings.widgetAmount)
+  );
 }
 
 module.exports = { main, MARKER };
