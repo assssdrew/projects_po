@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "4.3";
+const CORE_VERSION = "4.4";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -383,14 +383,24 @@ function addShadow(t, alpha) {
  * container может быть как сам ListWidget, так и вложенный WidgetStack —
  * оба поддерживают addStack/addSpacer/addImage.
  */
+/** ЧЧ:ММ:СС момента, когда виджет реально был отрисован (а не момента обновления курсов). */
+function renderTimeTag() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+}
+
 function addRefreshIndicator(container, cache, interactive) {
   const row = container.addStack();
   row.centerAlignContent();
   row.addSpacer();
 
-  const versionTag = row.addText("v" + CORE_VERSION);
-  versionTag.font = Font.systemFont(7);
-  versionTag.textColor = new Color("#FFFFFF", 0.25);
+  // v + время последней отрисовки этой самой плитки — если это число не меняется
+  // между твоими проверками, значит WidgetKit не перерисовывал плитку вообще
+  // (а не то, что код "не сработал"): дело в системном расписании обновлений.
+  const versionTag = row.addText("v" + CORE_VERSION + " · " + renderTimeTag());
+  versionTag.font = Font.systemFont(8);
+  versionTag.textColor = new Color("#FFFFFF", 0.35);
   row.addSpacer(4);
 
   const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
