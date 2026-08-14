@@ -144,7 +144,10 @@ function recordHistory(cache) {
   saveHistory(history);
 }
 
-const VALID_STYLES = ["cards", "minimal"];
+// "minimal" — безопасный дефолт: плоский список, гарантированно влезает
+// в любой размер. Остальные стили переключаются вручную через меню.
+const VALID_STYLES = ["minimal", "cards", "ticker", "hero"];
+const DEFAULT_STYLE = "minimal";
 
 function loadSettings() {
   const settings = loadJson(settingsPath(), {
@@ -153,13 +156,13 @@ function loadSettings() {
     lastAmount: 1,
     lastFrom: "USD",
     lastTo: "RUB",
-    style: "cards",
+    style: DEFAULT_STYLE,
   });
   if (!Number.isFinite(settings.widgetAmount) || settings.widgetAmount <= 0) {
     settings.widgetAmount = 1;
   }
   if (VALID_STYLES.indexOf(settings.style) === -1) {
-    settings.style = "cards";
+    settings.style = DEFAULT_STYLE;
   }
   return settings;
 }
@@ -368,9 +371,13 @@ function addShadow(t, alpha) {
   t.shadowOffset = new Point(0, 1);
 }
 
-/** Иконка-статус обновления в правом нижнем углу: зелёная "только что", иначе тусклая. */
-function addRefreshIndicator(w, cache, interactive) {
-  const row = w.addStack();
+/**
+ * Иконка-статус обновления: зелёная "только что", иначе тусклая.
+ * container может быть как сам ListWidget, так и вложенный WidgetStack —
+ * оба поддерживают addStack/addSpacer/addImage.
+ */
+function addRefreshIndicator(container, cache, interactive) {
+  const row = container.addStack();
   row.addSpacer();
 
   const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
@@ -385,48 +392,83 @@ function addRefreshIndicator(w, cache, interactive) {
   }
 }
 
-/** Минималистичный стиль: просто список "сумма FROM = сумма TO", без карточек. */
-function createMinimalWidget(pairs, cache, amount) {
+/** Общий "нет данных" фрагмент для любого стиля. */
+function addNoDataMessage(container) {
+  const err = container.addText("Нет данных. Открой приложение для обновления.");
+  err.font = Font.systemFont(13);
+  err.textColor = Color.white();
+  err.lineLimit = 3;
+}
+
+/** ▲/▼ + % для изменения курса, или null, если истории пока не хватает. */
+function changeBadgeParts(history, rates, from, to) {
+  const pct = pairChangePct(history, rates, from, to);
+  if (pct === null) return null;
+  return {
+    text: (pct >= 0 ? "▲" : "▼") + formatPct(Math.abs(pct)),
+    color: pct >= 0 ? new Color("#34C759") : new Color("#FF453A"),
+  };
+}
+
+/**
+ * Минималистичный стиль — плоский список "сумма FROM → сумма TO",
+ * под каждой строкой мелкое изменение курса за сутки, если есть история.
+ * Самый компактный и надёжный по месту стиль — используется по умолчанию.
+ */
+function createMinimalWidget(pairs, cache, amount, history) {
   const w = new ListWidget();
-  w.backgroundColor = Color.clear();
+  w.backgroundColor = new Color("#121316");
   w.setPadding(12, 16, 10, 16);
   w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 3 : family === "large" ? 7 : 4;
+  const maxRows = family === "small" ? 2 : family === "large" ? 6 : 3;
   const rowsToShow = pairs.slice(0, maxRows);
   const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
   const canTap = family !== "small";
 
   if (!rates) {
-    const err = w.addText("Нет данных. Открой приложение для обновления.");
-    err.font = Font.systemFont(13);
-    err.textColor = Color.white();
-    err.lineLimit = 3;
+    addNoDataMessage(w);
     w.addSpacer();
     addRefreshIndicator(w, cache, canTap);
     return w;
   }
 
   rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 3 : 6);
+    if (i > 0) w.addSpacer(family === "small" ? 7 : 10);
+
     const rate = getRate(rates, pair.from, pair.to);
     const converted = rate === null ? null : displayAmount * rate;
-    const line = w.addText(
+    const change = changeBadgeParts(history, rates, pair.from, pair.to);
+
+    const cell = w.addStack();
+    cell.layoutVertically();
+    if (canTap) {
+      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
+      if (url) cell.url = url;
+    }
+
+    const line = cell.addText(
       formatNumber(displayAmount) +
         " " +
         pair.from +
-        " = " +
+        " → " +
         (converted === null ? "—" : formatNumber(converted)) +
         " " +
         pair.to
     );
-    line.font = Font.boldSystemFont(family === "small" ? 14 : 17);
+    line.font = Font.boldSystemFont(family === "small" ? 15 : 18);
     line.textColor = Color.white();
     line.lineLimit = 1;
-    line.minimumScaleFactor = 0.6;
-    addShadow(line, 0.5);
+    line.minimumScaleFactor = 0.55;
+
+    if (change) {
+      const sub = cell.addText(change.text + "  за 24ч");
+      sub.font = Font.systemFont(family === "small" ? 9 : 10);
+      sub.textColor = change.color;
+      sub.lineLimit = 1;
+    }
   });
 
   w.addSpacer();
@@ -435,112 +477,307 @@ function createMinimalWidget(pairs, cache, amount) {
   return w;
 }
 
-/** Карточный стиль: цветной акцент по валюте, флаг, изменение курса, спарклайн у первой пары. */
+/**
+ * Карточный стиль — компактная строка на тёмной подложке с круглым флагом
+ * слева, крупной суммой и мелким изменением курса справа от неё.
+ * Ровно один "гибкий" addSpacer() в конце строки, без гонки нескольких
+ * растягиваемых элементов — так строка гарантированно влезает по ширине.
+ */
 function createCardsWidget(pairs, cache, amount, history) {
   const w = new ListWidget();
-  w.backgroundColor = Color.clear();
+  w.backgroundColor = new Color("#16181D");
   w.setPadding(10, 10, 8, 10);
   w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 2 : family === "large" ? 6 : 3;
+  const maxRows = family === "small" ? 2 : family === "large" ? 5 : 3;
   const rowsToShow = pairs.slice(0, maxRows);
   const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
   const canTapRows = family !== "small";
+  const badgeSize = family === "small" ? 24 : 30;
 
   if (!rates) {
-    const err = w.addText("Нет данных. Открой приложение для обновления.");
-    err.font = Font.systemFont(13);
-    err.textColor = Color.white();
-    err.lineLimit = 3;
+    addNoDataMessage(w);
     w.addSpacer();
     addRefreshIndicator(w, cache, canTapRows);
     return w;
   }
 
   rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 5 : 7);
+    if (i > 0) w.addSpacer(family === "small" ? 6 : 8);
 
     const meta = currencyMeta(pair.from);
     const rate = getRate(rates, pair.from, pair.to);
     const converted = rate === null ? null : displayAmount * rate;
-    const changePct = pairChangePct(history, rates, pair.from, pair.to);
+    const change = family !== "small" ? changeBadgeParts(history, rates, pair.from, pair.to) : null;
 
     const row = w.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
-    row.cornerRadius = 10;
-    row.backgroundColor = new Color(meta.color, 0.16);
-    row.setPadding(
-      family === "small" ? 6 : 8,
-      10,
-      family === "small" ? 6 : 8,
-      10
-    );
+    row.cornerRadius = 12;
+    row.backgroundColor = new Color("#FFFFFF", 0.06);
+    const vPad = family === "small" ? 6 : 9;
+    const hPad = family === "small" ? 8 : 10;
+    row.setPadding(vPad, hPad, vPad, hPad);
     if (canTapRows) {
       const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
       if (url) row.url = url;
     }
 
-    const bar = row.addStack();
-    bar.size = new Size(3, family === "small" ? 26 : 30);
-    bar.backgroundColor = new Color(meta.color, 0.9);
-    bar.cornerRadius = 1.5;
+    const badge = row.addStack();
+    badge.size = new Size(badgeSize, badgeSize);
+    badge.backgroundColor = new Color(meta.color, 0.28);
+    badge.cornerRadius = badgeSize / 2;
+    badge.centerAlignContent();
+    const flagText = badge.addText(meta.flag);
+    flagText.font = Font.systemFont(family === "small" ? 13 : 15);
 
-    row.addSpacer(8);
+    row.addSpacer(family === "small" ? 8 : 10);
 
     const col = row.addStack();
     col.layoutVertically();
 
-    const line1 = col.addText(
+    const line1Row = col.addStack();
+    line1Row.layoutHorizontally();
+    line1Row.centerAlignContent();
+    const line1 = line1Row.addText(
       (converted === null ? "—" : formatNumber(converted)) + " " + pair.to
     );
-    line1.font = Font.boldSystemFont(family === "small" ? 14 : 16);
+    line1.font = Font.boldSystemFont(family === "small" ? 14 : 17);
     line1.textColor = Color.white();
     line1.lineLimit = 1;
-    line1.minimumScaleFactor = 0.6;
+    line1.minimumScaleFactor = 0.55;
 
-    const line2 = col.addStack();
-    line2.layoutHorizontally();
-    line2.centerAlignContent();
-    const sub = line2.addText(
-      meta.flag + " " + formatNumber(displayAmount) + " " + pair.from
-    );
+    if (change) {
+      line1Row.addSpacer(6);
+      const changeText = line1Row.addText(change.text);
+      changeText.font = Font.mediumSystemFont(10);
+      changeText.textColor = change.color;
+      changeText.lineLimit = 1;
+    }
+
+    const sub = col.addText(formatNumber(displayAmount) + " " + pair.from);
     sub.font = Font.systemFont(family === "small" ? 10 : 11);
-    sub.textColor = new Color("#FFFFFF", 0.6);
+    sub.textColor = new Color("#FFFFFF", 0.55);
     sub.lineLimit = 1;
     sub.minimumScaleFactor = 0.7;
 
-    if (changePct !== null && family !== "small") {
-      line2.addSpacer(6);
-      const arrow = changePct >= 0 ? "▲" : "▼";
-      const changeText = line2.addText(arrow + formatPct(Math.abs(changePct)));
-      changeText.font = Font.mediumSystemFont(10);
-      changeText.textColor =
-        changePct >= 0 ? new Color("#34C759") : new Color("#FF453A");
+    row.addSpacer();
+  });
+
+  w.addSpacer();
+  addRefreshIndicator(w, cache, canTapRows);
+
+  return w;
+}
+
+/**
+ * Стиль "Тикер" — биржевой терминал: чёрный фон, моноширинный шрифт,
+ * пара/значение слева, справа — либо стрелка с %, либо (для первой пары
+ * на large) спарклайн — никогда оба сразу, чтобы не спорить за ширину.
+ */
+function createTickerWidget(pairs, cache, amount, history) {
+  const w = new ListWidget();
+  w.backgroundColor = new Color("#000000");
+  w.setPadding(12, 14, 10, 14);
+  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
+
+  const family = config.widgetFamily || "medium";
+  const rates = cache ? cache.rates : null;
+  const maxRows = family === "small" ? 3 : family === "large" ? 6 : 3;
+  const rowsToShow = pairs.slice(0, maxRows);
+  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
+  const canTapRows = family !== "small";
+
+  if (!rates) {
+    addNoDataMessage(w);
+    w.addSpacer();
+    addRefreshIndicator(w, cache, canTapRows);
+    return w;
+  }
+
+  rowsToShow.forEach((pair, i) => {
+    if (i > 0) w.addSpacer(family === "small" ? 6 : 9);
+
+    const rate = getRate(rates, pair.from, pair.to);
+    const converted = rate === null ? null : displayAmount * rate;
+    const change = changeBadgeParts(history, rates, pair.from, pair.to);
+
+    const row = w.addStack();
+    row.layoutHorizontally();
+    row.centerAlignContent();
+    if (canTapRows) {
+      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
+      if (url) row.url = url;
     }
+
+    if (family !== "small") {
+      const label = row.addText(pair.from + "/" + pair.to);
+      label.font = Font.regularMonospacedSystemFont(10);
+      label.textColor = new Color("#FFFFFF", 0.5);
+      label.lineLimit = 1;
+      row.addSpacer(8);
+    }
+
+    const value = row.addText(converted === null ? "—" : formatNumber(converted));
+    value.font = Font.boldMonospacedSystemFont(family === "small" ? 15 : 17);
+    value.textColor = Color.white();
+    value.lineLimit = 1;
+    value.minimumScaleFactor = 0.55;
 
     row.addSpacer();
 
-    if (i === 0 && family === "large") {
-      const spark = sparklineImage(
-        history,
-        pair.from,
-        pair.to,
-        46,
-        24,
-        new Color(meta.color, 0.9)
-      );
+    const showSparkline = i === 0 && family === "large";
+    if (showSparkline) {
+      const spark = sparklineImage(history, pair.from, pair.to, 48, 20, new Color("#34C759"));
       if (spark) {
         const imgEl = row.addImage(spark);
-        imgEl.imageSize = new Size(46, 24);
+        imgEl.imageSize = new Size(48, 20);
+      } else if (change) {
+        const changeText = row.addText(change.text);
+        changeText.font = Font.mediumMonospacedSystemFont(11);
+        changeText.textColor = change.color;
+        changeText.lineLimit = 1;
       }
+    } else if (change) {
+      const changeText = row.addText(change.text);
+      changeText.font = Font.mediumMonospacedSystemFont(11);
+      changeText.textColor = change.color;
+      changeText.lineLimit = 1;
     }
   });
 
   w.addSpacer();
   addRefreshIndicator(w, cache, canTapRows);
+
+  return w;
+}
+
+// Высота "hero"-блока в поинтах — подобрана так, чтобы гарантированно
+// оставалось место под список остальных пар. small: hero занимает весь виджет.
+const HERO_HEIGHT = { small: null, medium: 90, large: 148 };
+
+/**
+ * Стиль "Hero" — главная (первая) пара крупно на цветном градиенте сверху,
+ * остальные пары компактным списком снизу на тёмном фоне.
+ */
+function createHeroWidget(pairs, cache, amount, history) {
+  const w = new ListWidget();
+  w.backgroundColor = new Color("#14151A");
+  w.setPadding(0, 0, 6, 0);
+  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
+
+  const family = config.widgetFamily || "medium";
+  const rates = cache ? cache.rates : null;
+  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
+  const primary = pairs[0] || DEFAULT_PAIRS[0];
+  const secondaryLimit = family === "large" ? 5 : family === "small" ? 1 : 2;
+  const secondary = pairs.slice(1, secondaryLimit);
+  const canTap = family !== "small";
+  const meta = currencyMeta(primary.from);
+
+  const hero = w.addStack();
+  hero.layoutVertically();
+  const heroHeight = HERO_HEIGHT[family];
+  if (heroHeight) hero.size = new Size(0, heroHeight);
+  const gradient = new LinearGradient();
+  gradient.colors = [new Color(meta.color, 0.9), new Color("#15173A", 0.98)];
+  gradient.locations = [0, 1];
+  gradient.startPoint = new Point(0, 0);
+  gradient.endPoint = new Point(1, 1);
+  hero.backgroundGradient = gradient;
+  const heroVPad = family === "small" ? 10 : 14;
+  const heroHPad = family === "small" ? 12 : 16;
+  hero.setPadding(heroVPad, heroHPad, heroVPad, heroHPad);
+  if (canTap) {
+    const url = scriptRunUrl({ action: "convert", from: primary.from, to: primary.to });
+    if (url) hero.url = url;
+  }
+
+  if (!rates) {
+    const err = hero.addText("Нет данных");
+    err.font = Font.boldSystemFont(15);
+    err.textColor = Color.white();
+    hero.addSpacer();
+    if (family === "small") return w;
+    w.addSpacer(6);
+    addRefreshIndicator(w, cache, canTap);
+    return w;
+  }
+
+  const rate = getRate(rates, primary.from, primary.to);
+  const converted = rate === null ? null : displayAmount * rate;
+  const change = changeBadgeParts(history, rates, primary.from, primary.to);
+
+  const sub = hero.addText(meta.flag + " " + formatNumber(displayAmount) + " " + primary.from);
+  sub.font = Font.systemFont(family === "small" ? 11 : 12);
+  sub.textColor = new Color("#FFFFFF", 0.8);
+  sub.lineLimit = 1;
+
+  hero.addSpacer(family === "small" ? 4 : 6);
+
+  const valueRow = hero.addStack();
+  valueRow.layoutHorizontally();
+  valueRow.centerAlignContent();
+  const value = valueRow.addText(
+    (converted === null ? "—" : formatNumber(converted)) + " " + primary.to
+  );
+  value.font = Font.boldSystemFont(family === "small" ? 20 : family === "large" ? 30 : 24);
+  value.textColor = Color.white();
+  value.lineLimit = 1;
+  value.minimumScaleFactor = 0.5;
+
+  if (change) {
+    valueRow.addSpacer(8);
+    const changeText = valueRow.addText(change.text);
+    changeText.font = Font.mediumSystemFont(family === "small" ? 11 : 13);
+    changeText.textColor = change.color;
+    changeText.lineLimit = 1;
+  }
+
+  hero.addSpacer();
+
+  if (family === "small") {
+    addRefreshIndicator(hero, cache, false);
+    return w;
+  }
+
+  w.addSpacer(family === "large" ? 10 : 6);
+
+  const list = w.addStack();
+  list.layoutVertically();
+  list.setPadding(0, 16, 0, 16);
+
+  secondary.forEach((pair, i) => {
+    if (i > 0) list.addSpacer(family === "large" ? 8 : 4);
+    const r = getRate(rates, pair.from, pair.to);
+    const c = r === null ? null : displayAmount * r;
+
+    const cell = list.addStack();
+    cell.layoutHorizontally();
+    if (canTap) {
+      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
+      if (url) cell.url = url;
+    }
+    const line = cell.addText(
+      formatNumber(displayAmount) +
+        " " +
+        pair.from +
+        " → " +
+        (c === null ? "—" : formatNumber(c)) +
+        " " +
+        pair.to
+    );
+    line.font = Font.systemFont(family === "large" ? 14 : 12);
+    line.textColor = new Color("#FFFFFF", 0.85);
+    line.lineLimit = 1;
+    line.minimumScaleFactor = 0.6;
+    cell.addSpacer();
+  });
+
+  list.addSpacer(6);
+  addRefreshIndicator(list, cache, canTap);
 
   return w;
 }
@@ -595,11 +832,12 @@ function createWidget(pairs, cache, amount, settings, history) {
   if (ACCESSORY_FAMILIES.indexOf(family) !== -1) {
     return createAccessoryWidget(pairs, cache, amount, family);
   }
-  const style = (settings && settings.style) || "cards";
-  if (style === "minimal") {
-    return createMinimalWidget(pairs, cache, amount);
-  }
-  return createCardsWidget(pairs, cache, amount, history || []);
+  const style = (settings && settings.style) || DEFAULT_STYLE;
+  const h = history || [];
+  if (style === "cards") return createCardsWidget(pairs, cache, amount, h);
+  if (style === "ticker") return createTickerWidget(pairs, cache, amount, h);
+  if (style === "hero") return createHeroWidget(pairs, cache, amount, h);
+  return createMinimalWidget(pairs, cache, amount, h);
 }
 
 /** Диалог конвертации суммы между двумя валютами (запуск из приложения, не из виджета). */
@@ -704,20 +942,26 @@ async function runPairsDialog(settings) {
   }
 }
 
-/** Переключатель стиля виджета: карточки (по умолчанию) или минимальный список. */
+const STYLE_LABELS = {
+  minimal: "Минимальный — плоский список, максимально надёжно по месту",
+  cards: "Карточки — цветной флаг-значок + изменение курса",
+  ticker: "Тикер — биржевой стиль, моноширинный шрифт",
+  hero: "Hero — главная пара крупно + список остальных снизу",
+};
+const STYLE_ORDER = ["minimal", "cards", "ticker", "hero"];
+
+/** Переключатель стиля виджета — все 4 варианта. */
 async function runStyleDialog(settings) {
   const a = new Alert();
   a.title = "Стиль виджета";
-  a.message = "Текущий: " + (settings.style === "minimal" ? "Минимальный" : "Карточки");
-  a.addAction("Карточки (цвет, флаги, изменение курса)");
-  a.addAction("Минимальный (просто список)");
+  a.message = "Текущий: " + (STYLE_LABELS[settings.style] || STYLE_LABELS[DEFAULT_STYLE]);
+  for (const key of STYLE_ORDER) {
+    a.addAction(STYLE_LABELS[key]);
+  }
   a.addCancelAction("Отмена");
   const choice = await a.presentAlert();
-  if (choice === 0) {
-    settings.style = "cards";
-    saveSettings(settings);
-  } else if (choice === 1) {
-    settings.style = "minimal";
+  if (choice >= 0 && choice < STYLE_ORDER.length) {
+    settings.style = STYLE_ORDER[choice];
     saveSettings(settings);
   }
 }
