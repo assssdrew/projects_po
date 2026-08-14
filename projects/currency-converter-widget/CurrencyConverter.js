@@ -65,6 +65,31 @@ async function fetchCore() {
   throw lastError || new Error("Не удалось скачать код");
 }
 
+/**
+ * Аварийный виджет на уровне bootstrap-файла (не зависит от core-модуля,
+ * который как раз мог не загрузиться/сломаться). Раньше при исключении в
+ * контексте виджета Script.setWidget() вообще не вызывался — WidgetKit
+ * молча оставлял прошлый рендер, и любые правки выглядели как "ничего не
+ * меняется", даже если новый код был совсем другим.
+ */
+function inlineErrorWidget(title, message) {
+  const w = new ListWidget();
+  w.backgroundColor = new Color("#3A0A0A");
+  w.setPadding(12, 12, 12, 12);
+  const t = w.addText(title);
+  t.font = Font.boldSystemFont(12);
+  t.textColor = Color.white();
+  t.lineLimit = 1;
+  t.minimumScaleFactor = 0.7;
+  w.addSpacer(4);
+  const b = w.addText(String(message));
+  b.font = Font.systemFont(10);
+  b.textColor = new Color("#FFD6D6");
+  b.lineLimit = 8;
+  b.minimumScaleFactor = 0.5;
+  return w;
+}
+
 async function downloadCore() {
   const code = await fetchCore();
   const { fm, path } = modulePath();
@@ -139,6 +164,10 @@ async function boot() {
   } catch (e) {
     const { fm, path } = modulePath();
     if (!fm.fileExists(path)) {
+      if (config.runsInWidget) {
+        Script.setWidget(inlineErrorWidget("⚠️ Нет кода", String(e && e.message ? e.message : e)));
+        return;
+      }
       const a = new Alert();
       a.title = "Не удалось скачать";
       a.message =
@@ -154,7 +183,10 @@ async function boot() {
     const core = importModule(MODULE_NAME);
     await core.main();
   } catch (e) {
-    if (!config.runsInWidget) {
+    if (config.runsInWidget) {
+      // Именно эта ветка раньше "съедала" ошибку молча — теперь она видна на плитке.
+      Script.setWidget(inlineErrorWidget("⚠️ Ошибка bootstrap", String(e && e.message ? e.message : e)));
+    } else {
       const a = new Alert();
       a.title = "Ошибка в скрипте";
       a.message = String(e && e.message ? e.message : e);

@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "4.2";
+const CORE_VERSION = "4.3";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -377,13 +377,21 @@ function addShadow(t, alpha) {
 }
 
 /**
- * Иконка-статус обновления: зелёная "только что", иначе тусклая.
+ * Иконка-статус обновления: зелёная "только что", иначе тусклая. Рядом —
+ * едва заметный номер версии кода: так видно даже без захода в меню, что
+ * реально сейчас отрисовало виджет на Home Screen.
  * container может быть как сам ListWidget, так и вложенный WidgetStack —
  * оба поддерживают addStack/addSpacer/addImage.
  */
 function addRefreshIndicator(container, cache, interactive) {
   const row = container.addStack();
+  row.centerAlignContent();
   row.addSpacer();
+
+  const versionTag = row.addText("v" + CORE_VERSION);
+  versionTag.font = Font.systemFont(7);
+  versionTag.textColor = new Color("#FFFFFF", 0.25);
+  row.addSpacer(4);
 
   const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
   symbol.applyFont(Font.mediumSystemFont(11));
@@ -395,6 +403,29 @@ function addRefreshIndicator(container, cache, interactive) {
     const url = scriptRunUrl({ action: "refresh" });
     if (url) row.url = url;
   }
+}
+
+/** Аварийный виджет: показывает текст ошибки прямо на плитке вместо тихого "ничего не поменялось". */
+function createErrorWidget(message, styleName) {
+  const w = new ListWidget();
+  w.backgroundColor = new Color("#3A0A0A");
+  w.setPadding(12, 12, 12, 12);
+
+  const title = w.addText("⚠️ Ошибка рендера · v" + CORE_VERSION);
+  title.font = Font.boldSystemFont(12);
+  title.textColor = Color.white();
+  title.lineLimit = 1;
+  title.minimumScaleFactor = 0.7;
+
+  w.addSpacer(4);
+
+  const body = w.addText((styleName ? "стиль: " + styleName + "\n" : "") + String(message));
+  body.font = Font.systemFont(11);
+  body.textColor = new Color("#FFD6D6");
+  body.lineLimit = 6;
+  body.minimumScaleFactor = 0.6;
+
+  return w;
 }
 
 /** Общий "нет данных" фрагмент для любого стиля. */
@@ -1062,7 +1093,16 @@ async function main() {
 
   if (config.runsInWidget) {
     const history = loadHistory();
-    Script.setWidget(createWidget(pairs, cache, settings.widgetAmount, settings, history));
+    let widget;
+    try {
+      widget = createWidget(pairs, cache, settings.widgetAmount, settings, history);
+    } catch (e) {
+      // Раньше при исключении здесь Script.setWidget() вообще не вызывался,
+      // и WidgetKit молча оставлял старый рендер — выглядело как "ничего не меняется".
+      // Теперь отрисовываем сам текст ошибки, чтобы её можно было увидеть на плитке.
+      widget = createErrorWidget(e && e.message ? e.message : String(e), settings.style || DEFAULT_STYLE);
+    }
+    Script.setWidget(widget);
     return;
   }
 
@@ -1090,15 +1130,22 @@ async function main() {
   const refreshedPairs = widgetParamPairs || refreshedSettings.pairs || DEFAULT_PAIRS;
   const refreshedCache = loadCache() || cache;
   const refreshedHistory = loadHistory();
-  Script.setWidget(
-    createWidget(
+  let previewWidget;
+  try {
+    previewWidget = createWidget(
       refreshedPairs,
       refreshedCache,
       refreshedSettings.widgetAmount,
       refreshedSettings,
       refreshedHistory
-    )
-  );
+    );
+  } catch (e) {
+    previewWidget = createErrorWidget(
+      e && e.message ? e.message : String(e),
+      refreshedSettings.style || DEFAULT_STYLE
+    );
+  }
+  Script.setWidget(previewWidget);
 }
 
 module.exports = { main, MARKER, CORE_VERSION };
