@@ -1,11 +1,11 @@
-// CurrencyConverterCore — v4: 4 стиля виджета (минимальный/карточки/тикер/hero)
-// со сменой из меню, флаги, изменение курса, спарклайн, Lock Screen, тап-зоны.
+// CurrencyConverterCore — v5: 2 стиля виджета (минимальный/тикер) со сменой
+// из меню, изменение курса, спарклайн (тикер), Lock Screen, тап-зоны.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "4.5";
+const CORE_VERSION = "5.0";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -72,7 +72,6 @@ const CACHE_NAME = "currency-rates-cache.json";
 const SETTINGS_NAME = "currency-settings.json";
 const HISTORY_NAME = "currency-history.json";
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // курсы обновляются раз в сутки апстримом
-const REFRESH_STEP_MS = 60 * 60 * 1000; // как часто система будет пытаться перерисовать виджет
 const HISTORY_MAX_POINTS = 30; // ~месяц точек для изменения курса и спарклайна
 const HISTORY_MIN_GAP_MS = 6 * 60 * 60 * 1000; // не пишем точки чаще, чем раз в 6ч
 
@@ -151,7 +150,7 @@ function recordHistory(cache) {
 
 // "minimal" — безопасный дефолт: плоский список, гарантированно влезает
 // в любой размер. Остальные стили переключаются вручную через меню.
-const VALID_STYLES = ["minimal", "cards", "ticker", "hero"];
+const VALID_STYLES = ["minimal", "ticker"];
 const DEFAULT_STYLE = "minimal";
 
 function loadSettings() {
@@ -471,7 +470,6 @@ function createMinimalWidget(pairs, cache, amount, history) {
   const w = new ListWidget();
   w.backgroundColor = new Color("#121316");
   w.setPadding(12, 16, 10, 16);
-  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
@@ -530,105 +528,6 @@ function createMinimalWidget(pairs, cache, amount, history) {
 }
 
 /**
- * Карточный стиль — компактная строка на тёмной подложке с круглым флагом
- * слева, крупной суммой и мелким изменением курса справа от неё.
- * Ровно один "гибкий" addSpacer() в конце строки, без гонки нескольких
- * растягиваемых элементов — так строка гарантированно влезает по ширине.
- */
-function createCardsWidget(pairs, cache, amount, history) {
-  const w = new ListWidget();
-  w.backgroundColor = new Color("#16181D");
-  w.setPadding(10, 10, 8, 10);
-  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
-
-  const family = config.widgetFamily || "medium";
-  const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 2 : family === "large" ? 5 : 3;
-  const rowsToShow = pairs.slice(0, maxRows);
-  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
-  const canTapRows = family !== "small";
-  const badgeSize = family === "small" ? 24 : 30;
-
-  if (!rates) {
-    addNoDataMessage(w);
-    w.addSpacer();
-    addRefreshIndicator(w, cache, canTapRows);
-    return w;
-  }
-
-  rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 6 : 8);
-
-    const meta = currencyMeta(pair.from);
-    const rate = getRate(rates, pair.from, pair.to);
-    const converted = rate === null ? null : displayAmount * rate;
-    const change = family !== "small" ? changeBadgeParts(history, rates, pair.from, pair.to) : null;
-
-    const row = w.addStack();
-    row.layoutHorizontally();
-    row.centerAlignContent();
-    row.cornerRadius = 12;
-    // Заметная сплошная подложка карточки (не полупрозрачная поверх тёмного
-    // фона виджета — на глаз почти не отличалась бы от простого списка).
-    row.backgroundColor = new Color("#23262E");
-    row.borderWidth = 1;
-    row.borderColor = new Color("#FFFFFF", 0.08);
-    const vPad = family === "small" ? 6 : 9;
-    const hPad = family === "small" ? 8 : 10;
-    row.setPadding(vPad, hPad, vPad, hPad);
-    if (canTapRows) {
-      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
-      if (url) row.url = url;
-    }
-
-    const badge = row.addStack();
-    badge.size = new Size(badgeSize, badgeSize);
-    badge.backgroundColor = new Color(meta.color, 0.4);
-    badge.cornerRadius = badgeSize / 2;
-    badge.centerAlignContent();
-    const flagText = badge.addText(meta.flag);
-    flagText.font = Font.systemFont(family === "small" ? 14 : 16);
-
-    row.addSpacer(family === "small" ? 8 : 10);
-
-    const col = row.addStack();
-    col.layoutVertically();
-
-    const line1Row = col.addStack();
-    line1Row.layoutHorizontally();
-    line1Row.centerAlignContent();
-    const line1 = line1Row.addText(
-      (converted === null ? "—" : formatNumber(converted)) + " " + pair.to
-    );
-    line1.font = Font.boldSystemFont(family === "small" ? 14 : 17);
-    line1.textColor = Color.white();
-    line1.lineLimit = 1;
-    line1.minimumScaleFactor = 0.55;
-
-    if (change) {
-      line1Row.addSpacer(6);
-      const changeText = line1Row.addText(change.text);
-      changeText.font = Font.mediumSystemFont(10);
-      changeText.textColor = change.color;
-      changeText.lineLimit = 1;
-    }
-
-    const sub = col.addText(formatNumber(displayAmount) + " " + pair.from);
-    sub.font = Font.systemFont(family === "small" ? 10 : 11);
-    sub.textColor = new Color("#FFFFFF", 0.55);
-    sub.lineLimit = 1;
-    sub.minimumScaleFactor = 0.7;
-
-    row.addSpacer();
-  });
-
-  w.addSpacer();
-  addRefreshIndicator(w, cache, canTapRows);
-
-  return w;
-}
-
-/**
  * Стиль "Тикер" — биржевой терминал: чёрный фон, моноширинный шрифт,
  * пара/значение слева, справа — либо стрелка с %, либо (для первой пары
  * на large) спарклайн — никогда оба сразу, чтобы не спорить за ширину.
@@ -637,7 +536,6 @@ function createTickerWidget(pairs, cache, amount, history) {
   const w = new ListWidget();
   w.backgroundColor = new Color("#000000");
   w.setPadding(12, 14, 10, 14);
-  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
@@ -706,134 +604,6 @@ function createTickerWidget(pairs, cache, amount, history) {
 
   w.addSpacer();
   addRefreshIndicator(w, cache, canTapRows);
-
-  return w;
-}
-
-// Высота "hero"-блока в поинтах — подобрана так, чтобы гарантированно
-// оставалось место под список остальных пар. small: hero занимает весь виджет.
-const HERO_HEIGHT = { small: null, medium: 90, large: 148 };
-
-/**
- * Стиль "Hero" — главная (первая) пара крупно на цветном градиенте сверху,
- * остальные пары компактным списком снизу на тёмном фоне.
- */
-function createHeroWidget(pairs, cache, amount, history) {
-  const w = new ListWidget();
-  w.backgroundColor = new Color("#14151A");
-  w.setPadding(0, 0, 6, 0);
-  w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
-
-  const family = config.widgetFamily || "medium";
-  const rates = cache ? cache.rates : null;
-  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
-  const primary = pairs[0] || DEFAULT_PAIRS[0];
-  const secondaryLimit = family === "large" ? 5 : family === "small" ? 1 : 2;
-  const secondary = pairs.slice(1, secondaryLimit);
-  const canTap = family !== "small";
-  const meta = currencyMeta(primary.from);
-
-  const hero = w.addStack();
-  hero.layoutVertically();
-  const heroHeight = HERO_HEIGHT[family];
-  if (heroHeight) hero.size = new Size(0, heroHeight);
-  const gradient = new LinearGradient();
-  gradient.colors = [new Color(meta.color, 0.9), new Color("#15173A", 0.98)];
-  gradient.locations = [0, 1];
-  gradient.startPoint = new Point(0, 0);
-  gradient.endPoint = new Point(1, 1);
-  hero.backgroundGradient = gradient;
-  const heroVPad = family === "small" ? 10 : 14;
-  const heroHPad = family === "small" ? 12 : 16;
-  hero.setPadding(heroVPad, heroHPad, heroVPad, heroHPad);
-  if (canTap) {
-    const url = scriptRunUrl({ action: "convert", from: primary.from, to: primary.to });
-    if (url) hero.url = url;
-  }
-
-  if (!rates) {
-    const err = hero.addText("Нет данных");
-    err.font = Font.boldSystemFont(15);
-    err.textColor = Color.white();
-    hero.addSpacer();
-    if (family === "small") return w;
-    w.addSpacer(6);
-    addRefreshIndicator(w, cache, canTap);
-    return w;
-  }
-
-  const rate = getRate(rates, primary.from, primary.to);
-  const converted = rate === null ? null : displayAmount * rate;
-  const change = changeBadgeParts(history, rates, primary.from, primary.to);
-
-  const sub = hero.addText(meta.flag + " " + formatNumber(displayAmount) + " " + primary.from);
-  sub.font = Font.systemFont(family === "small" ? 11 : 12);
-  sub.textColor = new Color("#FFFFFF", 0.8);
-  sub.lineLimit = 1;
-
-  hero.addSpacer(family === "small" ? 4 : 6);
-
-  const valueRow = hero.addStack();
-  valueRow.layoutHorizontally();
-  valueRow.centerAlignContent();
-  const value = valueRow.addText(
-    (converted === null ? "—" : formatNumber(converted)) + " " + primary.to
-  );
-  value.font = Font.boldSystemFont(family === "small" ? 20 : family === "large" ? 30 : 24);
-  value.textColor = Color.white();
-  value.lineLimit = 1;
-  value.minimumScaleFactor = 0.5;
-
-  if (change) {
-    valueRow.addSpacer(8);
-    const changeText = valueRow.addText(change.text);
-    changeText.font = Font.mediumSystemFont(family === "small" ? 11 : 13);
-    changeText.textColor = change.color;
-    changeText.lineLimit = 1;
-  }
-
-  hero.addSpacer();
-
-  if (family === "small") {
-    addRefreshIndicator(hero, cache, false);
-    return w;
-  }
-
-  w.addSpacer(family === "large" ? 10 : 6);
-
-  const list = w.addStack();
-  list.layoutVertically();
-  list.setPadding(0, 16, 0, 16);
-
-  secondary.forEach((pair, i) => {
-    if (i > 0) list.addSpacer(family === "large" ? 8 : 4);
-    const r = getRate(rates, pair.from, pair.to);
-    const c = r === null ? null : displayAmount * r;
-
-    const cell = list.addStack();
-    cell.layoutHorizontally();
-    if (canTap) {
-      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
-      if (url) cell.url = url;
-    }
-    const line = cell.addText(
-      formatNumber(displayAmount) +
-        " " +
-        pair.from +
-        " → " +
-        (c === null ? "—" : formatNumber(c)) +
-        " " +
-        pair.to
-    );
-    line.font = Font.systemFont(family === "large" ? 14 : 12);
-    line.textColor = new Color("#FFFFFF", 0.85);
-    line.lineLimit = 1;
-    line.minimumScaleFactor = 0.6;
-    cell.addSpacer();
-  });
-
-  list.addSpacer(6);
-  addRefreshIndicator(list, cache, canTap);
 
   return w;
 }
@@ -907,9 +677,7 @@ function createWidget(pairs, cache, amount, settings, history) {
 function createHomeScreenWidget(pairs, cache, amount, settings, history) {
   const style = (settings && settings.style) || DEFAULT_STYLE;
   const h = history || [];
-  if (style === "cards") return createCardsWidget(pairs, cache, amount, h);
   if (style === "ticker") return createTickerWidget(pairs, cache, amount, h);
-  if (style === "hero") return createHeroWidget(pairs, cache, amount, h);
   return createMinimalWidget(pairs, cache, amount, h);
 }
 
@@ -1017,13 +785,11 @@ async function runPairsDialog(settings) {
 
 const STYLE_LABELS = {
   minimal: "Минимальный — плоский список, максимально надёжно по месту",
-  cards: "Карточки — цветной флаг-значок + изменение курса",
   ticker: "Тикер — биржевой стиль, моноширинный шрифт",
-  hero: "Hero — главная пара крупно + список остальных снизу",
 };
-const STYLE_ORDER = ["minimal", "cards", "ticker", "hero"];
+const STYLE_ORDER = ["minimal", "ticker"];
 
-/** Переключатель стиля виджета — все 4 варианта. */
+/** Переключатель стиля виджета — оба варианта. */
 async function runStyleDialog(settings) {
   const a = new Alert();
   a.title = "Стиль виджета";
