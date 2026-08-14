@@ -87,6 +87,9 @@ function inlineErrorWidget(title, message) {
   b.textColor = new Color("#FFD6D6");
   b.lineLimit = 8;
   b.minimumScaleFactor = 0.5;
+  try {
+    w.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000);
+  } catch (e) {}
   return w;
 }
 

@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "4.4";
+const CORE_VERSION = "4.5";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -434,6 +434,12 @@ function createErrorWidget(message, styleName) {
   body.textColor = new Color("#FFD6D6");
   body.lineLimit = 6;
   body.minimumScaleFactor = 0.6;
+
+  // Ошибка может быть временной (сеть/API) — просим систему попробовать
+  // перерисовать раньше обычного, а не ждать полный REFRESH_HINT_MS.
+  try {
+    w.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000);
+  } catch (e) {}
 
   return w;
 }
@@ -877,11 +883,28 @@ function createAccessoryWidget(pairs, cache, amount, family) {
   return w;
 }
 
+// Без этой подсказки WidgetKit сам решает, когда в следующий раз вызвать
+// скрипт заново — и это решение целиком на стороне iOS: если система решит,
+// что виджет "редко смотрят", перерисовки могут случаться раз в несколько
+// часов, а то и реже (это подтверждено на практике: см. README, промежуток
+// в ~12 часов между отрисовками при обычном использовании). Явная
+// refreshAfterDate — единственный официальный рычаг Scriptable, чтобы
+// попросить систему не тянуть дольше разумного окна для курсов валют.
+const REFRESH_HINT_MS = 45 * 60 * 1000;
+
 function createWidget(pairs, cache, amount, settings, history) {
   const family = config.widgetFamily || "medium";
-  if (ACCESSORY_FAMILIES.indexOf(family) !== -1) {
-    return createAccessoryWidget(pairs, cache, amount, family);
-  }
+  const w =
+    ACCESSORY_FAMILIES.indexOf(family) !== -1
+      ? createAccessoryWidget(pairs, cache, amount, family)
+      : createHomeScreenWidget(pairs, cache, amount, settings, history);
+  try {
+    w.refreshAfterDate = new Date(Date.now() + REFRESH_HINT_MS);
+  } catch (e) {}
+  return w;
+}
+
+function createHomeScreenWidget(pairs, cache, amount, settings, history) {
   const style = (settings && settings.style) || DEFAULT_STYLE;
   const h = history || [];
   if (style === "cards") return createCardsWidget(pairs, cache, amount, h);
