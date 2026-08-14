@@ -12,3 +12,11 @@
 | [`english-word-widget-kids/`](english-word-widget-kids/) | ребёнок ~10 лет | SwiftUI + WidgetKit | 300 слов + картинки, 30×10 |
 
 Общее только идея: слово всегда на виду на Home Screen.
+
+## Конвертер валют на iPhone
+
+| Папка | Стек | Идея |
+|-------|------|------|
+| [`currency-converter-widget/`](currency-converter-widget/) | Scriptable (JS) | Курсы валют на Home Screen + конвертация по тапу |
+
+Реализация варианта 2 из `notes/currency_converter_options.md`.
