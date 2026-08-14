@@ -37,6 +37,20 @@ const SETTINGS_NAME = "currency-settings.json";
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // курсы обновляются раз в сутки апстримом
 const REFRESH_STEP_MS = 60 * 60 * 1000; // как часто система будет пытаться перерисовать виджет
 
+function delay(ms) {
+  return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
+}
+
+/** Не даёт медленной сети подвесить открытие меню при тапе по виджету. */
+async function withTimeout(promise, ms, timeoutMessage) {
+  return Promise.race([
+    promise,
+    delay(ms).then(() => {
+      throw new Error(timeoutMessage || "Таймаут (" + Math.round(ms / 1000) + "с)");
+    }),
+  ]);
+}
+
 function fm() {
   return FileManager.local();
 }
@@ -121,7 +135,7 @@ async function fetchRates(base) {
   for (const provider of providerUrls(base)) {
     try {
       const req = new Request(provider.url);
-      req.timeoutInterval = 20;
+      req.timeoutInterval = 10;
       const payload = await req.loadJSON();
       const rates = normalizeRates(provider.kind, base, payload);
       if (rates && Object.keys(rates).length > 5) {
@@ -395,7 +409,7 @@ async function runMenu(settings, cache) {
     await runPairsDialog(settings);
   } else if (choice === 3) {
     try {
-      cache = await ensureRates(true);
+      cache = await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
     } catch (e) {
       const err = new Alert();
       err.title = "Не удалось обновить";
@@ -406,28 +420,46 @@ async function runMenu(settings, cache) {
   }
 }
 
+async function safeEnsureRates(forceRefresh, budgetMs) {
+  try {
+    return await withTimeout(
+      ensureRates(forceRefresh),
+      budgetMs,
+      "Курсы не успели загрузиться за " + Math.round(budgetMs / 1000) + "с"
+    );
+  } catch (e) {
+    return loadCache();
+  }
+}
+
 async function main() {
   const settings = loadSettings();
-  const widgetParamPairs = parsePairsParam(args.widgetParameter);
+  const widgetParamPairs = parsePairsParam((args && args.widgetParameter) || null);
   const pairs = widgetParamPairs || settings.pairs || DEFAULT_PAIRS;
 
-  let cache = null;
-  try {
-    cache = await ensureRates(false);
-  } catch (e) {
-    cache = loadCache();
-  }
+  // Виджет: свежие курсы, если кэш успел устареть, но без риска зависнуть надолго.
+  const cache = await safeEnsureRates(false, 10000);
 
   if (config.runsInWidget) {
     Script.setWidget(createWidget(pairs, cache, settings.widgetAmount));
     return;
   }
 
-  await runMenu(settings, cache);
+  // Тап по виджету / Play: меню должно открыться быстро в любом случае.
+  try {
+    await runMenu(settings, cache);
+  } catch (e) {
+    const err = new Alert();
+    err.title = "Ошибка";
+    err.message = String(e && e.message ? e.message : e);
+    err.addAction("OK");
+    await err.presentAlert();
+  }
+
   const refreshedSettings = loadSettings();
   const refreshedPairs =
     widgetParamPairs || refreshedSettings.pairs || DEFAULT_PAIRS;
-  const refreshedCache = loadCache();
+  const refreshedCache = loadCache() || cache;
   Script.setWidget(
     createWidget(refreshedPairs, refreshedCache, refreshedSettings.widgetAmount)
   );

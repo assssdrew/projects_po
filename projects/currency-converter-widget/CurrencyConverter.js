@@ -23,12 +23,26 @@ function modulePath() {
   }
 }
 
+function delay(ms) {
+  return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
+}
+
+/** Не даёт медленной/недоступной сети подвесить открытие меню при тапе. */
+async function withTimeout(promise, ms, timeoutMessage) {
+  return Promise.race([
+    promise,
+    delay(ms).then(() => {
+      throw new Error(timeoutMessage || "Таймаут (" + Math.round(ms / 1000) + "с)");
+    }),
+  ]);
+}
+
 async function fetchCore() {
   let lastError = null;
   for (const url of RAW_URLS) {
     try {
       const req = new Request(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now());
-      req.timeoutInterval = 45;
+      req.timeoutInterval = 8;
       const code = await req.loadString();
       if (code.includes("module.exports") && code.includes("CURRENCY_WIDGET_V1")) {
         return code;
@@ -51,17 +65,38 @@ async function downloadCore() {
   return path;
 }
 
+/**
+ * Виджет: только кэш (быстро, без сети).
+ * Первая установка: ждём сколько нужно — кэша ещё нет.
+ * Play / тап по виджету при уже установленном кэше: пробуем обновиться,
+ * но не дольше 7 секунд — иначе просто открываем меню со старым кодом,
+ * а не подвешиваем интерфейс на плохой сети.
+ */
 async function ensureCore(forceUpdate) {
   const { fm, path } = modulePath();
-  if (forceUpdate || !fm.fileExists(path)) {
+  const hasCache = fm.fileExists(path);
+
+  if (!hasCache) {
     await downloadCore();
-  } else if (fm.isFileStoredIniCloud && fm.isFileStoredIniCloud(path)) {
+    return;
+  }
+
+  if (forceUpdate) {
+    try {
+      await withTimeout(downloadCore(), 7000, "Обновление кода не успело за 7с");
+    } catch (e) {
+      // Сеть медленная/недоступна — работаем с тем, что уже скачано ранее.
+    }
+    return;
+  }
+
+  if (fm.isFileStoredIniCloud && fm.isFileStoredIniCloud(path)) {
     await fm.downloadFileFromiCloud(path);
   }
 }
 
 async function boot() {
-  // Виджет: кэш. Play / тап: скачать свежую версию самому.
+  // Виджет: кэш. Play / тап: попытаться обновиться (с таймаутом).
   const forceUpdate = !config.runsInWidget;
   try {
     await ensureCore(forceUpdate);
@@ -79,8 +114,18 @@ async function boot() {
     }
   }
 
-  const core = importModule(MODULE_NAME);
-  await core.main();
+  try {
+    const core = importModule(MODULE_NAME);
+    await core.main();
+  } catch (e) {
+    if (!config.runsInWidget) {
+      const a = new Alert();
+      a.title = "Ошибка в скрипте";
+      a.message = String(e && e.message ? e.message : e);
+      a.addAction("OK");
+      await a.presentAlert();
+    }
+  }
 }
 
 await boot();
