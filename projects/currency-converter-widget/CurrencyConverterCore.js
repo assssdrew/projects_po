@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "4.1";
+const CORE_VERSION = "4.2";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -521,7 +521,11 @@ function createCardsWidget(pairs, cache, amount, history) {
     row.layoutHorizontally();
     row.centerAlignContent();
     row.cornerRadius = 12;
-    row.backgroundColor = new Color("#FFFFFF", 0.06);
+    // Заметная сплошная подложка карточки (не полупрозрачная поверх тёмного
+    // фона виджета — на глаз почти не отличалась бы от простого списка).
+    row.backgroundColor = new Color("#23262E");
+    row.borderWidth = 1;
+    row.borderColor = new Color("#FFFFFF", 0.08);
     const vPad = family === "small" ? 6 : 9;
     const hPad = family === "small" ? 8 : 10;
     row.setPadding(vPad, hPad, vPad, hPad);
@@ -532,11 +536,11 @@ function createCardsWidget(pairs, cache, amount, history) {
 
     const badge = row.addStack();
     badge.size = new Size(badgeSize, badgeSize);
-    badge.backgroundColor = new Color(meta.color, 0.28);
+    badge.backgroundColor = new Color(meta.color, 0.4);
     badge.cornerRadius = badgeSize / 2;
     badge.centerAlignContent();
     const flagText = badge.addText(meta.flag);
-    flagText.font = Font.systemFont(family === "small" ? 13 : 15);
+    flagText.font = Font.systemFont(family === "small" ? 14 : 16);
 
     row.addSpacer(family === "small" ? 8 : 10);
 
