@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "5.0";
+const CORE_VERSION = "5.1";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -582,23 +582,24 @@ function createTickerWidget(pairs, cache, amount, history) {
 
     row.addSpacer();
 
-    const showSparkline = i === 0 && family === "large";
-    if (showSparkline) {
-      const spark = sparklineImage(history, pair.from, pair.to, 48, 20, new Color("#34C759"));
-      if (spark) {
-        const imgEl = row.addImage(spark);
-        imgEl.imageSize = new Size(48, 20);
-      } else if (change) {
-        const changeText = row.addText(change.text);
-        changeText.font = Font.mediumMonospacedSystemFont(11);
-        changeText.textColor = change.color;
-        changeText.lineLimit = 1;
-      }
-    } else if (change) {
+    if (change) {
       const changeText = row.addText(change.text);
       changeText.font = Font.mediumMonospacedSystemFont(11);
       changeText.textColor = change.color;
       changeText.lineLimit = 1;
+    }
+
+    // Компактный спарклайн рядом с % — на каждой строке, а не только у
+    // первой пары на large, чтобы каждый ряд выглядел завершённо, как
+    // отдельный тикер, а не только избранная строка.
+    if (family !== "small") {
+      const sparkColor = change ? change.color : new Color("#34C759");
+      const spark = sparklineImage(history, pair.from, pair.to, 30, 14, sparkColor);
+      if (spark) {
+        row.addSpacer(6);
+        const imgEl = row.addImage(spark);
+        imgEl.imageSize = new Size(30, 14);
+      }
     }
   });
 
@@ -944,7 +945,14 @@ async function main() {
       refreshedSettings.style || DEFAULT_STYLE
     );
   }
-  Script.setWidget(previewWidget);
+  // Без явного presentSmall/Medium/Large() Scriptable при ручном ▶ Play
+  // показывает превью в собственном "быстром просмотре" сильно увеличенным
+  // и непропорциональным — размер и шрифты там не соответствуют настоящей
+  // маленькой плитке на Home Screen. Явно просим показать превью в
+  // РЕАЛЬНОМ масштабе того размера, на который рассчитан контент (medium —
+  // тот же размер, что используется по умолчанию для расчёта строк/шрифтов
+  // выше, когда config.widgetFamily не задан вне контекста виджета).
+  await previewWidget.presentMedium();
 }
 
 module.exports = { main, MARKER, CORE_VERSION };
