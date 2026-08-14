@@ -5,7 +5,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // Показывается в меню — так сразу видно, подтянулась ли на телефон
 // действительно последняя версия кода (см. README → "Как проверить, что
 // обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "5.1";
+const CORE_VERSION = "5.2";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -251,6 +251,19 @@ function convert(rates, amount, from, to) {
 function formatNumber(n) {
   if (n === null || n === undefined || Number.isNaN(n)) return "—";
   const abs = Math.abs(n);
+
+  // Валюты вроде VND дают семи-восьмизначные числа — на строке с ними
+  // получается заметно длиннее текст, чем у соседних пар. Из-за lineLimit(1)
+  // + minimumScaleFactor это ужимает шрифт именно этой строки сильнее
+  // остальных, и ряды визуально выглядят вразнобой (одни крупные, другие
+  // мелкие). Сокращаем компактно (млн/млрд), а не просто округляем разряды.
+  if (abs >= 1000000000) {
+    return (n / 1000000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " млрд";
+  }
+  if (abs >= 1000000) {
+    return (n / 1000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " млн";
+  }
+
   const digits = abs >= 100 ? 2 : abs >= 1 ? 3 : 4;
   return n.toLocaleString("ru-RU", {
     minimumFractionDigits: 0,
