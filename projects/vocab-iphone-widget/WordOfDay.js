@@ -3,12 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v21: PP vs PPC — формула have+V3 / have been+Ving
+// v22: у каждого слова пример, слово жирным
 // После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/6286fe7b6e91d84965c0528ab791a554f7c998fd/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@6286fe7b6e91d84965c0528ab791a554f7c998fd/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,9 +35,9 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V21") &&
-        code.includes("have been + Ving") &&
-        code.includes("rule.meaning")
+        code.includes("PASSIVE_WIDGET_V22") &&
+        code.includes("addHighlightedLine") &&
+        code.includes("I bought a bunch of fresh bananas.")
       ) {
         return code;
       }
@@ -72,9 +71,9 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V21") ||
-    !local.includes("have been + Ving") ||
-    !local.includes("rule.meaning")
+    !local.includes("PASSIVE_WIDGET_V22") ||
+    !local.includes("addHighlightedLine") ||
+    !local.includes("I bought a bunch of fresh bananas.")
   ) {
     await downloadCore();
   }
