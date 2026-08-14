@@ -3,12 +3,11 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v24: отступы между парами, не сверху/снизу
+// v25: крупнее шрифт, больше зазор между парами
 // После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/fd38f3511da5e803f2cff3c342d909c67b1c4dde/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@fd38f3511da5e803f2cff3c342d909c67b1c4dde/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,8 +35,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V24") &&
-        code.includes("свободная высота уходит между парами") &&
+        code.includes("PASSIVE_WIDGET_V25") &&
+        code.includes("крупнее шрифт, больше зазор между парами") &&
         code.includes("exRu")
       ) {
         return code;
@@ -72,8 +71,8 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V24") ||
-    !local.includes("свободная высота уходит между парами") ||
+    !local.includes("PASSIVE_WIDGET_V25") ||
+    !local.includes("крупнее шрифт, больше зазор между парами") ||
     !local.includes("exRu")
   ) {
     await downloadCore();
