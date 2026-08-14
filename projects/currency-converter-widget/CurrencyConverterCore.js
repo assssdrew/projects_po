@@ -178,6 +178,12 @@ function cacheAgeLabel(cache) {
   return "обновлено " + d + "д назад";
 }
 
+/** true, если данные получены из сети меньше часа назад ("только что"). */
+function isJustUpdated(cache) {
+  if (!cache || !cache.fetchedAt) return false;
+  return Date.now() - cache.fetchedAt < 60 * 60 * 1000;
+}
+
 /** Парсит Parameter виджета вида "USD-RUB,EUR-RUB,USD-EUR". */
 function parsePairsParam(param) {
   if (!param || typeof param !== "string") return null;
@@ -199,39 +205,48 @@ function addShadow(t, alpha) {
   t.shadowOffset = new Point(0, 1);
 }
 
+/** Иконка-статус обновления в правом нижнем углу: зелёная "только что", иначе тусклая. */
+function addRefreshIndicator(w, cache) {
+  const row = w.addStack();
+  row.addSpacer();
+
+  const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
+  symbol.applyFont(Font.mediumSystemFont(11));
+  const img = row.addImage(symbol.image);
+  img.imageSize = new Size(11, 11);
+  img.tintColor = isJustUpdated(cache)
+    ? new Color("#34C759")
+    : new Color("#FFFFFF", 0.4);
+}
+
 function createWidget(pairs, cache) {
   const w = new ListWidget();
   w.backgroundColor = Color.clear();
-  w.setPadding(14, 16, 12, 16);
+  w.setPadding(12, 16, 10, 16);
   w.refreshAfterDate = new Date(Date.now() + REFRESH_STEP_MS);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 2 : family === "large" ? 6 : 3;
+  const maxRows = family === "small" ? 3 : family === "large" ? 7 : 4;
   const rowsToShow = pairs.slice(0, maxRows);
-
-  const title = w.addText("Курсы валют");
-  title.font = Font.mediumSystemFont(family === "small" ? 12 : 13);
-  title.textColor = new Color("#FFFFFF", 0.7);
-  addShadow(title, 0.35);
-
-  w.addSpacer(family === "small" ? 6 : 10);
 
   if (!rates) {
     const err = w.addText("Нет данных. Открой приложение для обновления.");
     err.font = Font.systemFont(13);
     err.textColor = Color.white();
     err.lineLimit = 3;
+    w.addSpacer();
+    addRefreshIndicator(w, cache);
     return w;
   }
 
   rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 4 : 8);
+    if (i > 0) w.addSpacer(family === "small" ? 3 : 6);
     const rate = getRate(rates, pair.from, pair.to);
     const line = w.addText(
       "1 " + pair.from + " = " + (rate === null ? "—" : formatNumber(rate)) + " " + pair.to
     );
-    line.font = Font.boldSystemFont(family === "small" ? 15 : 18);
+    line.font = Font.boldSystemFont(family === "small" ? 14 : 17);
     line.textColor = Color.white();
     line.lineLimit = 1;
     line.minimumScaleFactor = 0.6;
@@ -239,11 +254,7 @@ function createWidget(pairs, cache) {
   });
 
   w.addSpacer();
-
-  const foot = w.addText(cacheAgeLabel(cache));
-  foot.font = Font.systemFont(family === "small" ? 10 : 11);
-  foot.textColor = new Color("#FFFFFF", 0.55);
-  addShadow(foot, 0.3);
+  addRefreshIndicator(w, cache);
 
   return w;
 }
