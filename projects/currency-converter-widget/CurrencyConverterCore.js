@@ -4,6 +4,9 @@
 // теперь со спарклайном на каждой строке. Убрана служебная метка версии/
 // времени с самого виджета (осталась только в заголовке меню). Видно на
 // одну пару больше на каждом размере виджета.
+// v6.1: спарклайн рисуется сглаженной кривой (addCurve/Catmull-Rom) вместо
+// прямых отрезков (addLines) — выглядит как настоящий график, а не угловатая
+// "молния".
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -11,7 +14,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.0";
+const CORE_VERSION = "6.1";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -325,6 +328,34 @@ function pairChangePct(history, currentRates, from, to) {
 }
 
 /** Маленький линейный график изменения курса пары по истории. null, если данных мало. */
+/**
+ * Плавная кривая через все точки (Catmull-Rom, переведённая в кубические
+ * Bezier-сегменты addCurve) — обычные прямые отрезки (addLines) дают
+ * угловатую "молнию" из прямых линий, которая и выглядит неестественно
+ * рядом с курсом валют: настоящие мини-графики курсов (Apple Stocks и т.п.)
+ * всегда рисуют сглаженную кривую, а не соединяют точки напрямую.
+ */
+function smoothCurvePath(points) {
+  const path = new Path();
+  if (!points.length) return path;
+  path.move(points[0]);
+  if (points.length === 1) return path;
+  if (points.length === 2) {
+    path.addLine(points[1]);
+    return path;
+  }
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i - 1] || points[i];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2] || p2;
+    const c1 = new Point(p1.x + (p2.x - p0.x) / 6, p1.y + (p2.y - p0.y) / 6);
+    const c2 = new Point(p2.x - (p3.x - p1.x) / 6, p2.y - (p3.y - p1.y) / 6);
+    path.addCurve(p2, c1, c2);
+  }
+  return path;
+}
+
 function sparklineImage(history, from, to, width, height, color) {
   if (!history || history.length < 2) return null;
   const values = [];
@@ -337,21 +368,21 @@ function sparklineImage(history, from, to, width, height, color) {
   const min = Math.min(...values);
   const max = Math.max(...values);
   const range = max - min || Math.abs(max || 1) * 0.01 || 1;
+  // Небольшой запас сверху/снизу, чтобы сглаженная кривая не обрезалась
+  // собственными "перехлёстами" у верхней/нижней точки.
+  const pad = height * 0.12;
 
   const points = values.map((v, i) => {
     const x = (i / (values.length - 1)) * width;
-    const y = height - ((v - min) / range) * height;
+    const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
     return new Point(x, y);
   });
-
-  const path = new Path();
-  path.addLines(points);
 
   const ctx = new DrawContext();
   ctx.size = new Size(width, height);
   ctx.opaque = false;
   ctx.respectScreenScale = true;
-  ctx.addPath(path);
+  ctx.addPath(smoothCurvePath(points));
   ctx.setStrokeColor(color);
   ctx.setLineWidth(1.5);
   ctx.strokePath();
