@@ -31,6 +31,11 @@
 // обновление курсов — параллельный race провайдеров (раньше 3×10с подряд
 // легко упирались в общий лимит 15с → «Не успели обновить»); в таблице
 // клавиатура приподнята и компактнее, чтобы нижний ряд цифр не обрезался.
+// v6.6: убран presentMedium()-превью после Play/тапа (каждый раз всплывало
+// окно «Close» с плиткой); обновление курсов — по очереди с жёстким
+// withTimeout(4с) на каждый URL (Scriptable часто игнорирует
+// Request.timeoutInterval, и параллельные loadJSON «висели» до общего
+// лимита 20с); при сбое сети показываем кэш, а не красную ошибку.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -38,7 +43,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.5";
+const CORE_VERSION = "6.6";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -83,6 +88,8 @@ function currencyMeta(code) {
 function providerUrls(base) {
   const b = base.toUpperCase();
   const bLower = base.toLowerCase();
+  // Короткий список: каждый URL ограничен 3с, все пять по 4с снова
+  // давали «висяк» на ~20с, если сеть режет API целиком.
   return [
     { kind: "erapi", url: "https://open.er-api.com/v6/latest/" + b },
     {
@@ -90,11 +97,11 @@ function providerUrls(base) {
       url:
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/" +
         bLower +
-        ".json",
+        ".min.json",
     },
     {
       kind: "fawaz",
-      url: "https://latest.currency-api.pages.dev/v1/currencies/" + bLower + ".json",
+      url: "https://latest.currency-api.pages.dev/v1/currencies/" + bLower + ".min.json",
     },
   ];
 }
@@ -203,10 +210,13 @@ function normalizeRates(kind, base, payload) {
   return null;
 }
 
-/** Один провайдер: короткий таймаут запроса, без «висения» на 10с. */
+/** Один провайдер. Сам по себе Request.timeoutInterval в Scriptable часто
+ *  не обрывает «зависший» TCP — поэтому снаружи всегда оборачиваем в
+ *  withTimeout (см. fetchRates). */
 async function fetchRatesFromProvider(provider, base) {
   const req = new Request(provider.url);
-  req.timeoutInterval = 6;
+  req.timeoutInterval = 3;
+  req.headers = { Accept: "application/json" };
   const payload = await req.loadJSON();
   const rates = normalizeRates(provider.kind, base, payload);
   if (rates && Object.keys(rates).length > 5) {
@@ -216,34 +226,27 @@ async function fetchRatesFromProvider(provider, base) {
 }
 
 /**
- * Курсы: все провайдеры стартуют параллельно, побеждает первый валидный
- * ответ. Раньше они шли строго по очереди с timeoutInterval=10 — на
- * медленной мобильной сети первый «подвисший» URL съедал почти весь бюджет
- * withTimeout(15с), и «Обновить курсы сейчас» падал с «Не успели обновить»,
- * даже если второй/третий CDN ответил бы за долю секунды.
+ * Курсы по очереди: на каждый URL — жёсткий withTimeout(3с).
+ * Параллельный race в v6.5 на части устройств наоборот зависал: несколько
+ * одновременных Request.loadJSON в Scriptable не резолвились и не
+ * реджектились, пока внешний лимит (20с) не убивал всю операцию →
+ * «Не успели обновить за 20с», хотя кэш при этом уже был валидным.
+ * Максимум 3×3с ≈ 9с, если все URL недоступны.
  */
 async function fetchRates(base) {
-  const providers = providerUrls(base);
-  return new Promise((resolve, reject) => {
-    let remaining = providers.length;
-    let lastError = null;
-    let settled = false;
-    providers.forEach((provider) => {
-      fetchRatesFromProvider(provider, base)
-        .then((result) => {
-          if (settled) return;
-          settled = true;
-          resolve(result);
-        })
-        .catch((e) => {
-          lastError = e;
-          remaining -= 1;
-          if (!settled && remaining === 0) {
-            reject(lastError || new Error("Не удалось получить курсы"));
-          }
-        });
-    });
-  });
+  let lastError = null;
+  for (const provider of providerUrls(base)) {
+    try {
+      return await withTimeout(
+        fetchRatesFromProvider(provider, base),
+        3000,
+        "Таймаут " + provider.kind
+      );
+    } catch (e) {
+      lastError = e;
+    }
+  }
+  throw lastError || new Error("Не удалось получить курсы");
 }
 
 /** Курсы (с диска, если свежие; иначе — сеть, с фолбэком на устаревший кэш). */
@@ -258,6 +261,17 @@ async function ensureRates(forceRefresh) {
     if (cache && cache.rates) return cache; // офлайн / API недоступен — показываем старое
     throw e;
   }
+}
+
+/**
+ * Принудительное обновление для пункта меню: сеть обязательна.
+ * Не подменяет тихий фолбэк на кэш успехом — вызывающий код сам решает,
+ * что показать пользователю.
+ */
+async function forceFetchRates() {
+  const fresh = await fetchRates(BASE_CCY);
+  saveCache(fresh);
+  return fresh;
 }
 
 function getRate(rates, from, to) {
@@ -782,15 +796,29 @@ async function runMenu(settings, cache) {
   } else if (choice === 1) {
     await runTableCurrenciesDialog(settings);
   } else if (choice === 2) {
+    const result = new Alert();
     try {
-      await withTimeout(ensureRates(true), 20000, "Не успели обновить за 20с");
+      // fetchRates сам ограничивает каждый URL 4с — внешний «20с» больше не нужен
+      // и только маскировал зависания Request.loadJSON в Scriptable.
+      const fresh = await forceFetchRates();
+      result.title = "Курсы обновлены";
+      result.message = cacheAgeLabel(fresh);
     } catch (e) {
-      const err = new Alert();
-      err.title = "Не удалось обновить";
-      err.message = String(e);
-      err.addAction("OK");
-      await err.presentAlert();
+      const fallback = loadCache();
+      if (fallback && fallback.rates) {
+        result.title = "Сеть не ответила";
+        result.message =
+          "Оставлен прежний кэш (" +
+          cacheAgeLabel(fallback) +
+          ").\n" +
+          String(e && e.message ? e.message : e);
+      } else {
+        result.title = "Не удалось обновить";
+        result.message = String(e && e.message ? e.message : e);
+      }
     }
+    result.addAction("OK");
+    await result.presentAlert();
   }
 }
 
@@ -838,8 +866,10 @@ async function main() {
   try {
     if (qp.action === "refresh") {
       try {
-        await withTimeout(ensureRates(true), 20000, "Не успели обновить за 20с");
-      } catch (e) {}
+        await forceFetchRates();
+      } catch (e) {
+        // Тихий фолбэк: виджет/тап не должен показывать алерт поверх Home Screen.
+      }
     } else if (qp.action === "table") {
       await runFullTableView(settings, cache);
     } else {
@@ -853,29 +883,26 @@ async function main() {
     await err.presentAlert();
   }
 
+  // Превью ListWidget после Play/тапа больше не показываем: окно «Close» с
+  // плиткой всплывало каждый раз и мешало. Home Screen виджет обновляем
+  // через Script.setWidget (без presentMedium/presentLarge) — WidgetKit
+  // подхватит новый снапшот, а модалка «предпросмотр» не откроется.
   const refreshedSettings = loadSettings();
   const refreshedCurrencies =
     widgetParamCurrencies || refreshedSettings.tableCurrencies || DEFAULT_TABLE_CURRENCIES;
   const refreshedCache = loadCache() || cache;
-  let previewWidget;
+  let updatedWidget;
   try {
-    previewWidget = createWidget(
+    updatedWidget = createWidget(
       refreshedCurrencies,
       refreshedCache,
       refreshedSettings.tableActiveCurrency,
       refreshedSettings.tableAmount
     );
   } catch (e) {
-    previewWidget = createErrorWidget(e && e.message ? e.message : String(e));
+    updatedWidget = createErrorWidget(e && e.message ? e.message : String(e));
   }
-  // Без явного presentSmall/Medium/Large() Scriptable при ручном ▶ Play
-  // показывает превью в собственном "быстром просмотре" сильно увеличенным
-  // и непропорциональным — размер и шрифты там не соответствуют настоящей
-  // маленькой плитке на Home Screen. Явно просим показать превью в
-  // РЕАЛЬНОМ масштабе того размера, на который рассчитан контент (medium —
-  // тот же размер, что используется по умолчанию для расчёта строк/шрифтов
-  // выше, когда config.widgetFamily не задан вне контекста виджета).
-  await previewWidget.presentMedium();
+  Script.setWidget(updatedWidget);
 }
 
 module.exports = { main, MARKER, CORE_VERSION };
