@@ -59,6 +59,8 @@
 // выравнивание по высоте и увеличенный зазор.
 // v6.14: фиксированная ширина колонки тренда/% — проценты стоят строго
 // друг под другом, не «пляшут» из‑за разной длины текста/картинки.
+// v6.15: тренд/% в той же высоте строки, что флаг+код и сумма — вертикальное
+// выравнивание «как у валют».
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -66,7 +68,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.14";
+const CORE_VERSION = "6.15";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -513,9 +515,9 @@ function smoothCurvePath(points) {
 }
 
 /**
- * Одна картинка фиксированной ширины: спарклайн | зазор | ▲%.
- * Ширина одинакова для всех строк — иначе при центрировании блока
- * проценты «пляшут» влево-вправо от строки к строке.
+ * Одна картинка фиксированной ширины и высоты строки: спарклайн | зазор | ▲%.
+ * Высота = высота строки с флагом/кодом/суммой — иначе mid-блок ниже текста
+ * и визуально «плывёт» по вертикали относительно валют.
  */
 function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize, pctColW) {
   if (!from || !to || from.toUpperCase() === to.toUpperCase()) return null;
@@ -544,7 +546,8 @@ function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize
     const min = Math.min(...values);
     const max = Math.max(...values);
     const range = max - min || Math.abs(max || 1) * 0.01 || 1;
-    const pad = height * 0.15;
+    // Симметричные поля — кривая по центру той же высоты, что флаг/код.
+    const pad = Math.max(3, height * 0.22);
     const points = values.map((v, i) => {
       const x = (i / (values.length - 1)) * sparkW;
       const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
@@ -559,9 +562,8 @@ function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize
   if (pctText) {
     ctx.setFont(Font.mediumSystemFont(fontSize));
     ctx.setTextColor(color);
-    const textY = Math.max(0, (height - fontSize) / 2 - 1);
-    // Все % стартуют с одной X — левый край фиксированной колонки.
-    ctx.drawText(pctText, new Point(sparkW + gap, textY));
+    // Весь столбец % по высоте строки — текст центрируется в rect.
+    ctx.drawTextInRect(pctText, new Rect(sparkW + gap, 0, colW, height));
   }
 
   return { image: ctx.getImage(), width: totalW, height };
@@ -727,16 +729,14 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
 
   const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
   const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
-  const pctFont = family === "small" ? 10 : roomy ? 12 : 11;
+  const pctFont = family === "small" ? 11 : roomy ? 13 : 12;
   const sparkW = family === "small" ? 32 : roomy ? 44 : 40;
-  const midH = family === "small" ? 14 : roomy ? 18 : 16;
   const trendGap = family === "small" ? 10 : 14;
-  // Фиксированная колонка % (хватит на «▼99,9%») — все проценты друг под другом.
-  const pctColW = family === "small" ? 42 : roomy ? 52 : 48;
+  const pctColW = family === "small" ? 44 : roomy ? 54 : 50;
   const trendW = sparkW + trendGap + pctColW;
-  // Фиксированная колонка кода — иначе разная ширина «🇺🇸 USD» / «🇻🇳 VND»
-  // сдвигает весь mid-блок и % снова «пляшут».
   const codeColW = family === "small" ? 72 : roomy ? 88 : 80;
+  // Одна высота на флаг/код, тренд/% и сумму — mid больше не ниже текста.
+  const rowH = Math.max(valueFont + 4, codeFont + 6, 22);
 
   const content = w.addStack();
   content.layoutVertically();
@@ -752,7 +752,7 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
       pair.from,
       pair.to,
       sparkW,
-      midH,
+      rowH,
       trendGap,
       pctFont,
       pctColW
@@ -761,9 +761,10 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     const row = content.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
+    row.size = new Size(0, rowH);
 
     const codeCell = row.addStack();
-    codeCell.size = new Size(codeColW, 0);
+    codeCell.size = new Size(codeColW, rowH);
     codeCell.layoutHorizontally();
     codeCell.centerAlignContent();
     const codeText = codeCell.addText(currencyMeta(code).flag + " " + code);
@@ -774,23 +775,30 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
 
     row.addSpacer();
 
-    // Фиксированная ширина mid-колонки у всех строк — % на одной вертикали.
     const mid = row.addStack();
-    mid.size = new Size(trendW, midH);
+    mid.size = new Size(trendW, rowH);
     mid.layoutHorizontally();
     mid.centerAlignContent();
     if (trend) {
       const imgEl = mid.addImage(trend.image);
-      imgEl.imageSize = new Size(trend.width, trend.height);
+      imgEl.imageSize = new Size(trend.width, rowH);
+      try {
+        imgEl.centerAlignImage();
+      } catch (e) {}
     }
 
     row.addSpacer();
 
-    const valueText = row.addText(value === null ? "—" : formatNumber(value));
+    const valueCell = row.addStack();
+    valueCell.layoutHorizontally();
+    valueCell.centerAlignContent();
+    valueCell.size = new Size(0, rowH);
+    const valueText = valueCell.addText(value === null ? "—" : formatNumber(value));
     valueText.font = Font.boldSystemFont(valueFont);
     valueText.textColor = Color.white();
     valueText.lineLimit = 1;
     valueText.minimumScaleFactor = 0.6;
+    valueText.rightAlignText();
 
     if (i < rowsToShow.length - 1) {
       content.addSpacer();
