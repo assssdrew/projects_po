@@ -41,6 +41,9 @@
 // первым (тот же CDN, что уже доставляет core); exchangerate-api v4;
 // если кэш свежий — «Курсы актуальны», а не ошибка; на плитке убрана
 // синяя подсветка активной строки.
+// v6.8: курсы не дневные — первым fxratesapi (почасовое обновление),
+// кэш на телефоне 30 мин вместо 12 ч, WidgetKit refresh hint 20 мин,
+// в подписи возраста — минуты, а не только «только что / Nч».
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -48,7 +51,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.7";
+const CORE_VERSION = "6.8";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -90,13 +93,14 @@ function currencyMeta(code) {
 }
 
 // Бесплатные API без ключа. Первый рабочий побеждает.
-// jsdelivr первым: тот же CDN уже доставляет CurrencyConverterCore.js на
-// телефон, значит путь до него с устройства открыт. open.er-api / pages.dev
-// на части мобильных сетей (VPN, DNS, фильтры) отваливаются по таймауту.
+// fxratesapi — почасовой mid-market (не суточный снимок ЕЦБ/open.er-api).
+// jsdelivr / open.er-api — дневные фолбэки, если почасовой URL недоступен
+// с устройства (VPN, DNS, таймаут).
 function providerUrls(base) {
   const b = base.toUpperCase();
   const bLower = base.toLowerCase();
   return [
+    { kind: "fxrates", url: "https://api.fxratesapi.com/latest?base=" + b },
     {
       kind: "fawaz",
       url:
@@ -105,13 +109,14 @@ function providerUrls(base) {
         ".min.json",
     },
     { kind: "erapi", url: "https://open.er-api.com/v6/latest/" + b },
-    { kind: "erapi_v4", url: "https://api.exchangerate-api.com/v4/latest/" + b },
   ];
 }
 
 const CACHE_NAME = "currency-rates-cache.json";
 const SETTINGS_NAME = "currency-settings.json";
-const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // курсы обновляются раз в сутки апстримом
+// Раньше 12ч — виджет мог сутки держать вчерашний суточный снимок.
+// 30 мин: при каждой перерисовке/Play чаще ходим в почасовой API.
+const CACHE_TTL_MS = 30 * 60 * 1000;
 
 function delay(ms) {
   return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
@@ -192,18 +197,30 @@ function isCacheFresh(cache) {
 }
 
 function normalizeRates(kind, base, payload) {
-  if (kind === "erapi") {
-    if (payload && payload.result === "success" && payload.rates) {
-      return payload.rates;
-    }
-    return null;
-  }
-  // api.exchangerate-api.com/v4/latest/USD — { base, rates } без result:success
-  if (kind === "erapi_v4") {
+  if (kind === "fxrates") {
+    // api.fxratesapi.com/latest → { success, timestamp, base, rates }
     if (payload && payload.rates && typeof payload.rates === "object") {
       const rates = Object.assign({}, payload.rates);
       rates[base.toUpperCase()] = 1;
-      return rates;
+      return {
+        rates,
+        ratesUpdatedAt:
+          typeof payload.timestamp === "number" && payload.timestamp > 0
+            ? payload.timestamp * 1000
+            : null,
+      };
+    }
+    return null;
+  }
+  if (kind === "erapi") {
+    if (payload && payload.result === "success" && payload.rates) {
+      return {
+        rates: payload.rates,
+        ratesUpdatedAt:
+          typeof payload.time_last_update_unix === "number"
+            ? payload.time_last_update_unix * 1000
+            : null,
+      };
     }
     return null;
   }
@@ -215,7 +232,12 @@ function normalizeRates(kind, base, payload) {
         rates[code.toUpperCase()] = value;
       }
       rates[base.toUpperCase()] = 1;
-      return rates;
+      let ratesUpdatedAt = null;
+      if (typeof payload.date === "string" && /^\d{4}-\d{2}-\d{2}/.test(payload.date)) {
+        const parsed = Date.parse(payload.date + "T00:00:00Z");
+        if (!Number.isNaN(parsed)) ratesUpdatedAt = parsed;
+      }
+      return { rates, ratesUpdatedAt };
     }
     return null;
   }
@@ -238,9 +260,15 @@ async function fetchRatesFromProvider(provider, base) {
   } catch (e) {
     throw new Error("Не JSON от " + provider.kind);
   }
-  const rates = normalizeRates(provider.kind, base, payload);
-  if (rates && Object.keys(rates).length > 5) {
-    return { base: base.toUpperCase(), rates, fetchedAt: Date.now(), source: provider.kind };
+  const normalized = normalizeRates(provider.kind, base, payload);
+  if (normalized && normalized.rates && Object.keys(normalized.rates).length > 5) {
+    return {
+      base: base.toUpperCase(),
+      rates: normalized.rates,
+      fetchedAt: Date.now(),
+      ratesUpdatedAt: normalized.ratesUpdatedAt || Date.now(),
+      source: provider.kind,
+    };
   }
   throw new Error("Пустой/неверный ответ от " + provider.kind);
 }
@@ -330,13 +358,19 @@ function formatNumber(n) {
 
 function cacheAgeLabel(cache) {
   if (!cache || !cache.fetchedAt) return "нет данных";
-  const ms = Date.now() - cache.fetchedAt;
-  const h = Math.floor(ms / (60 * 60 * 1000));
-  if (h <= 0) return "обновлено только что";
-  if (h === 1) return "обновлено 1ч назад";
-  if (h < 24) return "обновлено " + h + "ч назад";
+  // Предпочитаем время самого курса у провайдера (ratesUpdatedAt), а не
+  // момент записи кэша — так видно, насколько свежий mid-market снимок.
+  const anchor = cache.ratesUpdatedAt || cache.fetchedAt;
+  const ms = Math.max(0, Date.now() - anchor);
+  const mins = Math.floor(ms / (60 * 1000));
+  const source = cache.source ? " · " + cache.source : "";
+  if (mins < 2) return "обновлено только что" + source;
+  if (mins < 60) return "обновлено " + mins + " мин назад" + source;
+  const h = Math.floor(mins / 60);
+  if (h === 1) return "обновлено 1ч назад" + source;
+  if (h < 24) return "обновлено " + h + "ч назад" + source;
   const d = Math.floor(h / 24);
-  return "обновлено " + d + "д назад";
+  return "обновлено " + d + "д назад" + source;
 }
 
 /** Парсит список кодов валют вида "USD,EUR,RUB,VND" для таблицы всех валют. */
@@ -542,7 +576,7 @@ function createAccessoryWidget(currencies, cache, activeCurrency, amount, family
 // в ~12 часов между отрисовками при обычном использовании). Явная
 // refreshAfterDate — единственный официальный рычаг Scriptable, чтобы
 // попросить систему не тянуть дольше разумного окна для курсов валют.
-const REFRESH_HINT_MS = 45 * 60 * 1000;
+const REFRESH_HINT_MS = 20 * 60 * 1000;
 
 function createWidget(currencies, cache, activeCurrency, amount) {
   const family = config.widgetFamily || "medium";
@@ -817,8 +851,7 @@ async function runMenu(settings, cache) {
     try {
       const fresh = await forceFetchRates();
       result.title = "Курсы обновлены";
-      result.message =
-        cacheAgeLabel(fresh) + (fresh.source ? " · " + fresh.source : "");
+      result.message = cacheAgeLabel(fresh);
     } catch (e) {
       const fallback = loadCache();
       const detail = String(e && e.message ? e.message : e);
