@@ -61,6 +61,8 @@
 // друг под другом, не «пляшут» из‑за разной длины текста/картинки.
 // v6.15: тренд/% в той же высоте строки, что флаг+код и сумма — вертикальное
 // выравнивание «как у валют».
+// v6.16: «млн»/«млрд» мелким шрифтом + фиксированная колонка суммы — % снова
+// на одной вертикали (раньше длинное «43,62 млн» сдвигало тренд влево).
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -68,7 +70,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.15";
+const CORE_VERSION = "6.16";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -387,27 +389,39 @@ function convert(rates, amount, from, to) {
   return amount * rate;
 }
 
-function formatNumber(n) {
-  if (n === null || n === undefined || Number.isNaN(n)) return "—";
+function formatNumberParts(n) {
+  if (n === null || n === undefined || Number.isNaN(n)) return { main: "—", suffix: "" };
   const abs = Math.abs(n);
 
-  // Валюты вроде VND дают семи-восьмизначные числа — на строке с ними
-  // получается заметно длиннее текст, чем у соседних пар. Из-за lineLimit(1)
-  // + minimumScaleFactor это ужимает шрифт именно этой строки сильнее
-  // остальных, и ряды визуально выглядят вразнобой (одни крупные, другие
-  // мелкие). Сокращаем компактно (млн/млрд), а не просто округляем разряды.
+  // Валюты вроде VND дают семи-восьмизначные числа — сокращаем до млн/млрд.
+  // suffix отдельно: в виджете рисуется более мелким шрифтом, чтобы не
+  // раздувать правую колонку и не сдвигать блок тренда/%.
   if (abs >= 1000000000) {
-    return (n / 1000000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " млрд";
+    return {
+      main: (n / 1000000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }),
+      suffix: "млрд",
+    };
   }
   if (abs >= 1000000) {
-    return (n / 1000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " млн";
+    return {
+      main: (n / 1000000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }),
+      suffix: "млн",
+    };
   }
 
   const digits = abs >= 100 ? 2 : abs >= 1 ? 3 : 4;
-  return n.toLocaleString("ru-RU", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: digits,
-  });
+  return {
+    main: n.toLocaleString("ru-RU", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: digits,
+    }),
+    suffix: "",
+  };
+}
+
+function formatNumber(n) {
+  const parts = formatNumberParts(n);
+  return parts.suffix ? parts.main + " " + parts.suffix : parts.main;
 }
 
 function formatPct(n) {
@@ -735,6 +749,9 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const pctColW = family === "small" ? 44 : roomy ? 54 : 50;
   const trendW = sparkW + trendGap + pctColW;
   const codeColW = family === "small" ? 72 : roomy ? 88 : 80;
+  // Фиксированная правая колонка: ширина не зависит от «млн», mid/% не едут.
+  const valueColW = family === "small" ? 92 : roomy ? 118 : 108;
+  const suffixFont = Math.max(9, Math.round(valueFont * 0.52));
   // Одна высота на флаг/код, тренд/% и сумму — mid больше не ниже текста.
   const rowH = Math.max(valueFont + 4, codeFont + 6, 22);
 
@@ -757,6 +774,7 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
       pctFont,
       pctColW
     );
+    const parts = value === null ? { main: "—", suffix: "" } : formatNumberParts(value);
 
     const row = content.addStack();
     row.layoutHorizontally();
@@ -790,15 +808,22 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     row.addSpacer();
 
     const valueCell = row.addStack();
+    valueCell.size = new Size(valueColW, rowH);
     valueCell.layoutHorizontally();
     valueCell.centerAlignContent();
-    valueCell.size = new Size(0, rowH);
-    const valueText = valueCell.addText(value === null ? "—" : formatNumber(value));
-    valueText.font = Font.boldSystemFont(valueFont);
-    valueText.textColor = Color.white();
-    valueText.lineLimit = 1;
-    valueText.minimumScaleFactor = 0.6;
-    valueText.rightAlignText();
+    valueCell.addSpacer();
+    const mainText = valueCell.addText(parts.main);
+    mainText.font = Font.boldSystemFont(valueFont);
+    mainText.textColor = Color.white();
+    mainText.lineLimit = 1;
+    mainText.minimumScaleFactor = 0.65;
+    if (parts.suffix) {
+      valueCell.addSpacer(3);
+      const sufText = valueCell.addText(parts.suffix);
+      sufText.font = Font.mediumSystemFont(suffixFont);
+      sufText.textColor = new Color("#FFFFFF", 0.78);
+      sufText.lineLimit = 1;
+    }
 
     if (i < rowsToShow.length - 1) {
       content.addSpacer();
