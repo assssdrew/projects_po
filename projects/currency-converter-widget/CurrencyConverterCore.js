@@ -1,5 +1,6 @@
-// CurrencyConverterCore — один стиль виджета (минимальный, со спарклайном),
-// изменение курса за 24ч, Lock Screen, тап-зоны.
+// CurrencyConverterCore — плитка виджета и полноэкранный экран показывают
+// одну и ту же "Таблицу всех валют" (флаг+код / сумма, тап выбирает активную
+// валюту, вся таблица пересчитывается сразу), плюс Lock Screen и тап-зоны.
 // v6.0: убран переключатель стилей и "Тикер" — остался только "Минимальный",
 // теперь со спарклайном на каждой строке. Убрана служебная метка версии/
 // времени с самого виджета (осталась только в заголовке меню). Видно на
@@ -12,6 +13,16 @@
 // в какую валюту вводится сумма, вся таблица пересчитывается сразу, строки
 // разделены полоской. Живёт внутри приложения Scriptable (WebView), т.к.
 // сама плитка Home Screen — статичный снапшот без клавиатуры.
+// v6.3: сама плитка Home Screen теперь тоже показывает таблицу всех валют
+// (тот же список currencies/activeCurrency/amount, что и в полноэкранной
+// таблице) вместо старого списка пар "FROM → TO" — старая система пар/суммы
+// для виджета (DEFAULT_PAIRS, widgetAmount и связанные пункты меню) удалена,
+// т.к. её полностью заменяет таблица. Тап по плитке целиком теперь сразу
+// открывает полноэкранную таблицу с клавиатурой (а не общее меню — оно
+// доступно только через ручной ▶ Play в приложении). Также исправлен баг
+// вёрстки в самой таблице: нижний ряд цифр клавиатуры уходил за пределы
+// экрана из-за отсутствия min-height:0 на скроллящемся списке валют (из-за
+// этого он не мог сжаться, как ему говорил flex, и раздувал всю страницу).
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -19,16 +30,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.2";
-
-// Пары по умолчанию, если для виджета не задан Parameter.
-// Format: [{ from, to }]
-const DEFAULT_PAIRS = [
-  { from: "USD", to: "RUB" },
-  { from: "EUR", to: "RUB" },
-  { from: "USD", to: "EUR" },
-  { from: "USD", to: "VND" },
-];
+const CORE_VERSION = "6.3";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -90,16 +92,7 @@ function providerUrls(base) {
 
 const CACHE_NAME = "currency-rates-cache.json";
 const SETTINGS_NAME = "currency-settings.json";
-const HISTORY_NAME = "currency-history.json";
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // курсы обновляются раз в сутки апстримом
-const HISTORY_MAX_POINTS = 60;
-// Раньше было 6ч — на практике это значило, что спарклайн и % изменения не
-// появлялись ~12ч после первой установки виджета (1-я точка пишется сразу,
-// 2-я — только через 6ч, а сама сеть дёргается не чаще, чем раз в
-// CACHE_TTL_MS вне ручного "Обновить сейчас"). Снижаем порог, чтобы график
-// можно было увидеть за один тестовый сеанс: открыл меню → "Обновить сейчас"
-// → подождал 15 мин → снова "Обновить сейчас" → график уже рисуется.
-const HISTORY_MIN_GAP_MS = 15 * 60 * 1000;
 
 function delay(ms) {
   return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
@@ -127,10 +120,6 @@ function settingsPath() {
   return fm().joinPath(fm().documentsDirectory(), SETTINGS_NAME);
 }
 
-function historyPath() {
-  return fm().joinPath(fm().documentsDirectory(), HISTORY_NAME);
-}
-
 function loadJson(path, fallback) {
   try {
     if (!fm().fileExists(path)) return fallback;
@@ -154,42 +143,20 @@ function saveCache(cache) {
   saveJson(cachePath(), cache);
 }
 
-function loadHistory() {
-  const h = loadJson(historyPath(), []);
-  return Array.isArray(h) ? h : [];
-}
-
-function saveHistory(history) {
-  saveJson(historyPath(), history);
-}
-
-/** Копит по одной точке курсов не чаще, чем раз в HISTORY_MIN_GAP_MS — для изменения курса и спарклайна. */
-function recordHistory(cache) {
-  if (!cache || !cache.rates) return;
-  const history = loadHistory();
-  const last = history[history.length - 1];
-  if (last && cache.fetchedAt - last.fetchedAt < HISTORY_MIN_GAP_MS) return;
-  history.push({ fetchedAt: cache.fetchedAt, rates: cache.rates });
-  while (history.length > HISTORY_MAX_POINTS) history.shift();
-  saveHistory(history);
-}
-
 function loadSettings() {
   const settings = loadJson(settingsPath(), {
-    pairs: DEFAULT_PAIRS,
-    widgetAmount: 1,
-    lastAmount: 1,
-    lastFrom: "USD",
-    lastTo: "RUB",
     tableCurrencies: DEFAULT_TABLE_CURRENCIES,
     tableActiveCurrency: DEFAULT_TABLE_CURRENCIES[0],
     tableAmount: 1000,
   });
-  if (!Number.isFinite(settings.widgetAmount) || settings.widgetAmount <= 0) {
-    settings.widgetAmount = 1;
-  }
   if (!Array.isArray(settings.tableCurrencies) || !settings.tableCurrencies.length) {
     settings.tableCurrencies = DEFAULT_TABLE_CURRENCIES;
+  }
+  if (
+    !settings.tableActiveCurrency ||
+    settings.tableCurrencies.indexOf(settings.tableActiveCurrency) === -1
+  ) {
+    settings.tableActiveCurrency = settings.tableCurrencies[0];
   }
   if (!Number.isFinite(settings.tableAmount) || settings.tableAmount <= 0) {
     settings.tableAmount = 1000;
@@ -253,7 +220,6 @@ async function ensureRates(forceRefresh) {
   try {
     const fresh = await fetchRates(BASE_CCY);
     saveCache(fresh);
-    recordHistory(fresh);
     return fresh;
   } catch (e) {
     if (cache && cache.rates) return cache; // офлайн / API недоступен — показываем старое
@@ -297,11 +263,6 @@ function formatNumber(n) {
   });
 }
 
-function formatPct(n) {
-  if (n === null || n === undefined || Number.isNaN(n)) return "";
-  return n.toLocaleString("ru-RU", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
-}
-
 function cacheAgeLabel(cache) {
   if (!cache || !cache.fetchedAt) return "нет данных";
   const ms = Date.now() - cache.fetchedAt;
@@ -317,110 +278,6 @@ function cacheAgeLabel(cache) {
 function isJustUpdated(cache) {
   if (!cache || !cache.fetchedAt) return false;
   return Date.now() - cache.fetchedAt < 60 * 60 * 1000;
-}
-
-/** Ближайшая по времени точка истории к "targetAgeMs назад" (в пределах toleranceMs). */
-function findSnapshotNear(history, targetAgeMs, toleranceMs) {
-  if (!history || !history.length) return null;
-  const targetTime = Date.now() - targetAgeMs;
-  let best = null;
-  let bestDiff = Infinity;
-  for (const h of history) {
-    const diff = Math.abs(h.fetchedAt - targetTime);
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      best = h;
-    }
-  }
-  if (toleranceMs && bestDiff > toleranceMs) return null;
-  return best;
-}
-
-/** % изменения курса пары за ~сутки, или null, если истории ещё недостаточно. */
-function pairChangePct(history, currentRates, from, to) {
-  const past = findSnapshotNear(history, 24 * 60 * 60 * 1000, 20 * 60 * 60 * 1000);
-  if (!past) return null;
-  const pastRate = getRate(past.rates, from, to);
-  const currentRate = getRate(currentRates, from, to);
-  if (pastRate === null || currentRate === null || pastRate === 0) return null;
-  return ((currentRate - pastRate) / pastRate) * 100;
-}
-
-/** Маленький линейный график изменения курса пары по истории. null, если данных мало. */
-/**
- * Плавная кривая через все точки (Catmull-Rom, переведённая в кубические
- * Bezier-сегменты addCurve) — обычные прямые отрезки (addLines) дают
- * угловатую "молнию" из прямых линий, которая и выглядит неестественно
- * рядом с курсом валют: настоящие мини-графики курсов (Apple Stocks и т.п.)
- * всегда рисуют сглаженную кривую, а не соединяют точки напрямую.
- */
-function smoothCurvePath(points) {
-  const path = new Path();
-  if (!points.length) return path;
-  path.move(points[0]);
-  if (points.length === 1) return path;
-  if (points.length === 2) {
-    path.addLine(points[1]);
-    return path;
-  }
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] || points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] || p2;
-    const c1 = new Point(p1.x + (p2.x - p0.x) / 6, p1.y + (p2.y - p0.y) / 6);
-    const c2 = new Point(p2.x - (p3.x - p1.x) / 6, p2.y - (p3.y - p1.y) / 6);
-    path.addCurve(p2, c1, c2);
-  }
-  return path;
-}
-
-function sparklineImage(history, from, to, width, height, color) {
-  if (!history || history.length < 2) return null;
-  const values = [];
-  for (const h of history) {
-    const r = getRate(h.rates, from, to);
-    if (r !== null) values.push(r);
-  }
-  if (values.length < 2) return null;
-
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || Math.abs(max || 1) * 0.01 || 1;
-  // Небольшой запас сверху/снизу, чтобы сглаженная кривая не обрезалась
-  // собственными "перехлёстами" у верхней/нижней точки.
-  const pad = height * 0.12;
-
-  const points = values.map((v, i) => {
-    const x = (i / (values.length - 1)) * width;
-    const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
-    return new Point(x, y);
-  });
-
-  const ctx = new DrawContext();
-  ctx.size = new Size(width, height);
-  ctx.opaque = false;
-  ctx.respectScreenScale = true;
-  ctx.addPath(smoothCurvePath(points));
-  ctx.setStrokeColor(color);
-  ctx.setLineWidth(1.5);
-  ctx.strokePath();
-  return ctx.getImage();
-}
-
-/** Парсит Parameter виджета вида "USD-RUB,EUR-RUB,USD-EUR". */
-function parsePairsParam(param) {
-  if (!param || typeof param !== "string") return null;
-  const pairs = param
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map((s) => {
-      const [from, to] = s.split("-").map((x) => x && x.trim().toUpperCase());
-      return from && to ? { from, to } : null;
-    })
-    .filter(Boolean);
-  return pairs.length ? pairs : null;
 }
 
 /** Парсит список кодов валют вида "USD,EUR,RUB,VND" для таблицы всех валют. */
@@ -514,41 +371,24 @@ function addNoDataMessage(container) {
   err.lineLimit = 3;
 }
 
-/** ▲/▼ + % для изменения курса, или null, если истории пока не хватает. */
-function changeBadgeParts(history, rates, from, to) {
-  const pct = pairChangePct(history, rates, from, to);
-  if (pct === null) return null;
-  return {
-    text: (pct >= 0 ? "▲" : "▼") + formatPct(Math.abs(pct)),
-    color: pct >= 0 ? new Color("#34C759") : new Color("#FF453A"),
-  };
-}
-
 /**
- * Единственный стиль виджета — плоский список "сумма FROM → сумма TO", под
- * каждой строкой изменение курса за сутки и мини-график (спарклайн), если
- * накопилось достаточно истории. Компактный и надёжный по месту на любом
- * размере виджета.
+ * Единственный стиль виджета — сама плитка выглядит как таблица всех валют
+ * (тот же список currencies/activeCurrency/amount, что и в полноэкранной
+ * интерактивной таблице): флаг+код слева, сумма справа, строки разделены
+ * тонкой полоской, активная валюта (та, в которую введена сумма) подсвечена.
+ * Тап по плитке целиком открывает ту же таблицу, но уже с клавиатурой —
+ * ввод суммы прямо на плитке невозможен: Home Screen виджет — статичный
+ * снапшот, который перерисовывает система, а не работающее приложение.
  */
-function createMinimalWidget(pairs, cache, amount, history) {
+function createTableWidget(currencies, cache, activeCurrency, amount) {
   const w = new ListWidget();
-  w.backgroundColor = new Color("#121316");
+  w.backgroundColor = new Color("#0B0C0E");
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 3 : family === "large" ? 7 : 4;
-  const rowsToShow = pairs.slice(0, maxRows);
-  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
   const canTap = family !== "small";
-
-  // "large" имеет намного больше высоты (~380pt) на то же число строк, чем
-  // small/medium (~155-170pt) — там одна лишняя строка с графиком спокойно
-  // помещается с прежними, более крупными размерами. А вот medium теперь
-  // показывает на строку больше, чем раньше (4 вместо 3), поэтому именно
-  // для small/medium шрифт, отступы и график ощутимо компактнее — иначе
-  // 4-я строка с графиком просто не влезает по высоте и обрезается.
   const roomy = family === "large";
-  w.setPadding(roomy ? 12 : 10, 16, roomy ? 10 : 8, 16);
+  w.setPadding(roomy ? 10 : 8, 14, roomy ? 8 : 6, 14);
 
   if (!rates) {
     addNoDataMessage(w);
@@ -557,85 +397,49 @@ function createMinimalWidget(pairs, cache, amount, history) {
     return w;
   }
 
-  // Фиксированная ширина колонки "от" — иначе стрелка "→" съезжает влево/
-  // вправо от строки к строке (её позиция зависит от длины суммы и кода
-  // валюты слева), и ряд строк выглядит не выровненным. При одинаковой
-  // ширине колонки стрелки всех строк оказываются друг под другом.
-  const fromColW = family === "small" ? 74 : roomy ? 96 : 94;
-  const mainFont = family === "small" ? 14 : roomy ? 18 : 16;
-  const arrowFont = family === "small" ? 12 : roomy ? 15 : 13;
-  const subFont = family === "small" ? 8 : roomy ? 10 : 9;
-  const sparkW = roomy ? 30 : 28;
-  const sparkH = roomy ? 12 : 10;
-  const rowGap = family === "small" ? 5 : roomy ? 8 : 6;
+  const maxRows = family === "small" ? 3 : family === "large" ? 7 : 5;
+  const active = currencies.indexOf(activeCurrency) !== -1 ? activeCurrency : currencies[0];
+  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1000;
+  const rowsToShow = currencies.slice(0, maxRows);
+  const activeRate = rates[active];
 
-  rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(rowGap);
+  const codeFont = family === "small" ? 13 : roomy ? 16 : 14;
+  const valueFont = family === "small" ? 13 : roomy ? 17 : 15;
+  const rowPad = family === "small" ? 4 : roomy ? 6 : 5;
 
-    const rate = getRate(rates, pair.from, pair.to);
-    const converted = rate === null ? null : displayAmount * rate;
-    const change = changeBadgeParts(history, rates, pair.from, pair.to);
-    const spark = sparklineImage(
-      history,
-      pair.from,
-      pair.to,
-      sparkW,
-      sparkH,
-      change ? change.color : new Color("#34C759")
-    );
+  rowsToShow.forEach((code, i) => {
+    const isActive = code === active;
+    const targetRate = rates[code];
+    const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
 
-    const cell = w.addStack();
-    cell.layoutVertically();
-    if (canTap) {
-      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
-      if (url) cell.url = url;
+    const row = w.addStack();
+    row.layoutHorizontally();
+    row.centerAlignContent();
+    row.setPadding(rowPad, isActive ? 6 : 0, rowPad, isActive ? 6 : 0);
+    if (isActive) {
+      row.backgroundColor = new Color("#3478F6", 0.18);
+      row.cornerRadius = 8;
     }
 
-    const lineRow = cell.addStack();
-    lineRow.layoutHorizontally();
-    lineRow.centerAlignContent();
+    const codeText = row.addText(currencyMeta(code).flag + " " + code);
+    codeText.font = Font.boldSystemFont(codeFont);
+    codeText.textColor = Color.white();
+    codeText.lineLimit = 1;
 
-    const fromCell = lineRow.addStack();
-    fromCell.size = new Size(fromColW, 0);
-    const fromText = fromCell.addText(formatNumber(displayAmount) + " " + pair.from);
-    fromText.font = Font.boldSystemFont(mainFont);
-    fromText.textColor = Color.white();
-    fromText.lineLimit = 1;
-    fromText.minimumScaleFactor = 0.65;
+    row.addSpacer();
 
-    lineRow.addSpacer(6);
-    const arrow = lineRow.addText("→");
-    arrow.font = Font.systemFont(arrowFont);
-    arrow.textColor = new Color("#FFFFFF", 0.4);
-    arrow.lineLimit = 1;
-    lineRow.addSpacer(6);
+    const valueText = row.addText(value === null ? "—" : formatNumber(value));
+    valueText.font = Font.boldSystemFont(valueFont);
+    valueText.textColor = isActive ? new Color("#5AA4FF") : Color.white();
+    valueText.lineLimit = 1;
+    valueText.minimumScaleFactor = 0.6;
 
-    const toText = lineRow.addText(
-      (converted === null ? "—" : formatNumber(converted)) + " " + pair.to
-    );
-    toText.font = Font.boldSystemFont(mainFont);
-    toText.textColor = Color.white();
-    toText.lineLimit = 1;
-    toText.minimumScaleFactor = 0.55;
-
-    // Мини-график изменения курса — прямо под строкой, рядом с %.
-    if (change || spark) {
-      const subRow = cell.addStack();
-      subRow.layoutHorizontally();
-      subRow.centerAlignContent();
-
-      if (change) {
-        const sub = subRow.addText(change.text + "  за 24ч");
-        sub.font = Font.systemFont(subFont);
-        sub.textColor = change.color;
-        sub.lineLimit = 1;
-      }
-
-      if (spark) {
-        subRow.addSpacer(6);
-        const imgEl = subRow.addImage(spark);
-        imgEl.imageSize = new Size(sparkW, sparkH);
-      }
+    // Тонкая полоска-разделитель между строками (не после последней).
+    if (i < rowsToShow.length - 1) {
+      const divider = w.addStack();
+      divider.size = new Size(0, 1);
+      divider.backgroundColor = new Color("#FFFFFF", 0.08);
+      w.addSpacer(family === "small" ? 3 : 4);
     }
   });
 
@@ -648,25 +452,25 @@ function createMinimalWidget(pairs, cache, amount, history) {
 const ACCESSORY_FAMILIES = ["accessoryRectangular", "accessoryCircular", "accessoryInline"];
 
 /** Компактный виджет для экрана блокировки — система всё равно раскрасит его сама. */
-function createAccessoryWidget(pairs, cache, amount, family) {
+function createAccessoryWidget(currencies, cache, activeCurrency, amount, family) {
   const w = new ListWidget();
   const rates = cache ? cache.rates : null;
-  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
-  const primary = pairs[0] || DEFAULT_PAIRS[0];
-  const rate = rates ? getRate(rates, primary.from, primary.to) : null;
-  const converted = rate === null ? null : displayAmount * rate;
-  const valueText = (converted === null ? "—" : formatNumber(converted)) + " " + primary.to;
+  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1000;
+  const active = currencies.indexOf(activeCurrency) !== -1 ? activeCurrency : currencies[0] || BASE_CCY;
+  const target = currencies.find((c) => c !== active) || active;
+  const activeRate = rates ? rates[active] : null;
+  const targetRate = rates ? rates[target] : null;
+  const converted = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
+  const valueText = (converted === null ? "—" : formatNumber(converted)) + " " + target;
 
   if (family === "accessoryInline") {
-    w.addText(
-      "💱 " + formatNumber(displayAmount) + " " + primary.from + " = " + valueText
-    );
+    w.addText("💱 " + formatNumber(displayAmount) + " " + active + " = " + valueText);
     return w;
   }
 
   if (family === "accessoryCircular") {
     w.setPadding(2, 2, 2, 2);
-    const code = w.addText(primary.to);
+    const code = w.addText(target);
     code.font = Font.boldSystemFont(11);
     code.centerAlignText();
     w.addSpacer(1);
@@ -680,10 +484,10 @@ function createAccessoryWidget(pairs, cache, amount, family) {
 
   // accessoryRectangular
   w.setPadding(4, 8, 4, 8);
-  const title = w.addText(primary.from + " → " + primary.to);
+  const title = w.addText(active + " → " + target);
   title.font = Font.mediumSystemFont(11);
   w.addSpacer(2);
-  const value = w.addText(formatNumber(displayAmount) + " " + primary.from + " = " + valueText);
+  const value = w.addText(formatNumber(displayAmount) + " " + active + " = " + valueText);
   value.font = Font.boldSystemFont(15);
   value.lineLimit = 1;
   value.minimumScaleFactor = 0.6;
@@ -699,118 +503,23 @@ function createAccessoryWidget(pairs, cache, amount, family) {
 // попросить систему не тянуть дольше разумного окна для курсов валют.
 const REFRESH_HINT_MS = 45 * 60 * 1000;
 
-function createWidget(pairs, cache, amount, history) {
+function createWidget(currencies, cache, activeCurrency, amount) {
   const family = config.widgetFamily || "medium";
-  const w =
-    ACCESSORY_FAMILIES.indexOf(family) !== -1
-      ? createAccessoryWidget(pairs, cache, amount, family)
-      : createMinimalWidget(pairs, cache, amount, history || []);
+  const isAccessory = ACCESSORY_FAMILIES.indexOf(family) !== -1;
+  const w = isAccessory
+    ? createAccessoryWidget(currencies, cache, activeCurrency, amount, family)
+    : createTableWidget(currencies, cache, activeCurrency, amount);
+  if (!isAccessory) {
+    // Тап по плитке целиком (кроме значка обновления, у которого свой,
+    // более специфичный url) открывает ту же полноэкранную таблицу с
+    // клавиатурой — см. main() → action === "table".
+    const url = scriptRunUrl({ action: "table" });
+    if (url) w.url = url;
+  }
   try {
     w.refreshAfterDate = new Date(Date.now() + REFRESH_HINT_MS);
   } catch (e) {}
   return w;
-}
-
-/** Диалог конвертации суммы между двумя валютами (запуск из приложения, не из виджета). */
-async function runConvertDialog(settings, cache) {
-  const a = new Alert();
-  a.title = "Конвертировать";
-  a.message = cacheAgeLabel(cache);
-  a.addTextField("Сумма", String(settings.lastAmount ?? 1));
-  a.addTextField("Из (код)", settings.lastFrom || "USD");
-  a.addTextField("В (код)", settings.lastTo || "RUB");
-  a.addAction("Посчитать");
-  a.addCancelAction("Отмена");
-
-  const choice = await a.presentAlert();
-  if (choice !== 0) return;
-
-  const amount = parseFloat(a.textFieldValue(0).replace(",", ".")) || 0;
-  const from = (a.textFieldValue(1) || "USD").trim().toUpperCase();
-  const to = (a.textFieldValue(2) || "RUB").trim().toUpperCase();
-
-  settings.lastAmount = amount;
-  settings.lastFrom = from;
-  settings.lastTo = to;
-  saveSettings(settings);
-
-  const rates = cache ? cache.rates : null;
-  const result = rates ? convert(rates, amount, from, to) : null;
-
-  const r = new Alert();
-  r.title = result === null ? "Не удалось посчитать" : formatNumber(amount) + " " + from;
-  r.message =
-    result === null
-      ? "Проверь коды валют (например USD, EUR, RUB) или обнови курсы."
-      : "= " + formatNumber(result) + " " + to;
-  r.addAction("OK");
-  await r.presentAlert();
-}
-
-/** Задаёт сумму, которая пересчитывается во всех парах виджета (не только "1 X = Y"). */
-async function runAmountDialog(settings, cache) {
-  const a = new Alert();
-  a.title = "Сумма для виджета";
-  a.message = "Пересчитается сразу во всех парах на виджете";
-  a.addTextField("Сумма", String(settings.widgetAmount ?? 1));
-  a.addAction("Сохранить");
-  a.addCancelAction("Отмена");
-
-  const choice = await a.presentAlert();
-  if (choice !== 0) return;
-
-  const raw = (a.textFieldValue(0) || "").trim().replace(/\s/g, "").replace(",", ".");
-  const amount = parseFloat(raw);
-  if (!Number.isFinite(amount) || amount <= 0) {
-    const err = new Alert();
-    err.title = "Некорректная сумма";
-    err.message = "Введи положительное число, например 100";
-    err.addAction("OK");
-    await err.presentAlert();
-    return;
-  }
-
-  settings.widgetAmount = amount;
-  saveSettings(settings);
-
-  const rates = cache ? cache.rates : null;
-  if (rates) {
-    const lines = (settings.pairs || DEFAULT_PAIRS).map((pair) => {
-      const rate = getRate(rates, pair.from, pair.to);
-      const converted = rate === null ? null : amount * rate;
-      return (
-        formatNumber(amount) +
-        " " +
-        pair.from +
-        " = " +
-        (converted === null ? "—" : formatNumber(converted)) +
-        " " +
-        pair.to
-      );
-    });
-    const ok = new Alert();
-    ok.title = "Сохранено";
-    ok.message = lines.join("\n");
-    ok.addAction("OK");
-    await ok.presentAlert();
-  }
-}
-
-async function runPairsDialog(settings) {
-  const current = settings.pairs.map((p) => p.from + "-" + p.to).join(",");
-  const a = new Alert();
-  a.title = "Пары для виджета";
-  a.message = "Формат: USD-RUB,EUR-RUB,USD-EUR";
-  a.addTextField("Пары", current);
-  a.addAction("Сохранить");
-  a.addCancelAction("Отмена");
-  const choice = await a.presentAlert();
-  if (choice !== 0) return;
-  const parsed = parsePairsParam(a.textFieldValue(0));
-  if (parsed) {
-    settings.pairs = parsed;
-    saveSettings(settings);
-  }
 }
 
 /**
@@ -863,26 +572,33 @@ function buildTableHtml(currencies, rates, activeCurrency, amount) {
     "* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }" +
     "html, body { margin:0; padding:0; height:100%; background:#0B0C0E; color:#F5F6F7; " +
     "font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow:hidden; }" +
-    "body { display:flex; flex-direction:column; height:100vh; }" +
-    ".header { padding: 14px 18px 10px; }" +
-    ".header h1 { margin:0; font-size:20px; font-weight:700; }" +
-    ".header p { margin:4px 0 0; font-size:12px; color:#8A8D93; }" +
-    ".list { flex: 1 1 auto; overflow-y:auto; padding: 0 4px; }" +
+    // display:flex + height:100vh на body — но без min-height:0 у .list
+    // flex-элемент по умолчанию не сжимается ниже своего контента (это
+    // стандартная особенность flexbox), и .keypad снизу выталкивается за
+    // пределы видимой области, а overflow:hidden на body не даёт до него
+    // докрутить — именно так терялся нижний ряд цифр клавиатуры. min-height:0
+    // явно разрешает списку валют сжиматься и скроллиться внутри себя, а не
+    // раздувать всю страницу.
+    "body { display:flex; flex-direction:column; height:100vh; min-height:0; }" +
+    ".header { flex: 0 0 auto; padding: 10px 18px 6px; }" +
+    ".header h1 { margin:0; font-size:17px; font-weight:700; }" +
+    ".header p { margin:3px 0 0; font-size:11px; color:#8A8D93; }" +
+    ".list { flex: 1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 0 4px; }" +
     ".row { display:flex; align-items:center; justify-content:space-between; " +
-    "padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }" +
+    "padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }" +
     ".row.active { background: rgba(52,120,246,0.18); border-bottom-color: transparent; }" +
     ".left { display:flex; align-items:center; gap:10px; }" +
-    ".flag { font-size:22px; }" +
-    ".code { font-size:17px; font-weight:600; letter-spacing:0.3px; }" +
-    ".value { font-size:19px; font-weight:600; font-variant-numeric: tabular-nums; }" +
+    ".flag { font-size:20px; }" +
+    ".code { font-size:16px; font-weight:600; letter-spacing:0.3px; }" +
+    ".value { font-size:17px; font-weight:600; font-variant-numeric: tabular-nums; }" +
     ".row.active .value { color:#5AA4FF; }" +
-    ".keypad { flex: 0 0 auto; padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); " +
+    ".keypad { flex: 0 0 auto; padding: 6px 12px calc(8px + env(safe-area-inset-bottom)); " +
     "border-top: 1px solid rgba(255,255,255,0.08); }" +
-    ".keypad-top { display:flex; justify-content:flex-end; padding: 4px 6px 8px; }" +
-    ".clearBtn { color:#8A8D93; font-size:14px; background:none; border:none; padding:6px 10px; }" +
-    ".grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; }" +
-    ".grid button { font-size:22px; font-weight:500; color:#F5F6F7; background: rgba(255,255,255,0.06); " +
-    "border:none; border-radius:12px; padding:14px 0; }" +
+    ".keypad-top { display:flex; justify-content:flex-end; padding: 2px 6px 6px; }" +
+    ".clearBtn { color:#8A8D93; font-size:13px; background:none; border:none; padding:4px 10px; }" +
+    ".grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px; }" +
+    ".grid button { font-size:20px; font-weight:500; color:#F5F6F7; background: rgba(255,255,255,0.06); " +
+    "border:none; border-radius:12px; padding:10px 0; }" +
     ".grid button:active { background: rgba(255,255,255,0.14); }" +
     ".grid button.wide { grid-column: span 1; }" +
     "</style></head><body>" +
@@ -1041,62 +757,21 @@ async function runTableCurrenciesDialog(settings) {
   }
 }
 
-/** Быстрая информация по конкретной паре (открывается тапом по строке в стиле "карточки"). */
-async function quickPairInfo(settings, cache) {
-  const rates = cache ? cache.rates : null;
-  const amount = settings.widgetAmount || 1;
-  const params = (args && args.queryParameters) || {};
-  const from = (params.from || "USD").toUpperCase();
-  const to = (params.to || "RUB").toUpperCase();
-  const rate = rates ? getRate(rates, from, to) : null;
-  const converted = rate === null ? null : amount * rate;
-
-  const a = new Alert();
-  a.title = currencyMeta(from).flag + " " + from + " → " + to + " " + currencyMeta(to).flag;
-  a.message =
-    (converted === null
-      ? "Нет данных для этой пары"
-      : formatNumber(amount) + " " + from + " = " + formatNumber(converted) + " " + to) +
-    "\n" +
-    cacheAgeLabel(cache);
-  a.addAction("Изменить сумму для виджета");
-  a.addAction("Обновить курсы");
-  a.addCancelAction("Закрыть");
-
-  const choice = await a.presentAlert();
-  if (choice === 0) {
-    await runAmountDialog(settings, cache);
-  } else if (choice === 1) {
-    try {
-      await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
-    } catch (e) {}
-  }
-}
-
 async function runMenu(settings, cache) {
   const alert = new Alert();
   alert.title = "Конвертер валют · v" + CORE_VERSION;
   alert.message = cacheAgeLabel(cache);
-  alert.addAction("Задать сумму для виджета");
-  alert.addAction("Конвертировать сумму");
-  alert.addAction("Таблица всех валют");
-  alert.addAction("Настроить пары для виджета");
+  alert.addAction("Открыть таблицу всех валют");
   alert.addAction("Валюты для таблицы");
   alert.addAction("Обновить курсы сейчас");
   alert.addCancelAction("Закрыть");
 
   const choice = await alert.presentSheet();
   if (choice === 0) {
-    await runAmountDialog(settings, cache);
-  } else if (choice === 1) {
-    await runConvertDialog(settings, cache);
-  } else if (choice === 2) {
     await runFullTableView(settings, cache);
-  } else if (choice === 3) {
-    await runPairsDialog(settings);
-  } else if (choice === 4) {
+  } else if (choice === 1) {
     await runTableCurrenciesDialog(settings);
-  } else if (choice === 5) {
+  } else if (choice === 2) {
     try {
       await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
     } catch (e) {
@@ -1123,17 +798,16 @@ async function safeEnsureRates(forceRefresh, budgetMs) {
 
 async function main() {
   const settings = loadSettings();
-  const widgetParamPairs = parsePairsParam((args && args.widgetParameter) || null);
-  const pairs = widgetParamPairs || settings.pairs || DEFAULT_PAIRS;
+  const widgetParamCurrencies = parseCurrencyCodesParam((args && args.widgetParameter) || null);
+  const currencies = widgetParamCurrencies || settings.tableCurrencies || DEFAULT_TABLE_CURRENCIES;
 
   // Виджет: свежие курсы, если кэш успел устареть, но без риска зависнуть надолго.
   const cache = await safeEnsureRates(false, 10000);
 
   if (config.runsInWidget) {
-    const history = loadHistory();
     let widget;
     try {
-      widget = createWidget(pairs, cache, settings.widgetAmount, history);
+      widget = createWidget(currencies, cache, settings.tableActiveCurrency, settings.tableAmount);
     } catch (e) {
       // Раньше при исключении здесь Script.setWidget() вообще не вызывался,
       // и WidgetKit молча оставлял старый рендер — выглядело как "ничего не меняется".
@@ -1144,15 +818,20 @@ async function main() {
     return;
   }
 
-  // Тап по виджету / Play: меню (или прямое действие тап-зоны) должно открыться быстро.
+  // Тап по виджету / Play: по умолчанию сразу открывается полноэкранная
+  // таблица всех валют (см. action === "table") — так тап по плитке ведёт
+  // прямиком туда же, где показана та же таблица, но уже с клавиатурой для
+  // ввода любой суммы. Общее меню (настройки, обновление курсов) остаётся
+  // доступно, только если запустить скрипт вручную в приложении Scriptable
+  // (▶ Play) — тогда queryParameters пустые и qp.action не задан.
   const qp = (args && args.queryParameters) || {};
   try {
-    if (qp.action === "convert") {
-      await quickPairInfo(settings, cache);
-    } else if (qp.action === "refresh") {
+    if (qp.action === "refresh") {
       try {
         await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
       } catch (e) {}
+    } else if (qp.action === "table") {
+      await runFullTableView(settings, cache);
     } else {
       await runMenu(settings, cache);
     }
@@ -1165,16 +844,16 @@ async function main() {
   }
 
   const refreshedSettings = loadSettings();
-  const refreshedPairs = widgetParamPairs || refreshedSettings.pairs || DEFAULT_PAIRS;
+  const refreshedCurrencies =
+    widgetParamCurrencies || refreshedSettings.tableCurrencies || DEFAULT_TABLE_CURRENCIES;
   const refreshedCache = loadCache() || cache;
-  const refreshedHistory = loadHistory();
   let previewWidget;
   try {
     previewWidget = createWidget(
-      refreshedPairs,
+      refreshedCurrencies,
       refreshedCache,
-      refreshedSettings.widgetAmount,
-      refreshedHistory
+      refreshedSettings.tableActiveCurrency,
+      refreshedSettings.tableAmount
     );
   } catch (e) {
     previewWidget = createErrorWidget(e && e.message ? e.message : String(e));

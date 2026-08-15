@@ -1,96 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <style>
-  html, body { margin: 0; padding: 0; background: transparent; }
-  .widget {
-    width: 364px;
-    height: 170px;
-    background: #121316;
-    border-radius: 22px;
-    box-sizing: border-box;
-    padding: 10px 16px 8px 16px;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #0B0C0E; }
+  .tile {
+    width: 1080px;
+    height: 560px;
+    background: #0B0C0E;
+    border-radius: 66px;
+    padding: 24px 42px 18px 42px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    color: #F5F6F7;
   }
-  .rows { display: flex; flex-direction: column; gap: 6px; }
-  .cell { display: flex; flex-direction: column; }
-  .line { display: flex; flex-direction: row; align-items: center; line-height: 1.05; }
-  .from { width: 94px; font-weight: 700; font-size: 16px; color: #FFFFFF; white-space: nowrap; overflow: hidden; }
-  .arrow { width: 24px; text-align: center; font-size: 13px; color: rgba(255,255,255,0.4); }
-  .to { font-weight: 700; font-size: 16px; color: #FFFFFF; white-space: nowrap; }
-  .sub { display: flex; flex-direction: row; align-items: center; line-height: 1; }
-  .sub-text { font-size: 9px; }
-  .up { color: #34C759; }
-  .down { color: #FF453A; }
-  .spark { width: 28px; height: 10px; margin-left: 6px; }
-  .footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; }
-  .refresh { width: 11px; height: 11px; }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+  }
+  .row.active {
+    background: rgba(52,120,246,0.18);
+    border-radius: 24px;
+    padding: 15px 18px;
+    margin: 0 -18px;
+  }
+  .code { font-size: 42px; font-weight: 700; }
+  .value { font-size: 45px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .row.active .value { color: #5AA4FF; }
+  .divider { height: 3px; background: rgba(255,255,255,0.08); margin: 6px 0; }
+  .spacer { flex: 1; }
+  .refresh {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 6px;
+  }
+  .refresh svg { width: 34px; height: 34px; }
 </style>
 </head>
 <body>
-  <div class="widget">
-    <div class="rows">
-      <div class="cell">
-        <div class="line">
-          <div class="from">147 USD</div>
-          <div class="arrow">&#8594;</div>
-          <div class="to">12 240,69 RUB</div>
-        </div>
-        <div class="sub">
-          <div class="sub-text up">&#9650;0.42%&nbsp;&nbsp;за 24ч</div>
-          <svg class="spark" viewBox="0 0 28 10">
-            <path d="M 0,8.8 C 0.93,8.41 3.73,6.66 5.6,6.46 C 7.47,6.27 9.33,8.12 11.2,7.63 C 13.07,7.14 14.93,4.03 16.8,3.54 C 18.67,3.05 20.53,5.1 22.4,4.71 C 24.27,4.32 27.07,1.79 28,1.2" fill="none" stroke="#34C759" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-        </div>
-      </div>
-      <div class="cell">
-        <div class="line">
-          <div class="from">147 EUR</div>
-          <div class="arrow">&#8594;</div>
-          <div class="to">14 233,36 RUB</div>
-        </div>
-        <div class="sub">
-          <div class="sub-text down">&#9660;0.18%&nbsp;&nbsp;за 24ч</div>
-          <svg class="spark" viewBox="0 0 28 10">
-            <path d="M 0,1.2 C 0.93,1.55 3.73,3.16 5.6,3.27 C 7.47,3.39 9.33,1.43 11.2,1.89 C 13.07,2.35 14.93,5.58 16.8,6.04 C 18.67,6.5 20.53,4.19 22.4,4.65 C 24.27,5.11 27.07,8.11 28,8.8" fill="none" stroke="#FF453A" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-        </div>
-      </div>
-      <div class="cell">
-        <div class="line">
-          <div class="from">147 RUB</div>
-          <div class="arrow">&#8594;</div>
-          <div class="to">44 839,68 VND</div>
-        </div>
-        <div class="sub">
-          <div class="sub-text up">&#9650;0.06%&nbsp;&nbsp;за 24ч</div>
-          <svg class="spark" viewBox="0 0 28 10">
-            <path d="M 0,8.8 C 0.93,8.57 3.73,8.11 5.6,7.42 C 7.47,6.73 9.33,4.995 11.2,4.65 C 13.07,4.31 14.93,5.81 16.8,5.35 C 18.67,4.89 20.53,2.58 22.4,1.89 C 24.27,1.2 27.07,1.32 28,1.2" fill="none" stroke="#34C759" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-        </div>
-      </div>
-      <div class="cell">
-        <div class="line">
-          <div class="from">147 USD</div>
-          <div class="arrow">&#8594;</div>
-          <div class="to">3,73 млн VND</div>
-        </div>
-        <div class="sub">
-          <div class="sub-text up">&#9650;0.06%&nbsp;&nbsp;за 24ч</div>
-          <svg class="spark" viewBox="0 0 28 10">
-            <path d="M 0,8.8 C 0.93,8.33 3.73,6.27 5.6,5.95 C 7.47,5.63 9.33,7.38 11.2,6.9 C 13.07,6.43 14.93,3.67 16.8,3.1 C 18.67,2.53 20.53,3.8 22.4,3.48 C 24.27,3.16 27.07,1.58 28,1.2" fill="none" stroke="#34C759" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <svg class="refresh" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5">
-        <path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" />
-        <path d="M18 3v5h-5M6 21v-5h5" />
+  <div class="tile">
+    <div class="row active"><span class="code">🇺🇸 USD</span><span class="value">1 000</span></div>
+    <div class="divider"></div>
+    <div class="row"><span class="code">🇪🇺 EUR</span><span class="value">860</span></div>
+    <div class="divider"></div>
+    <div class="row"><span class="code">🇷🇺 RUB</span><span class="value">83 270</span></div>
+    <div class="divider"></div>
+    <div class="row"><span class="code">🇻🇳 VND</span><span class="value">25,4 млн</span></div>
+    <div class="divider"></div>
+    <div class="row"><span class="code">🇹🇭 THB</span><span class="value">32 100</span></div>
+    <div class="spacer"></div>
+    <div class="refresh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.4">
+        <path d="M4 4v5h5"/>
+        <path d="M20 20v-5h-5"/>
+        <path d="M5.5 15A8 8 0 0119 8.5M18.5 9A8 8 0 015 15.5"/>
       </svg>
     </div>
   </div>
