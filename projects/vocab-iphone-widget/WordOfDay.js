@@ -2,13 +2,11 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: book;
 //
-// Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v30: отступ 12, EN 15 / RU 12, перевод двумя строками
-// После Play: меню → Reset.
+// Вставь ОДИН раз. Дальше только ▶ Play — ядро скачается само.
+// Не нужно копировать код при каждом обновлении.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/10cdebcb790fdc1abf7d858f13370cd598224b54/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@10cdebcb790fdc1abf7d858f13370cd598224b54/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -25,6 +23,18 @@ function getFileManager() {
 const fm = getFileManager();
 const corePath = fm.joinPath(fm.documentsDirectory(), "WordOfDayCore.js");
 
+function isValidCore(code) {
+  return !!(
+    code &&
+    code.length > 500 &&
+    !String(code).trim().startsWith("<!") &&
+    code.includes("module.exports") &&
+    code.includes("PASSIVE_WIDGET") &&
+    code.includes("exRu") &&
+    code.includes("wrapLines")
+  );
+}
+
 async function fetchCoreCode() {
   let lastError = null;
   for (const base of CORE_URLS) {
@@ -32,16 +42,7 @@ async function fetchCoreCode() {
       const req = new Request(base + (base.includes("?") ? "&" : "?") + "t=" + Date.now());
       req.timeoutInterval = 45;
       const code = await req.loadString();
-      if (
-        code &&
-        code.length > 500 &&
-        !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V30") &&
-        code.includes("wrapLines") &&
-        code.includes("двух отдельных Text-строк")
-      ) {
-        return code;
-      }
+      if (isValidCore(code)) return code;
       lastError = new Error("Старый/пустой ответ: " + base);
     } catch (e) {
       lastError = e;
@@ -66,16 +67,13 @@ async function downloadCore() {
 }
 
 async function ensureCore() {
-  if (!config.runsInWidget || !fm.fileExists(corePath)) {
+  // ▶ Play в приложении — всегда тянем свежее ядро
+  if (!config.runsInWidget) {
     await downloadCore();
     return;
   }
-  const local = fm.readString(corePath) || "";
-  if (
-    !local.includes("PASSIVE_WIDGET_V30") ||
-    !local.includes("wrapLines") ||
-    !local.includes("двух отдельных Text-строк")
-  ) {
+  // виджет: локальный файл, если валиден
+  if (!fm.fileExists(corePath) || !isValidCore(fm.readString(corePath) || "")) {
     await downloadCore();
   }
 }
