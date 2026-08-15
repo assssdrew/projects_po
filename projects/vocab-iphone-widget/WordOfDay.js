@@ -3,12 +3,12 @@
 // icon-color: blue; icon-glyph: book;
 //
 // Замени ВЕСЬ код WordOfDay → ▶ Play.
-// v26: отступ 14 pt сверху и снизу
+// v27: перевод переносится на 2-ю строку, без «…»
 // После Play: меню → Reset.
 
 const CORE_URLS = [
-  "https://raw.githubusercontent.com/assssdrew/projects_po/fd617658c955c115f0f1b6e11d87fa0618af6078/projects/vocab-iphone-widget/WordOfDayCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@fd617658c955c115f0f1b6e11d87fa0618af6078/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/869b224c1dd32f9a2237a0171d8bdbabe01cc1b6/projects/vocab-iphone-widget/WordOfDayCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@869b224c1dd32f9a2237a0171d8bdbabe01cc1b6/projects/vocab-iphone-widget/WordOfDayCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/WordOfDayCore.js",
 ];
 
@@ -36,8 +36,8 @@ async function fetchCoreCode() {
         code &&
         code.length > 500 &&
         !code.trim().startsWith("<!") &&
-        code.includes("PASSIVE_WIDGET_V26") &&
-        code.includes("отступ 14 pt сверху и снизу") &&
+        code.includes("PASSIVE_WIDGET_V27") &&
+        code.includes("переносится на 2-ю строку") &&
         code.includes("exRu")
       ) {
         return code;
@@ -72,8 +72,8 @@ async function ensureCore() {
   }
   const local = fm.readString(corePath) || "";
   if (
-    !local.includes("PASSIVE_WIDGET_V26") ||
-    !local.includes("отступ 14 pt сверху и снизу") ||
+    !local.includes("PASSIVE_WIDGET_V27") ||
+    !local.includes("переносится на 2-ю строку") ||
     !local.includes("exRu")
   ) {
     await downloadCore();
