@@ -57,6 +57,8 @@
 // v6.13: USD всегда получает пару (к активной / первой другой валюте);
 // график и % рисуются одной картинкой DrawContext — гарантированное
 // выравнивание по высоте и увеличенный зазор.
+// v6.14: фиксированная ширина колонки тренда/% — проценты стоят строго
+// друг под другом, не «пляшут» из‑за разной длины текста/картинки.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -64,7 +66,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.13";
+const CORE_VERSION = "6.14";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -511,11 +513,11 @@ function smoothCurvePath(points) {
 }
 
 /**
- * Одна картинка: спарклайн + зазор + ▲% — текст рисуется в том же
- * DrawContext, поэтому по высоте всегда совпадает с графиком
- * (стек Scriptable текст/картинку часто разводит по baseline).
+ * Одна картинка фиксированной ширины: спарклайн | зазор | ▲%.
+ * Ширина одинакова для всех строк — иначе при центрировании блока
+ * проценты «пляшут» влево-вправо от строки к строке.
  */
-function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize) {
+function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize, pctColW) {
   if (!from || !to || from.toUpperCase() === to.toUpperCase()) return null;
 
   const change = changeBadgeParts(history, rates, from, to);
@@ -530,8 +532,8 @@ function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize
 
   const color = change ? change.color : new Color("#8A8D93");
   const pctText = change ? change.text : "";
-  const textW = pctText ? Math.ceil(pctText.length * fontSize * 0.66) + 2 : 0;
-  const totalW = sparkW + (pctText ? gap + textW : 0);
+  const colW = pctColW || Math.ceil(7 * fontSize * 0.66) + 4;
+  const totalW = sparkW + gap + colW;
 
   const ctx = new DrawContext();
   ctx.size = new Size(totalW, height);
@@ -557,8 +559,8 @@ function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize
   if (pctText) {
     ctx.setFont(Font.mediumSystemFont(fontSize));
     ctx.setTextColor(color);
-    // Вертикальный центр относительно высоты картинки.
     const textY = Math.max(0, (height - fontSize) / 2 - 1);
+    // Все % стартуют с одной X — левый край фиксированной колонки.
     ctx.drawText(pctText, new Point(sparkW + gap, textY));
   }
 
@@ -729,6 +731,12 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const sparkW = family === "small" ? 32 : roomy ? 44 : 40;
   const midH = family === "small" ? 14 : roomy ? 18 : 16;
   const trendGap = family === "small" ? 10 : 14;
+  // Фиксированная колонка % (хватит на «▼99,9%») — все проценты друг под другом.
+  const pctColW = family === "small" ? 42 : roomy ? 52 : 48;
+  const trendW = sparkW + trendGap + pctColW;
+  // Фиксированная колонка кода — иначе разная ширина «🇺🇸 USD» / «🇻🇳 VND»
+  // сдвигает весь mid-блок и % снова «пляшут».
+  const codeColW = family === "small" ? 72 : roomy ? 88 : 80;
 
   const content = w.addStack();
   content.layoutVertically();
@@ -746,22 +754,33 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
       sparkW,
       midH,
       trendGap,
-      pctFont
+      pctFont,
+      pctColW
     );
 
     const row = content.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
 
-    const codeText = row.addText(currencyMeta(code).flag + " " + code);
+    const codeCell = row.addStack();
+    codeCell.size = new Size(codeColW, 0);
+    codeCell.layoutHorizontally();
+    codeCell.centerAlignContent();
+    const codeText = codeCell.addText(currencyMeta(code).flag + " " + code);
     codeText.font = Font.boldSystemFont(codeFont);
     codeText.textColor = Color.white();
     codeText.lineLimit = 1;
+    codeText.minimumScaleFactor = 0.7;
 
     row.addSpacer();
 
+    // Фиксированная ширина mid-колонки у всех строк — % на одной вертикали.
+    const mid = row.addStack();
+    mid.size = new Size(trendW, midH);
+    mid.layoutHorizontally();
+    mid.centerAlignContent();
     if (trend) {
-      const imgEl = row.addImage(trend.image);
+      const imgEl = mid.addImage(trend.image);
       imgEl.imageSize = new Size(trend.width, trend.height);
     }
 
