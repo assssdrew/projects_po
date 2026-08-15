@@ -7,6 +7,11 @@
 // v6.1: спарклайн рисуется сглаженной кривой (addCurve/Catmull-Rom) вместо
 // прямых отрезков (addLines) — выглядит как настоящий график, а не угловатая
 // "молния".
+// v6.2: добавлена полноэкранная интерактивная "Таблица всех валют" (пункт
+// меню) — флаг+код в первой колонке, сумма во второй, тап по строке выбирает,
+// в какую валюту вводится сумма, вся таблица пересчитывается сразу, строки
+// разделены полоской. Живёт внутри приложения Scriptable (WebView), т.к.
+// сама плитка Home Screen — статичный снапшот без клавиатуры.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -14,7 +19,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.1";
+const CORE_VERSION = "6.2";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -27,6 +32,11 @@ const DEFAULT_PAIRS = [
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
+
+// Список валют по умолчанию для полноэкранной "Таблицы всех валют" —
+// как в приложениях-обменниках: одна и та же сумма пересчитывается сразу
+// во все валюты списка, тап по строке меняет, в какую валюту вводится сумма.
+const DEFAULT_TABLE_CURRENCIES = ["USD", "EUR", "RUB", "VND", "THB", "IDR"];
 
 // Флаг + акцентный цвет для распространённых валют. Остальные — нейтральный вид.
 const CURRENCY_META = {
@@ -171,9 +181,18 @@ function loadSettings() {
     lastAmount: 1,
     lastFrom: "USD",
     lastTo: "RUB",
+    tableCurrencies: DEFAULT_TABLE_CURRENCIES,
+    tableActiveCurrency: DEFAULT_TABLE_CURRENCIES[0],
+    tableAmount: 1000,
   });
   if (!Number.isFinite(settings.widgetAmount) || settings.widgetAmount <= 0) {
     settings.widgetAmount = 1;
+  }
+  if (!Array.isArray(settings.tableCurrencies) || !settings.tableCurrencies.length) {
+    settings.tableCurrencies = DEFAULT_TABLE_CURRENCIES;
+  }
+  if (!Number.isFinite(settings.tableAmount) || settings.tableAmount <= 0) {
+    settings.tableAmount = 1000;
   }
   return settings;
 }
@@ -402,6 +421,17 @@ function parsePairsParam(param) {
     })
     .filter(Boolean);
   return pairs.length ? pairs : null;
+}
+
+/** Парсит список кодов валют вида "USD,EUR,RUB,VND" для таблицы всех валют. */
+function parseCurrencyCodesParam(param) {
+  if (!param || typeof param !== "string") return null;
+  const codes = param
+    .split(",")
+    .map((s) => s.trim().toUpperCase())
+    .filter((s) => /^[A-Z]{3}$/.test(s));
+  const unique = Array.from(new Set(codes));
+  return unique.length ? unique : null;
 }
 
 /** URL, который снова запускает этот же скрипт с параметрами действия (тап-зона). */
@@ -783,6 +813,234 @@ async function runPairsDialog(settings) {
   }
 }
 
+/**
+ * HTML для полноэкранной "Таблицы всех валют": первый столбец — флаг+код,
+ * второй — сумма. Тап по строке делает её "активной" (в неё вводится сумма
+ * с клавиатуры), остальные строки пересчитываются мгновенно на лету —
+ * прямо внутри WebView, без обращений к сети. Строки разделены тонкой
+ * полоской, активная подсвечена.
+ */
+function buildTableHtml(currencies, rates, activeCurrency, amount) {
+  const meta = {};
+  currencies.forEach((c) => {
+    meta[c] = currencyMeta(c);
+  });
+  const data = {
+    currencies,
+    meta,
+    rates,
+    active: currencies.indexOf(activeCurrency) !== -1 ? activeCurrency : currencies[0],
+    amount,
+  };
+  const dataJson = JSON.stringify(data).replace(/</g, "\\u003c");
+
+  const rowsHtml = currencies
+    .map((code) => {
+      const m = meta[code] || { flag: "💱", color: "#888888" };
+      return (
+        '<div class="row" id="row-' +
+        code +
+        '" onclick="selectCurrency(\'' +
+        code +
+        '\')">' +
+        '<div class="left"><span class="flag">' +
+        m.flag +
+        '</span><span class="code">' +
+        code +
+        "</span></div>" +
+        '<div class="value" id="val-' +
+        code +
+        '"></div>' +
+        "</div>"
+      );
+    })
+    .join("\n");
+
+  return (
+    "<!DOCTYPE html><html><head><meta charset='utf-8'>" +
+    "<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>" +
+    "<style>" +
+    "* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }" +
+    "html, body { margin:0; padding:0; height:100%; background:#0B0C0E; color:#F5F6F7; " +
+    "font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow:hidden; }" +
+    "body { display:flex; flex-direction:column; height:100vh; }" +
+    ".header { padding: 14px 18px 10px; }" +
+    ".header h1 { margin:0; font-size:20px; font-weight:700; }" +
+    ".header p { margin:4px 0 0; font-size:12px; color:#8A8D93; }" +
+    ".list { flex: 1 1 auto; overflow-y:auto; padding: 0 4px; }" +
+    ".row { display:flex; align-items:center; justify-content:space-between; " +
+    "padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }" +
+    ".row.active { background: rgba(52,120,246,0.18); border-bottom-color: transparent; }" +
+    ".left { display:flex; align-items:center; gap:10px; }" +
+    ".flag { font-size:22px; }" +
+    ".code { font-size:17px; font-weight:600; letter-spacing:0.3px; }" +
+    ".value { font-size:19px; font-weight:600; font-variant-numeric: tabular-nums; }" +
+    ".row.active .value { color:#5AA4FF; }" +
+    ".keypad { flex: 0 0 auto; padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); " +
+    "border-top: 1px solid rgba(255,255,255,0.08); }" +
+    ".keypad-top { display:flex; justify-content:flex-end; padding: 4px 6px 8px; }" +
+    ".clearBtn { color:#8A8D93; font-size:14px; background:none; border:none; padding:6px 10px; }" +
+    ".grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; }" +
+    ".grid button { font-size:22px; font-weight:500; color:#F5F6F7; background: rgba(255,255,255,0.06); " +
+    "border:none; border-radius:12px; padding:14px 0; }" +
+    ".grid button:active { background: rgba(255,255,255,0.14); }" +
+    ".grid button.wide { grid-column: span 1; }" +
+    "</style></head><body>" +
+    "<div class='header'><h1>Таблица всех валют</h1>" +
+    "<p>Тап по валюте — ввод суммы в неё. Остальные пересчитаются сразу</p></div>" +
+    "<div class='list'>" +
+    rowsHtml +
+    "</div>" +
+    "<div class='keypad'>" +
+    "<div class='keypad-top'><button class='clearBtn' onclick='pressClear()'>Очистить</button></div>" +
+    "<div class='grid'>" +
+    "<button onclick=\"pressDigit('1')\">1</button><button onclick=\"pressDigit('2')\">2</button><button onclick=\"pressDigit('3')\">3</button>" +
+    "<button onclick=\"pressDigit('4')\">4</button><button onclick=\"pressDigit('5')\">5</button><button onclick=\"pressDigit('6')\">6</button>" +
+    "<button onclick=\"pressDigit('7')\">7</button><button onclick=\"pressDigit('8')\">8</button><button onclick=\"pressDigit('9')\">9</button>" +
+    "<button onclick='pressComma()'>,</button><button onclick=\"pressDigit('0')\">0</button><button onclick='pressBackspace()'>⌫</button>" +
+    "</div></div>" +
+    "<script>" +
+    "var DATA = " +
+    dataJson +
+    ";" +
+    "var state = { active: DATA.active, buffer: String(DATA.amount).replace('.', ',') };" +
+    "function rateOf(code) { return DATA.rates[code]; }" +
+    "function convert(amt, from, to) {" +
+    "  var rf = rateOf(from), rt = rateOf(to);" +
+    "  if (!rf || !rt) return null;" +
+    "  return amt * (rt / rf);" +
+    "}" +
+    "function fmtGrouped(n) {" +
+    "  if (n === null || n === undefined || isNaN(n)) return '—';" +
+    "  return n.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });" +
+    "}" +
+    "function bufferAmount() {" +
+    "  var v = parseFloat(state.buffer.replace(',', '.'));" +
+    "  return isNaN(v) ? 0 : v;" +
+    "}" +
+    "function render() {" +
+    "  var amt = bufferAmount();" +
+    "  DATA.currencies.forEach(function (code) {" +
+    "    var rowEl = document.getElementById('row-' + code);" +
+    "    var valEl = document.getElementById('val-' + code);" +
+    "    var isActive = code === state.active;" +
+    "    rowEl.classList.toggle('active', isActive);" +
+    "    if (isActive) {" +
+    "      valEl.textContent = state.buffer.length ? state.buffer : '0';" +
+    "    } else {" +
+    "      valEl.textContent = fmtGrouped(convert(amt, state.active, code));" +
+    "    }" +
+    "  });" +
+    "  window.__active = state.active;" +
+    "  window.__amount = amt;" +
+    "}" +
+    "function selectCurrency(code) {" +
+    "  if (state.active === code) return;" +
+    "  var amt = bufferAmount();" +
+    "  var converted = convert(amt, state.active, code);" +
+    "  state.active = code;" +
+    "  state.buffer = converted === null ? '0' : (Math.round(converted * 100) / 100).toString().replace('.', ',');" +
+    "  render();" +
+    "}" +
+    "function pressDigit(d) {" +
+    "  if (state.buffer === '0') state.buffer = '';" +
+    "  if (state.buffer.replace(',', '').length >= 15) return;" +
+    "  state.buffer += d;" +
+    "  render();" +
+    "}" +
+    "function pressComma() {" +
+    "  if (state.buffer.indexOf(',') !== -1) return;" +
+    "  if (!state.buffer.length) state.buffer = '0';" +
+    "  state.buffer += ',';" +
+    "  render();" +
+    "}" +
+    "function pressBackspace() {" +
+    "  state.buffer = state.buffer.slice(0, -1);" +
+    "  if (!state.buffer.length) state.buffer = '0';" +
+    "  render();" +
+    "}" +
+    "function pressClear() {" +
+    "  state.buffer = '0';" +
+    "  render();" +
+    "}" +
+    "render();" +
+    "</script>" +
+    "</body></html>"
+  );
+}
+
+/** Открывает полноэкранную интерактивную таблицу всех валют (см. buildTableHtml). */
+async function runFullTableView(settings, cache) {
+  const rates = cache ? cache.rates : null;
+  if (!rates) {
+    const err = new Alert();
+    err.title = "Нет данных";
+    err.message = "Сначала обнови курсы (Обновить курсы сейчас), затем открой таблицу.";
+    err.addAction("OK");
+    await err.presentAlert();
+    return;
+  }
+
+  const configured = settings.tableCurrencies && settings.tableCurrencies.length ? settings.tableCurrencies : DEFAULT_TABLE_CURRENCIES;
+  const currencies = configured.filter((c) => rates[c] !== undefined);
+  if (!currencies.length) {
+    const err = new Alert();
+    err.title = "Нет курсов для этих валют";
+    err.message = "Проверь список валют для таблицы в меню.";
+    err.addAction("OK");
+    await err.presentAlert();
+    return;
+  }
+
+  const active = currencies.indexOf(settings.tableActiveCurrency) !== -1 ? settings.tableActiveCurrency : currencies[0];
+  const amount = Number.isFinite(settings.tableAmount) && settings.tableAmount > 0 ? settings.tableAmount : 1000;
+
+  const html = buildTableHtml(currencies, rates, active, amount);
+  const webView = new WebView();
+  await webView.loadHTML(html);
+  await webView.present(true);
+
+  // Best-effort: подтягиваем последнее состояние (валюта/сумма) обратно в
+  // настройки, чтобы при следующем открытии таблица открывалась там же, где
+  // её оставили. WKWebView остаётся в памяти после present(), поэтому это
+  // обычно срабатывает, но не является гарантией на всех версиях iOS —
+  // если не получилось, просто тихо остаёмся при прежних настройках.
+  try {
+    const stateJson = await webView.evaluateJavaScript(
+      "JSON.stringify({ active: window.__active, amount: window.__amount })"
+    );
+    const parsed = JSON.parse(stateJson);
+    if (parsed && typeof parsed.active === "string" && Number.isFinite(parsed.amount) && parsed.amount > 0) {
+      settings.tableActiveCurrency = parsed.active;
+      settings.tableAmount = parsed.amount;
+      saveSettings(settings);
+    }
+  } catch (e) {
+    // WebView может быть уже недоступен для evaluateJavaScript — не критично.
+  }
+}
+
+/** Настройка списка валют для полноэкранной таблицы (см. runFullTableView). */
+async function runTableCurrenciesDialog(settings) {
+  const current = (settings.tableCurrencies || DEFAULT_TABLE_CURRENCIES).join(",");
+  const a = new Alert();
+  a.title = "Валюты для таблицы";
+  a.message = "Формат: USD,EUR,RUB,VND,THB,IDR";
+  a.addTextField("Валюты", current);
+  a.addAction("Сохранить");
+  a.addCancelAction("Отмена");
+  const choice = await a.presentAlert();
+  if (choice !== 0) return;
+  const parsed = parseCurrencyCodesParam(a.textFieldValue(0));
+  if (parsed) {
+    settings.tableCurrencies = parsed;
+    if (parsed.indexOf(settings.tableActiveCurrency) === -1) {
+      settings.tableActiveCurrency = parsed[0];
+    }
+    saveSettings(settings);
+  }
+}
+
 /** Быстрая информация по конкретной паре (открывается тапом по строке в стиле "карточки"). */
 async function quickPairInfo(settings, cache) {
   const rates = cache ? cache.rates : null;
@@ -821,7 +1079,9 @@ async function runMenu(settings, cache) {
   alert.message = cacheAgeLabel(cache);
   alert.addAction("Задать сумму для виджета");
   alert.addAction("Конвертировать сумму");
+  alert.addAction("Таблица всех валют");
   alert.addAction("Настроить пары для виджета");
+  alert.addAction("Валюты для таблицы");
   alert.addAction("Обновить курсы сейчас");
   alert.addCancelAction("Закрыть");
 
@@ -831,8 +1091,12 @@ async function runMenu(settings, cache) {
   } else if (choice === 1) {
     await runConvertDialog(settings, cache);
   } else if (choice === 2) {
-    await runPairsDialog(settings);
+    await runFullTableView(settings, cache);
   } else if (choice === 3) {
+    await runPairsDialog(settings);
+  } else if (choice === 4) {
+    await runTableCurrenciesDialog(settings);
+  } else if (choice === 5) {
     try {
       await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
     } catch (e) {
