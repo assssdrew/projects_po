@@ -23,6 +23,10 @@
 // вёрстки в самой таблице: нижний ряд цифр клавиатуры уходил за пределы
 // экрана из-за отсутствия min-height:0 на скроллящемся списке валют (из-за
 // этого он не мог сжаться, как ему говорил flex, и раздувал всю страницу).
+// v6.4: строки на плитке центрированы по вертикали (а не прижаты к верху),
+// шрифт кода/суммы заметно крупнее, разделитель между валютами сделан ярче,
+// а значок обновления в углу убран целиком — на плитке остаются только
+// курсы.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -30,7 +34,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.3";
+const CORE_VERSION = "6.4";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -274,12 +278,6 @@ function cacheAgeLabel(cache) {
   return "обновлено " + d + "д назад";
 }
 
-/** true, если данные получены из сети меньше часа назад ("только что"). */
-function isJustUpdated(cache) {
-  if (!cache || !cache.fetchedAt) return false;
-  return Date.now() - cache.fetchedAt < 60 * 60 * 1000;
-}
-
 /** Парсит список кодов валют вида "USD,EUR,RUB,VND" для таблицы всех валют. */
 function parseCurrencyCodesParam(param) {
   if (!param || typeof param !== "string") return null;
@@ -301,36 +299,6 @@ function scriptRunUrl(params) {
     return "scriptable:///run/" + name + (query ? "?" + query : "");
   } catch (e) {
     return null;
-  }
-}
-
-function addShadow(t, alpha) {
-  t.shadowColor = new Color("#000000", alpha == null ? 0.4 : alpha);
-  t.shadowRadius = 2;
-  t.shadowOffset = new Point(0, 1);
-}
-
-/**
- * Иконка-статус обновления: зелёная "только что", иначе тусклая. Никакого
- * текста рядом (версия/время) — сам виджет должен показывать только курсы,
- * без служебной отладочной информации.
- * container может быть как сам ListWidget, так и вложенный WidgetStack —
- * оба поддерживают addStack/addSpacer/addImage.
- */
-function addRefreshIndicator(container, cache, interactive) {
-  const row = container.addStack();
-  row.centerAlignContent();
-  row.addSpacer();
-
-  const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
-  symbol.applyFont(Font.mediumSystemFont(11));
-  const img = row.addImage(symbol.image);
-  img.imageSize = new Size(11, 11);
-  img.tintColor = isJustUpdated(cache) ? new Color("#34C759") : new Color("#FFFFFF", 0.4);
-
-  if (interactive) {
-    const url = scriptRunUrl({ action: "refresh" });
-    if (url) row.url = url;
   }
 }
 
@@ -375,7 +343,9 @@ function addNoDataMessage(container) {
  * Единственный стиль виджета — сама плитка выглядит как таблица всех валют
  * (тот же список currencies/activeCurrency/amount, что и в полноэкранной
  * интерактивной таблице): флаг+код слева, сумма справа, строки разделены
- * тонкой полоской, активная валюта (та, в которую введена сумма) подсвечена.
+ * заметной полоской, активная валюта (та, в которую введена сумма)
+ * подсвечена. Блок строк центрирован по вертикали внутри плитки, а не
+ * прижат к верхнему краю. Никакого значка обновления — только курсы.
  * Тап по плитке целиком открывает ту же таблицу, но уже с клавиатурой —
  * ввод суммы прямо на плитке невозможен: Home Screen виджет — статичный
  * снапшот, который перерисовывает система, а не работающее приложение.
@@ -386,14 +356,13 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const canTap = family !== "small";
   const roomy = family === "large";
-  w.setPadding(roomy ? 10 : 8, 14, roomy ? 8 : 6, 14);
+  w.setPadding(roomy ? 10 : 8, 16, roomy ? 10 : 8, 16);
 
   if (!rates) {
+    w.addSpacer();
     addNoDataMessage(w);
     w.addSpacer();
-    addRefreshIndicator(w, cache, canTap);
     return w;
   }
 
@@ -403,16 +372,24 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   const rowsToShow = currencies.slice(0, maxRows);
   const activeRate = rates[active];
 
-  const codeFont = family === "small" ? 13 : roomy ? 16 : 14;
-  const valueFont = family === "small" ? 13 : roomy ? 17 : 15;
-  const rowPad = family === "small" ? 4 : roomy ? 6 : 5;
+  // По просьбе — крупнее, чем раньше.
+  const codeFont = family === "small" ? 15 : roomy ? 19 : 17;
+  const valueFont = family === "small" ? 16 : roomy ? 21 : 18;
+  const rowPad = family === "small" ? 4 : roomy ? 7 : 6;
+
+  // Строки центрируются по вертикали внутри всей плитки (а не прижимаются к
+  // верхнему краю, как раньше) — весь блок строк оборачивается спейсерами
+  // сверху и снизу.
+  w.addSpacer();
+  const content = w.addStack();
+  content.layoutVertically();
 
   rowsToShow.forEach((code, i) => {
     const isActive = code === active;
     const targetRate = rates[code];
     const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
 
-    const row = w.addStack();
+    const row = content.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
     row.setPadding(rowPad, isActive ? 6 : 0, rowPad, isActive ? 6 : 0);
@@ -434,17 +411,19 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
     valueText.lineLimit = 1;
     valueText.minimumScaleFactor = 0.6;
 
-    // Тонкая полоска-разделитель между строками (не после последней).
+    // Полоска-разделитель между строками (не после последней) — сделана
+    // заметно ярче прежней, чтобы явно читалась как граница между валютами,
+    // а не терялась на тёмном фоне.
     if (i < rowsToShow.length - 1) {
-      const divider = w.addStack();
-      divider.size = new Size(0, 1);
-      divider.backgroundColor = new Color("#FFFFFF", 0.08);
-      w.addSpacer(family === "small" ? 3 : 4);
+      content.addSpacer(family === "small" ? 4 : 6);
+      const divider = content.addStack();
+      divider.size = new Size(0, 1.5);
+      divider.backgroundColor = new Color("#FFFFFF", 0.22);
+      content.addSpacer(family === "small" ? 4 : 6);
     }
   });
 
   w.addSpacer();
-  addRefreshIndicator(w, cache, canTap);
 
   return w;
 }
