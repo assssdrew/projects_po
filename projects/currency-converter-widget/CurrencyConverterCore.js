@@ -47,6 +47,8 @@
 // v6.9: на плитке снова мини-тренд (спарклайн) и % изменения за сутки
 // у каждой валюты; история копится локально и сразу подсеивается
 // 7-дневным timeseries с fxratesapi, чтобы график не ждал суток.
+// v6.10: вернули крупные шрифты/отступы v6.8; тренд и % — по центру
+// между кодом валюты и суммой (не справа от суммы).
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -54,7 +56,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.9";
+const CORE_VERSION = "6.10";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -644,10 +646,10 @@ function addNoDataMessage(container) {
 }
 
 /**
- * Единственный стиль виджета — таблица валют: флаг+код | спарклайн | сумма | %.
- * Мини-тренд и изменение за сутки считаются по курсу к USD (BASE_CCY).
- * Для самой USD строки тренд/% скрыты (курс к себе всегда 1).
- * Блок строк центрирован по вертикали; синей подсветки нет (v6.7+).
+ * Единственный стиль виджета — таблица валют.
+ * Слева флаг+код, справа сумма (прежние крупные шрифты и отступы 15pt).
+ * По центру между ними — мини-тренд и % за сутки (места там хватает).
+ * Для USD тренд/% скрыты (курс к себе всегда 1). Синей подсветки нет.
  * Тап по плитке открывает полноэкранную таблицу с клавиатурой.
  */
 function createTableWidget(currencies, cache, activeCurrency, amount, history) {
@@ -658,9 +660,8 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const rates = cache ? cache.rates : null;
   const roomy = family === "large";
   const hist = history || [];
-  // Фиксированные 15pt сверху/снизу — по краям скругления плитки больше
-  // не «прилипают» строки; по горизонтали чуть шире прежнего.
-  w.setPadding(15, 14, 15, 14);
+  // Как в v6.8: 15pt сверху/снизу, 16 по бокам.
+  w.setPadding(15, 16, 15, 16);
 
   if (!rates) {
     w.addSpacer();
@@ -675,14 +676,13 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const rowsToShow = currencies.slice(0, maxRows);
   const activeRate = rates[active];
 
-  // Чуть компактнее, чтобы влезли спарклайн и %.
-  const codeFont = family === "small" ? 13 : roomy ? 16 : 14;
-  const valueFont = family === "small" ? 17 : roomy ? 22 : 19;
-  const pctFont = family === "small" ? 10 : roomy ? 12 : 11;
-  const rowPad = family === "small" ? 2 : roomy ? 5 : 4;
-  const sparkW = family === "small" ? 26 : roomy ? 36 : 32;
-  const sparkH = family === "small" ? 10 : roomy ? 14 : 12;
-  const codeColW = family === "small" ? 62 : roomy ? 78 : 70;
+  // Шрифты/отступы строк — как до сжатия под спарклайн (v6.8).
+  const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
+  const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
+  const pctFont = family === "small" ? 9 : roomy ? 11 : 10;
+  const rowPad = family === "small" ? 3 : roomy ? 6 : 5;
+  const sparkW = family === "small" ? 36 : roomy ? 48 : 44;
+  const sparkH = family === "small" ? 12 : roomy ? 16 : 14;
 
   w.addSpacer();
   const content = w.addStack();
@@ -705,20 +705,40 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     row.centerAlignContent();
     row.setPadding(rowPad, 0, rowPad, 0);
 
-    const codeCell = row.addStack();
-    codeCell.size = new Size(codeColW, 0);
-    codeCell.layoutHorizontally();
-    codeCell.centerAlignContent();
-    const codeText = codeCell.addText(currencyMeta(code).flag + " " + code);
+    const codeText = row.addText(currencyMeta(code).flag + " " + code);
     codeText.font = Font.boldSystemFont(codeFont);
     codeText.textColor = Color.white();
     codeText.lineLimit = 1;
-    codeText.minimumScaleFactor = 0.7;
 
-    if (spark) {
-      row.addSpacer(6);
-      const imgEl = row.addImage(spark);
-      imgEl.imageSize = new Size(sparkW, sparkH);
+    // Равные spacer'ы слева и справа от центрального блока — тренд и %
+    // оказываются ровно между кодом и суммой.
+    row.addSpacer();
+
+    if (spark || change) {
+      const mid = row.addStack();
+      mid.layoutVertically();
+      mid.centerAlignContent();
+
+      if (spark) {
+        const sparkRow = mid.addStack();
+        sparkRow.layoutHorizontally();
+        sparkRow.addSpacer();
+        const imgEl = sparkRow.addImage(spark);
+        imgEl.imageSize = new Size(sparkW, sparkH);
+        sparkRow.addSpacer();
+      }
+
+      if (change) {
+        if (spark) mid.addSpacer(2);
+        const pctRow = mid.addStack();
+        pctRow.layoutHorizontally();
+        pctRow.addSpacer();
+        const pctText = pctRow.addText(change.text);
+        pctText.font = Font.mediumSystemFont(pctFont);
+        pctText.textColor = change.color;
+        pctText.lineLimit = 1;
+        pctRow.addSpacer();
+      }
     }
 
     row.addSpacer();
@@ -727,22 +747,14 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     valueText.font = Font.boldSystemFont(valueFont);
     valueText.textColor = Color.white();
     valueText.lineLimit = 1;
-    valueText.minimumScaleFactor = 0.55;
-
-    if (change) {
-      row.addSpacer(6);
-      const pctText = row.addText(change.text);
-      pctText.font = Font.mediumSystemFont(pctFont);
-      pctText.textColor = change.color;
-      pctText.lineLimit = 1;
-    }
+    valueText.minimumScaleFactor = 0.6;
 
     if (i < rowsToShow.length - 1) {
-      content.addSpacer(family === "small" ? 3 : 5);
+      content.addSpacer(family === "small" ? 4 : 6);
       const divider = content.addStack();
       divider.size = new Size(0, 1.5);
       divider.backgroundColor = new Color("#FFFFFF", 0.22);
-      content.addSpacer(family === "small" ? 3 : 5);
+      content.addSpacer(family === "small" ? 4 : 6);
     }
   });
 
