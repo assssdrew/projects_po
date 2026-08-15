@@ -54,6 +54,9 @@
 // чтобы 4 валюты не обрезались по краям плитки.
 // v6.12: тренд/% у USD считаются к активной валюте (раньше к USD→USD = пусто);
 // график и ▲% выровнены по высоте, между ними чуть больший зазор.
+// v6.13: USD всегда получает пару (к активной / первой другой валюте);
+// график и % рисуются одной картинкой DrawContext — гарантированное
+// выравнивание по высоте и увеличенный зазор.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -61,7 +64,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.12";
+const CORE_VERSION = "6.13";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -443,10 +446,25 @@ function findSnapshotNear(history, targetAgeMs, toleranceMs) {
 }
 
 /**
+ * Какую пару рисовать для тренда/% строки `code`.
+ * У USD нельзя брать USD→USD (всегда 1) — берём USD относительно
+ * активной валюты или первой другой из списка (инверсия к обычным строкам,
+ * чтобы график USD не дублировал график RUB).
+ */
+function trendPair(code, active, currencies) {
+  const c = (code || "").toUpperCase();
+  const a = (active || "").toUpperCase();
+  const list = (currencies || []).map((x) => (x || "").toUpperCase());
+  if (c === BASE_CCY) {
+    let other = a && a !== BASE_CCY ? a : null;
+    if (!other) other = list.find((x) => x && x !== BASE_CCY) || "EUR";
+    return { from: other, to: BASE_CCY };
+  }
+  return { from: BASE_CCY, to: c };
+}
+
+/**
  * % изменения кросс-курса from→to за ~сутки.
- * Раньше считали только к USD, поэтому у строки USD тренда не было
- * (курс к себе всегда 1). Теперь якорь — активная валюта ввода: у USD
- * появляется график/%, если активная не USD (например RUB).
  */
 function currencyChangePct(history, currentRates, from, to) {
   if (!from || !to || from.toUpperCase() === to.toUpperCase()) return null;
@@ -470,7 +488,6 @@ function changeBadgeParts(history, rates, from, to) {
 
 /**
  * Плавная кривая Catmull-Rom → кубические Bezier (addCurve).
- * Прямые addLines выглядят угловатой «молнией».
  */
 function smoothCurvePath(points) {
   const path = new Path();
@@ -493,37 +510,59 @@ function smoothCurvePath(points) {
   return path;
 }
 
-/** Мини-график курса from→to по истории. null, если точек < 2 или from===to. */
-function sparklineImage(history, from, to, width, height, color) {
-  if (!history || history.length < 2 || !from || !to) return null;
-  if (from.toUpperCase() === to.toUpperCase()) return null;
+/**
+ * Одна картинка: спарклайн + зазор + ▲% — текст рисуется в том же
+ * DrawContext, поэтому по высоте всегда совпадает с графиком
+ * (стек Scriptable текст/картинку часто разводит по baseline).
+ */
+function sparkTrendImage(history, rates, from, to, sparkW, height, gap, fontSize) {
+  if (!from || !to || from.toUpperCase() === to.toUpperCase()) return null;
+
+  const change = changeBadgeParts(history, rates, from, to);
   const values = [];
-  for (const h of history) {
-    const r = getRate(h.rates, from, to);
-    if (r !== null) values.push(r);
+  if (history && history.length >= 2) {
+    for (const h of history) {
+      const r = getRate(h.rates, from, to);
+      if (r !== null) values.push(r);
+    }
   }
-  if (values.length < 2) return null;
+  if (values.length < 2 && !change) return null;
 
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || Math.abs(max || 1) * 0.01 || 1;
-  const pad = height * 0.12;
-
-  const points = values.map((v, i) => {
-    const x = (i / (values.length - 1)) * width;
-    const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
-    return new Point(x, y);
-  });
+  const color = change ? change.color : new Color("#8A8D93");
+  const pctText = change ? change.text : "";
+  const textW = pctText ? Math.ceil(pctText.length * fontSize * 0.66) + 2 : 0;
+  const totalW = sparkW + (pctText ? gap + textW : 0);
 
   const ctx = new DrawContext();
-  ctx.size = new Size(width, height);
+  ctx.size = new Size(totalW, height);
   ctx.opaque = false;
   ctx.respectScreenScale = true;
-  ctx.addPath(smoothCurvePath(points));
-  ctx.setStrokeColor(color || new Color("#8A8D93"));
-  ctx.setLineWidth(1.5);
-  ctx.strokePath();
-  return ctx.getImage();
+
+  if (values.length >= 2) {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || Math.abs(max || 1) * 0.01 || 1;
+    const pad = height * 0.15;
+    const points = values.map((v, i) => {
+      const x = (i / (values.length - 1)) * sparkW;
+      const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
+      return new Point(x, y);
+    });
+    ctx.addPath(smoothCurvePath(points));
+    ctx.setStrokeColor(color);
+    ctx.setLineWidth(1.5);
+    ctx.strokePath();
+  }
+
+  if (pctText) {
+    ctx.setFont(Font.mediumSystemFont(fontSize));
+    ctx.setTextColor(color);
+    // Вертикальный центр относительно высоты картинки.
+    const textY = Math.max(0, (height - fontSize) / 2 - 1);
+    ctx.drawText(pctText, new Point(sparkW + gap, textY));
+  }
+
+  return { image: ctx.getImage(), width: totalW, height };
 }
 
 /**
@@ -686,11 +725,10 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
 
   const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
   const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
-  const pctFont = family === "small" ? 9 : roomy ? 11 : 10;
+  const pctFont = family === "small" ? 10 : roomy ? 12 : 11;
   const sparkW = family === "small" ? 32 : roomy ? 44 : 40;
-  const sparkH = family === "small" ? 12 : roomy ? 15 : 13;
-  // Общая высота центрального блока — чтобы график и % сидели на одной оси.
-  const midH = Math.max(sparkH, pctFont + 4);
+  const midH = family === "small" ? 14 : roomy ? 18 : 16;
+  const trendGap = family === "small" ? 10 : 14;
 
   const content = w.addStack();
   content.layoutVertically();
@@ -699,16 +737,16 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   rowsToShow.forEach((code, i) => {
     const targetRate = rates[code];
     const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
-    // Тренд относительно активной валюты ввода (не всегда USD) — иначе у
-    // строки USD нечего показывать.
-    const change = changeBadgeParts(hist, rates, active, code);
-    const spark = sparklineImage(
+    const pair = trendPair(code, active, rowsToShow);
+    const trend = sparkTrendImage(
       hist,
-      active,
-      code,
+      rates,
+      pair.from,
+      pair.to,
       sparkW,
-      sparkH,
-      change ? change.color : new Color("#8A8D93")
+      midH,
+      trendGap,
+      pctFont
     );
 
     const row = content.addStack();
@@ -722,30 +760,9 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
 
     row.addSpacer();
 
-    if (spark || change) {
-      const mid = row.addStack();
-      mid.layoutHorizontally();
-      mid.centerAlignContent();
-
-      if (spark) {
-        const sparkBox = mid.addStack();
-        sparkBox.size = new Size(sparkW, midH);
-        sparkBox.layoutHorizontally();
-        sparkBox.centerAlignContent();
-        const imgEl = sparkBox.addImage(spark);
-        imgEl.imageSize = new Size(sparkW, sparkH);
-      }
-      if (spark && change) mid.addSpacer(10);
-      if (change) {
-        const pctBox = mid.addStack();
-        pctBox.size = new Size(0, midH);
-        pctBox.layoutHorizontally();
-        pctBox.centerAlignContent();
-        const pctText = pctBox.addText(change.text);
-        pctText.font = Font.mediumSystemFont(pctFont);
-        pctText.textColor = change.color;
-        pctText.lineLimit = 1;
-      }
+    if (trend) {
+      const imgEl = row.addImage(trend.image);
+      imgEl.imageSize = new Size(trend.width, trend.height);
     }
 
     row.addSpacer();
