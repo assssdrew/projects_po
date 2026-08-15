@@ -36,6 +36,11 @@
 // withTimeout(3с) на каждый URL (Scriptable часто игнорирует
 // Request.timeoutInterval, и параллельные loadJSON «висели» до общего
 // лимита 20с); при сбое сети показываем кэш, а не красную ошибку.
+// v6.7: таймаут на провайдер 10с (3с на мобильной сети убивал все попытки
+// → «Сеть не ответила» при живом кэше); loadString+JSON.parse; jsdelivr
+// первым (тот же CDN, что уже доставляет core); exchangerate-api v4;
+// если кэш свежий — «Курсы актуальны», а не ошибка; на плитке убрана
+// синяя подсветка активной строки.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -43,7 +48,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.6";
+const CORE_VERSION = "6.7";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -85,13 +90,13 @@ function currencyMeta(code) {
 }
 
 // Бесплатные API без ключа. Первый рабочий побеждает.
+// jsdelivr первым: тот же CDN уже доставляет CurrencyConverterCore.js на
+// телефон, значит путь до него с устройства открыт. open.er-api / pages.dev
+// на части мобильных сетей (VPN, DNS, фильтры) отваливаются по таймауту.
 function providerUrls(base) {
   const b = base.toUpperCase();
   const bLower = base.toLowerCase();
-  // Короткий список: каждый URL ограничен 3с, все пять по 4с снова
-  // давали «висяк» на ~20с, если сеть режет API целиком.
   return [
-    { kind: "erapi", url: "https://open.er-api.com/v6/latest/" + b },
     {
       kind: "fawaz",
       url:
@@ -99,10 +104,8 @@ function providerUrls(base) {
         bLower +
         ".min.json",
     },
-    {
-      kind: "fawaz",
-      url: "https://latest.currency-api.pages.dev/v1/currencies/" + bLower + ".min.json",
-    },
+    { kind: "erapi", url: "https://open.er-api.com/v6/latest/" + b },
+    { kind: "erapi_v4", url: "https://api.exchangerate-api.com/v4/latest/" + b },
   ];
 }
 
@@ -195,6 +198,15 @@ function normalizeRates(kind, base, payload) {
     }
     return null;
   }
+  // api.exchangerate-api.com/v4/latest/USD — { base, rates } без result:success
+  if (kind === "erapi_v4") {
+    if (payload && payload.rates && typeof payload.rates === "object") {
+      const rates = Object.assign({}, payload.rates);
+      rates[base.toUpperCase()] = 1;
+      return rates;
+    }
+    return null;
+  }
   if (kind === "fawaz") {
     const key = base.toLowerCase();
     if (payload && payload[key]) {
@@ -210,28 +222,34 @@ function normalizeRates(kind, base, payload) {
   return null;
 }
 
-/** Один провайдер. Сам по себе Request.timeoutInterval в Scriptable часто
- *  не обрывает «зависший» TCP — поэтому снаружи всегда оборачиваем в
- *  withTimeout (см. fetchRates). */
+/**
+ * Один провайдер. loadString + JSON.parse надёжнее loadJSON на части
+ * прошивок Scriptable; timeoutInterval — в СЕКУНДАХ (документация Scriptable).
+ * Снаружи всё равно withTimeout, т.к. нативный abort иногда не срабатывает.
+ */
 async function fetchRatesFromProvider(provider, base) {
   const req = new Request(provider.url);
-  req.timeoutInterval = 3;
-  req.headers = { Accept: "application/json" };
-  const payload = await req.loadJSON();
+  req.timeoutInterval = 12;
+  req.headers = { Accept: "application/json", "Cache-Control": "no-cache" };
+  const raw = await req.loadString();
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch (e) {
+    throw new Error("Не JSON от " + provider.kind);
+  }
   const rates = normalizeRates(provider.kind, base, payload);
   if (rates && Object.keys(rates).length > 5) {
-    return { base: base.toUpperCase(), rates, fetchedAt: Date.now() };
+    return { base: base.toUpperCase(), rates, fetchedAt: Date.now(), source: provider.kind };
   }
-  throw new Error("Пустой/неверный ответ от " + provider.url);
+  throw new Error("Пустой/неверный ответ от " + provider.kind);
 }
 
 /**
- * Курсы по очереди: на каждый URL — жёсткий withTimeout(3с).
- * Параллельный race в v6.5 на части устройств наоборот зависал: несколько
- * одновременных Request.loadJSON в Scriptable не резолвились и не
- * реджектились, пока внешний лимит (20с) не убивал всю операцию →
- * «Не успели обновить за 20с», хотя кэш при этом уже был валидным.
- * Максимум 3×3с ≈ 9с, если все URL недоступны.
+ * Курсы по очереди. На каждый URL — withTimeout(10с): на мобильной сети
+ * 3с из v6.6 оказалось мало (TCP+TLS+DNS), все три провайдера отваливались
+ * подряд → «Сеть не ответила», хотя кэш при этом мог быть свежим.
+ * Максимум 3×10с, на практике обычно отвечает первый (jsdelivr) за 1–2с.
  */
 async function fetchRates(base) {
   let lastError = null;
@@ -239,7 +257,7 @@ async function fetchRates(base) {
     try {
       return await withTimeout(
         fetchRatesFromProvider(provider, base),
-        3000,
+        10000,
         "Таймаут " + provider.kind
       );
     } catch (e) {
@@ -389,6 +407,8 @@ function addNoDataMessage(container) {
  * заметной полоской, активная валюта (та, в которую введена сумма)
  * подсвечена. Блок строк центрирован по вертикали внутри плитки, а не
  * прижат к верхнему краю. Никакого значка обновления — только курсы.
+ * С v6.7 активная валюта на плитке больше не подсвечивается синим — все
+ * строки выглядят одинаково; выбор активной валюты остаётся в таблице.
  * Тап по плитке целиком открывает ту же таблицу, но уже с клавиатурой —
  * ввод суммы прямо на плитке невозможен: Home Screen виджет — статичный
  * снапшот, который перерисовывает система, а не работающее приложение.
@@ -430,18 +450,15 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   content.layoutVertically();
 
   rowsToShow.forEach((code, i) => {
-    const isActive = code === active;
     const targetRate = rates[code];
     const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
 
     const row = content.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
-    row.setPadding(rowPad, isActive ? 6 : 0, rowPad, isActive ? 6 : 0);
-    if (isActive) {
-      row.backgroundColor = new Color("#3478F6", 0.18);
-      row.cornerRadius = 8;
-    }
+    row.setPadding(rowPad, 0, rowPad, 0);
+    // Без синей подсветки активной строки на плитке — все строки одинаковые,
+    // активная валюта влияет только на пересчёт сумм (и видна в таблице).
 
     const codeText = row.addText(currencyMeta(code).flag + " " + code);
     codeText.font = Font.boldSystemFont(codeFont);
@@ -452,7 +469,7 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
 
     const valueText = row.addText(value === null ? "—" : formatNumber(value));
     valueText.font = Font.boldSystemFont(valueFont);
-    valueText.textColor = isActive ? new Color("#5AA4FF") : Color.white();
+    valueText.textColor = Color.white();
     valueText.lineLimit = 1;
     valueText.minimumScaleFactor = 0.6;
 
@@ -798,23 +815,26 @@ async function runMenu(settings, cache) {
   } else if (choice === 2) {
     const result = new Alert();
     try {
-      // fetchRates сам ограничивает каждый URL 4с — внешний «20с» больше не нужен
-      // и только маскировал зависания Request.loadJSON в Scriptable.
       const fresh = await forceFetchRates();
       result.title = "Курсы обновлены";
-      result.message = cacheAgeLabel(fresh);
+      result.message =
+        cacheAgeLabel(fresh) + (fresh.source ? " · " + fresh.source : "");
     } catch (e) {
       const fallback = loadCache();
-      if (fallback && fallback.rates) {
+      const detail = String(e && e.message ? e.message : e);
+      // Если кэш ещё свежий — это не авария: курсы на плитке уже актуальные,
+      // просто повторный запрос сейчас не прошёл (сеть/DNS). Не пугаем
+      // «Сеть не ответила», когда данные только что были получены.
+      if (fallback && fallback.rates && isCacheFresh(fallback)) {
+        result.title = "Курсы актуальны";
+        result.message = cacheAgeLabel(fallback) + "\nПовторная загрузка: " + detail;
+      } else if (fallback && fallback.rates) {
         result.title = "Сеть не ответила";
         result.message =
-          "Оставлен прежний кэш (" +
-          cacheAgeLabel(fallback) +
-          ").\n" +
-          String(e && e.message ? e.message : e);
+          "Оставлен прежний кэш (" + cacheAgeLabel(fallback) + ").\n" + detail;
       } else {
         result.title = "Не удалось обновить";
-        result.message = String(e && e.message ? e.message : e);
+        result.message = detail;
       }
     }
     result.addAction("OK");
