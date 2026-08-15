@@ -1,14 +1,17 @@
-// CurrencyConverterCore — v5: 2 стиля виджета (минимальный/тикер) со сменой
-// из меню, изменение курса, спарклайн (тикер), Lock Screen, тап-зоны.
-// v5.3: строки выровнены в колонки фиксированной ширины (симметрия), точки
-// истории курса пишутся не реже раза в 15 мин (раньше 6ч), чтобы спарклайн
-// и % изменения были видны в течение одного тестового сеанса.
+// CurrencyConverterCore — один стиль виджета (минимальный, со спарклайном),
+// изменение курса за 24ч, Lock Screen, тап-зоны.
+// v6.0: убран переключатель стилей и "Тикер" — остался только "Минимальный",
+// теперь со спарклайном на каждой строке. Убрана служебная метка версии/
+// времени с самого виджета (осталась только в заголовке меню). Видно на
+// одну пару больше на каждом размере виджета.
 const MARKER = "CURRENCY_WIDGET_V1";
 
-// Показывается в меню — так сразу видно, подтянулась ли на телефон
-// действительно последняя версия кода (см. README → "Как проверить, что
-// обновление подтянулось"). Увеличивать при каждом заметном изменении.
-const CORE_VERSION = "5.3";
+// Показывается в заголовке меню (тап по виджету → открывается меню) — так
+// видно, подтянулась ли на телефон действительно последняя версия кода
+// (см. README → "Как проверить, что обновление подтянулось"). На самом
+// виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
+// каждом заметном изменении.
+const CORE_VERSION = "6.0";
 
 // Пары по умолчанию, если для виджета не задан Parameter.
 // Format: [{ from, to }]
@@ -16,6 +19,7 @@ const DEFAULT_PAIRS = [
   { from: "USD", to: "RUB" },
   { from: "EUR", to: "RUB" },
   { from: "USD", to: "EUR" },
+  { from: "USD", to: "VND" },
 ];
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
@@ -157,11 +161,6 @@ function recordHistory(cache) {
   saveHistory(history);
 }
 
-// "minimal" — безопасный дефолт: плоский список, гарантированно влезает
-// в любой размер. Остальные стили переключаются вручную через меню.
-const VALID_STYLES = ["minimal", "ticker"];
-const DEFAULT_STYLE = "minimal";
-
 function loadSettings() {
   const settings = loadJson(settingsPath(), {
     pairs: DEFAULT_PAIRS,
@@ -169,13 +168,9 @@ function loadSettings() {
     lastAmount: 1,
     lastFrom: "USD",
     lastTo: "RUB",
-    style: DEFAULT_STYLE,
   });
   if (!Number.isFinite(settings.widgetAmount) || settings.widgetAmount <= 0) {
     settings.widgetAmount = 1;
-  }
-  if (VALID_STYLES.indexOf(settings.style) === -1) {
-    settings.style = DEFAULT_STYLE;
   }
   return settings;
 }
@@ -398,31 +393,16 @@ function addShadow(t, alpha) {
 }
 
 /**
- * Иконка-статус обновления: зелёная "только что", иначе тусклая. Рядом —
- * едва заметный номер версии кода: так видно даже без захода в меню, что
- * реально сейчас отрисовало виджет на Home Screen.
+ * Иконка-статус обновления: зелёная "только что", иначе тусклая. Никакого
+ * текста рядом (версия/время) — сам виджет должен показывать только курсы,
+ * без служебной отладочной информации.
  * container может быть как сам ListWidget, так и вложенный WidgetStack —
  * оба поддерживают addStack/addSpacer/addImage.
  */
-/** ЧЧ:ММ:СС момента, когда виджет реально был отрисован (а не момента обновления курсов). */
-function renderTimeTag() {
-  const d = new Date();
-  const pad = (n) => String(n).padStart(2, "0");
-  return pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
-}
-
 function addRefreshIndicator(container, cache, interactive) {
   const row = container.addStack();
   row.centerAlignContent();
   row.addSpacer();
-
-  // v + время последней отрисовки этой самой плитки — если это число не меняется
-  // между твоими проверками, значит WidgetKit не перерисовывал плитку вообще
-  // (а не то, что код "не сработал"): дело в системном расписании обновлений.
-  const versionTag = row.addText("v" + CORE_VERSION + " · " + renderTimeTag());
-  versionTag.font = Font.systemFont(8);
-  versionTag.textColor = new Color("#FFFFFF", 0.35);
-  row.addSpacer(4);
 
   const symbol = SFSymbol.named("arrow.triangle.2.circlepath");
   symbol.applyFont(Font.mediumSystemFont(11));
@@ -437,12 +417,12 @@ function addRefreshIndicator(container, cache, interactive) {
 }
 
 /** Аварийный виджет: показывает текст ошибки прямо на плитке вместо тихого "ничего не поменялось". */
-function createErrorWidget(message, styleName) {
+function createErrorWidget(message) {
   const w = new ListWidget();
   w.backgroundColor = new Color("#3A0A0A");
   w.setPadding(12, 12, 12, 12);
 
-  const title = w.addText("⚠️ Ошибка рендера · v" + CORE_VERSION);
+  const title = w.addText("⚠️ Ошибка рендера");
   title.font = Font.boldSystemFont(12);
   title.textColor = Color.white();
   title.lineLimit = 1;
@@ -450,7 +430,7 @@ function createErrorWidget(message, styleName) {
 
   w.addSpacer(4);
 
-  const body = w.addText((styleName ? "стиль: " + styleName + "\n" : "") + String(message));
+  const body = w.addText(String(message));
   body.font = Font.systemFont(11);
   body.textColor = new Color("#FFD6D6");
   body.lineLimit = 6;
@@ -484,21 +464,30 @@ function changeBadgeParts(history, rates, from, to) {
 }
 
 /**
- * Минималистичный стиль — плоский список "сумма FROM → сумма TO",
- * под каждой строкой мелкое изменение курса за сутки, если есть история.
- * Самый компактный и надёжный по месту стиль — используется по умолчанию.
+ * Единственный стиль виджета — плоский список "сумма FROM → сумма TO", под
+ * каждой строкой изменение курса за сутки и мини-график (спарклайн), если
+ * накопилось достаточно истории. Компактный и надёжный по месту на любом
+ * размере виджета.
  */
 function createMinimalWidget(pairs, cache, amount, history) {
   const w = new ListWidget();
   w.backgroundColor = new Color("#121316");
-  w.setPadding(12, 16, 10, 16);
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 2 : family === "large" ? 6 : 3;
+  const maxRows = family === "small" ? 3 : family === "large" ? 7 : 4;
   const rowsToShow = pairs.slice(0, maxRows);
   const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
   const canTap = family !== "small";
+
+  // "large" имеет намного больше высоты (~380pt) на то же число строк, чем
+  // small/medium (~155-170pt) — там одна лишняя строка с графиком спокойно
+  // помещается с прежними, более крупными размерами. А вот medium теперь
+  // показывает на строку больше, чем раньше (4 вместо 3), поэтому именно
+  // для small/medium шрифт, отступы и график ощутимо компактнее — иначе
+  // 4-я строка с графиком просто не влезает по высоте и обрезается.
+  const roomy = family === "large";
+  w.setPadding(roomy ? 12 : 10, 16, roomy ? 10 : 8, 16);
 
   if (!rates) {
     addNoDataMessage(w);
@@ -511,14 +500,28 @@ function createMinimalWidget(pairs, cache, amount, history) {
   // вправо от строки к строке (её позиция зависит от длины суммы и кода
   // валюты слева), и ряд строк выглядит не выровненным. При одинаковой
   // ширине колонки стрелки всех строк оказываются друг под другом.
-  const fromColW = family === "small" ? 78 : 96;
+  const fromColW = family === "small" ? 74 : roomy ? 96 : 94;
+  const mainFont = family === "small" ? 14 : roomy ? 18 : 16;
+  const arrowFont = family === "small" ? 12 : roomy ? 15 : 13;
+  const subFont = family === "small" ? 8 : roomy ? 10 : 9;
+  const sparkW = roomy ? 30 : 28;
+  const sparkH = roomy ? 12 : 10;
+  const rowGap = family === "small" ? 5 : roomy ? 8 : 6;
 
   rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 7 : 10);
+    if (i > 0) w.addSpacer(rowGap);
 
     const rate = getRate(rates, pair.from, pair.to);
     const converted = rate === null ? null : displayAmount * rate;
     const change = changeBadgeParts(history, rates, pair.from, pair.to);
+    const spark = sparklineImage(
+      history,
+      pair.from,
+      pair.to,
+      sparkW,
+      sparkH,
+      change ? change.color : new Color("#34C759")
+    );
 
     const cell = w.addStack();
     cell.layoutVertically();
@@ -534,14 +537,14 @@ function createMinimalWidget(pairs, cache, amount, history) {
     const fromCell = lineRow.addStack();
     fromCell.size = new Size(fromColW, 0);
     const fromText = fromCell.addText(formatNumber(displayAmount) + " " + pair.from);
-    fromText.font = Font.boldSystemFont(family === "small" ? 15 : 18);
+    fromText.font = Font.boldSystemFont(mainFont);
     fromText.textColor = Color.white();
     fromText.lineLimit = 1;
     fromText.minimumScaleFactor = 0.65;
 
     lineRow.addSpacer(6);
     const arrow = lineRow.addText("→");
-    arrow.font = Font.systemFont(family === "small" ? 13 : 15);
+    arrow.font = Font.systemFont(arrowFont);
     arrow.textColor = new Color("#FFFFFF", 0.4);
     arrow.lineLimit = 1;
     lineRow.addSpacer(6);
@@ -549,121 +552,34 @@ function createMinimalWidget(pairs, cache, amount, history) {
     const toText = lineRow.addText(
       (converted === null ? "—" : formatNumber(converted)) + " " + pair.to
     );
-    toText.font = Font.boldSystemFont(family === "small" ? 15 : 18);
+    toText.font = Font.boldSystemFont(mainFont);
     toText.textColor = Color.white();
     toText.lineLimit = 1;
     toText.minimumScaleFactor = 0.55;
 
-    if (change) {
-      const sub = cell.addText(change.text + "  за 24ч");
-      sub.font = Font.systemFont(family === "small" ? 9 : 10);
-      sub.textColor = change.color;
-      sub.lineLimit = 1;
-    }
-  });
+    // Мини-график изменения курса — прямо под строкой, рядом с %.
+    if (change || spark) {
+      const subRow = cell.addStack();
+      subRow.layoutHorizontally();
+      subRow.centerAlignContent();
 
-  w.addSpacer();
-  addRefreshIndicator(w, cache, canTap);
+      if (change) {
+        const sub = subRow.addText(change.text + "  за 24ч");
+        sub.font = Font.systemFont(subFont);
+        sub.textColor = change.color;
+        sub.lineLimit = 1;
+      }
 
-  return w;
-}
-
-/**
- * Стиль "Тикер" — биржевой терминал: чёрный фон, моноширинный шрифт,
- * пара/значение слева, справа — либо стрелка с %, либо (для первой пары
- * на large) спарклайн — никогда оба сразу, чтобы не спорить за ширину.
- */
-function createTickerWidget(pairs, cache, amount, history) {
-  const w = new ListWidget();
-  w.backgroundColor = new Color("#000000");
-  w.setPadding(12, 14, 10, 14);
-
-  const family = config.widgetFamily || "medium";
-  const rates = cache ? cache.rates : null;
-  const maxRows = family === "small" ? 3 : family === "large" ? 6 : 3;
-  const rowsToShow = pairs.slice(0, maxRows);
-  const displayAmount = Number.isFinite(amount) && amount > 0 ? amount : 1;
-  const canTapRows = family !== "small";
-
-  if (!rates) {
-    addNoDataMessage(w);
-    w.addSpacer();
-    addRefreshIndicator(w, cache, canTapRows);
-    return w;
-  }
-
-  // Фиксированная ширина колонок "пара" и "значение" — иначе разная длина
-  // курса (12 241,3 vs 3,83 млн) сдвигает начало % и графика на каждой
-  // строке по-разному, и биржевая лента выглядит "вразнобой", а не как
-  // ровная таблица.
-  const labelColW = family === "large" ? 60 : 52;
-  const valueColW = family === "small" ? 92 : family === "large" ? 84 : 76;
-  const changeColW = family === "small" ? 0 : 44;
-
-  rowsToShow.forEach((pair, i) => {
-    if (i > 0) w.addSpacer(family === "small" ? 6 : 9);
-
-    const rate = getRate(rates, pair.from, pair.to);
-    const converted = rate === null ? null : displayAmount * rate;
-    const change = changeBadgeParts(history, rates, pair.from, pair.to);
-
-    const row = w.addStack();
-    row.layoutHorizontally();
-    row.centerAlignContent();
-    if (canTapRows) {
-      const url = scriptRunUrl({ action: "convert", from: pair.from, to: pair.to });
-      if (url) row.url = url;
-    }
-
-    if (family !== "small") {
-      const labelCell = row.addStack();
-      labelCell.size = new Size(labelColW, 0);
-      const label = labelCell.addText(pair.from + "/" + pair.to);
-      label.font = Font.regularMonospacedSystemFont(10);
-      label.textColor = new Color("#FFFFFF", 0.5);
-      label.lineLimit = 1;
-      row.addSpacer(6);
-    }
-
-    const valueCell = row.addStack();
-    valueCell.layoutHorizontally();
-    valueCell.size = new Size(valueColW, 0);
-    valueCell.addSpacer();
-    const value = valueCell.addText(converted === null ? "—" : formatNumber(converted));
-    value.font = Font.boldMonospacedSystemFont(family === "small" ? 15 : 17);
-    value.textColor = Color.white();
-    value.lineLimit = 1;
-    value.minimumScaleFactor = 0.55;
-    value.rightAlignText();
-
-    row.addSpacer();
-
-    if (change) {
-      const changeCell = row.addStack();
-      if (changeColW) changeCell.size = new Size(changeColW, 0);
-      const changeText = changeCell.addText(change.text);
-      changeText.font = Font.mediumMonospacedSystemFont(11);
-      changeText.textColor = change.color;
-      changeText.lineLimit = 1;
-      changeText.rightAlignText();
-    }
-
-    // Компактный спарклайн рядом с % — на каждой строке, а не только у
-    // первой пары на large, чтобы каждый ряд выглядел завершённо, как
-    // отдельный тикер, а не только избранная строка.
-    if (family !== "small") {
-      const sparkColor = change ? change.color : new Color("#34C759");
-      const spark = sparklineImage(history, pair.from, pair.to, 30, 14, sparkColor);
       if (spark) {
-        row.addSpacer(6);
-        const imgEl = row.addImage(spark);
-        imgEl.imageSize = new Size(30, 14);
+        subRow.addSpacer(6);
+        const imgEl = subRow.addImage(spark);
+        imgEl.imageSize = new Size(sparkW, sparkH);
       }
     }
   });
 
   w.addSpacer();
-  addRefreshIndicator(w, cache, canTapRows);
+  addRefreshIndicator(w, cache, canTap);
 
   return w;
 }
@@ -722,23 +638,16 @@ function createAccessoryWidget(pairs, cache, amount, family) {
 // попросить систему не тянуть дольше разумного окна для курсов валют.
 const REFRESH_HINT_MS = 45 * 60 * 1000;
 
-function createWidget(pairs, cache, amount, settings, history) {
+function createWidget(pairs, cache, amount, history) {
   const family = config.widgetFamily || "medium";
   const w =
     ACCESSORY_FAMILIES.indexOf(family) !== -1
       ? createAccessoryWidget(pairs, cache, amount, family)
-      : createHomeScreenWidget(pairs, cache, amount, settings, history);
+      : createMinimalWidget(pairs, cache, amount, history || []);
   try {
     w.refreshAfterDate = new Date(Date.now() + REFRESH_HINT_MS);
   } catch (e) {}
   return w;
-}
-
-function createHomeScreenWidget(pairs, cache, amount, settings, history) {
-  const style = (settings && settings.style) || DEFAULT_STYLE;
-  const h = history || [];
-  if (style === "ticker") return createTickerWidget(pairs, cache, amount, h);
-  return createMinimalWidget(pairs, cache, amount, h);
 }
 
 /** Диалог конвертации суммы между двумя валютами (запуск из приложения, не из виджета). */
@@ -843,28 +752,6 @@ async function runPairsDialog(settings) {
   }
 }
 
-const STYLE_LABELS = {
-  minimal: "Минимальный — плоский список, максимально надёжно по месту",
-  ticker: "Тикер — биржевой стиль, моноширинный шрифт",
-};
-const STYLE_ORDER = ["minimal", "ticker"];
-
-/** Переключатель стиля виджета — оба варианта. */
-async function runStyleDialog(settings) {
-  const a = new Alert();
-  a.title = "Стиль виджета";
-  a.message = "Текущий: " + (STYLE_LABELS[settings.style] || STYLE_LABELS[DEFAULT_STYLE]);
-  for (const key of STYLE_ORDER) {
-    a.addAction(STYLE_LABELS[key]);
-  }
-  a.addCancelAction("Отмена");
-  const choice = await a.presentAlert();
-  if (choice >= 0 && choice < STYLE_ORDER.length) {
-    settings.style = STYLE_ORDER[choice];
-    saveSettings(settings);
-  }
-}
-
 /** Быстрая информация по конкретной паре (открывается тапом по строке в стиле "карточки"). */
 async function quickPairInfo(settings, cache) {
   const rates = cache ? cache.rates : null;
@@ -904,7 +791,6 @@ async function runMenu(settings, cache) {
   alert.addAction("Задать сумму для виджета");
   alert.addAction("Конвертировать сумму");
   alert.addAction("Настроить пары для виджета");
-  alert.addAction("Стиль виджета");
   alert.addAction("Обновить курсы сейчас");
   alert.addCancelAction("Закрыть");
 
@@ -916,8 +802,6 @@ async function runMenu(settings, cache) {
   } else if (choice === 2) {
     await runPairsDialog(settings);
   } else if (choice === 3) {
-    await runStyleDialog(settings);
-  } else if (choice === 4) {
     try {
       await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
     } catch (e) {
@@ -954,12 +838,12 @@ async function main() {
     const history = loadHistory();
     let widget;
     try {
-      widget = createWidget(pairs, cache, settings.widgetAmount, settings, history);
+      widget = createWidget(pairs, cache, settings.widgetAmount, history);
     } catch (e) {
       // Раньше при исключении здесь Script.setWidget() вообще не вызывался,
       // и WidgetKit молча оставлял старый рендер — выглядело как "ничего не меняется".
       // Теперь отрисовываем сам текст ошибки, чтобы её можно было увидеть на плитке.
-      widget = createErrorWidget(e && e.message ? e.message : String(e), settings.style || DEFAULT_STYLE);
+      widget = createErrorWidget(e && e.message ? e.message : String(e));
     }
     Script.setWidget(widget);
     return;
@@ -995,14 +879,10 @@ async function main() {
       refreshedPairs,
       refreshedCache,
       refreshedSettings.widgetAmount,
-      refreshedSettings,
       refreshedHistory
     );
   } catch (e) {
-    previewWidget = createErrorWidget(
-      e && e.message ? e.message : String(e),
-      refreshedSettings.style || DEFAULT_STYLE
-    );
+    previewWidget = createErrorWidget(e && e.message ? e.message : String(e));
   }
   // Без явного presentSmall/Medium/Large() Scriptable при ручном ▶ Play
   // показывает превью в собственном "быстром просмотре" сильно увеличенным
