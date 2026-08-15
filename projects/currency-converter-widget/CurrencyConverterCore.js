@@ -44,6 +44,9 @@
 // v6.8: курсы не дневные — первым fxratesapi (почасовое обновление),
 // кэш на телефоне 30 мин вместо 12 ч, WidgetKit refresh hint 20 мин,
 // в подписи возраста — минуты, а не только «только что / Nч».
+// v6.9: на плитке снова мини-тренд (спарклайн) и % изменения за сутки
+// у каждой валюты; история копится локально и сразу подсеивается
+// 7-дневным timeseries с fxratesapi, чтобы график не ждал суток.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -51,7 +54,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.8";
+const CORE_VERSION = "6.9";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -114,9 +117,13 @@ function providerUrls(base) {
 
 const CACHE_NAME = "currency-rates-cache.json";
 const SETTINGS_NAME = "currency-settings.json";
+const HISTORY_NAME = "currency-history.json";
 // Раньше 12ч — виджет мог сутки держать вчерашний суточный снимок.
 // 30 мин: при каждой перерисовке/Play чаще ходим в почасовой API.
 const CACHE_TTL_MS = 30 * 60 * 1000;
+const HISTORY_MAX_POINTS = 60;
+// Не чаще, чем раз в 15 мин — иначе файл распухнет от частых Play.
+const HISTORY_MIN_GAP_MS = 15 * 60 * 1000;
 
 function delay(ms) {
   return new Promise((resolve) => Timer.schedule(Math.max(ms, 1) / 1000, false, resolve));
@@ -144,6 +151,10 @@ function settingsPath() {
   return fm().joinPath(fm().documentsDirectory(), SETTINGS_NAME);
 }
 
+function historyPath() {
+  return fm().joinPath(fm().documentsDirectory(), HISTORY_NAME);
+}
+
 function loadJson(path, fallback) {
   try {
     if (!fm().fileExists(path)) return fallback;
@@ -165,6 +176,27 @@ function loadCache() {
 
 function saveCache(cache) {
   saveJson(cachePath(), cache);
+}
+
+function loadHistory() {
+  const h = loadJson(historyPath(), []);
+  return Array.isArray(h) ? h : [];
+}
+
+function saveHistory(history) {
+  saveJson(historyPath(), history);
+}
+
+/** Копит точку курсов для спарклайна и % за сутки. */
+function recordHistory(cache) {
+  if (!cache || !cache.rates) return;
+  const history = loadHistory();
+  const last = history[history.length - 1];
+  const at = cache.ratesUpdatedAt || cache.fetchedAt || Date.now();
+  if (last && at - last.fetchedAt < HISTORY_MIN_GAP_MS) return;
+  history.push({ fetchedAt: at, rates: cache.rates });
+  while (history.length > HISTORY_MAX_POINTS) history.shift();
+  saveHistory(history);
 }
 
 function loadSettings() {
@@ -298,13 +330,20 @@ async function fetchRates(base) {
 /** Курсы (с диска, если свежие; иначе — сеть, с фолбэком на устаревший кэш). */
 async function ensureRates(forceRefresh) {
   const cache = loadCache();
-  if (!forceRefresh && isCacheFresh(cache)) return cache;
+  if (!forceRefresh && isCacheFresh(cache)) {
+    recordHistory(cache);
+    return cache;
+  }
   try {
     const fresh = await fetchRates(BASE_CCY);
     saveCache(fresh);
+    recordHistory(fresh);
     return fresh;
   } catch (e) {
-    if (cache && cache.rates) return cache; // офлайн / API недоступен — показываем старое
+    if (cache && cache.rates) {
+      recordHistory(cache);
+      return cache; // офлайн / API недоступен — показываем старое
+    }
     throw e;
   }
 }
@@ -317,6 +356,7 @@ async function ensureRates(forceRefresh) {
 async function forceFetchRates() {
   const fresh = await fetchRates(BASE_CCY);
   saveCache(fresh);
+  recordHistory(fresh);
   return fresh;
 }
 
@@ -356,6 +396,11 @@ function formatNumber(n) {
   });
 }
 
+function formatPct(n) {
+  if (n === null || n === undefined || Number.isNaN(n)) return "";
+  return n.toLocaleString("ru-RU", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
+}
+
 function cacheAgeLabel(cache) {
   if (!cache || !cache.fetchedAt) return "нет данных";
   // Предпочитаем время самого курса у провайдера (ratesUpdatedAt), а не
@@ -371,6 +416,170 @@ function cacheAgeLabel(cache) {
   if (h < 24) return "обновлено " + h + "ч назад" + source;
   const d = Math.floor(h / 24);
   return "обновлено " + d + "д назад" + source;
+}
+
+/** Ближайшая точка истории к «targetAgeMs назад» (в пределах toleranceMs). */
+function findSnapshotNear(history, targetAgeMs, toleranceMs) {
+  if (!history || !history.length) return null;
+  const targetTime = Date.now() - targetAgeMs;
+  let best = null;
+  let bestDiff = Infinity;
+  for (const h of history) {
+    const diff = Math.abs(h.fetchedAt - targetTime);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      best = h;
+    }
+  }
+  if (toleranceMs && bestDiff > toleranceMs) return null;
+  return best;
+}
+
+/**
+ * % изменения кросс-курса BASE→code за ~сутки.
+ * Для базовой валюты (USD) всегда 1 — возвращаем null.
+ */
+function currencyChangePct(history, currentRates, code) {
+  if (!code || code.toUpperCase() === BASE_CCY) return null;
+  const past = findSnapshotNear(history, 24 * 60 * 60 * 1000, 30 * 60 * 60 * 1000);
+  if (!past) return null;
+  const pastRate = getRate(past.rates, BASE_CCY, code);
+  const currentRate = getRate(currentRates, BASE_CCY, code);
+  if (pastRate === null || currentRate === null || pastRate === 0) return null;
+  return ((currentRate - pastRate) / pastRate) * 100;
+}
+
+function changeBadgeParts(history, rates, code) {
+  const pct = currencyChangePct(history, rates, code);
+  if (pct === null) return null;
+  return {
+    text: (pct >= 0 ? "▲" : "▼") + formatPct(Math.abs(pct)),
+    color: pct >= 0 ? new Color("#34C759") : new Color("#FF453A"),
+    pct,
+  };
+}
+
+/**
+ * Плавная кривая Catmull-Rom → кубические Bezier (addCurve).
+ * Прямые addLines выглядят угловатой «молнией».
+ */
+function smoothCurvePath(points) {
+  const path = new Path();
+  if (!points.length) return path;
+  path.move(points[0]);
+  if (points.length === 1) return path;
+  if (points.length === 2) {
+    path.addLine(points[1]);
+    return path;
+  }
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i - 1] || points[i];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2] || p2;
+    const c1 = new Point(p1.x + (p2.x - p0.x) / 6, p1.y + (p2.y - p0.y) / 6);
+    const c2 = new Point(p2.x - (p3.x - p1.x) / 6, p2.y - (p3.y - p1.y) / 6);
+    path.addCurve(p2, c1, c2);
+  }
+  return path;
+}
+
+/** Мини-график курса BASE→code по истории. null, если точек < 2. */
+function sparklineImage(history, code, width, height, color) {
+  if (!history || history.length < 2 || !code || code.toUpperCase() === BASE_CCY) return null;
+  const values = [];
+  for (const h of history) {
+    const r = getRate(h.rates, BASE_CCY, code);
+    if (r !== null) values.push(r);
+  }
+  if (values.length < 2) return null;
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || Math.abs(max || 1) * 0.01 || 1;
+  const pad = height * 0.12;
+
+  const points = values.map((v, i) => {
+    const x = (i / (values.length - 1)) * width;
+    const y = pad + (height - 2 * pad) - ((v - min) / range) * (height - 2 * pad);
+    return new Point(x, y);
+  });
+
+  const ctx = new DrawContext();
+  ctx.size = new Size(width, height);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  ctx.addPath(smoothCurvePath(points));
+  ctx.setStrokeColor(color || new Color("#8A8D93"));
+  ctx.setLineWidth(1.5);
+  ctx.strokePath();
+  return ctx.getImage();
+}
+
+/**
+ * Подсеивает ~7 дневных точек из fxratesapi timeseries, чтобы спарклайн
+ * и % за сутки появились сразу, а не после суток локального накопления.
+ */
+async function seedHistoryFromTimeseries() {
+  const existing = loadHistory();
+  if (existing.length >= 5) {
+    const span = existing[existing.length - 1].fetchedAt - existing[0].fetchedAt;
+    if (span >= 4 * 24 * 60 * 60 * 1000) return existing;
+  }
+
+  const end = new Date();
+  const start = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  const url =
+    "https://api.fxratesapi.com/timeseries?start_date=" +
+    fmt(start) +
+    "&end_date=" +
+    fmt(end) +
+    "&base=" +
+    BASE_CCY;
+
+  const req = new Request(url);
+  req.timeoutInterval = 10;
+  req.headers = { Accept: "application/json" };
+  const raw = await req.loadString();
+  const payload = JSON.parse(raw);
+  const dayMap = payload && payload.rates;
+  if (!dayMap || typeof dayMap !== "object") return existing;
+
+  const seeded = Object.keys(dayMap)
+    .map((key) => {
+      const rates = Object.assign({}, dayMap[key]);
+      rates[BASE_CCY] = 1;
+      let fetchedAt = Date.parse(key);
+      if (Number.isNaN(fetchedAt)) fetchedAt = Date.parse(key.slice(0, 10) + "T12:00:00Z");
+      if (Number.isNaN(fetchedAt)) return null;
+      return { fetchedAt, rates };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.fetchedAt - b.fetchedAt);
+
+  if (!seeded.length) return existing;
+
+  const byDay = {};
+  existing.concat(seeded).forEach((p) => {
+    const day = new Date(p.fetchedAt).toISOString().slice(0, 10);
+    // Для одного дня предпочитаем более позднюю точку (свежий live-кэш).
+    if (!byDay[day] || p.fetchedAt >= byDay[day].fetchedAt) byDay[day] = p;
+  });
+  const merged = Object.keys(byDay)
+    .sort()
+    .map((d) => byDay[d]);
+  while (merged.length > HISTORY_MAX_POINTS) merged.shift();
+  saveHistory(merged);
+  return merged;
+}
+
+async function ensureHistory(budgetMs) {
+  try {
+    return await withTimeout(seedHistoryFromTimeseries(), budgetMs || 8000, "История не успела");
+  } catch (e) {
+    return loadHistory();
+  }
 }
 
 /** Парсит список кодов валют вида "USD,EUR,RUB,VND" для таблицы всех валют. */
@@ -435,28 +644,23 @@ function addNoDataMessage(container) {
 }
 
 /**
- * Единственный стиль виджета — сама плитка выглядит как таблица всех валют
- * (тот же список currencies/activeCurrency/amount, что и в полноэкранной
- * интерактивной таблице): флаг+код слева, сумма справа, строки разделены
- * заметной полоской, активная валюта (та, в которую введена сумма)
- * подсвечена. Блок строк центрирован по вертикали внутри плитки, а не
- * прижат к верхнему краю. Никакого значка обновления — только курсы.
- * С v6.7 активная валюта на плитке больше не подсвечивается синим — все
- * строки выглядят одинаково; выбор активной валюты остаётся в таблице.
- * Тап по плитке целиком открывает ту же таблицу, но уже с клавиатурой —
- * ввод суммы прямо на плитке невозможен: Home Screen виджет — статичный
- * снапшот, который перерисовывает система, а не работающее приложение.
+ * Единственный стиль виджета — таблица валют: флаг+код | спарклайн | сумма | %.
+ * Мини-тренд и изменение за сутки считаются по курсу к USD (BASE_CCY).
+ * Для самой USD строки тренд/% скрыты (курс к себе всегда 1).
+ * Блок строк центрирован по вертикали; синей подсветки нет (v6.7+).
+ * Тап по плитке открывает полноэкранную таблицу с клавиатурой.
  */
-function createTableWidget(currencies, cache, activeCurrency, amount) {
+function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const w = new ListWidget();
   w.backgroundColor = new Color("#0B0C0E");
 
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
   const roomy = family === "large";
+  const hist = history || [];
   // Фиксированные 15pt сверху/снизу — по краям скругления плитки больше
   // не «прилипают» строки; по горизонтали чуть шире прежнего.
-  w.setPadding(15, 16, 15, 16);
+  w.setPadding(15, 14, 15, 14);
 
   if (!rates) {
     w.addSpacer();
@@ -471,14 +675,15 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   const rowsToShow = currencies.slice(0, maxRows);
   const activeRate = rates[active];
 
-  // Код — читаемый, суммы заметно крупнее (раньше почти совпадали по кеглю).
-  const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
-  const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
-  const rowPad = family === "small" ? 3 : roomy ? 6 : 5;
+  // Чуть компактнее, чтобы влезли спарклайн и %.
+  const codeFont = family === "small" ? 13 : roomy ? 16 : 14;
+  const valueFont = family === "small" ? 17 : roomy ? 22 : 19;
+  const pctFont = family === "small" ? 10 : roomy ? 12 : 11;
+  const rowPad = family === "small" ? 2 : roomy ? 5 : 4;
+  const sparkW = family === "small" ? 26 : roomy ? 36 : 32;
+  const sparkH = family === "small" ? 10 : roomy ? 14 : 12;
+  const codeColW = family === "small" ? 62 : roomy ? 78 : 70;
 
-  // Строки центрируются по вертикали внутри всей плитки (а не прижимаются к
-  // верхнему краю, как раньше) — весь блок строк оборачивается спейсерами
-  // сверху и снизу.
   w.addSpacer();
   const content = w.addStack();
   content.layoutVertically();
@@ -486,18 +691,35 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   rowsToShow.forEach((code, i) => {
     const targetRate = rates[code];
     const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
+    const change = changeBadgeParts(hist, rates, code);
+    const spark = sparklineImage(
+      hist,
+      code,
+      sparkW,
+      sparkH,
+      change ? change.color : new Color("#8A8D93")
+    );
 
     const row = content.addStack();
     row.layoutHorizontally();
     row.centerAlignContent();
     row.setPadding(rowPad, 0, rowPad, 0);
-    // Без синей подсветки активной строки на плитке — все строки одинаковые,
-    // активная валюта влияет только на пересчёт сумм (и видна в таблице).
 
-    const codeText = row.addText(currencyMeta(code).flag + " " + code);
+    const codeCell = row.addStack();
+    codeCell.size = new Size(codeColW, 0);
+    codeCell.layoutHorizontally();
+    codeCell.centerAlignContent();
+    const codeText = codeCell.addText(currencyMeta(code).flag + " " + code);
     codeText.font = Font.boldSystemFont(codeFont);
     codeText.textColor = Color.white();
     codeText.lineLimit = 1;
+    codeText.minimumScaleFactor = 0.7;
+
+    if (spark) {
+      row.addSpacer(6);
+      const imgEl = row.addImage(spark);
+      imgEl.imageSize = new Size(sparkW, sparkH);
+    }
 
     row.addSpacer();
 
@@ -505,17 +727,22 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
     valueText.font = Font.boldSystemFont(valueFont);
     valueText.textColor = Color.white();
     valueText.lineLimit = 1;
-    valueText.minimumScaleFactor = 0.6;
+    valueText.minimumScaleFactor = 0.55;
 
-    // Полоска-разделитель между строками (не после последней) — сделана
-    // заметно ярче прежней, чтобы явно читалась как граница между валютами,
-    // а не терялась на тёмном фоне.
+    if (change) {
+      row.addSpacer(6);
+      const pctText = row.addText(change.text);
+      pctText.font = Font.mediumSystemFont(pctFont);
+      pctText.textColor = change.color;
+      pctText.lineLimit = 1;
+    }
+
     if (i < rowsToShow.length - 1) {
-      content.addSpacer(family === "small" ? 4 : 6);
+      content.addSpacer(family === "small" ? 3 : 5);
       const divider = content.addStack();
       divider.size = new Size(0, 1.5);
       divider.backgroundColor = new Color("#FFFFFF", 0.22);
-      content.addSpacer(family === "small" ? 4 : 6);
+      content.addSpacer(family === "small" ? 3 : 5);
     }
   });
 
@@ -578,16 +805,14 @@ function createAccessoryWidget(currencies, cache, activeCurrency, amount, family
 // попросить систему не тянуть дольше разумного окна для курсов валют.
 const REFRESH_HINT_MS = 20 * 60 * 1000;
 
-function createWidget(currencies, cache, activeCurrency, amount) {
+function createWidget(currencies, cache, activeCurrency, amount, history) {
   const family = config.widgetFamily || "medium";
   const isAccessory = ACCESSORY_FAMILIES.indexOf(family) !== -1;
   const w = isAccessory
     ? createAccessoryWidget(currencies, cache, activeCurrency, amount, family)
-    : createTableWidget(currencies, cache, activeCurrency, amount);
+    : createTableWidget(currencies, cache, activeCurrency, amount, history || []);
   if (!isAccessory) {
-    // Тап по плитке целиком (кроме значка обновления, у которого свой,
-    // более специфичный url) открывает ту же полноэкранную таблицу с
-    // клавиатурой — см. main() → action === "table".
+    // Тап по плитке целиком открывает полноэкранную таблицу с клавиатурой.
     const url = scriptRunUrl({ action: "table" });
     if (url) w.url = url;
   }
@@ -894,11 +1119,19 @@ async function main() {
 
   // Виджет: свежие курсы, если кэш успел устареть, но без риска зависнуть надолго.
   const cache = await safeEnsureRates(false, 10000);
+  // История для спарклайна/%: в виджете короткий бюджет, при Play — длиннее.
+  const history = await ensureHistory(config.runsInWidget ? 5000 : 10000);
 
   if (config.runsInWidget) {
     let widget;
     try {
-      widget = createWidget(currencies, cache, settings.tableActiveCurrency, settings.tableAmount);
+      widget = createWidget(
+        currencies,
+        cache,
+        settings.tableActiveCurrency,
+        settings.tableAmount,
+        history
+      );
     } catch (e) {
       // Раньше при исключении здесь Script.setWidget() вообще не вызывался,
       // и WidgetKit молча оставлял старый рендер — выглядело как "ничего не меняется".
@@ -944,13 +1177,15 @@ async function main() {
   const refreshedCurrencies =
     widgetParamCurrencies || refreshedSettings.tableCurrencies || DEFAULT_TABLE_CURRENCIES;
   const refreshedCache = loadCache() || cache;
+  const refreshedHistory = loadHistory();
   let updatedWidget;
   try {
     updatedWidget = createWidget(
       refreshedCurrencies,
       refreshedCache,
       refreshedSettings.tableActiveCurrency,
-      refreshedSettings.tableAmount
+      refreshedSettings.tableAmount,
+      refreshedHistory
     );
   } catch (e) {
     updatedWidget = createErrorWidget(e && e.message ? e.message : String(e));
