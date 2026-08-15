@@ -27,6 +27,10 @@
 // шрифт кода/суммы заметно крупнее, разделитель между валютами сделан ярче,
 // а значок обновления в углу убран целиком — на плитке остаются только
 // курсы.
+// v6.5: отступ плитки сверху/снизу 15pt; суммы крупнее кода; флаг BRL;
+// обновление курсов — параллельный race провайдеров (раньше 3×10с подряд
+// легко упирались в общий лимит 15с → «Не успели обновить»); в таблице
+// клавиатура приподнята и компактнее, чтобы нижний ряд цифр не обрезался.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -34,7 +38,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.4";
+const CORE_VERSION = "6.5";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -61,6 +65,7 @@ const CURRENCY_META = {
   TRY: { flag: "🇹🇷", color: "#E57373" },
   INR: { flag: "🇮🇳", color: "#F39C12" },
   IDR: { flag: "🇮🇩", color: "#EF5350" },
+  BRL: { flag: "🇧🇷", color: "#66BB6A" },
   SGD: { flag: "🇸🇬", color: "#AED581" },
   HKD: { flag: "🇭🇰", color: "#E57373" },
   AED: { flag: "🇦🇪", color: "#26A69A" },
@@ -198,23 +203,47 @@ function normalizeRates(kind, base, payload) {
   return null;
 }
 
-async function fetchRates(base) {
-  let lastError = null;
-  for (const provider of providerUrls(base)) {
-    try {
-      const req = new Request(provider.url);
-      req.timeoutInterval = 10;
-      const payload = await req.loadJSON();
-      const rates = normalizeRates(provider.kind, base, payload);
-      if (rates && Object.keys(rates).length > 5) {
-        return { base: base.toUpperCase(), rates, fetchedAt: Date.now() };
-      }
-      lastError = new Error("Пустой/неверный ответ от " + provider.url);
-    } catch (e) {
-      lastError = e;
-    }
+/** Один провайдер: короткий таймаут запроса, без «висения» на 10с. */
+async function fetchRatesFromProvider(provider, base) {
+  const req = new Request(provider.url);
+  req.timeoutInterval = 6;
+  const payload = await req.loadJSON();
+  const rates = normalizeRates(provider.kind, base, payload);
+  if (rates && Object.keys(rates).length > 5) {
+    return { base: base.toUpperCase(), rates, fetchedAt: Date.now() };
   }
-  throw lastError || new Error("Не удалось получить курсы");
+  throw new Error("Пустой/неверный ответ от " + provider.url);
+}
+
+/**
+ * Курсы: все провайдеры стартуют параллельно, побеждает первый валидный
+ * ответ. Раньше они шли строго по очереди с timeoutInterval=10 — на
+ * медленной мобильной сети первый «подвисший» URL съедал почти весь бюджет
+ * withTimeout(15с), и «Обновить курсы сейчас» падал с «Не успели обновить»,
+ * даже если второй/третий CDN ответил бы за долю секунды.
+ */
+async function fetchRates(base) {
+  const providers = providerUrls(base);
+  return new Promise((resolve, reject) => {
+    let remaining = providers.length;
+    let lastError = null;
+    let settled = false;
+    providers.forEach((provider) => {
+      fetchRatesFromProvider(provider, base)
+        .then((result) => {
+          if (settled) return;
+          settled = true;
+          resolve(result);
+        })
+        .catch((e) => {
+          lastError = e;
+          remaining -= 1;
+          if (!settled && remaining === 0) {
+            reject(lastError || new Error("Не удалось получить курсы"));
+          }
+        });
+    });
+  });
 }
 
 /** Курсы (с диска, если свежие; иначе — сеть, с фолбэком на устаревший кэш). */
@@ -357,7 +386,9 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   const family = config.widgetFamily || "medium";
   const rates = cache ? cache.rates : null;
   const roomy = family === "large";
-  w.setPadding(roomy ? 10 : 8, 16, roomy ? 10 : 8, 16);
+  // Фиксированные 15pt сверху/снизу — по краям скругления плитки больше
+  // не «прилипают» строки; по горизонтали чуть шире прежнего.
+  w.setPadding(15, 16, 15, 16);
 
   if (!rates) {
     w.addSpacer();
@@ -372,10 +403,10 @@ function createTableWidget(currencies, cache, activeCurrency, amount) {
   const rowsToShow = currencies.slice(0, maxRows);
   const activeRate = rates[active];
 
-  // По просьбе — крупнее, чем раньше.
-  const codeFont = family === "small" ? 15 : roomy ? 19 : 17;
-  const valueFont = family === "small" ? 16 : roomy ? 21 : 18;
-  const rowPad = family === "small" ? 4 : roomy ? 7 : 6;
+  // Код — читаемый, суммы заметно крупнее (раньше почти совпадали по кеглю).
+  const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
+  const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
+  const rowPad = family === "small" ? 3 : roomy ? 6 : 5;
 
   // Строки центрируются по вертикали внутри всей плитки (а не прижимаются к
   // верхнему краю, как раньше) — весь блок строк оборачивается спейсерами
@@ -551,33 +582,33 @@ function buildTableHtml(currencies, rates, activeCurrency, amount) {
     "* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }" +
     "html, body { margin:0; padding:0; height:100%; background:#0B0C0E; color:#F5F6F7; " +
     "font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow:hidden; }" +
-    // display:flex + height:100vh на body — но без min-height:0 у .list
-    // flex-элемент по умолчанию не сжимается ниже своего контента (это
-    // стандартная особенность flexbox), и .keypad снизу выталкивается за
-    // пределы видимой области, а overflow:hidden на body не даёт до него
-    // докрутить — именно так терялся нижний ряд цифр клавиатуры. min-height:0
-    // явно разрешает списку валют сжиматься и скроллиться внутри себя, а не
-    // раздувать всю страницу.
-    "body { display:flex; flex-direction:column; height:100vh; min-height:0; }" +
-    ".header { flex: 0 0 auto; padding: 10px 18px 6px; }" +
+    // display:flex + height:100% на body — но без min-height:0 / flex-basis:0
+    // у .list flex-элемент по умолчанию не сжимается ниже своего контента, и
+    // .keypad снизу выталкивается за пределы видимой области (в Scriptable
+    // WebView ещё и chrome Close/Share съедает часть экрана поверх 100vh).
+    // flex:1 1 0 + min-height:0 явно отдают лишнее место списку и оставляют
+    // клавиатуру целиком внизу; компактные отступы/кнопки поднимают сетку
+    // цифр выше, чтобы был виден нижний ряд.
+    "body { display:flex; flex-direction:column; height:100%; max-height:100%; min-height:0; }" +
+    ".header { flex: 0 0 auto; padding: 15px 18px 8px; }" +
     ".header h1 { margin:0; font-size:17px; font-weight:700; }" +
-    ".header p { margin:3px 0 0; font-size:11px; color:#8A8D93; }" +
-    ".list { flex: 1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 0 4px; }" +
+    ".header p { margin:4px 0 0; font-size:11px; color:#8A8D93; }" +
+    ".list { flex: 1 1 0; min-height:0; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 0 4px; }" +
     ".row { display:flex; align-items:center; justify-content:space-between; " +
-    "padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }" +
+    "padding: 8px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }" +
     ".row.active { background: rgba(52,120,246,0.18); border-bottom-color: transparent; }" +
     ".left { display:flex; align-items:center; gap:10px; }" +
     ".flag { font-size:20px; }" +
-    ".code { font-size:16px; font-weight:600; letter-spacing:0.3px; }" +
-    ".value { font-size:17px; font-weight:600; font-variant-numeric: tabular-nums; }" +
+    ".code { font-size:15px; font-weight:600; letter-spacing:0.3px; }" +
+    ".value { font-size:20px; font-weight:600; font-variant-numeric: tabular-nums; }" +
     ".row.active .value { color:#5AA4FF; }" +
-    ".keypad { flex: 0 0 auto; padding: 6px 12px calc(8px + env(safe-area-inset-bottom)); " +
-    "border-top: 1px solid rgba(255,255,255,0.08); }" +
-    ".keypad-top { display:flex; justify-content:flex-end; padding: 2px 6px 6px; }" +
-    ".clearBtn { color:#8A8D93; font-size:13px; background:none; border:none; padding:4px 10px; }" +
-    ".grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px; }" +
-    ".grid button { font-size:20px; font-weight:500; color:#F5F6F7; background: rgba(255,255,255,0.06); " +
-    "border:none; border-radius:12px; padding:10px 0; }" +
+    ".keypad { flex: 0 0 auto; padding: 4px 10px 6px; " +
+    "border-top: 1px solid rgba(255,255,255,0.08); background:#0B0C0E; }" +
+    ".keypad-top { display:flex; justify-content:flex-end; padding: 0 4px 4px; }" +
+    ".clearBtn { color:#8A8D93; font-size:13px; background:none; border:none; padding:2px 8px; }" +
+    ".grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px; }" +
+    ".grid button { font-size:18px; font-weight:500; color:#F5F6F7; background: rgba(255,255,255,0.06); " +
+    "border:none; border-radius:10px; padding:8px 0; }" +
     ".grid button:active { background: rgba(255,255,255,0.14); }" +
     ".grid button.wide { grid-column: span 1; }" +
     "</style></head><body>" +
@@ -752,7 +783,7 @@ async function runMenu(settings, cache) {
     await runTableCurrenciesDialog(settings);
   } else if (choice === 2) {
     try {
-      await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
+      await withTimeout(ensureRates(true), 20000, "Не успели обновить за 20с");
     } catch (e) {
       const err = new Alert();
       err.title = "Не удалось обновить";
@@ -807,7 +838,7 @@ async function main() {
   try {
     if (qp.action === "refresh") {
       try {
-        await withTimeout(ensureRates(true), 15000, "Не успели обновить за 15с");
+        await withTimeout(ensureRates(true), 20000, "Не успели обновить за 20с");
       } catch (e) {}
     } else if (qp.action === "table") {
       await runFullTableView(settings, cache);

@@ -7,9 +7,10 @@
 // Чтобы GitHub работал: Settings репозитория projects_po → Change visibility → Public
 //
 // Пока PR не смёржен в main, файла там ещё нет (main-адрес отдаёт 404 и
-// код просто идёт дальше по списку) — актуальный код только в ветке
-// cursor/currency-converter-scriptable-widget-bfeb. После мёржа первый адрес
-// заработает сам по себе, менять ничего не придётся.
+// код просто идёт дальше по списку). Актуальный код — в ветке
+// cursor/currency-widget-ui-fix-7e88 (и прежняя
+// cursor/currency-converter-scriptable-widget-bfeb как запасной). После
+// мёржа первый адрес заработает сам по себе.
 //
 // Важно: raw.githubusercontent.com и jsdelivr — это CDN с собственным кэшем,
 // поэтому после `git push` новый код может доехать туда не мгновенно, а с
@@ -17,8 +18,9 @@
 // по номеру версии в заголовке меню (см. README).
 const RAW_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/main/projects/currency-converter-widget/CurrencyConverterCore.js",
+  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/currency-widget-ui-fix-7e88/projects/currency-converter-widget/CurrencyConverterCore.js",
+  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/currency-widget-ui-fix-7e88/projects/currency-converter-widget/CurrencyConverterCore.js",
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/currency-converter-scriptable-widget-bfeb/projects/currency-converter-widget/CurrencyConverterCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/currency-converter-scriptable-widget-bfeb/projects/currency-converter-widget/CurrencyConverterCore.js",
 ];
 
 const MODULE_NAME = "CurrencyConverterCore";
