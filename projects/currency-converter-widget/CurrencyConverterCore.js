@@ -52,6 +52,8 @@
 // v6.11: padding сверху/снизу 14pt; убраны «раздувающие» spacer'ы и жирные
 // зазоры у разделителей — свободная высота делится поровну между строками,
 // чтобы 4 валюты не обрезались по краям плитки.
+// v6.12: тренд/% у USD считаются к активной валюте (раньше к USD→USD = пусто);
+// график и ▲% выровнены по высоте, между ними чуть больший зазор.
 const MARKER = "CURRENCY_WIDGET_V1";
 
 // Показывается в заголовке меню (тап по виджету → открывается меню) — так
@@ -59,7 +61,7 @@ const MARKER = "CURRENCY_WIDGET_V1";
 // (см. README → "Как проверить, что обновление подтянулось"). На самом
 // виджете (плитке Home Screen) эта метка не показывается. Увеличивать при
 // каждом заметном изменении.
-const CORE_VERSION = "6.11";
+const CORE_VERSION = "6.12";
 
 // Базовая валюта, относительно которой кэшируются все курсы одним запросом.
 const BASE_CCY = "USD";
@@ -441,21 +443,23 @@ function findSnapshotNear(history, targetAgeMs, toleranceMs) {
 }
 
 /**
- * % изменения кросс-курса BASE→code за ~сутки.
- * Для базовой валюты (USD) всегда 1 — возвращаем null.
+ * % изменения кросс-курса from→to за ~сутки.
+ * Раньше считали только к USD, поэтому у строки USD тренда не было
+ * (курс к себе всегда 1). Теперь якорь — активная валюта ввода: у USD
+ * появляется график/%, если активная не USD (например RUB).
  */
-function currencyChangePct(history, currentRates, code) {
-  if (!code || code.toUpperCase() === BASE_CCY) return null;
+function currencyChangePct(history, currentRates, from, to) {
+  if (!from || !to || from.toUpperCase() === to.toUpperCase()) return null;
   const past = findSnapshotNear(history, 24 * 60 * 60 * 1000, 30 * 60 * 60 * 1000);
   if (!past) return null;
-  const pastRate = getRate(past.rates, BASE_CCY, code);
-  const currentRate = getRate(currentRates, BASE_CCY, code);
+  const pastRate = getRate(past.rates, from, to);
+  const currentRate = getRate(currentRates, from, to);
   if (pastRate === null || currentRate === null || pastRate === 0) return null;
   return ((currentRate - pastRate) / pastRate) * 100;
 }
 
-function changeBadgeParts(history, rates, code) {
-  const pct = currencyChangePct(history, rates, code);
+function changeBadgeParts(history, rates, from, to) {
+  const pct = currencyChangePct(history, rates, from, to);
   if (pct === null) return null;
   return {
     text: (pct >= 0 ? "▲" : "▼") + formatPct(Math.abs(pct)),
@@ -489,12 +493,13 @@ function smoothCurvePath(points) {
   return path;
 }
 
-/** Мини-график курса BASE→code по истории. null, если точек < 2. */
-function sparklineImage(history, code, width, height, color) {
-  if (!history || history.length < 2 || !code || code.toUpperCase() === BASE_CCY) return null;
+/** Мини-график курса from→to по истории. null, если точек < 2 или from===to. */
+function sparklineImage(history, from, to, width, height, color) {
+  if (!history || history.length < 2 || !from || !to) return null;
+  if (from.toUpperCase() === to.toUpperCase()) return null;
   const values = [];
   for (const h of history) {
-    const r = getRate(h.rates, BASE_CCY, code);
+    const r = getRate(h.rates, from, to);
     if (r !== null) values.push(r);
   }
   if (values.length < 2) return null;
@@ -682,12 +687,11 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   const codeFont = family === "small" ? 14 : roomy ? 17 : 15;
   const valueFont = family === "small" ? 19 : roomy ? 24 : 21;
   const pctFont = family === "small" ? 9 : roomy ? 11 : 10;
-  // Тренд и % в одну линию по центру — меньше высота строки.
   const sparkW = family === "small" ? 32 : roomy ? 44 : 40;
-  const sparkH = family === "small" ? 11 : roomy ? 14 : 12;
+  const sparkH = family === "small" ? 12 : roomy ? 15 : 13;
+  // Общая высота центрального блока — чтобы график и % сидели на одной оси.
+  const midH = Math.max(sparkH, pctFont + 4);
 
-  // Без внешних addSpacer() сверху/снизу: они центрировали блок и вместе
-  // с высокими строками выталкивали первую/последнюю валюту за край.
   const content = w.addStack();
   content.layoutVertically();
   content.topAlignContent();
@@ -695,9 +699,12 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
   rowsToShow.forEach((code, i) => {
     const targetRate = rates[code];
     const value = activeRate && targetRate ? displayAmount * (targetRate / activeRate) : null;
-    const change = changeBadgeParts(hist, rates, code);
+    // Тренд относительно активной валюты ввода (не всегда USD) — иначе у
+    // строки USD нечего показывать.
+    const change = changeBadgeParts(hist, rates, active, code);
     const spark = sparklineImage(
       hist,
+      active,
       code,
       sparkW,
       sparkH,
@@ -716,18 +723,25 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     row.addSpacer();
 
     if (spark || change) {
-      // Горизонтально: график и % в одном ряду по центру между кодом и суммой.
       const mid = row.addStack();
       mid.layoutHorizontally();
       mid.centerAlignContent();
 
       if (spark) {
-        const imgEl = mid.addImage(spark);
+        const sparkBox = mid.addStack();
+        sparkBox.size = new Size(sparkW, midH);
+        sparkBox.layoutHorizontally();
+        sparkBox.centerAlignContent();
+        const imgEl = sparkBox.addImage(spark);
         imgEl.imageSize = new Size(sparkW, sparkH);
       }
-      if (spark && change) mid.addSpacer(4);
+      if (spark && change) mid.addSpacer(10);
       if (change) {
-        const pctText = mid.addText(change.text);
+        const pctBox = mid.addStack();
+        pctBox.size = new Size(0, midH);
+        pctBox.layoutHorizontally();
+        pctBox.centerAlignContent();
+        const pctText = pctBox.addText(change.text);
         pctText.font = Font.mediumSystemFont(pctFont);
         pctText.textColor = change.color;
         pctText.lineLimit = 1;
@@ -742,8 +756,6 @@ function createTableWidget(currencies, cache, activeCurrency, amount, history) {
     valueText.lineLimit = 1;
     valueText.minimumScaleFactor = 0.6;
 
-    // Между строками: равные flex-spacer'ы + тонкая полоска.
-    // Все spacer'ы получают одинаковую долю оставшейся высоты → симметрия.
     if (i < rowsToShow.length - 1) {
       content.addSpacer();
       const divider = content.addStack();
