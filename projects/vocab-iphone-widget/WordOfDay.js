@@ -31,7 +31,8 @@ function isValidCore(code) {
     code.includes("module.exports") &&
     code.includes("PASSIVE_WIDGET") &&
     code.includes("exRu") &&
-    code.includes("wrapLines")
+    code.includes("wrapLines") &&
+    code.includes("INTERVIEWS")
   );
 }
 

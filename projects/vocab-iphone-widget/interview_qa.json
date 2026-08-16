@@ -1,0 +1,146 @@
+[
+  {
+    "id": "i01",
+    "q": "Tell me about yourself.",
+    "qRu": "Расскажите о себе.",
+    "a": "I'm a Product Owner focused on outcomes. I clarify goals, shape the backlog, and partner with design and engineering to ship value in small steps."
+  },
+  {
+    "id": "i02",
+    "q": "Why should we hire you?",
+    "qRu": "Почему мы должны вас нанять?",
+    "a": "I connect user needs with business goals, keep priorities sharp, and help the team deliver continuously without losing quality or focus."
+  },
+  {
+    "id": "i03",
+    "q": "Where do you see yourself in five years?",
+    "qRu": "Где вы видите себя через пять лет?",
+    "a": "Growing as a product leader: owning a larger problem space, mentoring POs, and improving how we discover, decide, and measure impact."
+  },
+  {
+    "id": "i04",
+    "q": "What are your strengths?",
+    "qRu": "Какие у вас сильные стороны?",
+    "a": "Clear prioritization, structured communication, and turning vague requests into testable outcomes the team can ship."
+  },
+  {
+    "id": "i05",
+    "q": "What is your biggest weakness?",
+    "qRu": "Какой ваш главный недостаток?",
+    "a": "I can over-polish details. I now time-box discovery, define a good-enough MVP, and revisit polish after we learn from users."
+  },
+  {
+    "id": "i06",
+    "q": "Describe a challenge you faced and how you handled it.",
+    "qRu": "Опишите сложность и как вы с ней справились.",
+    "a": "Stakeholders pushed conflicting priorities. I mapped impact vs effort, aligned on one north-star metric, and sequenced work into a shared roadmap."
+  },
+  {
+    "id": "i07",
+    "q": "How do you prioritize the backlog?",
+    "qRu": "Как вы приоритизируете бэклог?",
+    "a": "By outcome: user value, business impact, risk, and effort. I use RICE or a simple impact/effort matrix and review priorities with the team weekly."
+  },
+  {
+    "id": "i08",
+    "q": "How do you work with engineers and designers?",
+    "qRu": "Как вы работаете с инженерами и дизайнерами?",
+    "a": "I bring the problem and constraints early, invite trade-offs, and keep acceptance criteria clear so discovery and delivery stay collaborative."
+  },
+  {
+    "id": "i09",
+    "q": "How do you handle conflicting stakeholder requests?",
+    "qRu": "Как вы решаете конфликтные запросы стейкхолдеров?",
+    "a": "I make trade-offs visible: goal, impact, cost of delay. Then we agree what to ship now, what to defer, and what evidence we need next."
+  },
+  {
+    "id": "i10",
+    "q": "Tell me about a product you launched.",
+    "qRu": "Расскажите о продукте, который вы запускали.",
+    "a": "I owned discovery to release: problem framing, MVP scope, rollout, and metrics. We validated assumptions early and iterated after launch."
+  },
+  {
+    "id": "i11",
+    "q": "How do you define success for a feature?",
+    "qRu": "Как вы определяете успех фичи?",
+    "a": "With a clear outcome metric, leading indicators, and guardrails. Before build, we agree what \"good\" looks like and when to pivot or stop."
+  },
+  {
+    "id": "i12",
+    "q": "What is the difference between a PO and a PM?",
+    "qRu": "Чем PO отличается от PM?",
+    "a": "Titles vary. Often the PO owns backlog and delivery with the team; the PM owns strategy and market outcomes. Strong pairs overlap and stay aligned."
+  },
+  {
+    "id": "i13",
+    "q": "How do you gather requirements?",
+    "qRu": "Как вы собираете требования?",
+    "a": "I start from the problem: interviews, data, and support signals. Then I write jobs-to-be-done, constraints, and acceptance criteria — not a feature wishlist."
+  },
+  {
+    "id": "i14",
+    "q": "Describe a time you said no.",
+    "qRu": "Опишите случай, когда вы сказали нет.",
+    "a": "A request looked urgent but low-impact. I showed the opportunity cost, offered a lighter workaround, and parked it until metrics justified the work."
+  },
+  {
+    "id": "i15",
+    "q": "How do you handle incomplete information?",
+    "qRu": "Как вы действуете при неполной информации?",
+    "a": "I ship the smallest experiment that reduces risk: prototype, A/B, or limited rollout. Decisions improve as evidence grows."
+  },
+  {
+    "id": "i16",
+    "q": "How do you run refinement or grooming?",
+    "qRu": "Как вы проводите refinement?",
+    "a": "Ready means clear goal, acceptance criteria, edge cases, and open questions. We estimate together and split anything still too big or vague."
+  },
+  {
+    "id": "i17",
+    "q": "Tell me about a failure and what you learned.",
+    "qRu": "Расскажите о провале и выводах.",
+    "a": "We built a feature users ignored. We had skipped discovery. Now I validate demand first and define kill criteria before a big build."
+  },
+  {
+    "id": "i18",
+    "q": "How do you communicate status to leadership?",
+    "qRu": "Как вы сообщаете статус руководству?",
+    "a": "Short and outcome-based: goal, progress, risks, decisions needed. I avoid task lists and highlight what changed since the last update."
+  },
+  {
+    "id": "i19",
+    "q": "What metrics do you track?",
+    "qRu": "Какие метрики вы отслеживаете?",
+    "a": "North-star plus a few inputs: activation, retention, conversion, or task success. I pick metrics tied to the problem, not vanity numbers."
+  },
+  {
+    "id": "i20",
+    "q": "How do you write user stories?",
+    "qRu": "Как вы пишете user stories?",
+    "a": "As a [user], I want [capability], so that [outcome]. Plus acceptance criteria, notes on analytics, and links to designs or research."
+  },
+  {
+    "id": "i21",
+    "q": "How do you deal with technical debt?",
+    "qRu": "Как вы относитесь к техническому долгу?",
+    "a": "I treat it as product risk. We reserve capacity, tie debt to speed or reliability outcomes, and prioritize the debt that blocks delivery most."
+  },
+  {
+    "id": "i22",
+    "q": "Why do you want to work here?",
+    "qRu": "Почему вы хотите работать у нас?",
+    "a": "Your product solves a real problem I care about. I want to help sharpen priorities, learn from your users, and ship meaningful improvements."
+  },
+  {
+    "id": "i23",
+    "q": "How do you handle tight deadlines?",
+    "qRu": "Как вы работаете с жёсткими дедлайнами?",
+    "a": "I cut scope, not quality: must-have outcomes first, nice-to-haves later. I make risks explicit early and protect a realistic release path."
+  },
+  {
+    "id": "i24",
+    "q": "Do you have any questions for us?",
+    "qRu": "Есть ли у вас вопросы к нам?",
+    "a": "How do you set product strategy? What does success look like in six months for this role? How do PO, design, and engineering decide trade-offs?"
+  }
+]
