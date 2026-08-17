@@ -1,7 +1,7 @@
 // KreditkaPlanCore — матрица погашений/снятий Т-Банк Платинум.
 // Плитка: дата × Снятие / Погаш. / Долг. Тап → полная матрица + флаги.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "1.2";
+const CORE_VERSION = "1.3";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const RATE_PER_DAY = 0.00164; // ≈ 59,9% / 365
@@ -313,7 +313,7 @@ function color(hex, alpha) {
   return c;
 }
 
-/** Строка матрицы на всю ширину: 4 равные колонки (spacer внутри каждой). */
+/** Строка матрицы на всю ширину: 4 равные колонки. */
 function addMatrixRow(parent, cells, opts) {
   opts = opts || {};
   const line = parent.addStack();
@@ -325,39 +325,22 @@ function addMatrixRow(parent, cells, opts) {
     col.centerAlignContent();
     if (i > 0) col.addSpacer();
     const t = col.addText(cells[i]);
-    t.font = opts.header
-      ? Font.boldSystemFont(9)
-      : opts.bold && (i === 3 || opts.tail)
-        ? Font.boldSystemFont(11)
-        : Font.mediumSystemFont(11);
+    const fs = opts.header ? 8 : 10;
+    t.font =
+      opts.header || (opts.bold && (i === 3 || opts.tail))
+        ? Font.boldSystemFont(fs)
+        : Font.mediumSystemFont(fs);
     t.textColor = color(opts.colors && opts.colors[i] ? opts.colors[i] : "#D5E2E6");
     t.lineLimit = 1;
-    t.minimumScaleFactor = 0.6;
+    t.minimumScaleFactor = 0.55;
     if (i === 0) col.addSpacer();
   }
   return line;
 }
 
-/** Плитка: матрица Дата | Снятие | Погаш | Долг на всю ширину, без заголовка */
-async function buildWidget(plan, family) {
-  const w = new ListWidget();
-  w.backgroundColor = color("#152028");
-  w.setPadding(12, 12, 12, 12);
-  w.refreshAfterDate = new Date(Date.now() + 60 * 60 * 1000);
-
-  const chips = w.addText(flagChips(plan.flags));
-  chips.font = Font.mediumSystemFont(9);
-  chips.textColor = color("#7A9298");
-  chips.lineLimit = 1;
-  w.addSpacer(6);
-
-  addMatrixRow(w, ["Дата", "Снятие", "Погаш", "Долг"], {
-    header: true,
-    colors: ["#5EEAD4", "#5EEAD4", "#5EEAD4", "#5EEAD4"],
-  });
-  w.addSpacer(4);
-
-  let rows = plan.rows.filter(function (r) {
+/** Ключевые строки для плитки — без «пустых» дат, чтобы влезло без обрезки. */
+function widgetRows(plan, family) {
+  const key = plan.rows.filter(function (r) {
     return (
       r.withdraw ||
       r.pay ||
@@ -367,17 +350,37 @@ async function buildWidget(plan, family) {
       r.date === "до25"
     );
   });
-  if (family === "large") {
-    rows = plan.rows;
-  } else if (family === "small") {
-    rows = rows.filter(function (r) {
-      return r.withdraw || r.pay || r.date === "29.09";
-    });
+  if (family === "small") {
+    return key
+      .filter(function (r) {
+        return r.withdraw || r.pay || r.date === "29.09";
+      })
+      .slice(0, 5);
   }
+  // medium/large: одна и та же компактная матрица (влезает на плитку)
+  return key.slice(0, 8);
+}
 
-  const maxRows = family === "large" ? 12 : family === "small" ? 5 : 8;
-  rows = rows.slice(0, maxRows);
+/** Плитка: матрица Дата | Снятие | Погаш | Долг — всё на одном экране плитки */
+async function buildWidget(plan, family) {
+  const w = new ListWidget();
+  w.backgroundColor = color("#152028");
+  w.setPadding(12, 10, 12, 10);
+  w.refreshAfterDate = new Date(Date.now() + 60 * 60 * 1000);
 
+  const chips = w.addText(flagChips(plan.flags));
+  chips.font = Font.mediumSystemFont(8);
+  chips.textColor = color("#7A9298");
+  chips.lineLimit = 1;
+  w.addSpacer(4);
+
+  addMatrixRow(w, ["Дата", "Снятие", "Погаш", "Долг"], {
+    header: true,
+    colors: ["#5EEAD4", "#5EEAD4", "#5EEAD4", "#5EEAD4"],
+  });
+  w.addSpacer(2);
+
+  const rows = widgetRows(plan, family);
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i];
     const isTail = r.date === "29.09";
@@ -400,29 +403,29 @@ async function buildWidget(plan, family) {
         ],
       }
     );
-    if (i < rows.length - 1) w.addSpacer(3);
+    if (i < rows.length - 1) w.addSpacer(1);
   }
 
-  w.addSpacer(6);
+  w.addSpacer(4);
   const foot = w.addText(
-    "Σ погаш " +
+    "Σ " +
       rub(plan.paySum) +
-      " · Σ снят " +
+      " погаш · " +
       rub(plan.withdrawSum) +
-      " · % " +
+      " снят · % " +
       rub(plan.interestTotal) +
       " · хвост " +
       rub(plan.tail)
   );
-  foot.font = Font.mediumSystemFont(9);
+  foot.font = Font.mediumSystemFont(8);
   foot.textColor = color("#8AA0A8");
   foot.lineLimit = 1;
-  foot.minimumScaleFactor = 0.7;
+  foot.minimumScaleFactor = 0.65;
 
   if (!plan.minCovered) {
-    w.addSpacer(3);
+    w.addSpacer(2);
     const warn = w.addText("! минималка к 29.08 не закрыта");
-    warn.font = Font.boldSystemFont(9);
+    warn.font = Font.boldSystemFont(8);
     warn.textColor = color("#F59E0B");
   }
 
@@ -434,65 +437,67 @@ function tableHtml(initialFlags) {
   return `<!DOCTYPE html>
 <html><head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font:14px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:12px;padding-bottom:32px}
-h1{font-size:17px;margin:0 0 4px;color:#5EEAD4}
-.sub{color:#7A9298;font-size:11px;margin-bottom:12px}
-.flags{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.flag{display:flex;gap:10px;align-items:flex-start;background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.flag input{width:18px;height:18px;margin-top:2px}
-.flag b{display:block;font-size:13px}
-.flag small{display:block;color:#8AA0A8;font-size:11px;margin-top:2px;line-height:1.3}
-.wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #24343E;border-radius:12px}
-table{border-collapse:collapse;min-width:640px;width:100%;font-size:11px}
-th,td{padding:7px 6px;border-bottom:1px solid #223038;white-space:nowrap}
-th{position:sticky;top:0;background:#152028;color:#5EEAD4;font-size:10px;text-align:right}
-th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:#152028;z-index:1;font-weight:700}
-th:nth-child(2),td:nth-child(2){text-align:left;color:#8AA0A8}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font:12px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;
+  display:flex;flex-direction:column;padding:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.top{flex:0 0 auto}
+.flags{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px}
+.flag{display:flex;gap:6px;align-items:center;background:#1A2830;border-radius:8px;padding:6px 8px;border:1px solid #24343E}
+.flag input{width:16px;height:16px;flex:0 0 auto}
+.flag b{font-size:11px;font-weight:600}
+.sums{display:flex;gap:6px;margin-bottom:6px;font-size:10px;color:#8AA0A8}
+.sums b{color:#5EEAD4;font-size:12px}
+.wrap{flex:1 1 auto;min-height:0;overflow:hidden;border:1px solid #24343E;border-radius:10px}
+table{border-collapse:collapse;width:100%;height:100%;font-size:11px;table-layout:fixed}
+th,td{padding:3px 4px;border-bottom:1px solid #223038;white-space:nowrap}
+th{background:#152028;color:#5EEAD4;font-size:9px;text-align:right}
+th:first-child,td:first-child{text-align:left;font-weight:700}
 td{text-align:right;font-variant-numeric:tabular-nums}
 td.pay{color:#5EEAD4;font-weight:700}
 td.wd{color:#F59E0B;font-weight:700}
 td.debt{font-weight:700}
 tr.tail td{color:#5EEAD4;background:#134E4A}
-.sums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.sum{background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.sum .l{font-size:10px;color:#8AA0A8}
-.sum .v{font-size:18px;font-weight:800;color:#5EEAD4;margin-top:2px}
-.hint{margin-top:12px;color:#7A9298;font-size:11px;line-height:1.4}
+.hint{flex:0 0 auto;margin-top:4px;color:#5A7078;font-size:9px}
 </style></head><body>
-<h1>Матрица · кредитка</h1>
-<div class="sub">Снятие / погашение по датам · флаги пересчитывают всё · v${CORE_VERSION}</div>
+<div class="top">
 <div class="flags">
-  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>Снятие +10 000</b><small>Строка «до25»: снятие с карты → долг 110к.</small></span></label>
-  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Отложить велик 6 000</b><small>Убрать расход 01.09, +6к к погашению 05.09.</small></span></label>
-  <label class="flag"><input type="checkbox" id="microBuffer"/><span><b>Микробуфер 25.08</b><small>Погашение 13к вместо 15к.</small></span></label>
-  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b><small>Еда 7,5к (10.09) и 17,5к (25.09) → меньше погашение.</small></span></label>
+  <label class="flag"><input type="checkbox" id="extraWithdraw"/><b>+10к снятие</b></label>
+  <label class="flag"><input type="checkbox" id="skipBike"/><b>Велик↓ +6к</b></label>
+  <label class="flag"><input type="checkbox" id="microBuffer"/><b>Буфер 13к</b></label>
+  <label class="flag"><input type="checkbox" id="honestFood"/><b>Честная еда</b></label>
 </div>
 <div class="sums">
-  <div class="sum"><div class="l">Σ погашения</div><div class="v" id="sPay">—</div></div>
-  <div class="sum"><div class="l">Σ снятия</div><div class="v" id="sWd">—</div></div>
-  <div class="sum"><div class="l">% за путь</div><div class="v" id="sInt">—</div></div>
-  <div class="sum"><div class="l">Хвост 29.09</div><div class="v" id="sTail">—</div></div>
+  <span>погаш <b id="sPay">—</b></span>
+  <span>снят <b id="sWd">—</b></span>
+  <span>% <b id="sInt">—</b></span>
+  <span>хвост <b id="sTail">—</b></span>
 </div>
-<div class="wrap" style="margin-top:12px"><table>
+</div>
+<div class="wrap"><table>
 <thead><tr>
-<th>Дата</th><th>Заметка</th><th>Приход</th><th>Нал.расход</th><th>Снятие</th><th>Погашение</th><th>%</th><th>Долг</th>
+<th>Дата</th><th>Снятие</th><th>Погаш</th><th>Долг</th>
 </tr></thead>
 <tbody id="tb"></tbody>
 </table></div>
-<p class="hint">Закрой экран (Done) — флаги сохранятся и обновят виджет. На плитке: Дата × Снятие × Погаш × Долг.</p>
+<p class="hint">Done — сохранить · v${CORE_VERSION}</p>
 <script>
 window.__flags = ${boot};
 const RATE = ${RATE_PER_DAY};
+function rubK(n){
+  if(!n) return '·';
+  const x=Math.round(n);
+  if(Math.abs(x)>=1000){
+    const k=x/1000;
+    return (k>=10||Math.abs(k-Math.round(k))<0.05?Math.round(k):k.toFixed(1).replace('.0',''))+'к';
+  }
+  return String(x);
+}
 function rubFull(n){
   if(!n) return '—';
-  return Math.round(n).toLocaleString('ru-RU') + ' ₽';
-}
-function cell(n, empty){
-  if(!n) return empty || '·';
-  return Math.round(n).toLocaleString('ru-RU');
+  return Math.round(n).toLocaleString('ru-RU')+' ₽';
 }
 function accrue(debt, days){
   if(days<=0||debt<=0) return {debt:debt,interest:0};
@@ -512,27 +517,23 @@ function buildMatrix(f){
   const rows = [];
   let debt = baseDebt;
   let interestTotal = 0;
-  rows.push({date:'16.08',note:'факт',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  if(withdraw10){ debt+=withdraw10; rows.push({date:'до25',note:'+10к',income:0,cashOut:0,withdraw:withdraw10,pay:0,interest:0,debt:debt}); }
-  else { rows.push({date:'до25',note:'без +10к',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt}); }
-  const cash2508 = 20000+15000+bike+7000;
+  rows.push({date:'16.08',withdraw:0,pay:0,debt:debt});
+  if(withdraw10){ debt+=withdraw10; rows.push({date:'до25',withdraw:withdraw10,pay:0,debt:debt}); }
+  else { rows.push({date:'до25',withdraw:0,pay:0,debt:debt}); }
   debt=Math.max(0,debt-pay2508);
-  rows.push({date:'25.08',note:'ЗП',income:63000,cashOut:cash2508,withdraw:0,pay:pay2508,interest:0,debt:debt});
-  rows.push({date:'29.08',note:'грейс↓',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  rows.push({date:'01.09',note:'школа',income:0,cashOut:15000+bike,withdraw:0,pay:0,interest:0,debt:debt});
-  rows.push({date:'03.09',note:'ЖКУ',income:0,cashOut:7000,withdraw:0,pay:0,interest:0,debt:debt});
-  let step=accrue(debt,7); debt=step.debt; interestTotal+=step.interest; const i1=step.interest;
+  rows.push({date:'25.08',withdraw:0,pay:pay2508,debt:debt});
+  rows.push({date:'29.08',withdraw:0,pay:0,debt:debt});
+  let step=accrue(debt,7); debt=step.debt; interestTotal+=step.interest;
   debt=Math.max(0,debt-pay0509);
-  rows.push({date:'05.09',note:'приход',income:40000,cashOut:10000,withdraw:0,pay:pay0509,interest:i1,debt:debt});
-  step=accrue(debt,5); debt=step.debt; interestTotal+=step.interest; const i2=step.interest;
+  rows.push({date:'05.09',withdraw:0,pay:pay0509,debt:debt});
+  step=accrue(debt,5); debt=step.debt; interestTotal+=step.interest;
   debt=Math.max(0,debt-pay1009);
-  rows.push({date:'10.09',note:'крит.',income:83000,cashOut:69000+food10,withdraw:0,pay:pay1009,interest:i2,debt:debt});
-  rows.push({date:'13.09',note:'квартира',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  step=accrue(debt,15); debt=step.debt; interestTotal+=step.interest; const i3=step.interest;
+  rows.push({date:'10.09',withdraw:0,pay:pay1009,debt:debt});
+  step=accrue(debt,15); debt=step.debt; interestTotal+=step.interest;
   debt=Math.max(0,debt-pay2509);
-  rows.push({date:'25.09',note:'ЗП',income:63000,cashOut:food25,withdraw:0,pay:pay2509,interest:i3,debt:debt});
-  step=accrue(debt,4); debt=step.debt; interestTotal+=step.interest; const i4=step.interest;
-  rows.push({date:'29.09',note:'хвост',income:0,cashOut:0,withdraw:0,pay:0,interest:i4,debt:Math.max(0,debt)});
+  rows.push({date:'25.09',withdraw:0,pay:pay2509,debt:debt});
+  step=accrue(debt,4); debt=step.debt; interestTotal+=step.interest;
+  rows.push({date:'29.09',withdraw:0,pay:0,debt:Math.max(0,debt)});
   const paySum=rows.reduce((s,r)=>s+(r.pay||0),0);
   const withdrawSum=rows.reduce((s,r)=>s+(r.withdraw||0),0);
   return {rows,tail:Math.max(0,debt),interestTotal,paySum,withdrawSum};
@@ -556,13 +557,9 @@ function render(){
     const cls = r.date==='29.09' ? ' class="tail"' : '';
     return '<tr'+cls+'>'+
       '<td>'+r.date+'</td>'+
-      '<td>'+r.note+'</td>'+
-      '<td>'+cell(r.income)+'</td>'+
-      '<td>'+cell(r.cashOut)+'</td>'+
-      '<td class="wd">'+cell(r.withdraw)+'</td>'+
-      '<td class="pay">'+cell(r.pay)+'</td>'+
-      '<td>'+cell(r.interest)+'</td>'+
-      '<td class="debt">'+cell(r.debt,'0')+'</td>'+
+      '<td class="wd">'+rubK(r.withdraw)+'</td>'+
+      '<td class="pay">'+rubK(r.pay)+'</td>'+
+      '<td class="debt">'+rubK(r.debt)+'</td>'+
       '</tr>';
   }).join('');
 }
