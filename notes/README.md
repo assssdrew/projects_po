@@ -26,6 +26,7 @@
 | `plan-pogasheniya-kreditka-corrected.md` | Скорректированный план по итогам анализа |
 | `calendar-cashflow-rub.md` | Календарь авг–сен: VND→RUB, приходы/траты |
 | `plan-min-pereplata.md` | План погашения с наименьшей переплатой (17.08) |
+| `plan-udobnoe-pogashenie.md` | Рекомендуемый удобный режим + галочки виджета v3 |
 
 Виджет на телефон: [`projects/kreditka-plan-widget/`](../projects/kreditka-plan-widget/).  
 Источник handoff: [issue #7](https://github.com/assssdrew/projects_po/issues/7).
