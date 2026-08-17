@@ -1,16 +1,16 @@
-// KreditkaPlanCore — матрица погашений/снятий Т-Банк Платинум.
-// Плитка: дата × Снятие / Погаш. / Долг. Тап → полная матрица + флаги.
+// KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "1.2";
+const CORE_VERSION = "2.0";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
-const RATE_PER_DAY = 0.00164; // ≈ 59,9% / 365
+const FX_CACHE_NAME = "kreditka-vnd-rub.json";
+const RATE_PER_DAY = 0.00164; // 59,9% / 365
+const VND_RUB_FALLBACK = 0.00322; // ~311 ₫/₽, авг 2026
+const BASE_DEBT = 100000;
+const GRACE_END = "2026-08-29";
 
 const DEFAULT_FLAGS = {
-  extraWithdraw: true, // снятие/перевод +10 000 до 25.08
-  skipBike: false, // отложить велик → +6к к погашению 05.09
-  microBuffer: false, // погашение 25.08 = 13к вместо 15к
-  honestFood: true, // еда 7,5к (10.09) и 17,5к (25.09)
+  extraWithdraw: false,
 };
 
 function fm() {
@@ -19,6 +19,10 @@ function fm() {
 
 function settingsPath() {
   return fm().joinPath(fm().documentsDirectory(), SETTINGS_NAME);
+}
+
+function fxPath() {
+  return fm().joinPath(fm().documentsDirectory(), FX_CACHE_NAME);
 }
 
 function loadJson(path, fallback) {
@@ -36,21 +40,310 @@ function saveJson(path, data) {
   } catch (e) {}
 }
 
-function loadFlags() {
-  const raw = loadJson(settingsPath(), {});
-  return Object.assign({}, DEFAULT_FLAGS, raw.flags || raw);
+function defaultSettings() {
+  return { flags: Object.assign({}, DEFAULT_FLAGS), customs: [] };
 }
 
-function saveFlags(flags) {
+function loadSettings() {
+  const raw = loadJson(settingsPath(), {});
+  const flags = Object.assign({}, DEFAULT_FLAGS, raw.flags || {});
+  const customs = Array.isArray(raw.customs) ? raw.customs : [];
+  return { flags: flags, customs: customs };
+}
+
+function saveSettings(s) {
   saveJson(settingsPath(), {
-    flags: flags,
+    flags: s.flags,
+    customs: s.customs || [],
     savedAt: new Date().toISOString(),
     version: CORE_VERSION,
   });
 }
 
+function loadFlags() {
+  return loadSettings().flags;
+}
+
+function saveFlags(flags) {
+  const s = loadSettings();
+  s.flags = Object.assign({}, DEFAULT_FLAGS, flags);
+  saveSettings(s);
+}
+
+function vndToRub(vnd, rate) {
+  return Math.round((Number(vnd) || 0) * (rate || VND_RUB_FALLBACK));
+}
+
+function calendarEvents(rate, flags) {
+  const v = function (n) {
+    return vndToRub(n, rate);
+  };
+  const skipBike = flags && flags.skipBike;
+  const events = [
+    { date: "2026-08-16", kind: "mark", note: "факт" },
+    { date: "2026-08-18", kind: "cost", amount: 10000, note: "Еда" },
+    { date: "2026-08-18", kind: "cost", amount: v(25000), note: "ГО" },
+    { date: "2026-08-19", kind: "cost", amount: v(25000), note: "ГО" },
+    { date: "2026-08-20", kind: "cost", amount: v(25000), note: "ГО" },
+    { date: "2026-08-21", kind: "cost", amount: v(25000), note: "ГО" },
+    { date: "2026-08-22", kind: "cost", amount: v(25000), note: "ГО" },
+    { date: "2026-08-24", kind: "withdraw", amount: flags && flags.extraWithdraw ? 10000 : 0, note: "+10к" },
+    { date: "2026-08-25", kind: "income", amount: 53000, note: "ЗП" },
+    { date: "2026-08-29", kind: "mark", note: "грейс↓" },
+    { date: "2026-08-31", kind: "cost", amount: v(23500000), note: "Школа" },
+    { date: "2026-09-03", kind: "cost", amount: v(2800000), note: "КУ" },
+    { date: "2026-09-03", kind: "cost", amount: skipBike ? 0 : v(2000000), note: "Байк" },
+    { date: "2026-09-03", kind: "cost", amount: v(100000), note: "ТЛФ" },
+    { date: "2026-09-05", kind: "income", amount: 40000, note: "ЗП" },
+    { date: "2026-09-09", kind: "cost", amount: v(100000), note: "ТЛФ" },
+    { date: "2026-09-10", kind: "income", amount: 83000, note: "ЗП" },
+    { date: "2026-09-12", kind: "cost", amount: v(23000000), note: "Квартира" },
+    { date: "2026-09-25", kind: "income", amount: 63000, note: "ЗП+алименты" },
+    { date: "2026-09-29", kind: "mark", note: "хвост" },
+  ];
+  return events.filter(function (e) {
+    return e.kind !== "withdraw" || e.amount > 0;
+  });
+}
+
+function parseISO(s) {
+  const p = String(s).split("-");
+  return Date.UTC(+p[0], +p[1] - 1, +p[2]);
+}
+
+function fmtDate(iso) {
+  const p = String(iso).split("-");
+  return p[2] + "." + p[1];
+}
+
+function toISO(dmy) {
+  const m = String(dmy || "").trim().match(/^(\d{1,2})[./-](\d{1,2})(?:[./-](\d{2,4}))?$/);
+  if (!m) return null;
+  const dd = ("0" + m[1]).slice(-2);
+  const mm = ("0" + m[2]).slice(-2);
+  let y = m[3] ? +m[3] : 2026;
+  if (y < 100) y += 2000;
+  return y + "-" + mm + "-" + dd;
+}
+
+function daysBetween(a, b) {
+  return Math.round((parseISO(b) - parseISO(a)) / 86400000);
+}
+
+function accrue(debt, days) {
+  if (days <= 0 || debt <= 0) return { debt: debt, interest: 0 };
+  const interest = debt * RATE_PER_DAY * days;
+  return { debt: debt + interest, interest: interest };
+}
+
+function incomeDates(events) {
+  return events
+    .filter(function (e) {
+      return e.kind === "income";
+    })
+    .map(function (e) {
+      return e.date;
+    })
+    .sort();
+}
+
+function nextIncomeAfter(date, incomes) {
+  for (let i = 0; i < incomes.length; i++) {
+    if (incomes[i] > date) return incomes[i];
+  }
+  return "2026-09-30";
+}
+
+function upcomingCosts(fromDate, untilDate, events) {
+  let s = 0;
+  for (let i = 0; i < events.length; i++) {
+    const e = events[i];
+    if (e.kind !== "cost" || !e.amount) continue;
+    if (e.date > fromDate && e.date <= untilDate) s += e.amount;
+  }
+  return s;
+}
+
+function buildMatrix(settings, rate) {
+  const s = settings || loadSettings();
+  const flags = Object.assign({}, DEFAULT_FLAGS, s.flags || {});
+  const fx = rate || VND_RUB_FALLBACK;
+  const customs = (s.customs || []).map(function (c) {
+    return {
+      date: c.date,
+      kind: c.kind,
+      amount: Math.round(Number(c.amount) || 0),
+      note: c.note || "своё",
+      custom: true,
+    };
+  });
+  const events = calendarEvents(fx, flags).concat(customs).sort(function (a, b) {
+    if (a.date === b.date) return 0;
+    return a.date < b.date ? -1 : 1;
+  });
+  const incomes = incomeDates(events);
+
+  const byDay = {};
+  const order = [];
+  for (let i = 0; i < events.length; i++) {
+    const e = events[i];
+    if (!byDay[e.date]) {
+      byDay[e.date] = [];
+      order.push(e.date);
+    }
+    byDay[e.date].push(e);
+  }
+
+  let debt = BASE_DEBT;
+  let cash = 0;
+  let last = "2026-08-16";
+  let interestTotal = 0;
+  const rows = [];
+
+  for (let d = 0; d < order.length; d++) {
+    const date = order[d];
+    let interest = 0;
+    if (last >= GRACE_END || date > GRACE_END) {
+      const from = last < GRACE_END ? GRACE_END : last;
+      const step = accrue(debt, daysBetween(from, date));
+      debt = step.debt;
+      interest = step.interest;
+      interestTotal += interest;
+    }
+
+    let income = 0;
+    let cashOut = 0;
+    let withdraw = 0;
+    let pay = 0;
+    const notes = [];
+
+    const day = byDay[date];
+    for (let i = 0; i < day.length; i++) {
+      const e = day[i];
+      if (e.kind === "withdraw" && e.amount > 0) {
+        withdraw += e.amount;
+        debt += e.amount;
+        cash += e.amount;
+        notes.push(e.note);
+      }
+      if (e.kind === "income" && e.amount > 0) {
+        income += e.amount;
+        cash += e.amount;
+        notes.push(e.note);
+      }
+      if (e.kind === "mark" && e.note) notes.push(e.note);
+    }
+    const firstIncome = incomes[0] || "2026-08-25";
+    for (let i = 0; i < day.length; i++) {
+      const e = day[i];
+      if (e.kind !== "cost" || !e.amount) continue;
+      notes.push(e.note);
+      if (cash >= e.amount) {
+        cash -= e.amount;
+        cashOut += e.amount;
+      } else if (date < firstIncome) {
+        cashOut += e.amount;
+      } else {
+        const gap = e.amount - cash;
+        cashOut += cash;
+        cash = 0;
+        withdraw += gap;
+        debt += gap;
+      }
+    }
+    for (let i = 0; i < day.length; i++) {
+      const e = day[i];
+      if (e.kind !== "pay" || !e.amount) continue;
+      const use = Math.min(cash, e.amount);
+      cash -= use;
+      pay += use;
+      debt = Math.max(0, debt - use);
+      notes.push(e.note);
+    }
+    if (income > 0) {
+      const until = nextIncomeAfter(date, incomes);
+      const reserved = upcomingCosts(date, until, events);
+      const auto = Math.max(0, cash - reserved);
+      if (auto > 0) {
+        cash -= auto;
+        pay += auto;
+        debt = Math.max(0, debt - auto);
+      }
+    }
+
+    rows.push({
+      date: fmtDate(date),
+      iso: date,
+      note: notes.filter(Boolean).join(", "),
+      income: income,
+      cashOut: cashOut,
+      withdraw: withdraw,
+      pay: pay,
+      interest: interest,
+      debt: debt,
+      cash: cash,
+    });
+    last = date;
+  }
+
+  const paySum = rows.reduce(function (a, r) {
+    return a + (r.pay || 0);
+  }, 0);
+  const withdrawSum = rows.reduce(function (a, r) {
+    return a + (r.withdraw || 0);
+  }, 0);
+  const tail = rows.length ? rows[rows.length - 1].debt : debt;
+  const minPay = Math.max(600, Math.round((BASE_DEBT + (flags.extraWithdraw ? 10000 : 0)) * 0.08));
+  const pay2508 = (rows.find(function (r) {
+    return r.iso === "2026-08-25";
+  }) || {}).pay || 0;
+
+  return {
+    flags: flags,
+    customs: s.customs || [],
+    rows: rows,
+    rate: fx,
+    tail: Math.max(0, tail),
+    interestTotal: interestTotal,
+    paySum: paySum,
+    withdrawSum: withdrawSum,
+    minPay: minPay,
+    minCovered: pay2508 >= minPay,
+    cash: cash,
+  };
+}
+
+function compute(flags) {
+  const s = loadSettings();
+  if (flags) s.flags = Object.assign({}, s.flags, flags);
+  return buildMatrix(s, cachedRate());
+}
+
+function cachedRate() {
+  const c = loadJson(fxPath(), null);
+  if (c && c.rate > 0) return c.rate;
+  return VND_RUB_FALLBACK;
+}
+
+async function refreshRate() {
+  const cached = loadJson(fxPath(), null);
+  if (cached && cached.rate > 0 && Date.now() - (cached.at || 0) < 12 * 60 * 60 * 1000) {
+    return cached.rate;
+  }
+  try {
+    const req = new Request("https://open.er-api.com/v6/latest/VND");
+    req.timeoutInterval = 8;
+    const j = await req.loadJSON();
+    if (j && j.rates && j.rates.RUB > 0) {
+      saveJson(fxPath(), { rate: j.rates.RUB, at: Date.now() });
+      return j.rates.RUB;
+    }
+  } catch (e) {}
+  return cachedRate();
+}
+
 function rub(n) {
-  if (n == null || n === 0) return "·";
+  if (n == null || Math.abs(n) < 0.5) return "·";
   const x = Math.round(Number(n) || 0);
   const sign = x < 0 ? "−" : "";
   const abs = Math.abs(x);
@@ -66,254 +359,18 @@ function rub(n) {
 }
 
 function rubFull(n) {
-  if (n == null || n === 0) return "—";
-  const x = Math.round(Number(n) || 0);
-  return x.toLocaleString("ru-RU") + " ₽";
-}
-
-function accrue(debt, days) {
-  if (days <= 0 || debt <= 0) return { debt: debt, interest: 0 };
-  const interest = debt * RATE_PER_DAY * days;
-  return { debt: debt + interest, interest: interest };
-}
-
-/**
- * Матрица по датам.
- * Каждая строка: date, income, cashOut, withdraw, pay, interest, debt
- * withdraw = снятие с кредитки; pay = погашение на кредитку.
- */
-function buildMatrix(flags) {
-  const f = Object.assign({}, DEFAULT_FLAGS, flags || {});
-
-  const withdraw10 = f.extraWithdraw ? 10000 : 0;
-  const baseDebt = 100000;
-  const startDebt = baseDebt + withdraw10;
-
-  const pay2508 = f.microBuffer ? 13000 : 15000;
-  const bike = f.skipBike ? 0 : 6000;
-  const food10 = f.honestFood ? 7500 : 0;
-  const food25 = f.honestFood ? 17500 : 10000;
-  const pay0509 = 30000 + (f.skipBike ? 6000 : 0);
-  const pay1009 = Math.max(0, 83000 - 69000 - food10);
-  const pay2509 = Math.max(0, 63000 - food25);
-
-  const rows = [];
-  let debt = baseDebt;
-  let interestTotal = 0;
-
-  // старт (уже есть долг ~100к на 16.08)
-  rows.push({
-    date: "16.08",
-    note: "факт",
-    income: 0,
-    cashOut: 0,
-    withdraw: 0,
-    pay: 0,
-    interest: 0,
-    debt: debt,
-  });
-
-  // опциональное снятие +10к
-  if (withdraw10) {
-    debt += withdraw10;
-    rows.push({
-      date: "до25",
-      note: "+10к",
-      income: 0,
-      cashOut: 0,
-      withdraw: withdraw10,
-      pay: 0,
-      interest: 0,
-      debt: debt,
-    });
-  } else {
-    rows.push({
-      date: "до25",
-      note: "без +10к",
-      income: 0,
-      cashOut: 0,
-      withdraw: 0,
-      pay: 0,
-      interest: 0,
-      debt: debt,
-    });
-  }
-
-  // 25.08 — зарплата + погашение
-  const cash2508 = 20000 + 15000 + bike + 7000; // еда + школа + велик + ЖКУ резерв
-  debt = Math.max(0, debt - pay2508);
-  rows.push({
-    date: "25.08",
-    note: "ЗП",
-    income: 63000,
-    cashOut: cash2508,
-    withdraw: 0,
-    pay: pay2508,
-    interest: 0,
-    debt: debt,
-  });
-
-  // 29.08 — дата платежа, грейс сорван, % дальше
-  rows.push({
-    date: "29.08",
-    note: "грейс↓",
-    income: 0,
-    cashOut: 0,
-    withdraw: 0,
-    pay: 0,
-    interest: 0,
-    debt: debt,
-  });
-
-  // 01.09 — школа + велик из резерва (не с кредитки)
-  rows.push({
-    date: "01.09",
-    note: "школа",
-    income: 0,
-    cashOut: 15000 + bike,
-    withdraw: 0,
-    pay: 0,
-    interest: 0,
-    debt: debt,
-  });
-
-  // 03.09 — ЖКУ
-  rows.push({
-    date: "03.09",
-    note: "ЖКУ",
-    income: 0,
-    cashOut: 7000,
-    withdraw: 0,
-    pay: 0,
-    interest: 0,
-    debt: debt,
-  });
-
-  // % 29.08 → 05.09 (7 дней)
-  let step = accrue(debt, 7);
-  debt = step.debt;
-  interestTotal += step.interest;
-  const int0509 = step.interest;
-
-  // 05.09
-  debt = Math.max(0, debt - pay0509);
-  rows.push({
-    date: "05.09",
-    note: "приход",
-    income: 40000,
-    cashOut: 10000, // еда неделя
-    withdraw: 0,
-    pay: pay0509,
-    interest: int0509,
-    debt: debt,
-  });
-
-  // % 05.09 → 10.09 (5 дней)
-  step = accrue(debt, 5);
-  debt = step.debt;
-  interestTotal += step.interest;
-  const int1009 = step.interest;
-
-  // 10.09 — критическая касса
-  debt = Math.max(0, debt - pay1009);
-  rows.push({
-    date: "10.09",
-    note: "крит.",
-    income: 83000,
-    cashOut: 69000 + food10, // резерв квартиры + еда
-    withdraw: 0,
-    pay: pay1009,
-    interest: int1009,
-    debt: debt,
-  });
-
-  // 13.09 — квартира наличными (резерв уже учтён 10.09 как cashOut)
-  rows.push({
-    date: "13.09",
-    note: "квартира",
-    income: 0,
-    cashOut: 0, // уже зарезервировано 10.09
-    withdraw: 0,
-    pay: 0,
-    interest: 0,
-    debt: debt,
-  });
-
-  // % 10.09 → 25.09 (15 дней)
-  step = accrue(debt, 15);
-  debt = step.debt;
-  interestTotal += step.interest;
-  const int2509 = step.interest;
-
-  // 25.09
-  debt = Math.max(0, debt - pay2509);
-  rows.push({
-    date: "25.09",
-    note: "ЗП",
-    income: 63000,
-    cashOut: food25,
-    withdraw: 0,
-    pay: pay2509,
-    interest: int2509,
-    debt: debt,
-  });
-
-  // % 25.09 → 29.09 (4 дня)
-  step = accrue(debt, 4);
-  debt = step.debt;
-  interestTotal += step.interest;
-  const int2909 = step.interest;
-
-  rows.push({
-    date: "29.09",
-    note: "хвост",
-    income: 0,
-    cashOut: 0,
-    withdraw: 0,
-    pay: 0,
-    interest: int2909,
-    debt: Math.max(0, debt),
-  });
-
-  const minPay = Math.max(600, Math.round(startDebt * 0.08));
-  const paySum = rows.reduce((s, r) => s + (r.pay || 0), 0);
-  const withdrawSum = rows.reduce((s, r) => s + (r.withdraw || 0), 0);
-
-  return {
-    flags: f,
-    rows: rows,
-    startDebt: startDebt,
-    tail: Math.max(0, debt),
-    interestTotal: interestTotal,
-    paySum: paySum,
-    withdrawSum: withdrawSum,
-    minPay: minPay,
-    minCovered: pay2508 >= minPay,
-    pay2508: pay2508,
-  };
-}
-
-/** Совместимость со старым API. */
-function compute(flags) {
-  return buildMatrix(flags);
+  if (n == null || !n) return "—";
+  return Math.round(Number(n)).toLocaleString("ru-RU") + " ₽";
 }
 
 function flagChips(flags) {
-  return [
-    (flags.extraWithdraw ? "●" : "○") + "+10к",
-    (flags.skipBike ? "●" : "○") + "велик↓",
-    (flags.microBuffer ? "●" : "○") + "буфер",
-    (flags.honestFood ? "●" : "○") + "еда",
-  ].join("  ");
+  return (flags.extraWithdraw ? "●" : "○") + "+10к  курс " + (cachedRate() * 1000).toFixed(2) + " ₽/тыс.₫";
 }
 
-function color(hex, alpha) {
-  const c = new Color(hex);
-  if (alpha != null) c.alpha = alpha;
-  return c;
+function color(hex) {
+  return new Color(hex);
 }
 
-/** Строка матрицы на всю ширину: 4 равные колонки (spacer внутри каждой). */
 function addMatrixRow(parent, cells, opts) {
   opts = opts || {};
   const line = parent.addStack();
@@ -325,70 +382,52 @@ function addMatrixRow(parent, cells, opts) {
     col.centerAlignContent();
     if (i > 0) col.addSpacer();
     const t = col.addText(cells[i]);
-    t.font = opts.header
-      ? Font.boldSystemFont(9)
-      : opts.bold && (i === 3 || opts.tail)
-        ? Font.boldSystemFont(11)
-        : Font.mediumSystemFont(11);
+    const fs = opts.header ? 8 : 10;
+    t.font =
+      opts.header || (opts.bold && (i === 3 || opts.tail))
+        ? Font.boldSystemFont(fs)
+        : Font.mediumSystemFont(fs);
     t.textColor = color(opts.colors && opts.colors[i] ? opts.colors[i] : "#D5E2E6");
     t.lineLimit = 1;
-    t.minimumScaleFactor = 0.6;
+    t.minimumScaleFactor = 0.55;
     if (i === 0) col.addSpacer();
   }
-  return line;
 }
 
-/** Плитка: матрица Дата | Снятие | Погаш | Долг на всю ширину, без заголовка */
+function widgetRows(plan, family) {
+  const key = plan.rows.filter(function (r) {
+    return r.withdraw || r.pay || r.iso === "2026-08-16" || r.iso === "2026-08-29" || r.iso === "2026-09-29";
+  });
+  if (family === "small") return key.slice(0, 5);
+  if (family === "large") return plan.rows;
+  return key.slice(0, 8);
+}
+
 async function buildWidget(plan, family) {
   const w = new ListWidget();
   w.backgroundColor = color("#152028");
-  w.setPadding(12, 12, 12, 12);
+  w.setPadding(12, 10, 12, 10);
   w.refreshAfterDate = new Date(Date.now() + 60 * 60 * 1000);
 
   const chips = w.addText(flagChips(plan.flags));
-  chips.font = Font.mediumSystemFont(9);
+  chips.font = Font.mediumSystemFont(8);
   chips.textColor = color("#7A9298");
   chips.lineLimit = 1;
-  w.addSpacer(6);
+  w.addSpacer(4);
 
   addMatrixRow(w, ["Дата", "Снятие", "Погаш", "Долг"], {
     header: true,
     colors: ["#5EEAD4", "#5EEAD4", "#5EEAD4", "#5EEAD4"],
   });
-  w.addSpacer(4);
+  w.addSpacer(2);
 
-  let rows = plan.rows.filter(function (r) {
-    return (
-      r.withdraw ||
-      r.pay ||
-      r.date === "16.08" ||
-      r.date === "29.08" ||
-      r.date === "29.09" ||
-      r.date === "до25"
-    );
-  });
-  if (family === "large") {
-    rows = plan.rows;
-  } else if (family === "small") {
-    rows = rows.filter(function (r) {
-      return r.withdraw || r.pay || r.date === "29.09";
-    });
-  }
-
-  const maxRows = family === "large" ? 12 : family === "small" ? 5 : 8;
-  rows = rows.slice(0, maxRows);
-
+  const rows = widgetRows(plan, family);
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i];
-    const isTail = r.date === "29.09";
+    const isTail = r.iso === "2026-09-29";
     addMatrixRow(
       w,
-      [
-        r.date,
-        r.withdraw ? rub(r.withdraw) : "·",
-        r.pay ? rub(r.pay) : "·",
-        rub(r.debt),
-      ],
+      [r.date, r.withdraw ? rub(r.withdraw) : "·", r.pay ? rub(r.pay) : "·", rub(r.debt)],
       {
         tail: isTail,
         bold: true,
@@ -400,250 +439,348 @@ async function buildWidget(plan, family) {
         ],
       }
     );
-    if (i < rows.length - 1) w.addSpacer(3);
+    if (i < rows.length - 1) w.addSpacer(1);
   }
 
-  w.addSpacer(6);
+  w.addSpacer(4);
   const foot = w.addText(
-    "Σ погаш " +
-      rub(plan.paySum) +
-      " · Σ снят " +
-      rub(plan.withdrawSum) +
-      " · % " +
-      rub(plan.interestTotal) +
-      " · хвост " +
-      rub(plan.tail)
+    "Σ " + rub(plan.paySum) + " погаш · " + rub(plan.withdrawSum) + " снят · хвост " + rub(plan.tail)
   );
-  foot.font = Font.mediumSystemFont(9);
+  foot.font = Font.mediumSystemFont(8);
   foot.textColor = color("#8AA0A8");
   foot.lineLimit = 1;
-  foot.minimumScaleFactor = 0.7;
-
-  if (!plan.minCovered) {
-    w.addSpacer(3);
-    const warn = w.addText("! минималка к 29.08 не закрыта");
-    warn.font = Font.boldSystemFont(9);
-    warn.textColor = color("#F59E0B");
-  }
-
+  foot.minimumScaleFactor = 0.65;
   return w;
 }
 
-function tableHtml(initialFlags) {
-  const boot = JSON.stringify(Object.assign({}, DEFAULT_FLAGS, initialFlags || {}));
+function matrixHtml(plan) {
+  const rows = plan.rows
+    .map(function (r) {
+      const cls = r.iso === "2026-09-29" ? " class='tail'" : "";
+      return (
+        "<tr" +
+        cls +
+        "><td>" +
+        r.date +
+        "</td><td>" +
+        (r.note || "") +
+        "</td><td>" +
+        rub(r.income) +
+        "</td><td>" +
+        rub(r.cashOut) +
+        "</td><td class='wd'>" +
+        rub(r.withdraw) +
+        "</td><td class='pay'>" +
+        rub(r.pay) +
+        "</td><td>" +
+        rub(r.debt) +
+        "</td></tr>"
+      );
+    })
+    .join("");
+  return (
+    "<!DOCTYPE html><html><head><meta charset='utf-8'/>" +
+    "<meta name='viewport' content='width=device-width,initial-scale=1'/>" +
+    "<style>" +
+    "body{margin:0;font:13px -apple-system;background:#0F171C;color:#E8F1F2;padding:10px}" +
+    "h1{font-size:16px;color:#5EEAD4;margin:0 0 6px}" +
+    ".sub{color:#8AA0A8;font-size:11px;margin-bottom:10px}" +
+    ".sums{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:12px}" +
+    ".sums b{color:#5EEAD4}" +
+    "table{width:100%;border-collapse:collapse;font-size:11px}" +
+    "th,td{padding:5px 4px;border-bottom:1px solid #223038;text-align:right}" +
+    "th{color:#5EEAD4;text-align:right}" +
+    "td:first-child,th:first-child,td:nth-child(2){text-align:left}" +
+    "td.pay{color:#5EEAD4;font-weight:700}" +
+    "td.wd{color:#F59E0B;font-weight:700}" +
+    "tr.tail td{color:#5EEAD4;background:#134E4A}" +
+    "</style></head><body>" +
+    "<h1>Матрица · календарь</h1>" +
+    "<div class='sub'>VND→RUB " +
+    plan.rate.toFixed(5) +
+    " · v" +
+    CORE_VERSION +
+    "</div>" +
+    "<div class='sums'><span>погаш <b>" +
+    rubFull(plan.paySum) +
+    "</b></span><span>снят <b>" +
+    rubFull(plan.withdrawSum) +
+    "</b></span><span>% <b>" +
+    rubFull(plan.interestTotal) +
+    "</b></span><span>хвост <b>" +
+    rubFull(plan.tail) +
+    "</b></span></div>" +
+    "<table><thead><tr><th>Дата</th><th>Что</th><th>Приход</th><th>Расход</th><th>Снятие</th><th>Погаш</th><th>Долг</th></tr></thead><tbody>" +
+    rows +
+    "</tbody></table></body></html>"
+  );
+}
+
+function amountsHtml(plan) {
+  const customs = JSON.stringify(plan.customs || []);
+  const flags = JSON.stringify(plan.flags || DEFAULT_FLAGS);
+  const rate = plan.rate;
   return `<!DOCTYPE html>
 <html><head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font:14px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:12px;padding-bottom:32px}
-h1{font-size:17px;margin:0 0 4px;color:#5EEAD4}
-.sub{color:#7A9298;font-size:11px;margin-bottom:12px}
-.flags{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.flag{display:flex;gap:10px;align-items:flex-start;background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.flag input{width:18px;height:18px;margin-top:2px}
-.flag b{display:block;font-size:13px}
-.flag small{display:block;color:#8AA0A8;font-size:11px;margin-top:2px;line-height:1.3}
-.wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #24343E;border-radius:12px}
-table{border-collapse:collapse;min-width:640px;width:100%;font-size:11px}
-th,td{padding:7px 6px;border-bottom:1px solid #223038;white-space:nowrap}
-th{position:sticky;top:0;background:#152028;color:#5EEAD4;font-size:10px;text-align:right}
-th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:#152028;z-index:1;font-weight:700}
-th:nth-child(2),td:nth-child(2){text-align:left;color:#8AA0A8}
-td{text-align:right;font-variant-numeric:tabular-nums}
-td.pay{color:#5EEAD4;font-weight:700}
-td.wd{color:#F59E0B;font-weight:700}
-td.debt{font-weight:700}
-tr.tail td{color:#5EEAD4;background:#134E4A}
-.sums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.sum{background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.sum .l{font-size:10px;color:#8AA0A8}
-.sum .v{font-size:18px;font-weight:800;color:#5EEAD4;margin-top:2px}
-.hint{margin-top:12px;color:#7A9298;font-size:11px;line-height:1.4}
+*{box-sizing:border-box}
+body{margin:0;font:14px -apple-system;background:#0F171C;color:#E8F1F2;padding:10px}
+h1{font-size:16px;color:#5EEAD4;margin:0 0 8px}
+.row{display:flex;gap:6px;margin-bottom:8px}
+input,select,button{font:14px -apple-system;border-radius:8px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:8px}
+input,select{flex:1;min-width:0}
+button{font-weight:700}
+.add{background:#5EEAD4;color:#0F171C;border:0;padding:8px 12px}
+.list{margin:8px 0;max-height:28vh;overflow:auto}
+.item{display:flex;gap:8px;align-items:center;padding:8px;background:#1A2830;border-radius:10px;margin-bottom:6px;font-size:13px}
+.item b{flex:1}
+.del{background:#3B0D0D;color:#F59E0B;border:0}
+.sums{font-size:12px;color:#8AA0A8;margin:8px 0}
+.sums b{color:#5EEAD4}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th,td{padding:4px;border-bottom:1px solid #223038;text-align:right}
+th{color:#5EEAD4}
+td:first-child,th:first-child{text-align:left}
+td.pay{color:#5EEAD4} td.wd{color:#F59E0B}
+.save{position:sticky;bottom:8px;width:100%;background:#5EEAD4;color:#0F171C;border:0;padding:12px;margin-top:8px}
 </style></head><body>
-<h1>Матрица · кредитка</h1>
-<div class="sub">Снятие / погашение по датам · флаги пересчитывают всё · v${CORE_VERSION}</div>
-<div class="flags">
-  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>Снятие +10 000</b><small>Строка «до25»: снятие с карты → долг 110к.</small></span></label>
-  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Отложить велик 6 000</b><small>Убрать расход 01.09, +6к к погашению 05.09.</small></span></label>
-  <label class="flag"><input type="checkbox" id="microBuffer"/><span><b>Микробуфер 25.08</b><small>Погашение 13к вместо 15к.</small></span></label>
-  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b><small>Еда 7,5к (10.09) и 17,5к (25.09) → меньше погашение.</small></span></label>
+<h1>Свои суммы</h1>
+<div class="row">
+  <input id="date" placeholder="дата 31.08" value=""/>
+  <select id="kind">
+    <option value="cost">расход</option>
+    <option value="pay">погашение</option>
+    <option value="withdraw">снятие</option>
+  </select>
 </div>
-<div class="sums">
-  <div class="sum"><div class="l">Σ погашения</div><div class="v" id="sPay">—</div></div>
-  <div class="sum"><div class="l">Σ снятия</div><div class="v" id="sWd">—</div></div>
-  <div class="sum"><div class="l">% за путь</div><div class="v" id="sInt">—</div></div>
-  <div class="sum"><div class="l">Хвост 29.09</div><div class="v" id="sTail">—</div></div>
+<div class="row">
+  <input id="amount" type="number" placeholder="сумма, ₽"/>
+  <input id="note" placeholder="заметка"/>
+  <button class="add" id="add">+</button>
 </div>
-<div class="wrap" style="margin-top:12px"><table>
-<thead><tr>
-<th>Дата</th><th>Заметка</th><th>Приход</th><th>Нал.расход</th><th>Снятие</th><th>Погашение</th><th>%</th><th>Долг</th>
-</tr></thead>
-<tbody id="tb"></tbody>
-</table></div>
-<p class="hint">Закрой экран (Done) — флаги сохранятся и обновят виджет. На плитке: Дата × Снятие × Погаш × Долг.</p>
+<div class="list" id="list"></div>
+<div class="sums">хвост <b id="tail">—</b> · погаш <b id="pay">—</b> · снят <b id="wd">—</b></div>
+<table><thead><tr><th>Дата</th><th>Снятие</th><th>Погаш</th><th>Долг</th></tr></thead><tbody id="tb"></tbody></table>
+<button class="save" id="save">Сохранить и закрыть</button>
 <script>
-window.__flags = ${boot};
-const RATE = ${RATE_PER_DAY};
-function rubFull(n){
-  if(!n) return '—';
-  return Math.round(n).toLocaleString('ru-RU') + ' ₽';
+window.__flags = ${flags};
+window.__customs = ${customs};
+const RATE = ${rate};
+const RATE_DAY = ${RATE_PER_DAY};
+const BASE = ${BASE_DEBT};
+const FALLBACK = ${VND_RUB_FALLBACK};
+function vnd(n){return Math.round(n*(RATE||FALLBACK))}
+function rub(n){if(!n)return '·'; const x=Math.round(n); const a=Math.abs(x); if(a>=1000){const k=a/1000; return (x<0?'−':'')+(k>=10||Math.abs(k-Math.round(k))<0.05?Math.round(k):k.toFixed(1).replace('.0',''))+'к'} return String(x)}
+function rubFull(n){if(!n)return '—'; return Math.round(n).toLocaleString('ru-RU')+' ₽'}
+function iso(dmy){const m=String(dmy||'').trim().match(/^(\\d{1,2})[.\\/-](\\d{1,2})(?:[.\\/-](\\d{2,4}))?$/); if(!m)return null; const dd=('0'+m[1]).slice(-2), mm=('0'+m[2]).slice(-2); let y=m[3]?+m[3]:2026; if(y<100)y+=2000; return y+'-'+mm+'-'+dd}
+function fmt(iso){const p=iso.split('-'); return p[2]+'.'+p[1]}
+function parseISO(s){const p=s.split('-'); return Date.UTC(+p[0],+p[1]-1,+p[2])}
+function daysBetween(a,b){return Math.round((parseISO(b)-parseISO(a))/86400000)}
+function accrue(debt,days){if(days<=0||debt<=0)return {debt,interest:0}; const interest=debt*RATE_DAY*days; return {debt:debt+interest,interest}}
+function cal(flags){
+  const skip=flags.skipBike;
+  const ev=[
+    {date:'2026-08-16',kind:'mark',note:'факт'},
+    {date:'2026-08-18',kind:'cost',amount:10000,note:'Еда'},
+    {date:'2026-08-18',kind:'cost',amount:vnd(25000),note:'ГО'},
+    {date:'2026-08-19',kind:'cost',amount:vnd(25000),note:'ГО'},
+    {date:'2026-08-20',kind:'cost',amount:vnd(25000),note:'ГО'},
+    {date:'2026-08-21',kind:'cost',amount:vnd(25000),note:'ГО'},
+    {date:'2026-08-22',kind:'cost',amount:vnd(25000),note:'ГО'},
+    {date:'2026-08-25',kind:'income',amount:53000,note:'ЗП'},
+    {date:'2026-08-29',kind:'mark',note:'грейс↓'},
+    {date:'2026-08-31',kind:'cost',amount:vnd(23500000),note:'Школа'},
+    {date:'2026-09-03',kind:'cost',amount:vnd(2800000),note:'КУ'},
+    {date:'2026-09-03',kind:'cost',amount:skip?0:vnd(2000000),note:'Байк'},
+    {date:'2026-09-03',kind:'cost',amount:vnd(100000),note:'ТЛФ'},
+    {date:'2026-09-05',kind:'income',amount:40000,note:'ЗП'},
+    {date:'2026-09-09',kind:'cost',amount:vnd(100000),note:'ТЛФ'},
+    {date:'2026-09-10',kind:'income',amount:83000,note:'ЗП'},
+    {date:'2026-09-12',kind:'cost',amount:vnd(23000000),note:'Квартира'},
+    {date:'2026-09-25',kind:'income',amount:63000,note:'ЗП+алименты'},
+    {date:'2026-09-29',kind:'mark',note:'хвост'}
+  ];
+  if(flags.extraWithdraw) ev.splice(7,0,{date:'2026-08-24',kind:'withdraw',amount:10000,note:'+10к'});
+  return ev;
 }
-function cell(n, empty){
-  if(!n) return empty || '·';
-  return Math.round(n).toLocaleString('ru-RU');
-}
-function accrue(debt, days){
-  if(days<=0||debt<=0) return {debt:debt,interest:0};
-  const interest = debt*RATE*days;
-  return {debt:debt+interest,interest:interest};
-}
-function buildMatrix(f){
-  const withdraw10 = f.extraWithdraw ? 10000 : 0;
-  const baseDebt = 100000;
-  const bike = f.skipBike ? 0 : 6000;
-  const pay2508 = f.microBuffer ? 13000 : 15000;
-  const food10 = f.honestFood ? 7500 : 0;
-  const food25 = f.honestFood ? 17500 : 10000;
-  const pay0509 = 30000 + (f.skipBike ? 6000 : 0);
-  const pay1009 = Math.max(0, 83000 - 69000 - food10);
-  const pay2509 = Math.max(0, 63000 - food25);
-  const rows = [];
-  let debt = baseDebt;
-  let interestTotal = 0;
-  rows.push({date:'16.08',note:'факт',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  if(withdraw10){ debt+=withdraw10; rows.push({date:'до25',note:'+10к',income:0,cashOut:0,withdraw:withdraw10,pay:0,interest:0,debt:debt}); }
-  else { rows.push({date:'до25',note:'без +10к',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt}); }
-  const cash2508 = 20000+15000+bike+7000;
-  debt=Math.max(0,debt-pay2508);
-  rows.push({date:'25.08',note:'ЗП',income:63000,cashOut:cash2508,withdraw:0,pay:pay2508,interest:0,debt:debt});
-  rows.push({date:'29.08',note:'грейс↓',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  rows.push({date:'01.09',note:'школа',income:0,cashOut:15000+bike,withdraw:0,pay:0,interest:0,debt:debt});
-  rows.push({date:'03.09',note:'ЖКУ',income:0,cashOut:7000,withdraw:0,pay:0,interest:0,debt:debt});
-  let step=accrue(debt,7); debt=step.debt; interestTotal+=step.interest; const i1=step.interest;
-  debt=Math.max(0,debt-pay0509);
-  rows.push({date:'05.09',note:'приход',income:40000,cashOut:10000,withdraw:0,pay:pay0509,interest:i1,debt:debt});
-  step=accrue(debt,5); debt=step.debt; interestTotal+=step.interest; const i2=step.interest;
-  debt=Math.max(0,debt-pay1009);
-  rows.push({date:'10.09',note:'крит.',income:83000,cashOut:69000+food10,withdraw:0,pay:pay1009,interest:i2,debt:debt});
-  rows.push({date:'13.09',note:'квартира',income:0,cashOut:0,withdraw:0,pay:0,interest:0,debt:debt});
-  step=accrue(debt,15); debt=step.debt; interestTotal+=step.interest; const i3=step.interest;
-  debt=Math.max(0,debt-pay2509);
-  rows.push({date:'25.09',note:'ЗП',income:63000,cashOut:food25,withdraw:0,pay:pay2509,interest:i3,debt:debt});
-  step=accrue(debt,4); debt=step.debt; interestTotal+=step.interest; const i4=step.interest;
-  rows.push({date:'29.09',note:'хвост',income:0,cashOut:0,withdraw:0,pay:0,interest:i4,debt:Math.max(0,debt)});
-  const paySum=rows.reduce((s,r)=>s+(r.pay||0),0);
-  const withdrawSum=rows.reduce((s,r)=>s+(r.withdraw||0),0);
-  return {rows,tail:Math.max(0,debt),interestTotal,paySum,withdrawSum};
-}
-function readFlags(){
-  return {
-    extraWithdraw: document.getElementById('extraWithdraw').checked,
-    skipBike: document.getElementById('skipBike').checked,
-    microBuffer: document.getElementById('microBuffer').checked,
-    honestFood: document.getElementById('honestFood').checked
-  };
+function build(flags,customs){
+  const extra=(customs||[]).map(function(c){return {date:c.date,kind:c.kind,amount:+c.amount||0,note:c.note||'своё'}});
+  const events=cal(flags).concat(extra).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0});
+  const incomes=events.filter(function(e){return e.kind==='income'}).map(function(e){return e.date});
+  function nextInc(date){for(let i=0;i<incomes.length;i++) if(incomes[i]>date) return incomes[i]; return '2026-09-30'}
+  function upcoming(from,until){let s=0; events.forEach(function(e){if(e.kind==='cost'&&e.amount&&e.date>from&&e.date<=until)s+=e.amount}); return s}
+  const by={}; const order=[];
+  events.forEach(function(e){if(!by[e.date]){by[e.date]=[]; order.push(e.date)} by[e.date].push(e)});
+  let debt=BASE, cash=0, last='2026-08-16', interestTotal=0, rows=[];
+  order.forEach(function(date){
+    let interest=0;
+    if(last>='2026-08-29'||date>'2026-08-29'){
+      const from=last<'2026-08-29'?'2026-08-29':last;
+      const step=accrue(debt,daysBetween(from,date)); debt=step.debt; interest=step.interest; interestTotal+=interest;
+    }
+    let income=0,cashOut=0,withdraw=0,pay=0;
+    const day=by[date];
+    day.forEach(function(e){
+      if(e.kind==='withdraw'&&e.amount){withdraw+=e.amount; debt+=e.amount; cash+=e.amount}
+      if(e.kind==='income'&&e.amount){income+=e.amount; cash+=e.amount}
+    });
+    const firstIncome = incomes[0] || '2026-08-25';
+    day.forEach(function(e){
+      if(e.kind!=='cost'||!e.amount) return;
+      if(cash>=e.amount){cash-=e.amount; cashOut+=e.amount}
+      else if(date<firstIncome){cashOut+=e.amount}
+      else {const gap=e.amount-cash; cashOut+=cash; cash=0; withdraw+=gap; debt+=gap}
+    });
+    day.forEach(function(e){
+      if(e.kind!=='pay'||!e.amount) return;
+      const use=Math.min(cash,e.amount); cash-=use; pay+=use; debt=Math.max(0,debt-use);
+    });
+    if(income>0){
+      const auto=Math.max(0, cash - upcoming(date, nextInc(date)));
+      if(auto>0){cash-=auto; pay+=auto; debt=Math.max(0,debt-auto)}
+    }
+    rows.push({date:fmt(date),iso:date,withdraw,pay,debt,income,cashOut});
+    last=date;
+  });
+  const paySum=rows.reduce((s,r)=>s+r.pay,0), wdSum=rows.reduce((s,r)=>s+r.withdraw,0);
+  return {rows,tail:rows[rows.length-1].debt,paySum,wdSum,interestTotal};
 }
 function render(){
-  window.__flags = readFlags();
-  const m = buildMatrix(window.__flags);
-  document.getElementById('sPay').textContent = rubFull(m.paySum);
-  document.getElementById('sWd').textContent = rubFull(m.withdrawSum);
-  document.getElementById('sInt').textContent = rubFull(m.interestTotal);
-  document.getElementById('sTail').textContent = rubFull(m.tail);
-  document.getElementById('tb').innerHTML = m.rows.map(function(r){
-    const cls = r.date==='29.09' ? ' class="tail"' : '';
-    return '<tr'+cls+'>'+
-      '<td>'+r.date+'</td>'+
-      '<td>'+r.note+'</td>'+
-      '<td>'+cell(r.income)+'</td>'+
-      '<td>'+cell(r.cashOut)+'</td>'+
-      '<td class="wd">'+cell(r.withdraw)+'</td>'+
-      '<td class="pay">'+cell(r.pay)+'</td>'+
-      '<td>'+cell(r.interest)+'</td>'+
-      '<td class="debt">'+cell(r.debt,'0')+'</td>'+
-      '</tr>';
+  const list=document.getElementById('list');
+  list.innerHTML=(window.__customs||[]).map(function(c,i){
+    const kind=c.kind==='pay'?'погаш':c.kind==='withdraw'?'снятие':'расход';
+    return '<div class="item"><b>'+fmt(c.date)+' · '+kind+' · '+rubFull(c.amount)+'</b><span>'+(c.note||'')+'</span><button class="del" data-i="'+i+'">×</button></div>';
+  }).join('') || '<div class="item">пока пусто — расход или погашение выше</div>';
+  list.querySelectorAll('.del').forEach(function(b){b.onclick=function(){window.__customs.splice(+b.dataset.i,1); render()}});
+  const m=build(window.__flags, window.__customs);
+  document.getElementById('tail').textContent=rubFull(m.tail);
+  document.getElementById('pay').textContent=rubFull(m.paySum);
+  document.getElementById('wd').textContent=rubFull(m.wdSum);
+  document.getElementById('tb').innerHTML=m.rows.filter(function(r){return r.withdraw||r.pay||r.iso==='2026-08-16'||r.iso==='2026-09-29'}).map(function(r){
+    return '<tr><td>'+r.date+'</td><td class="wd">'+rub(r.withdraw)+'</td><td class="pay">'+rub(r.pay)+'</td><td>'+rub(r.debt)+'</td></tr>';
   }).join('');
 }
-['extraWithdraw','skipBike','microBuffer','honestFood'].forEach(function(id){
-  document.getElementById(id).checked = !!window.__flags[id];
-  document.getElementById(id).addEventListener('change', render);
-});
+document.getElementById('add').onclick=function(){
+  const date=iso(document.getElementById('date').value);
+  const amount=+document.getElementById('amount').value;
+  const kind=document.getElementById('kind').value;
+  const note=document.getElementById('note').value||'своё';
+  if(!date||!(amount>0)) return;
+  window.__customs.push({date,kind,amount,note});
+  document.getElementById('amount').value='';
+  document.getElementById('note').value='';
+  render();
+};
+document.getElementById('save').onclick=function(){
+  completion({type:'save', customs: window.__customs, flags: window.__flags});
+};
 render();
-</script>
-</body></html>`;
+</script></body></html>`;
 }
 
-async function presentEditor(initialFlags) {
+async function presentMatrix(plan) {
   const wv = new WebView();
-  await wv.loadHTML(tableHtml(initialFlags));
+  await wv.loadHTML(matrixHtml(plan));
+  await wv.present(true);
+}
+
+async function presentAmounts(plan) {
+  const wv = new WebView();
+  await wv.loadHTML(amountsHtml(plan));
   await wv.present(true);
   try {
     const stateJson = await wv.evaluateJavaScript(
-      "JSON.stringify(window.__flags || {})"
+      "JSON.stringify({ customs: window.__customs || [], flags: window.__flags || {} })"
     );
     const parsed = JSON.parse(stateJson);
-    if (parsed && typeof parsed === "object") {
-      const flags = Object.assign({}, DEFAULT_FLAGS, {
-        extraWithdraw: !!parsed.extraWithdraw,
-        skipBike: !!parsed.skipBike,
-        microBuffer: !!parsed.microBuffer,
-        honestFood: !!parsed.honestFood,
-      });
-      saveFlags(flags);
-      return flags;
+    if (parsed && Array.isArray(parsed.customs)) {
+      const s = loadSettings();
+      s.customs = parsed.customs;
+      if (parsed.flags) s.flags = Object.assign({}, s.flags, parsed.flags);
+      saveSettings(s);
     }
   } catch (e) {}
-  return loadFlags();
+  return loadSettings();
+}
+
+async function addCustomPrompt(kind) {
+  const a = new Alert();
+  a.title = kind === "pay" ? "Погашение" : kind === "withdraw" ? "Снятие" : "Расход";
+  a.message = "Дата ДД.ММ и сумма в рублях";
+  a.addTextField("Дата, напр. 20.09", "");
+  a.addTextField("Сумма ₽", "");
+  a.addTextField("Заметка", kind === "pay" ? "погашение" : kind === "withdraw" ? "снятие" : "расход");
+  a.addAction("Добавить");
+  a.addCancelAction("Отмена");
+  const i = await a.presentAlert();
+  if (i !== 0) return;
+  const date = toISO(a.textFieldValue(0));
+  const amount = Math.round(Number(String(a.textFieldValue(1)).replace(/\s/g, "").replace(",", ".")) || 0);
+  const note = a.textFieldValue(2) || "своё";
+  if (!date || amount <= 0) {
+    const err = new Alert();
+    err.title = "Не вышло";
+    err.message = "Нужны дата вида 20.09 и сумма > 0";
+    err.addAction("OK");
+    await err.presentAlert();
+    return;
+  }
+  const s = loadSettings();
+  s.customs.push({ date: date, kind: kind, amount: amount, note: note });
+  saveSettings(s);
 }
 
 async function presentMenu(plan) {
   const a = new Alert();
   a.title = "Кредитка · матрица · v" + CORE_VERSION;
   a.message =
-    "Хвост 29.09: " +
+    "Хвост: " +
     rubFull(plan.tail) +
-    "\nΣ погаш " +
+    "\nкурс 1₫ = " +
+    plan.rate.toFixed(5) +
+    " ₽\nΣ погаш " +
     rubFull(plan.paySum) +
     " · Σ снят " +
-    rubFull(plan.withdrawSum) +
-    " · % " +
-    rubFull(plan.interestTotal);
-  a.addAction("Матрица + флаги");
+    rubFull(plan.withdrawSum);
+  a.addAction("Матрица");
+  a.addAction("Ввести суммы");
+  a.addAction("+ расход ₽");
+  a.addAction("+ погашение ₽");
+  a.addAction("+ снятие ₽");
   a.addAction("+10к: " + (plan.flags.extraWithdraw ? "ВКЛ → выкл" : "выкл → ВКЛ"));
-  a.addAction("Велик↓: " + (plan.flags.skipBike ? "ВКЛ → выкл" : "выкл → ВКЛ"));
-  a.addAction("Буфер: " + (plan.flags.microBuffer ? "ВКЛ → выкл" : "выкл → ВКЛ"));
-  a.addAction("Еда: " + (plan.flags.honestFood ? "ВКЛ → выкл" : "выкл → ВКЛ"));
   a.addCancelAction("Закрыть");
   const i = await a.presentAlert();
-  if (i === -1) return plan.flags;
-  const f = Object.assign({}, plan.flags);
-  if (i === 0) return await presentEditor(f);
-  if (i === 1) f.extraWithdraw = !f.extraWithdraw;
-  if (i === 2) f.skipBike = !f.skipBike;
-  if (i === 3) f.microBuffer = !f.microBuffer;
-  if (i === 4) f.honestFood = !f.honestFood;
-  saveFlags(f);
-  return f;
+  if (i === -1) return loadSettings();
+  if (i === 0) await presentMatrix(plan);
+  if (i === 1) await presentAmounts(plan);
+  if (i === 2) await addCustomPrompt("cost");
+  if (i === 3) await addCustomPrompt("pay");
+  if (i === 4) await addCustomPrompt("withdraw");
+  if (i === 5) {
+    const s = loadSettings();
+    s.flags.extraWithdraw = !s.flags.extraWithdraw;
+    saveSettings(s);
+  }
+  return loadSettings();
 }
 
 async function main() {
-  let flags = loadFlags();
-  let plan = buildMatrix(flags);
+  const rate = await refreshRate();
+  let settings = loadSettings();
+  let plan = buildMatrix(settings, rate);
 
   if (config.runsInWidget) {
     const family = config.widgetFamily || "medium";
-    const w = await buildWidget(plan, family);
-    Script.setWidget(w);
+    Script.setWidget(await buildWidget(plan, family));
     Script.complete();
     return;
   }
 
-  flags = await presentMenu(plan);
-  plan = buildMatrix(flags);
-  const w = await buildWidget(plan, "medium");
-  Script.setWidget(w);
+  settings = await presentMenu(plan);
+  plan = buildMatrix(settings, rate);
+  Script.setWidget(await buildWidget(plan, "medium"));
   Script.complete();
 }
 
@@ -655,5 +792,7 @@ module.exports = {
   buildMatrix,
   loadFlags,
   saveFlags,
+  loadSettings,
+  saveSettings,
   buildWidget,
 };

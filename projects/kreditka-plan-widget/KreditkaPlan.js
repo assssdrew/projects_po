@@ -3,7 +3,7 @@
 // icon-color: green; icon-glyph: credit-card;
 //
 // Замени ВЕСЬ код скрипта KreditkaPlan → ▶ Play.
-// Успех: меню «Кредитка · план · v1.0» или плитка с таблицей долга.
+// Успех: меню «Кредитка · матрица · v2.0».
 
 const CORE_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
@@ -70,7 +70,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("KREDITKA_PLAN_WIDGET_V1") || !local.includes("CORE_VERSION = \"1.2\"")) {
+  if (!local.includes("KREDITKA_PLAN_WIDGET_V1") || !local.includes("CORE_VERSION = \"2.0\"")) {
     await downloadCore();
   }
 }
