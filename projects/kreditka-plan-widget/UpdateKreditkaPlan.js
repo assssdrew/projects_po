@@ -2,13 +2,13 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: sync;
 //
-// Принудительно скачивает KreditkaPlan.js + ядро v3.2.
+// Принудительно скачивает KreditkaPlan.js + ядро v3.1.
 
 const BOOT =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlan.js";
 const CORE =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js";
-const REQUIRED_CORE = "CORE_VERSION = \"3.2\"";
+const REQUIRED_CORE = "CORE_VERSION = \"3.1\"";
 
 function managers() {
   const out = [];
@@ -51,11 +51,11 @@ if (!core.includes(REQUIRED_CORE)) {
 
 writeAll("KreditkaPlan.js", boot);
 writeAll("KreditkaPlanCore.js", core);
-writeAll("KreditkaPlanCore32.js", core);
+writeAll("KreditkaPlanCore31.js", core);
 
 const a = new Alert();
-a.title = "KreditkaPlan v3.2 записан";
+a.title = "KreditkaPlan v3.1 записан";
 a.message =
-  "1) Полностью закрой Scriptable (App Switcher → свайп вверх).\n2) Открой KreditkaPlan → ▶ Play.\nВ подзаголовке должно быть v3.2.";
+  "1) Полностью закрой Scriptable (App Switcher → свайп вверх).\n2) Открой KreditkaPlan → ▶ Play.\nВ подзаголовке должно быть v3.1.";
 a.addAction("OK");
 await a.presentAlert();
