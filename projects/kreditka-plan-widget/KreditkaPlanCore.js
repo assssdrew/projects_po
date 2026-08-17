@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.0";
+const CORE_VERSION = "3.1";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -567,29 +567,29 @@ function combinedHtml(plan) {
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font:14px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:12px;padding-bottom:40px}
-h1{font-size:17px;margin:0 0 4px;color:#5EEAD4}
-.sub{color:#7A9298;font-size:11px;margin-bottom:10px;line-height:1.35}
-.addbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
-.addbar input,.addbar select,button{font:13px -apple-system;border-radius:8px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:7px 8px}
-.addbar input,.addbar select{flex:1;min-width:72px}
-.add{background:#5EEAD4;color:#0F171C;border:0;font-weight:800;padding:7px 12px}
-.pills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 10px}
+body{margin:0;font:13px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:36px 10px 28px}
+h1{font-size:15px;margin:0 0 2px;color:#5EEAD4}
+.sub{color:#7A9298;font-size:10px;margin-bottom:8px;line-height:1.3}
+.addbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;align-items:center}
+.addbar input,.addbar select,button{font:12px -apple-system;border-radius:7px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:5px 7px}
+.addbar input,.addbar select{flex:1;min-width:64px}
+.add{background:#5EEAD4;color:#0F171C;border:0;font-weight:800;padding:5px 10px}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px}
 .pills:empty{display:none}
-.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:3px 8px;font-size:11px;display:flex;gap:6px;align-items:center}
+.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:2px 7px;font-size:10px;display:flex;gap:5px;align-items:center}
 .pill .x{color:#F59E0B;font-weight:800}
-.flags{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.flag{display:flex;gap:10px;align-items:flex-start;background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.flag input{width:18px;height:18px;margin-top:2px;flex:0 0 auto}
-.flag b{display:block;font-size:13px}
-.flag small{display:block;color:#8AA0A8;font-size:11px;margin-top:2px;line-height:1.3}
-.sums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.sum{background:#1A2830;border-radius:12px;padding:10px;border:1px solid #24343E}
-.sum .l{font-size:10px;color:#8AA0A8}
-.sum .v{font-size:18px;font-weight:800;color:#5EEAD4;margin-top:2px}
-.wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #24343E;border-radius:12px}
+.flags{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.flag{display:flex;gap:7px;align-items:center;background:#1A2830;border-radius:8px;padding:5px 8px;border:1px solid #24343E}
+.flag input{width:16px;height:16px;flex:0 0 auto;margin:0}
+.flag b{display:block;font-size:12px;line-height:1.15}
+.flag small{display:block;color:#8AA0A8;font-size:10px;margin-top:1px;line-height:1.2}
+.sums{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}
+.sum{background:#1A2830;border-radius:8px;padding:6px 8px;border:1px solid #24343E}
+.sum .l{font-size:9px;color:#8AA0A8}
+.sum .v{font-size:14px;font-weight:800;color:#5EEAD4;margin-top:1px}
+.wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #24343E;border-radius:8px}
 table{border-collapse:collapse;min-width:720px;width:100%;font-size:11px}
-th,td{padding:7px 6px;border-bottom:1px solid #223038;white-space:nowrap}
+th,td{padding:5px 5px;border-bottom:1px solid #223038;white-space:nowrap}
 th{position:sticky;top:0;background:#152028;color:#5EEAD4;font-size:10px;text-align:right}
 th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:#152028;z-index:1;font-weight:700}
 th:nth-child(2),td:nth-child(2){text-align:left;color:#8AA0A8}
@@ -598,8 +598,8 @@ td.pay{color:#5EEAD4;font-weight:700}
 td.wd{color:#F59E0B;font-weight:700}
 td.debt{font-weight:700}
 tr.tail td{color:#5EEAD4;background:#134E4A}
-.warn{margin-top:10px;color:#F59E0B;font-size:12px;font-weight:700}
-.hint{margin-top:12px;color:#7A9298;font-size:11px;line-height:1.45}
+.warn{margin-top:8px;color:#F59E0B;font-size:11px;font-weight:700}
+.hint{margin-top:8px;color:#7A9298;font-size:10px;line-height:1.4}
 </style></head><body>
 <h1>Матрица · кредитка</h1>
 <div class="sub">Календарные даты не сдвигаются · галочки пересчитывают всё · свои суммы через + · Close сохраняет · v${CORE_VERSION}</div>
@@ -617,11 +617,11 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
 </div>
 <div class="pills" id="list"></div>
 <div class="flags">
-  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>Снятие +10 000</b><small>Дорого: комиссия 2,9%+290 и % сразу. Лучше выкл.</small></span></label>
-  <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½ с мамой</b><small>23,5 млн ₫ пополам 31.08. Обычно убирает снятие с карты.</small></span></label>
-  <label class="flag"><input type="checkbox" id="schoolLater"/><span><b>Школа 05.09</b><small>Если мама не делит — платить школу с ЗП 05.09, не 31.08.</small></span></label>
-  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Отложить байк</b><small>Убрать ~6,4к 03.09, меньше риск нового снятия.</small></span></label>
-  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b><small>Ещё 7,5к 10.09 и 17,5к 25.09 — иначе хвост рисуется слишком красиво.</small></span></label>
+  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>Снятие +10 000</b><small>Комиссия 2,9%+290 — лучше выкл.</small></span></label>
+  <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½ с мамой</b><small>23,5 млн ₫ пополам, без снятия 31.08</small></span></label>
+  <label class="flag"><input type="checkbox" id="schoolLater"/><span><b>Школа 05.09</b><small>Если не делите — со ЗП 05.09</small></span></label>
+  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Отложить байк</b><small>−6,4к 03.09</small></span></label>
+  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b><small>7,5к 10.09 и 17,5к 25.09</small></span></label>
 </div>
 <div class="sums">
   <div class="sum"><div class="l">Σ погашения</div><div class="v" id="sPay">—</div></div>
