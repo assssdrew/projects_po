@@ -1,7 +1,7 @@
 // KreditkaPlanCore — матрица погашений/снятий Т-Банк Платинум.
 // Плитка: дата × Снятие / Погаш. / Долг. Тап → полная матрица + флаги.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "1.1";
+const CORE_VERSION = "1.2";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const RATE_PER_DAY = 0.00164; // ≈ 59,9% / 365
@@ -313,62 +313,51 @@ function color(hex, alpha) {
   return c;
 }
 
-function addCell(stack, text, opts) {
+/** Строка матрицы на всю ширину: 4 равные колонки (spacer внутри каждой). */
+function addMatrixRow(parent, cells, opts) {
   opts = opts || {};
-  const t = stack.addText(text);
-  t.font = opts.bold ? Font.boldSystemFont(opts.size || 10) : Font.mediumSystemFont(opts.size || 10);
-  t.textColor = color(opts.color || "#C5D4D8");
-  t.lineLimit = 1;
-  if (opts.width) {
-    t.minimumScaleFactor = 0.7;
+  const line = parent.addStack();
+  line.layoutHorizontally();
+  line.centerAlignContent();
+  for (let i = 0; i < cells.length; i++) {
+    const col = line.addStack();
+    col.layoutHorizontally();
+    col.centerAlignContent();
+    if (i > 0) col.addSpacer();
+    const t = col.addText(cells[i]);
+    t.font = opts.header
+      ? Font.boldSystemFont(9)
+      : opts.bold && (i === 3 || opts.tail)
+        ? Font.boldSystemFont(11)
+        : Font.mediumSystemFont(11);
+    t.textColor = color(opts.colors && opts.colors[i] ? opts.colors[i] : "#D5E2E6");
+    t.lineLimit = 1;
+    t.minimumScaleFactor = 0.6;
+    if (i === 0) col.addSpacer();
   }
-  return t;
+  return line;
 }
 
-/** Плитка: матрица Дата | Снятие | Погаш | Долг */
+/** Плитка: матрица Дата | Снятие | Погаш | Долг на всю ширину, без заголовка */
 async function buildWidget(plan, family) {
   const w = new ListWidget();
   w.backgroundColor = color("#152028");
-  const pad = family === "small" ? 8 : 10;
-  w.setPadding(pad, pad, pad, pad);
+  w.setPadding(12, 12, 12, 12);
   w.refreshAfterDate = new Date(Date.now() + 60 * 60 * 1000);
 
-  const head = w.addStack();
-  head.layoutHorizontally();
-  head.centerAlignContent();
-  const title = head.addText("Кредитка · матрица");
-  title.font = Font.boldSystemFont(10);
-  title.textColor = color("#5EEAD4");
-  head.addSpacer();
-  const ver = head.addText("v" + CORE_VERSION);
-  ver.font = Font.mediumSystemFont(9);
-  ver.textColor = color("#5A7078");
-  w.addSpacer(2);
-
   const chips = w.addText(flagChips(plan.flags));
-  chips.font = Font.mediumSystemFont(8);
+  chips.font = Font.mediumSystemFont(9);
   chips.textColor = color("#7A9298");
   chips.lineLimit = 1;
   w.addSpacer(6);
 
-  // header
-  const hdr = w.addStack();
-  hdr.layoutHorizontally();
-  const colW = family === "large" ? [52, 44, 44, 50] : [46, 40, 40, 46];
-  const headers = ["Дата", "Снятие", "Погаш", "Долг"];
-  for (let i = 0; i < 4; i++) {
-    const c = hdr.addStack();
-    c.size = new Size(colW[i], 12);
-    const t = c.addText(headers[i]);
-    t.font = Font.boldSystemFont(8);
-    t.textColor = color("#5EEAD4");
-    if (i > 0) t.rightAlignText();
-  }
-  w.addSpacer(3);
+  addMatrixRow(w, ["Дата", "Снятие", "Погаш", "Долг"], {
+    header: true,
+    colors: ["#5EEAD4", "#5EEAD4", "#5EEAD4", "#5EEAD4"],
+  });
+  w.addSpacer(4);
 
-  // Какие строки показывать
   let rows = plan.rows.filter(function (r) {
-    // на плитке: все даты с движением по карте или ключевые точки
     return (
       r.withdraw ||
       r.pay ||
@@ -379,7 +368,7 @@ async function buildWidget(plan, family) {
     );
   });
   if (family === "large") {
-    rows = plan.rows; // вся матрица
+    rows = plan.rows;
   } else if (family === "small") {
     rows = rows.filter(function (r) {
       return r.withdraw || r.pay || r.date === "29.09";
@@ -391,39 +380,30 @@ async function buildWidget(plan, family) {
 
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i];
-    const line = w.addStack();
-    line.layoutHorizontally();
-    line.centerAlignContent();
-
     const isTail = r.date === "29.09";
-    const vals = [
-      r.date,
-      r.withdraw ? rub(r.withdraw) : "·",
-      r.pay ? rub(r.pay) : "·",
-      rub(r.debt),
-    ];
-    for (let c = 0; c < 4; c++) {
-      const cell = line.addStack();
-      cell.size = new Size(colW[c], 13);
-      const t = cell.addText(vals[c]);
-      t.font = isTail || c === 3 ? Font.boldSystemFont(9) : Font.mediumSystemFont(9);
-      t.textColor = color(
-        r.withdraw && c === 1
-          ? "#F59E0B"
-          : r.pay && c === 2
-            ? "#5EEAD4"
-            : isTail
-              ? "#5EEAD4"
-              : "#D5E2E6"
-      );
-      t.lineLimit = 1;
-      t.minimumScaleFactor = 0.65;
-      if (c > 0) t.rightAlignText();
-    }
-    if (i < rows.length - 1) w.addSpacer(2);
+    addMatrixRow(
+      w,
+      [
+        r.date,
+        r.withdraw ? rub(r.withdraw) : "·",
+        r.pay ? rub(r.pay) : "·",
+        rub(r.debt),
+      ],
+      {
+        tail: isTail,
+        bold: true,
+        colors: [
+          isTail ? "#5EEAD4" : "#D5E2E6",
+          r.withdraw ? "#F59E0B" : "#8AA0A8",
+          r.pay ? "#5EEAD4" : "#8AA0A8",
+          isTail ? "#5EEAD4" : "#F3F7F8",
+        ],
+      }
+    );
+    if (i < rows.length - 1) w.addSpacer(3);
   }
 
-  w.addSpacer(5);
+  w.addSpacer(6);
   const foot = w.addText(
     "Σ погаш " +
       rub(plan.paySum) +
@@ -434,7 +414,7 @@ async function buildWidget(plan, family) {
       " · хвост " +
       rub(plan.tail)
   );
-  foot.font = Font.mediumSystemFont(8);
+  foot.font = Font.mediumSystemFont(9);
   foot.textColor = color("#8AA0A8");
   foot.lineLimit = 1;
   foot.minimumScaleFactor = 0.7;
