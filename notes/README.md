@@ -25,4 +25,5 @@
 | `analiz-vyjimka-kreditka.md` | Анализ: реалистичность, дыры, улучшения |
 | `plan-pogasheniya-kreditka-corrected.md` | Скорректированный план по итогам анализа |
 
+Виджет на телефон: [`projects/kreditka-plan-widget/`](../projects/kreditka-plan-widget/).  
 Источник handoff: [issue #7](https://github.com/assssdrew/projects_po/issues/7).
