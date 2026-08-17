@@ -2,38 +2,60 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: sync;
 //
-// Принудительно скачивает свежий KreditkaPlanCore.js и запускает виджет.
+// Принудительно скачивает KreditkaPlan.js + ядро v3.2.
 
 const BOOT =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlan.js";
+const CORE =
+  "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js";
+const REQUIRED_CORE = "CORE_VERSION = \"3.2\"";
 
-const fm = (() => {
+function managers() {
+  const out = [];
   try {
     const i = FileManager.iCloud();
     i.documentsDirectory();
-    return i;
-  } catch (e) {
-    return FileManager.local();
-  }
-})();
-
-const bootPath = fm.joinPath(fm.documentsDirectory(), "KreditkaPlan.js");
-const corePath = fm.joinPath(fm.documentsDirectory(), "KreditkaPlanCore.js");
-
-try {
-  if (fm.fileExists(corePath)) fm.remove(corePath);
-} catch (e) {}
-
-const req = new Request(BOOT + "?t=" + Date.now());
-req.timeoutInterval = 45;
-const code = await req.loadString();
-if (!code || code.trim().startsWith("<!")) {
-  throw new Error("Не скачался KreditkaPlan.js");
+    out.push(i);
+  } catch (e) {}
+  try {
+    out.push(FileManager.local());
+  } catch (e) {}
+  return out;
 }
-fm.writeString(bootPath, code);
+
+async function loadUrl(url) {
+  const req = new Request(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now());
+  req.timeoutInterval = 45;
+  const code = await req.loadString();
+  if (!code || code.trim().startsWith("<!")) throw new Error("Не скачался " + url);
+  return code;
+}
+
+function writeAll(name, code) {
+  const fms = managers();
+  for (let i = 0; i < fms.length; i++) {
+    const fm = fms[i];
+    const path = fm.joinPath(fm.documentsDirectory(), name);
+    try {
+      if (fm.fileExists(path)) fm.remove(path);
+    } catch (e) {}
+    fm.writeString(path, code);
+  }
+}
+
+const boot = await loadUrl(BOOT);
+const core = await loadUrl(CORE);
+if (!core.includes(REQUIRED_CORE)) {
+  throw new Error("Скачалось старое ядро. Проверь сеть / GitHub.");
+}
+
+writeAll("KreditkaPlan.js", boot);
+writeAll("KreditkaPlanCore.js", core);
+writeAll("KreditkaPlanCore32.js", core);
 
 const a = new Alert();
-a.title = "KreditkaPlan обновлён";
-a.message = "Открой скрипт KreditkaPlan → ▶ Play, затем добавь виджет на Home Screen.";
+a.title = "KreditkaPlan v3.2 записан";
+a.message =
+  "1) Полностью закрой Scriptable (App Switcher → свайп вверх).\n2) Открой KreditkaPlan → ▶ Play.\nВ подзаголовке должно быть v3.2.";
 a.addAction("OK");
 await a.presentAlert();

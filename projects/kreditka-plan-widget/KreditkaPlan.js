@@ -2,81 +2,103 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: credit-card;
 //
-// Замени ВЕСЬ код скрипта KreditkaPlan → ▶ Play.
-// Успех: меню «Кредитка · матрица · v3.1».
+// Замени ВЕСЬ код скрипта KreditkaPlan (Select All → Paste) → ▶ Play.
+// Успех: в подзаголовке v3.2. Если видишь старую версию — закрой Scriptable
+// свайпом из App Switcher и Play ещё раз.
+
+const REQUIRED_CORE = "CORE_VERSION = \"3.2\"";
+const CORE_MODULE = "KreditkaPlanCore32";
 
 const CORE_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
   "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
-  "https://raw.githubusercontent.com/assssdrew/projects_po/main/projects/kreditka-plan-widget/KreditkaPlanCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@main/projects/kreditka-plan-widget/KreditkaPlanCore.js",
 ];
 
-function getFileManager() {
+function managers() {
+  const out = [];
   try {
-    const fm = FileManager.iCloud();
-    fm.documentsDirectory();
-    return fm;
-  } catch (e) {
-    return FileManager.local();
-  }
+    const i = FileManager.iCloud();
+    i.documentsDirectory();
+    out.push(i);
+  } catch (e) {}
+  try {
+    out.push(FileManager.local());
+  } catch (e) {}
+  return out;
 }
 
-const fm = getFileManager();
-const corePath = fm.joinPath(fm.documentsDirectory(), "KreditkaPlanCore.js");
+function corePaths() {
+  const names = [CORE_MODULE + ".js", "KreditkaPlanCore.js"];
+  const paths = [];
+  const fms = managers();
+  for (let i = 0; i < fms.length; i++) {
+    const fm = fms[i];
+    for (let n = 0; n < names.length; n++) {
+      paths.push({ fm: fm, path: fm.joinPath(fm.documentsDirectory(), names[n]) });
+    }
+  }
+  return paths;
+}
 
 async function fetchCoreCode() {
   let lastError = null;
-  for (const base of CORE_URLS) {
+  for (let i = 0; i < CORE_URLS.length; i++) {
+    const base = CORE_URLS[i];
     try {
       const req = new Request(base + (base.includes("?") ? "&" : "?") + "t=" + Date.now());
       req.timeoutInterval = 45;
       const code = await req.loadString();
-      if (
-        code &&
-        code.length > 500 &&
-        !code.trim().startsWith("<!") &&
-        code.includes("KREDITKA_PLAN_WIDGET_V1") &&
-        code.includes("compute")
-      ) {
-        return code;
+      if (!code || code.length < 500 || code.trim().startsWith("<!")) {
+        lastError = new Error("Пустой ответ: " + base);
+        continue;
       }
-      lastError = new Error("Старый/пустой ответ: " + base);
+      if (!code.includes("KREDITKA_PLAN_WIDGET_V1") || !code.includes("compute")) {
+        lastError = new Error("Это не ядро виджета: " + base);
+        continue;
+      }
+      if (!code.includes(REQUIRED_CORE)) {
+        lastError = new Error("Старое ядро, без " + REQUIRED_CORE);
+        continue;
+      }
+      return code;
     } catch (e) {
       lastError = e;
     }
   }
-  throw lastError || new Error("Не удалось скачать ядро");
+  throw lastError || new Error("Не удалось скачать ядро v3.2");
 }
 
-async function downloadCore() {
-  const code = await fetchCoreCode();
-  if (fm.fileExists(corePath)) {
+function writeCore(code) {
+  const paths = corePaths();
+  for (let i = 0; i < paths.length; i++) {
+    const p = paths[i];
     try {
-      fm.remove(corePath);
+      if (p.fm.fileExists(p.path)) p.fm.remove(p.path);
+    } catch (e) {}
+    try {
+      p.fm.writeString(p.path, code);
     } catch (e) {}
   }
-  fm.writeString(corePath, code);
-  try {
-    if (fm.isFileStoredIniCloud(corePath) && !fm.isFileDownloaded(corePath)) {
-      await fm.downloadFileFromiCloud(corePath);
-    }
-  } catch (e) {}
 }
 
-async function ensureCore() {
-  if (!config.runsInWidget || !fm.fileExists(corePath)) {
-    await downloadCore();
-    return;
+function loadCore(code) {
+  const moduleObj = { exports: {} };
+  const fn = new Function(
+    "module",
+    "exports",
+    code + "\nreturn module.exports;"
+  );
+  const core = fn(moduleObj, moduleObj.exports);
+  if (!core || typeof core.main !== "function") {
+    throw new Error("Ядро без main()");
   }
-  const local = fm.readString(corePath) || "";
-  if (!local.includes("KREDITKA_PLAN_WIDGET_V1") || !local.includes("CORE_VERSION = \"3.1\"")) {
-    await downloadCore();
-  }
+  return core;
 }
 
+let coreCode = "";
 try {
-  await ensureCore();
+  coreCode = await fetchCoreCode();
+  writeCore(coreCode);
 } catch (e) {
   if (config.runsInWidget) {
     const w = new ListWidget();
@@ -90,11 +112,13 @@ try {
   }
   const a = new Alert();
   a.title = "Обновление не удалось";
-  a.message = String(e);
+  a.message =
+    String(e) +
+    "\n\nСкопируй заново KreditkaPlan.js из GitHub (ветка cursor/tbank-platinum-handoff-231e) и закрой Scriptable из App Switcher.";
   a.addAction("OK");
   await a.presentAlert();
   return;
 }
 
-const core = importModule("KreditkaPlanCore");
+const core = loadCore(coreCode);
 await core.main();
