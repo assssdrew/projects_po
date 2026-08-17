@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "2.2";
+const CORE_VERSION = "2.3";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -347,7 +347,7 @@ function dateRangeLabel(fromIso, toIso) {
 }
 
 function compactRows(rows) {
-  const keep = { "2026-08-29": 1, "2026-09-29": 1 };
+  const keep = { "2026-09-29": 1 };
   const out = [];
   for (let i = 0; i < (rows || []).length; i++) {
     const r = rows[i];
@@ -371,6 +371,12 @@ function compactRows(rows) {
       last.note = uniqueNotes(last.note + ", " + (r.note || ""));
       last.isoTo = r.iso;
       last.date = dateRangeLabel(last.iso, r.iso);
+      continue;
+    }
+    if (!money && r.note && r.note.indexOf("грейс") >= 0 && last) {
+      last.note = uniqueNotes(last.note + ", " + r.note);
+      last.debt = r.debt;
+      last.interest = (last.interest || 0) + (r.interest || 0);
       continue;
     }
     out.push({
@@ -542,29 +548,40 @@ function combinedHtml(plan) {
   return `<!DOCTYPE html>
 <html><head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;height:100dvh;margin:0;overflow:hidden}
-body{font:11px -apple-system;background:#0F171C;color:#E8F1F2;display:flex;flex-direction:column;
-  padding:6px;padding-bottom:max(6px,env(safe-area-inset-bottom))}
-.top{flex:0 0 auto}
-.row{display:flex;gap:4px;margin-bottom:4px;align-items:center}
-input,select,button{font:11px -apple-system;border-radius:7px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:6px 7px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html{height:100%;overflow:hidden;position:fixed;inset:0;width:100%}
+body{
+  height:100%;overflow:hidden;position:absolute;inset:0;width:100%;
+  font:11px -apple-system;background:#0F171C;color:#E8F1F2;
+  display:flex;flex-direction:column;
+  padding:var(--top-pad,52px) 6px var(--bot-pad,22px) 6px;
+}
+.top{flex:0 0 auto;min-height:0}
+.row{display:flex;gap:4px;margin-bottom:3px;align-items:center}
+input,select,button{font:11px -apple-system;border-radius:6px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:5px 6px}
 input,select{flex:1;min-width:0}
 button{font-weight:700}
-.add{background:#5EEAD4;color:#0F171C;border:0;padding:6px 11px}
-.flag{display:flex;gap:4px;align-items:center;color:#8AA0A8;font-size:10px;white-space:nowrap;flex:0 0 auto}
-.pills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 4px;max-height:28px;overflow:hidden}
-.pills:empty{display:none;margin:0}
-.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:2px 7px;font-size:10px;display:flex;gap:5px;align-items:center}
+.add{background:#5EEAD4;color:#0F171C;border:0;padding:5px 10px;flex:0 0 auto}
+.flag{display:flex;gap:3px;align-items:center;color:#8AA0A8;font-size:10px;white-space:nowrap;flex:0 0 auto}
+.pills{display:flex;flex-wrap:wrap;gap:3px;margin:0 0 3px;max-height:24px;overflow:hidden}
+.pills:empty{display:none}
+.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:1px 6px;font-size:9px;display:flex;gap:4px;align-items:center}
 .pill .x{color:#F59E0B;font-weight:800}
-.sums{display:flex;flex-wrap:wrap;gap:7px;font-size:10px;color:#8AA0A8;margin-bottom:4px}
+.sums{font-size:9px;color:#8AA0A8;margin-bottom:3px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sums b{color:#5EEAD4}
-.wrap{flex:1 1 auto;min-height:0;overflow:hidden;border:1px solid #24343E;border-radius:8px;display:flex}
-table{width:100%;height:100%;border-collapse:collapse;font-size:clamp(8px,2.05vh,11px);table-layout:fixed}
-th,td{padding:1px 3px;border-bottom:1px solid #223038;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-th{color:#5EEAD4;background:#152028;font-size:8px}
+.wrap{
+  flex:1 1 auto;min-height:0;overflow:hidden;
+  border:1px solid #24343E;border-radius:7px;
+}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--fs,10px)}
+thead{display:table;width:100%;table-layout:fixed}
+thead tr{height:var(--rh,14px)}
+tbody{display:block;width:100%;overflow:hidden}
+tbody tr{display:table;width:100%;table-layout:fixed;height:var(--rh,14px)}
+th,td{padding:0 2px;border-bottom:1px solid #223038;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.05;vertical-align:middle}
+th{color:#5EEAD4;background:#152028;font-size:calc(var(--fs,10px) - 1px)}
 td:first-child,th:first-child,td:nth-child(2),th:nth-child(2){text-align:left}
 td.pay{color:#5EEAD4;font-weight:700}
 td.wd{color:#F59E0B;font-weight:700}
@@ -572,10 +589,10 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
 </style></head><body>
 <div class="top">
   <div class="row">
-    <input id="date" placeholder="дата 20.09" inputmode="numeric"/>
+    <input id="date" placeholder="дата" inputmode="numeric"/>
     <select id="kind">
       <option value="cost">расход</option>
-      <option value="pay">погашение</option>
+      <option value="pay">погаш</option>
       <option value="withdraw">снятие</option>
     </select>
     <input id="amount" type="number" placeholder="₽"/>
@@ -584,7 +601,7 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
   <div class="row">
     <input id="note" placeholder="заметка"/>
     <label class="flag"><input type="checkbox" id="extraWithdraw"/> +10к</label>
-    <label class="flag"><input type="checkbox" id="splitSchool"/> школа ½ с мамой</label>
+    <label class="flag"><input type="checkbox" id="splitSchool"/> ½ школа</label>
   </div>
   <div class="pills" id="list"></div>
   <div class="sums">хвост <b id="tail">—</b> · погаш <b id="pay">—</b> · снят <b id="wd">—</b> · % <b id="int">—</b> · v${CORE_VERSION}</div>
@@ -685,7 +702,7 @@ function uniqNotes(s){
   const seen={}; return String(s||'').split(',').map(function(x){return x.trim()}).filter(function(x){if(!x||seen[x])return false; seen[x]=1; return true}).join(', ');
 }
 function compact(rows){
-  const keep={'2026-08-29':1,'2026-09-29':1}; const out=[];
+  const keep={'2026-09-29':1}; const out=[];
   rows.forEach(function(r){
     const money=r.income||r.withdraw||r.pay;
     if(!money&&!r.cashOut&&!keep[r.iso]) return;
@@ -697,9 +714,42 @@ function compact(rows){
       last.date=a[1]===b[1]?a[2]+'–'+b[2]+'.'+a[1]:a[2]+'.'+a[1]+'–'+b[2]+'.'+b[1];
       return;
     }
+    if(!money&&r.note&&r.note.indexOf('грейс')>=0&&last){
+      last.note=uniqNotes(last.note+', '+r.note);
+      last.debt=r.debt;
+      return;
+    }
     out.push({date:r.date,iso:r.iso,note:uniqNotes(r.note),income:r.income,cashOut:r.cashOut,withdraw:r.withdraw,pay:r.pay,debt:r.debt});
   });
   return out;
+}
+function fitLayout(){
+  requestAnimationFrame(function(){
+    var root=document.documentElement;
+    var top=document.querySelector('.top');
+    var thead=document.querySelector('thead');
+    var tb=document.getElementById('tb');
+    if(!top||!tb) return;
+    var vh=window.innerHeight||root.clientHeight||667;
+    var topInset=52, botInset=22;
+    try{
+      if(window.visualViewport){
+        vh=window.visualViewport.height;
+        topInset=Math.max(52,Math.round(window.visualViewport.offsetTop||0)+8);
+        botInset=Math.max(22,Math.round((window.innerHeight||vh)-window.visualViewport.height-window.visualViewport.offsetTop)+8);
+      }
+    }catch(e){}
+    root.style.setProperty('--top-pad',topInset+'px');
+    root.style.setProperty('--bot-pad',botInset+'px');
+    var topH=top.offsetHeight||72;
+    var headH=(thead&&thead.offsetHeight)||12;
+    var n=Math.max(1,tb.rows.length);
+    var avail=vh-topInset-botInset-topH-headH-4;
+    var rh=Math.max(9,Math.floor(avail/n));
+    var fs=Math.max(7,Math.min(11,rh-2));
+    root.style.setProperty('--rh',rh+'px');
+    root.style.setProperty('--fs',fs+'px');
+  });
 }
 function render(){
   window.__flags.extraWithdraw = document.getElementById('extraWithdraw').checked;
@@ -720,7 +770,10 @@ function render(){
     const cls=r.iso==='2026-09-29'?' class="tail"':'';
     return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+'</td><td>'+rub(r.income)+'</td><td>'+rub(r.cashOut)+'</td><td class="wd">'+rub(r.withdraw)+'</td><td class="pay">'+rub(r.pay)+'</td><td>'+rub(r.debt)+'</td></tr>';
   }).join('');
+  fitLayout();
 }
+window.addEventListener('resize',fitLayout);
+if(window.visualViewport) window.visualViewport.addEventListener('resize',fitLayout);
 document.getElementById('extraWithdraw').checked=!!window.__flags.extraWithdraw;
 document.getElementById('splitSchool').checked=!!window.__flags.splitSchool;
 document.getElementById('extraWithdraw').onchange=render;
