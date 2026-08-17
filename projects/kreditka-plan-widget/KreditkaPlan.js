@@ -70,7 +70,7 @@ async function ensureCore() {
     return;
   }
   const local = fm.readString(corePath) || "";
-  if (!local.includes("KREDITKA_PLAN_WIDGET_V1") || !local.includes("CORE_VERSION = \"2.0\"")) {
+  if (!local.includes("KREDITKA_PLAN_WIDGET_V1") || !local.includes("CORE_VERSION = \"2.1\"")) {
     await downloadCore();
   }
 }

@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "2.0";
+const CORE_VERSION = "2.1";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -453,117 +453,66 @@ async function buildWidget(plan, family) {
   return w;
 }
 
-function matrixHtml(plan) {
-  const rows = plan.rows
-    .map(function (r) {
-      const cls = r.iso === "2026-09-29" ? " class='tail'" : "";
-      return (
-        "<tr" +
-        cls +
-        "><td>" +
-        r.date +
-        "</td><td>" +
-        (r.note || "") +
-        "</td><td>" +
-        rub(r.income) +
-        "</td><td>" +
-        rub(r.cashOut) +
-        "</td><td class='wd'>" +
-        rub(r.withdraw) +
-        "</td><td class='pay'>" +
-        rub(r.pay) +
-        "</td><td>" +
-        rub(r.debt) +
-        "</td></tr>"
-      );
-    })
-    .join("");
-  return (
-    "<!DOCTYPE html><html><head><meta charset='utf-8'/>" +
-    "<meta name='viewport' content='width=device-width,initial-scale=1'/>" +
-    "<style>" +
-    "body{margin:0;font:13px -apple-system;background:#0F171C;color:#E8F1F2;padding:10px}" +
-    "h1{font-size:16px;color:#5EEAD4;margin:0 0 6px}" +
-    ".sub{color:#8AA0A8;font-size:11px;margin-bottom:10px}" +
-    ".sums{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:12px}" +
-    ".sums b{color:#5EEAD4}" +
-    "table{width:100%;border-collapse:collapse;font-size:11px}" +
-    "th,td{padding:5px 4px;border-bottom:1px solid #223038;text-align:right}" +
-    "th{color:#5EEAD4;text-align:right}" +
-    "td:first-child,th:first-child,td:nth-child(2){text-align:left}" +
-    "td.pay{color:#5EEAD4;font-weight:700}" +
-    "td.wd{color:#F59E0B;font-weight:700}" +
-    "tr.tail td{color:#5EEAD4;background:#134E4A}" +
-    "</style></head><body>" +
-    "<h1>Матрица · календарь</h1>" +
-    "<div class='sub'>VND→RUB " +
-    plan.rate.toFixed(5) +
-    " · v" +
-    CORE_VERSION +
-    "</div>" +
-    "<div class='sums'><span>погаш <b>" +
-    rubFull(plan.paySum) +
-    "</b></span><span>снят <b>" +
-    rubFull(plan.withdrawSum) +
-    "</b></span><span>% <b>" +
-    rubFull(plan.interestTotal) +
-    "</b></span><span>хвост <b>" +
-    rubFull(plan.tail) +
-    "</b></span></div>" +
-    "<table><thead><tr><th>Дата</th><th>Что</th><th>Приход</th><th>Расход</th><th>Снятие</th><th>Погаш</th><th>Долг</th></tr></thead><tbody>" +
-    rows +
-    "</tbody></table></body></html>"
-  );
-}
-
-function amountsHtml(plan) {
+function combinedHtml(plan) {
   const customs = JSON.stringify(plan.customs || []);
   const flags = JSON.stringify(plan.flags || DEFAULT_FLAGS);
   const rate = plan.rate;
   return `<!DOCTYPE html>
 <html><head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font:14px -apple-system;background:#0F171C;color:#E8F1F2;padding:10px}
-h1{font-size:16px;color:#5EEAD4;margin:0 0 8px}
-.row{display:flex;gap:6px;margin-bottom:8px}
-input,select,button{font:14px -apple-system;border-radius:8px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:8px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font:12px -apple-system;background:#0F171C;color:#E8F1F2;display:flex;flex-direction:column;
+  padding:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.top{flex:0 0 auto}
+.row{display:flex;gap:5px;margin-bottom:5px;align-items:center}
+input,select,button{font:12px -apple-system;border-radius:8px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:7px 8px}
 input,select{flex:1;min-width:0}
 button{font-weight:700}
-.add{background:#5EEAD4;color:#0F171C;border:0;padding:8px 12px}
-.list{margin:8px 0;max-height:28vh;overflow:auto}
-.item{display:flex;gap:8px;align-items:center;padding:8px;background:#1A2830;border-radius:10px;margin-bottom:6px;font-size:13px}
-.item b{flex:1}
-.del{background:#3B0D0D;color:#F59E0B;border:0}
-.sums{font-size:12px;color:#8AA0A8;margin:8px 0}
+.add{background:#5EEAD4;color:#0F171C;border:0;padding:7px 12px}
+.flag{display:flex;gap:6px;align-items:center;color:#8AA0A8;font-size:11px;white-space:nowrap}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px;max-height:36px;overflow:hidden}
+.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:3px 8px;font-size:10px;display:flex;gap:6px;align-items:center}
+.pill .x{color:#F59E0B;font-weight:800}
+.sums{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#8AA0A8;margin-bottom:6px}
 .sums b{color:#5EEAD4}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th,td{padding:4px;border-bottom:1px solid #223038;text-align:right}
-th{color:#5EEAD4}
-td:first-child,th:first-child{text-align:left}
-td.pay{color:#5EEAD4} td.wd{color:#F59E0B}
-.save{position:sticky;bottom:8px;width:100%;background:#5EEAD4;color:#0F171C;border:0;padding:12px;margin-top:8px}
+.wrap{flex:1 1 auto;min-height:0;overflow:hidden;border:1px solid #24343E;border-radius:10px}
+table{width:100%;height:100%;border-collapse:collapse;font-size:10px;table-layout:fixed}
+th,td{padding:3px 3px;border-bottom:1px solid #223038;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+th{color:#5EEAD4;background:#152028;font-size:9px}
+td:first-child,th:first-child,td:nth-child(2),th:nth-child(2){text-align:left}
+td.pay{color:#5EEAD4;font-weight:700}
+td.wd{color:#F59E0B;font-weight:700}
+tr.tail td{color:#5EEAD4;background:#134E4A}
+.hint{flex:0 0 auto;margin-top:4px;color:#5A7078;font-size:9px}
 </style></head><body>
-<h1>Свои суммы</h1>
-<div class="row">
-  <input id="date" placeholder="дата 31.08" value=""/>
-  <select id="kind">
-    <option value="cost">расход</option>
-    <option value="pay">погашение</option>
-    <option value="withdraw">снятие</option>
-  </select>
+<div class="top">
+  <div class="row">
+    <input id="date" placeholder="дата 20.09" inputmode="numeric"/>
+    <select id="kind">
+      <option value="cost">расход</option>
+      <option value="pay">погашение</option>
+      <option value="withdraw">снятие</option>
+    </select>
+    <input id="amount" type="number" placeholder="₽"/>
+    <button class="add" id="add">+</button>
+  </div>
+  <div class="row">
+    <input id="note" placeholder="заметка (необязательно)"/>
+    <label class="flag"><input type="checkbox" id="extraWithdraw"/> +10к снятие</label>
+  </div>
+  <div class="pills" id="list"></div>
+  <div class="sums">хвост <b id="tail">—</b> · погаш <b id="pay">—</b> · снят <b id="wd">—</b> · % <b id="int">—</b></div>
 </div>
-<div class="row">
-  <input id="amount" type="number" placeholder="сумма, ₽"/>
-  <input id="note" placeholder="заметка"/>
-  <button class="add" id="add">+</button>
-</div>
-<div class="list" id="list"></div>
-<div class="sums">хвост <b id="tail">—</b> · погаш <b id="pay">—</b> · снят <b id="wd">—</b></div>
-<table><thead><tr><th>Дата</th><th>Снятие</th><th>Погаш</th><th>Долг</th></tr></thead><tbody id="tb"></tbody></table>
-<button class="save" id="save">Сохранить и закрыть</button>
+<div class="wrap"><table>
+<thead><tr>
+<th>Дата</th><th>Что</th><th>Приход</th><th>Расход</th><th>Снятие</th><th>Погаш</th><th>Долг</th>
+</tr></thead>
+<tbody id="tb"></tbody>
+</table></div>
+<p class="hint">+ добавляет сумму и сразу пересчитывает матрицу · Close сохраняет · v${CORE_VERSION}</p>
 <script>
 window.__flags = ${flags};
 window.__customs = ${customs};
@@ -602,7 +551,7 @@ function cal(flags){
     {date:'2026-09-25',kind:'income',amount:63000,note:'ЗП+алименты'},
     {date:'2026-09-29',kind:'mark',note:'хвост'}
   ];
-  if(flags.extraWithdraw) ev.splice(7,0,{date:'2026-08-24',kind:'withdraw',amount:10000,note:'+10к'});
+  if(flags.extraWithdraw) ev.push({date:'2026-08-24',kind:'withdraw',amount:10000,note:'+10к'});
   return ev;
 }
 function build(flags,customs){
@@ -620,48 +569,57 @@ function build(flags,customs){
       const from=last<'2026-08-29'?'2026-08-29':last;
       const step=accrue(debt,daysBetween(from,date)); debt=step.debt; interest=step.interest; interestTotal+=interest;
     }
-    let income=0,cashOut=0,withdraw=0,pay=0;
+    let income=0,cashOut=0,withdraw=0,pay=0; const notes=[];
     const day=by[date];
     day.forEach(function(e){
-      if(e.kind==='withdraw'&&e.amount){withdraw+=e.amount; debt+=e.amount; cash+=e.amount}
-      if(e.kind==='income'&&e.amount){income+=e.amount; cash+=e.amount}
+      if(e.kind==='withdraw'&&e.amount){withdraw+=e.amount; debt+=e.amount; cash+=e.amount; notes.push(e.note)}
+      if(e.kind==='income'&&e.amount){income+=e.amount; cash+=e.amount; notes.push(e.note)}
+      if(e.kind==='mark'&&e.note) notes.push(e.note)
     });
     const firstIncome = incomes[0] || '2026-08-25';
     day.forEach(function(e){
       if(e.kind!=='cost'||!e.amount) return;
+      notes.push(e.note);
       if(cash>=e.amount){cash-=e.amount; cashOut+=e.amount}
       else if(date<firstIncome){cashOut+=e.amount}
       else {const gap=e.amount-cash; cashOut+=cash; cash=0; withdraw+=gap; debt+=gap}
     });
     day.forEach(function(e){
       if(e.kind!=='pay'||!e.amount) return;
+      notes.push(e.note);
       const use=Math.min(cash,e.amount); cash-=use; pay+=use; debt=Math.max(0,debt-use);
     });
     if(income>0){
       const auto=Math.max(0, cash - upcoming(date, nextInc(date)));
       if(auto>0){cash-=auto; pay+=auto; debt=Math.max(0,debt-auto)}
     }
-    rows.push({date:fmt(date),iso:date,withdraw,pay,debt,income,cashOut});
+    rows.push({date:fmt(date),iso:date,note:notes.filter(Boolean).join(', '),withdraw,pay,debt,income,cashOut});
     last=date;
   });
   const paySum=rows.reduce((s,r)=>s+r.pay,0), wdSum=rows.reduce((s,r)=>s+r.withdraw,0);
   return {rows,tail:rows[rows.length-1].debt,paySum,wdSum,interestTotal};
 }
 function render(){
+  window.__flags.extraWithdraw = document.getElementById('extraWithdraw').checked;
   const list=document.getElementById('list');
-  list.innerHTML=(window.__customs||[]).map(function(c,i){
+  const cs=window.__customs||[];
+  list.innerHTML=cs.map(function(c,i){
     const kind=c.kind==='pay'?'погаш':c.kind==='withdraw'?'снятие':'расход';
-    return '<div class="item"><b>'+fmt(c.date)+' · '+kind+' · '+rubFull(c.amount)+'</b><span>'+(c.note||'')+'</span><button class="del" data-i="'+i+'">×</button></div>';
-  }).join('') || '<div class="item">пока пусто — расход или погашение выше</div>';
-  list.querySelectorAll('.del').forEach(function(b){b.onclick=function(){window.__customs.splice(+b.dataset.i,1); render()}});
+    return '<span class="pill">'+fmt(c.date)+' '+kind+' '+rub(c.amount)+' <span class="x" data-i="'+i+'">×</span></span>';
+  }).join('');
+  list.querySelectorAll('.x').forEach(function(b){b.onclick=function(){window.__customs.splice(+b.dataset.i,1); render()}});
   const m=build(window.__flags, window.__customs);
   document.getElementById('tail').textContent=rubFull(m.tail);
   document.getElementById('pay').textContent=rubFull(m.paySum);
   document.getElementById('wd').textContent=rubFull(m.wdSum);
-  document.getElementById('tb').innerHTML=m.rows.filter(function(r){return r.withdraw||r.pay||r.iso==='2026-08-16'||r.iso==='2026-09-29'}).map(function(r){
-    return '<tr><td>'+r.date+'</td><td class="wd">'+rub(r.withdraw)+'</td><td class="pay">'+rub(r.pay)+'</td><td>'+rub(r.debt)+'</td></tr>';
+  document.getElementById('int').textContent=rubFull(m.interestTotal);
+  document.getElementById('tb').innerHTML=m.rows.map(function(r){
+    const cls=r.iso==='2026-09-29'?' class="tail"':'';
+    return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+'</td><td>'+rub(r.income)+'</td><td>'+rub(r.cashOut)+'</td><td class="wd">'+rub(r.withdraw)+'</td><td class="pay">'+rub(r.pay)+'</td><td>'+rub(r.debt)+'</td></tr>';
   }).join('');
 }
+document.getElementById('extraWithdraw').checked=!!window.__flags.extraWithdraw;
+document.getElementById('extraWithdraw').onchange=render;
 document.getElementById('add').onclick=function(){
   const date=iso(document.getElementById('date').value);
   const amount=+document.getElementById('amount').value;
@@ -673,31 +631,22 @@ document.getElementById('add').onclick=function(){
   document.getElementById('note').value='';
   render();
 };
-document.getElementById('save').onclick=function(){
-  completion({type:'save', customs: window.__customs, flags: window.__flags});
-};
 render();
 </script></body></html>`;
 }
 
-async function presentMatrix(plan) {
+async function presentCombined(plan) {
   const wv = new WebView();
-  await wv.loadHTML(matrixHtml(plan));
-  await wv.present(true);
-}
-
-async function presentAmounts(plan) {
-  const wv = new WebView();
-  await wv.loadHTML(amountsHtml(plan));
+  await wv.loadHTML(combinedHtml(plan));
   await wv.present(true);
   try {
     const stateJson = await wv.evaluateJavaScript(
       "JSON.stringify({ customs: window.__customs || [], flags: window.__flags || {} })"
     );
     const parsed = JSON.parse(stateJson);
-    if (parsed && Array.isArray(parsed.customs)) {
+    if (parsed) {
       const s = loadSettings();
-      s.customs = parsed.customs;
+      if (Array.isArray(parsed.customs)) s.customs = parsed.customs;
       if (parsed.flags) s.flags = Object.assign({}, s.flags, parsed.flags);
       saveSettings(s);
     }
@@ -705,65 +654,8 @@ async function presentAmounts(plan) {
   return loadSettings();
 }
 
-async function addCustomPrompt(kind) {
-  const a = new Alert();
-  a.title = kind === "pay" ? "Погашение" : kind === "withdraw" ? "Снятие" : "Расход";
-  a.message = "Дата ДД.ММ и сумма в рублях";
-  a.addTextField("Дата, напр. 20.09", "");
-  a.addTextField("Сумма ₽", "");
-  a.addTextField("Заметка", kind === "pay" ? "погашение" : kind === "withdraw" ? "снятие" : "расход");
-  a.addAction("Добавить");
-  a.addCancelAction("Отмена");
-  const i = await a.presentAlert();
-  if (i !== 0) return;
-  const date = toISO(a.textFieldValue(0));
-  const amount = Math.round(Number(String(a.textFieldValue(1)).replace(/\s/g, "").replace(",", ".")) || 0);
-  const note = a.textFieldValue(2) || "своё";
-  if (!date || amount <= 0) {
-    const err = new Alert();
-    err.title = "Не вышло";
-    err.message = "Нужны дата вида 20.09 и сумма > 0";
-    err.addAction("OK");
-    await err.presentAlert();
-    return;
-  }
-  const s = loadSettings();
-  s.customs.push({ date: date, kind: kind, amount: amount, note: note });
-  saveSettings(s);
-}
-
 async function presentMenu(plan) {
-  const a = new Alert();
-  a.title = "Кредитка · матрица · v" + CORE_VERSION;
-  a.message =
-    "Хвост: " +
-    rubFull(plan.tail) +
-    "\nкурс 1₫ = " +
-    plan.rate.toFixed(5) +
-    " ₽\nΣ погаш " +
-    rubFull(plan.paySum) +
-    " · Σ снят " +
-    rubFull(plan.withdrawSum);
-  a.addAction("Матрица");
-  a.addAction("Ввести суммы");
-  a.addAction("+ расход ₽");
-  a.addAction("+ погашение ₽");
-  a.addAction("+ снятие ₽");
-  a.addAction("+10к: " + (plan.flags.extraWithdraw ? "ВКЛ → выкл" : "выкл → ВКЛ"));
-  a.addCancelAction("Закрыть");
-  const i = await a.presentAlert();
-  if (i === -1) return loadSettings();
-  if (i === 0) await presentMatrix(plan);
-  if (i === 1) await presentAmounts(plan);
-  if (i === 2) await addCustomPrompt("cost");
-  if (i === 3) await addCustomPrompt("pay");
-  if (i === 4) await addCustomPrompt("withdraw");
-  if (i === 5) {
-    const s = loadSettings();
-    s.flags.extraWithdraw = !s.flags.extraWithdraw;
-    saveSettings(s);
-  }
-  return loadSettings();
+  return await presentCombined(plan);
 }
 
 async function main() {
