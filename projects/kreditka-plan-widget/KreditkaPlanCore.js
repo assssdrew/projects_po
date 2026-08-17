@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "2.3";
+const CORE_VERSION = "2.4";
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -550,38 +550,27 @@ function combinedHtml(plan) {
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-html{height:100%;overflow:hidden;position:fixed;inset:0;width:100%}
-body{
-  height:100%;overflow:hidden;position:absolute;inset:0;width:100%;
-  font:11px -apple-system;background:#0F171C;color:#E8F1F2;
-  display:flex;flex-direction:column;
-  padding:var(--top-pad,52px) 6px var(--bot-pad,22px) 6px;
-}
-.top{flex:0 0 auto;min-height:0}
-.row{display:flex;gap:4px;margin-bottom:3px;align-items:center}
-input,select,button{font:11px -apple-system;border-radius:6px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:5px 6px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#0F171C;color:#E8F1F2}
+body{font:11px -apple-system;display:flex;flex-direction:column;
+  padding:44px 8px 28px}
+.top{flex:0 0 auto}
+.row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+input,select,button{font:13px -apple-system;border-radius:8px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:7px 8px}
 input,select{flex:1;min-width:0}
 button{font-weight:700}
-.add{background:#5EEAD4;color:#0F171C;border:0;padding:5px 10px;flex:0 0 auto}
-.flag{display:flex;gap:3px;align-items:center;color:#8AA0A8;font-size:10px;white-space:nowrap;flex:0 0 auto}
-.pills{display:flex;flex-wrap:wrap;gap:3px;margin:0 0 3px;max-height:24px;overflow:hidden}
+.add{background:#5EEAD4;color:#0F171C;border:0;padding:7px 12px;flex:0 0 auto}
+.flag{display:flex;gap:5px;align-items:center;color:#8AA0A8;font-size:12px;white-space:nowrap;flex:0 0 auto}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px;max-height:28px;overflow:hidden}
 .pills:empty{display:none}
-.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:1px 6px;font-size:9px;display:flex;gap:4px;align-items:center}
+.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:2px 8px;font-size:10px;display:flex;gap:6px;align-items:center}
 .pill .x{color:#F59E0B;font-weight:800}
-.sums{font-size:9px;color:#8AA0A8;margin-bottom:3px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sums{font-size:11px;color:#8AA0A8;margin:0 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sums b{color:#5EEAD4}
-.wrap{
-  flex:1 1 auto;min-height:0;overflow:hidden;
-  border:1px solid #24343E;border-radius:7px;
-}
-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--fs,10px)}
-thead{display:table;width:100%;table-layout:fixed}
-thead tr{height:var(--rh,14px)}
-tbody{display:block;width:100%;overflow:hidden}
-tbody tr{display:table;width:100%;table-layout:fixed;height:var(--rh,14px)}
-th,td{padding:0 2px;border-bottom:1px solid #223038;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.05;vertical-align:middle}
-th{color:#5EEAD4;background:#152028;font-size:calc(var(--fs,10px) - 1px)}
+.wrap{flex:0 0 auto;overflow:hidden;border:1px solid #24343E;border-radius:10px}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:11px}
+th,td{padding:4px 5px;border-bottom:1px solid #223038;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
+th{color:#5EEAD4;background:#152028;font-size:10px;padding:5px}
 td:first-child,th:first-child,td:nth-child(2),th:nth-child(2){text-align:left}
 td.pay{color:#5EEAD4;font-weight:700}
 td.wd{color:#F59E0B;font-weight:700}
@@ -723,34 +712,6 @@ function compact(rows){
   });
   return out;
 }
-function fitLayout(){
-  requestAnimationFrame(function(){
-    var root=document.documentElement;
-    var top=document.querySelector('.top');
-    var thead=document.querySelector('thead');
-    var tb=document.getElementById('tb');
-    if(!top||!tb) return;
-    var vh=window.innerHeight||root.clientHeight||667;
-    var topInset=52, botInset=22;
-    try{
-      if(window.visualViewport){
-        vh=window.visualViewport.height;
-        topInset=Math.max(52,Math.round(window.visualViewport.offsetTop||0)+8);
-        botInset=Math.max(22,Math.round((window.innerHeight||vh)-window.visualViewport.height-window.visualViewport.offsetTop)+8);
-      }
-    }catch(e){}
-    root.style.setProperty('--top-pad',topInset+'px');
-    root.style.setProperty('--bot-pad',botInset+'px');
-    var topH=top.offsetHeight||72;
-    var headH=(thead&&thead.offsetHeight)||12;
-    var n=Math.max(1,tb.rows.length);
-    var avail=vh-topInset-botInset-topH-headH-4;
-    var rh=Math.max(9,Math.floor(avail/n));
-    var fs=Math.max(7,Math.min(11,rh-2));
-    root.style.setProperty('--rh',rh+'px');
-    root.style.setProperty('--fs',fs+'px');
-  });
-}
 function render(){
   window.__flags.extraWithdraw = document.getElementById('extraWithdraw').checked;
   window.__flags.splitSchool = document.getElementById('splitSchool').checked;
@@ -770,10 +731,7 @@ function render(){
     const cls=r.iso==='2026-09-29'?' class="tail"':'';
     return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+'</td><td>'+rub(r.income)+'</td><td>'+rub(r.cashOut)+'</td><td class="wd">'+rub(r.withdraw)+'</td><td class="pay">'+rub(r.pay)+'</td><td>'+rub(r.debt)+'</td></tr>';
   }).join('');
-  fitLayout();
 }
-window.addEventListener('resize',fitLayout);
-if(window.visualViewport) window.visualViewport.addEventListener('resize',fitLayout);
 document.getElementById('extraWithdraw').checked=!!window.__flags.extraWithdraw;
 document.getElementById('splitSchool').checked=!!window.__flags.splitSchool;
 document.getElementById('extraWithdraw').onchange=render;
