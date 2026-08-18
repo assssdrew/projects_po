@@ -3,15 +3,14 @@
 // icon-color: green; icon-glyph: credit-card;
 //
 // Замени ВЕСЬ код скрипта KreditkaPlan (Select All → Paste) → ▶ Play.
-// Успех: в подзаголовке v3.1. Если видишь старую версию — закрой Scriptable
+// Успех: заголовок без серого текста, галочки по две в ряд. Если видишь старую версию — закрой Scriptable
 // свайпом из App Switcher и Play ещё раз.
 
-const REQUIRED_CORE = "CORE_VERSION = \"3.1\"";
-const CORE_MODULE = "KreditkaPlanCore31";
+const REQUIRED_CORE = "CORE_VERSION = \"3.3\"";
+const CORE_MODULE = "KreditkaPlanCore33";
 
 const CORE_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
-  "https://cdn.jsdelivr.net/gh/assssdrew/projects_po@cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
 ];
 
 function managers() {
@@ -65,7 +64,7 @@ async function fetchCoreCode() {
       lastError = e;
     }
   }
-  throw lastError || new Error("Не удалось скачать ядро v3.1");
+  throw lastError || new Error("Не удалось скачать ядро v3.3");
 }
 
 function writeCore(code) {

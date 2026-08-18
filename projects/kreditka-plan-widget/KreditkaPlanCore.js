@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.1";
+const CORE_VERSION = "3.3"; // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -577,11 +577,10 @@ h1{font-size:15px;margin:0 0 8px;color:#5EEAD4}
 .pills:empty{display:none}
 .pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:2px 7px;font-size:10px;display:flex;gap:5px;align-items:center}
 .pill .x{color:#F59E0B;font-weight:800}
-.flags{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.flag{display:flex;gap:7px;align-items:center;background:#1A2830;border-radius:8px;padding:5px 8px;border:1px solid #24343E}
+.flags{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}
+.flag{display:flex;gap:6px;align-items:center;background:#1A2830;border-radius:8px;padding:6px 7px;border:1px solid #24343E;min-width:0}
 .flag input{width:16px;height:16px;flex:0 0 auto;margin:0}
-.flag b{display:block;font-size:12px;line-height:1.15}
-.flag small{display:block;color:#8AA0A8;font-size:10px;margin-top:1px;line-height:1.2}
+.flag b{display:block;font-size:11px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sums{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}
 .sum{background:#1A2830;border-radius:8px;padding:6px 8px;border:1px solid #24343E}
 .sum .l{font-size:9px;color:#8AA0A8}
@@ -614,11 +613,11 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
 </div>
 <div class="pills" id="list"></div>
 <div class="flags">
-  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>Снятие +10 000</b><small>Комиссия 2,9%+290 — лучше выкл.</small></span></label>
-  <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½ с мамой</b><small>23,5 млн ₫ пополам, без снятия 31.08</small></span></label>
-  <label class="flag"><input type="checkbox" id="schoolLater"/><span><b>Школа 05.09</b><small>Если не делите — со ЗП 05.09</small></span></label>
-  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Отложить байк</b><small>−6,4к 03.09</small></span></label>
-  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b><small>7,5к 10.09 и 17,5к 25.09</small></span></label>
+  <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>+10к снятие</b></span></label>
+  <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½</b></span></label>
+  <label class="flag"><input type="checkbox" id="schoolLater"/><span><b>Школа 05.09</b></span></label>
+  <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Байк позже</b></span></label>
+  <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b></span></label>
 </div>
 <div class="sums">
   <div class="sum"><div class="l">Σ погашения</div><div class="v" id="sPay">—</div></div>

@@ -4,10 +4,10 @@
 
 ## Обновление (кэш Scriptable)
 
-Обновление больше не через `importModule` (Scriptable кэшировал старое ядро).
-Bootstrap скачивает ядро, проверяет `CORE_VERSION = "3.1"` и запускает его сразу.
+- v3.3: нет серого текста, галочки **по две в ряд**
+- Bootstrap скачивает ядро и запускает его сразу (без кэша importModule)
 
-Если на телефоне старая версия: **замени весь код** `KreditkaPlan.js` → закрой Scriptable из App Switcher → ▶ Play.
+Если на телефоне старая вёрстка: `KreditkaPlan` → ▶ **Play**. При ошибке закрой Scriptable из App Switcher и Play ещё раз.
 
 ## v3.1
 
