@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.5"; // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.6"; // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -577,8 +577,9 @@ h1{font-size:15px;margin:0 0 6px;color:#5EEAD4}
 .add{background:#5EEAD4;color:#0F171C;border:0;font-weight:800;padding:5px 10px}
 .pills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px}
 .pills:empty{display:none}
-.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:2px 7px;font-size:10px;display:flex;gap:5px;align-items:center}
-.pill .x{color:#F59E0B;font-weight:800}
+.pill{background:#1A2830;border:1px solid #24343E;border-radius:999px;padding:4px 8px;font-size:11px;display:flex;gap:6px;align-items:center}
+.pill .x,.tblx{color:#F59E0B;font-weight:800;padding:0 4px}
+.adderr{color:#F59E0B;font-size:10px;margin:0 0 6px;min-height:0}
 .flags{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}
 .flag{display:flex;gap:6px;align-items:center;background:#1A2830;border-radius:8px;padding:6px 7px;border:1px solid #24343E;min-width:0}
 .flag input{width:16px;height:16px;flex:0 0 auto;margin:0}
@@ -610,11 +611,12 @@ tr.intsum td{color:#F59E0B;background:#1A2830;font-weight:700}
     <option value="withdraw">снятие</option>
     <option value="income">приход</option>
   </select>
-  <input id="amount" type="number" placeholder="₽"/>
-  <input id="note" placeholder="заметка"/>
-  <button class="add" id="add">+</button>
-</div>
-<div class="pills" id="list"></div>
+    <input id="amount" placeholder="сумма ₽ или 10к"/>
+    <input id="note" placeholder="заметка"/>
+    <button class="add" id="add">+</button>
+  </div>
+  <div class="adderr" id="addErr"></div>
+  <div class="pills" id="list"></div>
 <div class="flags">
   <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>+10к снятие</b></span></label>
   <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½</b></span></label>
@@ -645,6 +647,7 @@ function vnd(n){return Math.round(n*(RATE||FALLBACK))}
 function cell(n){if(!n)return '·'; return Math.round(n).toLocaleString('ru-RU')}
 function rubFull(n){if(!n)return '—'; return Math.round(n).toLocaleString('ru-RU')+' ₽'}
 function iso(dmy){const m=String(dmy||'').trim().match(/^(\\d{1,2})[.\\/-](\\d{1,2})(?:[.\\/-](\\d{2,4}))?$/); if(!m)return null; const dd=('0'+m[1]).slice(-2), mm=('0'+m[2]).slice(-2); let y=m[3]?+m[3]:2026; if(y<100)y+=2000; return y+'-'+mm+'-'+dd}
+function money(s){var t=String(s||'').trim().toLowerCase().replace(/\\s/g,'').replace(',','.'); var k=/[кk]$/.test(t); t=t.replace(/[кk]$/,''); var n=parseFloat(t); if(!(n>0))return 0; return Math.round(k?n*1000:n)}
 function fmt(iso){const p=iso.split('-'); return p[2]+'.'+p[1]}
 function parseISO(s){const p=s.split('-'); return Date.UTC(+p[0],+p[1]-1,+p[2])}
 function daysBetween(a,b){return Math.round((parseISO(b)-parseISO(a))/86400000)}
@@ -681,7 +684,7 @@ function cal(flags){
   return ev;
 }
 function build(flags,customs){
-  const extra=(customs||[]).map(function(c){return {date:c.date,kind:c.kind,amount:+c.amount||0,note:c.note||'своё'}});
+  const extra=(customs||[]).map(function(c,i){return {date:c.date,kind:c.kind,amount:+c.amount||0,note:c.note||'своё',custom:true,ci:i}});
   const events=cal(flags).concat(extra).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0});
   const incomes=events.filter(function(e){return e.kind==='income'}).map(function(e){return e.date});
   function nextInc(date){for(let i=0;i<incomes.length;i++) if(incomes[i]>date) return incomes[i]; return '2026-09-30'}
@@ -726,7 +729,7 @@ function build(flags,customs){
         if(extraPay>0){cash-=extraPay; pay+=extraPay; debt=Math.max(0,debt-extraPay); notes.push('мин.')}
       }
     }
-    rows.push({date:fmt(date),iso:date,note:notes.filter(Boolean).join(', '),withdraw,pay,debt,income,cashOut,interest,cash});
+    rows.push({date:fmt(date),iso:date,note:notes.filter(Boolean).join(', '),withdraw,pay,debt,income,cashOut,interest,cash,customIdx:day.filter(function(e){return e.custom}).map(function(e){return e.ci})});
     last=date;
   });
   const paySum=rows.reduce((s,r)=>s+r.pay,0), wdSum=rows.reduce((s,r)=>s+r.withdraw,0);
@@ -741,9 +744,9 @@ function compact(rows){
   const keep={'2026-08-16':1,'2026-08-29':1,'2026-09-29':1}; const out=[];
   rows.forEach(function(r){
     const money=r.income||r.withdraw||r.pay;
-    if(!money&&!r.cashOut&&!keep[r.iso]) return;
+    if(!money&&!r.cashOut&&!keep[r.iso]&&!(r.customIdx&&r.customIdx.length)) return;
     const last=out[out.length-1];
-    if(last&&!keep[last.iso]&&last.cashOut&&!money&&r.cashOut&&r.cashOut<2000&&!last.income&&!last.withdraw&&!last.pay){
+    if(last&&!keep[last.iso]&&last.cashOut&&!money&&r.cashOut&&r.cashOut<2000&&!last.income&&!last.withdraw&&!last.pay&&!(r.customIdx&&r.customIdx.length)&&!(last.customIdx&&last.customIdx.length)){
       last.cashOut+=r.cashOut; last.debt=r.debt; last.cash=r.cash;
       last.interest=(last.interest||0)+(r.interest||0);
       last.note=uniqNotes(last.note+', '+(r.note||''));
@@ -751,7 +754,7 @@ function compact(rows){
       last.date=a[1]===b[1]?a[2]+'–'+b[2]+'.'+a[1]:a[2]+'.'+a[1]+'–'+b[2]+'.'+b[1];
       return;
     }
-    out.push({date:r.date,iso:r.iso,note:uniqNotes(r.note),income:r.income,cashOut:r.cashOut,withdraw:r.withdraw,pay:r.pay,interest:r.interest,cash:r.cash,debt:r.debt});
+    out.push({date:r.date,iso:r.iso,note:uniqNotes(r.note),income:r.income,cashOut:r.cashOut,withdraw:r.withdraw,pay:r.pay,interest:r.interest,cash:r.cash,debt:r.debt,customIdx:r.customIdx||[]});
   });
   return out;
 }
@@ -762,6 +765,10 @@ function readFlags(){
   window.__flags=f;
   return f;
 }
+function delCustom(i){
+  window.__customs.splice(i,1);
+  render();
+}
 function render(){
   const flags=readFlags();
   const list=document.getElementById('list');
@@ -770,7 +777,7 @@ function render(){
     const kind=c.kind==='pay'?'погаш':c.kind==='withdraw'?'снятие':c.kind==='income'?'приход':'расход';
     return '<span class="pill">'+fmt(c.date)+' '+kind+' '+cell(c.amount)+' <span class="x" data-i="'+i+'">×</span></span>';
   }).join('');
-  list.querySelectorAll('.x').forEach(function(b){b.onclick=function(){window.__customs.splice(+b.dataset.i,1); render()}});
+  list.querySelectorAll('.x').forEach(function(b){b.onclick=function(){delCustom(+b.dataset.i)}});
   const m=build(flags, window.__customs);
   document.getElementById('sPay').textContent=rubFull(m.paySum);
   document.getElementById('sWd').textContent=rubFull(m.wdSum);
@@ -779,8 +786,24 @@ function render(){
   document.getElementById('warn').hidden=!!m.minCovered;
   document.getElementById('tb').innerHTML=compact(m.rows).map(function(r){
     const cls=r.iso==='2026-09-29'?' class="tail"':'';
-    return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+'</td><td>'+cell(r.income)+'</td><td>'+cell(r.cashOut)+'</td><td class="wd">'+cell(r.withdraw)+'</td><td class="pay">'+cell(r.pay)+'</td><td>'+cell(r.interest)+'</td><td>'+cell(r.cash)+'</td><td class="debt">'+cell(r.debt)+'</td></tr>';
+    const del=(r.customIdx||[]).map(function(i){return '<span class="tblx" data-i="'+i+'">×</span>'}).join('');
+    return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+' '+del+'</td><td>'+cell(r.income)+'</td><td>'+cell(r.cashOut)+'</td><td class="wd">'+cell(r.withdraw)+'</td><td class="pay">'+cell(r.pay)+'</td><td>'+cell(r.interest)+'</td><td>'+cell(r.cash)+'</td><td class="debt">'+cell(r.debt)+'</td></tr>';
   }).join('')+'<tr class="intsum"><td></td><td>переплата %</td><td>·</td><td>·</td><td>·</td><td>·</td><td>'+cell(m.interestTotal)+'</td><td>·</td><td>·</td></tr>';
+  document.querySelectorAll('.tblx').forEach(function(b){b.onclick=function(){delCustom(+b.dataset.i)}});
+}
+function addCustom(){
+  const err=document.getElementById('addErr');
+  err.textContent='';
+  const date=iso(document.getElementById('date').value);
+  const amount=money(document.getElementById('amount').value);
+  const kind=document.getElementById('kind').value;
+  const note=document.getElementById('note').value||'своё';
+  if(!date){err.textContent='Нужна дата, например 20.09'; return}
+  if(!(amount>0)){err.textContent='Нужна сумма, например 5000 или 5к'; return}
+  window.__customs.push({date:date,kind:kind,amount:amount,note:note});
+  document.getElementById('amount').value='';
+  document.getElementById('note').value='';
+  render();
 }
 FLAG_IDS.forEach(function(id){
   const el=document.getElementById(id);
@@ -788,17 +811,10 @@ FLAG_IDS.forEach(function(id){
   el.checked=!!window.__flags[id];
   el.onchange=render;
 });
-document.getElementById('add').onclick=function(){
-  const date=iso(document.getElementById('date').value);
-  const amount=+document.getElementById('amount').value;
-  const kind=document.getElementById('kind').value;
-  const note=document.getElementById('note').value||'своё';
-  if(!date||!(amount>0)) return;
-  window.__customs.push({date:date,kind:kind,amount:amount,note:note});
-  document.getElementById('amount').value='';
-  document.getElementById('note').value='';
-  render();
-};
+document.getElementById('add').onclick=addCustom;
+['date','amount','note'].forEach(function(id){
+  document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter')addCustom()});
+});
 function fitChrome(){
   var vv=window.visualViewport;
   if(vv && vv.offsetTop>8){
