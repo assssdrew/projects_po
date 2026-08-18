@@ -2,6 +2,8 @@
 
 Матрица погашения Т-Банк Платинум по **календарю** (VND → ₽).
 
+История чата (UX-круги, версии, importModule): [`notes/chat-kreditka-widget-2026-08-18.md`](../../notes/chat-kreditka-widget-2026-08-18.md).
+
 ## Ошибка `importModule("KreditkaPlanCore")`
 
 Это **загрузчик v1.0** (~100 строк, комментарий «меню Кредитка · план · v1.0», в конце `importModule`). Он скачивает ядро, но Scriptable не подхватывает файл в том же запуске.
