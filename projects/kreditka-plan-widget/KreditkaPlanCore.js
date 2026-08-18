@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.6"; // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.7"; // CORE_VERSION = "3.6" // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -132,9 +132,18 @@ function fmtDate(iso) {
 }
 
 function toISO(dmy) {
-  const m = String(dmy || "").trim().match(/^(\d{1,2})[./-](\d{1,2})(?:[./-](\d{2,4}))?$/);
+  const s = String(dmy || "").trim().replace(/\s+/g, "").replace(/,/g, ".");
+  let m = s.match(/^(\d{1,2})[./-](\d{1,2})(?:[./-](\d{2,4}))?$/);
+  if (!m && /^\d{4}$/.test(s)) m = [s, s.slice(0, 2), s.slice(2, 4)];
+  if (!m && /^\d{8}$/.test(s)) m = [s, s.slice(0, 2), s.slice(2, 4), s.slice(4, 8)];
   if (!m) return null;
   const dd = ("0" + m[1]).slice(-2);
+  const mm = ("0" + m[2]).slice(-2);
+  let y = m[3] ? +m[3] : 2026;
+  if (y < 100) y += 2000;
+  if (+mm < 1 || +mm > 12 || +dd < 1 || +dd > 31) return null;
+  return y + "-" + mm + "-" + dd;
+}
   const mm = ("0" + m[2]).slice(-2);
   let y = m[3] ? +m[3] : 2026;
   if (y < 100) y += 2000;
@@ -604,7 +613,7 @@ tr.intsum td{color:#F59E0B;background:#1A2830;font-weight:700}
 </style></head><body>
 <h1>Матрица · кредитка</h1>
 <div class="addbar">
-  <input id="date" placeholder="дата 20.09" inputmode="numeric"/>
+    <input id="date" placeholder="20.09 или 2009" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off"/>
   <select id="kind">
     <option value="cost">расход</option>
     <option value="pay">погашение</option>
@@ -646,7 +655,17 @@ const FALLBACK = ${VND_RUB_FALLBACK};
 function vnd(n){return Math.round(n*(RATE||FALLBACK))}
 function cell(n){if(!n)return '·'; return Math.round(n).toLocaleString('ru-RU')}
 function rubFull(n){if(!n)return '—'; return Math.round(n).toLocaleString('ru-RU')+' ₽'}
-function iso(dmy){const m=String(dmy||'').trim().match(/^(\\d{1,2})[.\\/-](\\d{1,2})(?:[.\\/-](\\d{2,4}))?$/); if(!m)return null; const dd=('0'+m[1]).slice(-2), mm=('0'+m[2]).slice(-2); let y=m[3]?+m[3]:2026; if(y<100)y+=2000; return y+'-'+mm+'-'+dd}
+function iso(dmy){
+  var s=String(dmy||'').trim().replace(/\\s+/g,'').replace(/,/g,'.');
+  var m=s.match(/^(\\d{1,2})[.\\/-](\\d{1,2})(?:[.\\/-](\\d{2,4}))?$/);
+  if(!m && /^\\d{4}$/.test(s)) m=[s,s.slice(0,2),s.slice(2,4)];
+  if(!m && /^\\d{8}$/.test(s)) m=[s,s.slice(0,2),s.slice(2,4),s.slice(4)];
+  if(!m) return null;
+  var dd=('0'+m[1]).slice(-2), mm=('0'+m[2]).slice(-2);
+  var y=m[3]?+m[3]:2026; if(y<100) y+=2000;
+  if(+mm<1||+mm>12||+dd<1||+dd>31) return null;
+  return y+'-'+mm+'-'+dd;
+}
 function money(s){var t=String(s||'').trim().toLowerCase().replace(/\\s/g,'').replace(',','.'); var k=/[кk]$/.test(t); t=t.replace(/[кk]$/,''); var n=parseFloat(t); if(!(n>0))return 0; return Math.round(k?n*1000:n)}
 function fmt(iso){const p=iso.split('-'); return p[2]+'.'+p[1]}
 function parseISO(s){const p=s.split('-'); return Date.UTC(+p[0],+p[1]-1,+p[2])}
