@@ -568,8 +568,7 @@ function combinedHtml(plan) {
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font:13px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:36px 10px 28px}
-h1{font-size:15px;margin:0 0 2px;color:#5EEAD4}
-.sub{color:#7A9298;font-size:10px;margin-bottom:8px;line-height:1.3}
+h1{font-size:15px;margin:0 0 8px;color:#5EEAD4}
 .addbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;align-items:center}
 .addbar input,.addbar select,button{font:12px -apple-system;border-radius:7px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:5px 7px}
 .addbar input,.addbar select{flex:1;min-width:64px}
@@ -599,10 +598,8 @@ td.wd{color:#F59E0B;font-weight:700}
 td.debt{font-weight:700}
 tr.tail td{color:#5EEAD4;background:#134E4A}
 .warn{margin-top:8px;color:#F59E0B;font-size:11px;font-weight:700}
-.hint{margin-top:8px;color:#7A9298;font-size:10px;line-height:1.4}
 </style></head><body>
 <h1>Матрица · кредитка</h1>
-<div class="sub">Календарные даты не сдвигаются · галочки пересчитывают всё · свои суммы через + · Close сохраняет · v${CORE_VERSION}</div>
 <div class="addbar">
   <input id="date" placeholder="дата 20.09" inputmode="numeric"/>
   <select id="kind">
@@ -636,7 +633,6 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
 <tbody id="tb"></tbody>
 </table></div>
 <p class="warn" id="warn" hidden>Минималка к 29.08 не закрыта — будет +20% неустойки.</p>
-<p class="hint">25.08 на карту только минималка ~8–9к, остальное держать на школу. Квартиру и школу с кредитки не платить. После каждой следующей ЗП остаток — на карту в тот же день. Свои суммы: дата + тип + ₽ + «+».</p>
 <script>
 window.__flags = ${flags};
 window.__customs = ${customs};
