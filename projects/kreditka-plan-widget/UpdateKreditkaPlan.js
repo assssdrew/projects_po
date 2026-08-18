@@ -2,13 +2,12 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: sync;
 //
-// Перезаписывает KreditkaPlan.js целиком (standalone v3.8, без importModule).
+// Перезаписывает короткий LOADER 3.8 + ядро. Без importModule.
 
 const BOOT =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlan.js";
 const CORE =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js";
-const REQUIRED = 'KREDITKA_STANDALONE = "3.8"';
 
 function managers() {
   const out = [];
@@ -45,8 +44,8 @@ function writeAll(name, code) {
 
 const boot = await loadUrl(BOOT);
 const core = await loadUrl(CORE);
-if (!boot.includes(REQUIRED) || !boot.includes("await main()")) {
-  throw new Error("Скачался старый KreditkaPlan.js без STANDALONE v3.8. Проверь сеть / GitHub.");
+if (!boot.includes("LOADER_38") || boot.includes('importModule("KreditkaPlanCore")')) {
+  throw new Error("Скачался старый KreditkaPlan.js. Проверь сеть / GitHub.");
 }
 if (!core.includes('CORE_VERSION = "3.8"')) {
   throw new Error("Скачалось старое ядро. Проверь сеть / GitHub.");
@@ -57,8 +56,8 @@ writeAll("KreditkaPlanCore.js", core);
 writeAll("KreditkaPlanCore38.js", core);
 
 const a = new Alert();
-a.title = "KreditkaPlan v3.8 записан";
+a.title = "LOADER 3.8 записан";
 a.message =
-  "Это один файл, без importModule.\n\n1) App Switcher → закрой Scriptable свайпом.\n2) Открой KreditkaPlan → ▶ Play.\n3) В коде должна быть строка KREDITKA_STANDALONE = \"3.8\".";
+  "1) App Switcher → закрой Scriptable свайпом.\n2) Открой KreditkaPlan → ▶ Play.\nВ коде должна быть строка const LOADER_38 = true (нет importModule).";
 a.addAction("OK");
 await a.presentAlert();

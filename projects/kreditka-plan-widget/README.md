@@ -4,29 +4,18 @@
 
 ## Ошибка `importModule("KreditkaPlanCore")`
 
-На телефоне **старый** `KreditkaPlan.js` (в коде `CORE_URLS = {` и `importModule`). Scriptable не подхватывает только что скачанный модуль в том же запуске — отсюда `undefined is not an object`.
+Это **загрузчик v1.0** (~100 строк, комментарий «меню Кредитка · план · v1.0», в конце `importModule`). Он скачивает ядро, но Scriptable не подхватывает файл в том же запуске.
 
-**Что сделать:** открой `KreditkaPlan` → **Select All** → удали всё → вставь **целиком** `KreditkaPlan.js` v3.8 (в начале есть `KREDITKA_STANDALONE = "3.8"`, **нет** `importModule`) → ▶ Play.
+Обход без копирования загрузчика: в списке скриптов открой **KreditkaPlanCore** (не KreditkaPlan) → ▶ Play.
 
-Либо создай скрипт `UpdateKreditkaPlan`, вставь `UpdateKreditkaPlan.js`, Play, затем полностью закрой Scriptable из App Switcher и открой `KreditkaPlan`.
+Иначе: `KreditkaPlan` → Select All → вставь короткий `KreditkaPlan.js` (в начале `const LOADER_38 = true`, **нет** `importModule`) → Play.
 
 ## v3.8
 
-- Один файл: весь расчёт и UI внутри `KreditkaPlan.js`, без `importModule`
+- Короткий загрузчик без `importModule` (`new Function`)
 - Дата: `20.09` или `2009` (= 20.09)
 - Нет серого текста, галочки по две в ряд
-
-## v3.0–3.7
-
-Полный прокручиваемый экран (не «один экран без скролла»).
-
-- 9 колонок: Дата, Что, Приход, Нал.расход, Снятие, Погаш, %, Нал, Долг
-- Карточки: Σ погашения / Σ снятия / % за путь / хвост 29.09
-- Галочки: +10к, школа ½, отложить байк, честная еда
-- Свои суммы: расход / погашение / снятие / приход
-- 25.08 автоматически кладёт **минималку ~8к**, остальное держит на школу
-
-Рекомендация: `notes/plan-udobnoe-pogashenie.md`. Календарь: `notes/calendar-cashflow-rub.md`.
+- Школа 31.08, в конце таблицы — переплата %
 
 ## Установка
 
@@ -42,6 +31,6 @@
 
 | Файл | Назначение |
 |------|------------|
-| `KreditkaPlan.js` | весь виджет (вставь этот файл) |
-| `KreditkaPlanCore.js` | то же ядро, если открыть как отдельный скрипт |
-| `UpdateKreditkaPlan.js` | перезаписывает `KreditkaPlan.js` с GitHub |
+| `KreditkaPlan.js` | короткий загрузчик v3.8 |
+| `KreditkaPlanCore.js` | расчёт + плитка + окно (можно Play напрямую) |
+| `UpdateKreditkaPlan.js` | перезаписывает оба файла с GitHub |
