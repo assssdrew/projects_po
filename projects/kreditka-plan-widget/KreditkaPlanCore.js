@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.4"; // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.5"; // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -15,7 +15,6 @@ const DEFAULT_FLAGS = {
   splitSchool: false,
   skipBike: false,
   honestFood: true,
-  schoolLater: false,
 };
 
 function fm() {
@@ -91,7 +90,6 @@ function calendarEvents(rate, flags) {
   };
   const skipBike = flags && flags.skipBike;
   const splitSchool = flags && flags.splitSchool;
-  const schoolDate = flags && flags.schoolLater ? "2026-09-05" : "2026-08-31";
   const events = [
     { date: "2026-08-16", kind: "mark", note: "факт" },
     { date: "2026-08-18", kind: "cost", amount: 10000, note: "Еда" },
@@ -103,7 +101,7 @@ function calendarEvents(rate, flags) {
     { date: "2026-08-24", kind: "withdraw", amount: flags && flags.extraWithdraw ? 10000 : 0, note: "+10к" },
     { date: "2026-08-25", kind: "income", amount: 53000, note: "ЗП" },
     { date: "2026-08-29", kind: "mark", note: "грейс↓" },
-    { date: schoolDate, kind: "cost", amount: schoolCost(rate, flags), note: splitSchool ? "Школа ½" : "Школа" },
+    { date: "2026-08-31", kind: "cost", amount: schoolCost(rate, flags), note: splitSchool ? "Школа ½" : "Школа" },
     { date: "2026-09-03", kind: "cost", amount: v(2800000), note: "КУ" },
     { date: "2026-09-03", kind: "cost", amount: skipBike ? 0 : v(2000000), note: "Байк" },
     { date: "2026-09-03", kind: "cost", amount: v(100000), note: "ТЛФ" },
@@ -466,7 +464,6 @@ function flagChips(flags) {
     (flags.splitSchool ? "●" : "○") + "школа½",
     (flags.skipBike ? "●" : "○") + "байк↓",
     (flags.honestFood ? "●" : "○") + "еда",
-    (flags.schoolLater ? "●" : "○") + "шк.05",
   ];
   return bits.join("  ");
 }
@@ -601,6 +598,7 @@ td.pay{color:#5EEAD4;font-weight:700}
 td.wd{color:#F59E0B;font-weight:700}
 td.debt{font-weight:700}
 tr.tail td{color:#5EEAD4;background:#134E4A}
+tr.intsum td{color:#F59E0B;background:#1A2830;font-weight:700}
 .warn{margin-top:8px;color:#F59E0B;font-size:11px;font-weight:700}
 </style></head><body>
 <h1>Матрица · кредитка</h1>
@@ -620,7 +618,6 @@ tr.tail td{color:#5EEAD4;background:#134E4A}
 <div class="flags">
   <label class="flag"><input type="checkbox" id="extraWithdraw"/><span><b>+10к снятие</b></span></label>
   <label class="flag"><input type="checkbox" id="splitSchool"/><span><b>Школа ½</b></span></label>
-  <label class="flag"><input type="checkbox" id="schoolLater"/><span><b>Школа 05.09</b></span></label>
   <label class="flag"><input type="checkbox" id="skipBike"/><span><b>Байк позже</b></span></label>
   <label class="flag"><input type="checkbox" id="honestFood"/><span><b>Честная еда</b></span></label>
 </div>
@@ -655,7 +652,6 @@ function accrue(debt,days){if(days<=0||debt<=0)return {debt:debt,interest:0}; co
 function cal(flags){
   const skip=flags.skipBike;
   const split=flags.splitSchool;
-  const schoolDate=flags.schoolLater?'2026-09-05':'2026-08-31';
   const ev=[
     {date:'2026-08-16',kind:'mark',note:'факт'},
     {date:'2026-08-18',kind:'cost',amount:10000,note:'Еда'},
@@ -666,7 +662,7 @@ function cal(flags){
     {date:'2026-08-22',kind:'cost',amount:vnd(25000),note:'ГО'},
     {date:'2026-08-25',kind:'income',amount:53000,note:'ЗП'},
     {date:'2026-08-29',kind:'mark',note:'грейс↓'},
-    {date:schoolDate,kind:'cost',amount:vnd(split?11750000:23500000),note:split?'Школа ½':'Школа'},
+    {date:'2026-08-31',kind:'cost',amount:vnd(split?11750000:23500000),note:split?'Школа ½':'Школа'},
     {date:'2026-09-03',kind:'cost',amount:vnd(2800000),note:'КУ'},
     {date:'2026-09-03',kind:'cost',amount:skip?0:vnd(2000000),note:'Байк'},
     {date:'2026-09-03',kind:'cost',amount:vnd(100000),note:'ТЛФ'},
@@ -759,7 +755,7 @@ function compact(rows){
   });
   return out;
 }
-const FLAG_IDS=['extraWithdraw','splitSchool','schoolLater','skipBike','honestFood'];
+const FLAG_IDS=['extraWithdraw','splitSchool','skipBike','honestFood'];
 function readFlags(){
   const f=Object.assign({}, window.__flags||{});
   FLAG_IDS.forEach(function(id){ const el=document.getElementById(id); if(el) f[id]=el.checked; });
@@ -784,7 +780,7 @@ function render(){
   document.getElementById('tb').innerHTML=compact(m.rows).map(function(r){
     const cls=r.iso==='2026-09-29'?' class="tail"':'';
     return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+'</td><td>'+cell(r.income)+'</td><td>'+cell(r.cashOut)+'</td><td class="wd">'+cell(r.withdraw)+'</td><td class="pay">'+cell(r.pay)+'</td><td>'+cell(r.interest)+'</td><td>'+cell(r.cash)+'</td><td class="debt">'+cell(r.debt)+'</td></tr>';
-  }).join('');
+  }).join('')+'<tr class="intsum"><td></td><td>переплата %</td><td>·</td><td>·</td><td>·</td><td>·</td><td>'+cell(m.interestTotal)+'</td><td>·</td><td>·</td></tr>';
 }
 FLAG_IDS.forEach(function(id){
   const el=document.getElementById(id);
