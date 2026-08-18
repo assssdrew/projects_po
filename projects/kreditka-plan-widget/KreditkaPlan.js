@@ -6,8 +6,8 @@
 // Успех: заголовок без серого текста, галочки по две в ряд. Если видишь старую версию — закрой Scriptable
 // свайпом из App Switcher и Play ещё раз.
 
-const REQUIRED_CORE = "CORE_VERSION = \"3.3\"";
-const CORE_MODULE = "KreditkaPlanCore33";
+const REQUIRED_CORE = "CORE_VERSION = \"3.4\"";
+const CORE_MODULE = "KreditkaPlanCore34";
 
 const CORE_URLS = [
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js",
@@ -64,7 +64,7 @@ async function fetchCoreCode() {
       lastError = e;
     }
   }
-  throw lastError || new Error("Не удалось скачать ядро v3.3");
+  throw lastError || new Error("Не удалось скачать ядро v3.4");
 }
 
 function writeCore(code) {

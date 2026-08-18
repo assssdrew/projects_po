@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.3"; // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.4"; // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -567,8 +567,13 @@ function combinedHtml(plan) {
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font:13px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;padding:36px 10px 28px}
-h1{font-size:15px;margin:0 0 8px;color:#5EEAD4}
+html{background:#0F171C}
+body{margin:0;font:13px -apple-system,system-ui;background:#0F171C;color:#E8F1F2;
+  padding-top:calc(env(safe-area-inset-top, 0px) + 44px);
+  padding-right:max(10px, env(safe-area-inset-right, 0px));
+  padding-bottom:max(12px, env(safe-area-inset-bottom, 0px));
+  padding-left:max(10px, env(safe-area-inset-left, 0px))}
+h1{font-size:15px;margin:0 0 6px;color:#5EEAD4}
 .addbar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;align-items:center}
 .addbar input,.addbar select,button{font:12px -apple-system;border-radius:7px;border:1px solid #24343E;background:#1A2830;color:#E8F1F2;padding:5px 7px}
 .addbar input,.addbar select{flex:1;min-width:64px}
@@ -798,6 +803,28 @@ document.getElementById('add').onclick=function(){
   document.getElementById('note').value='';
   render();
 };
+function fitChrome(){
+  var vv=window.visualViewport;
+  if(vv && vv.offsetTop>8){
+    document.body.style.paddingTop='8px';
+    document.body.style.paddingBottom=Math.max(12, window.innerHeight-vv.height-vv.offsetTop)+'px';
+    return;
+  }
+  var probe=document.createElement('div');
+  probe.style.paddingTop='env(safe-area-inset-top)';
+  document.body.appendChild(probe);
+  var safe=parseFloat(getComputedStyle(probe).paddingTop)||0;
+  probe.remove();
+  var top=safe+44;
+  if(top<90) top=98;
+  document.body.style.paddingTop=top+'px';
+  var bot=12;
+  if(vv) bot=Math.max(12, Math.round(window.innerHeight-vv.height-vv.offsetTop));
+  document.body.style.paddingBottom=bot+'px';
+}
+fitChrome();
+if(window.visualViewport) window.visualViewport.addEventListener('resize',fitChrome);
+window.addEventListener('resize',fitChrome);
 render();
 </script></body></html>`;
 }

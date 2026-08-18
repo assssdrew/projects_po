@@ -8,7 +8,7 @@ const BOOT =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlan.js";
 const CORE =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js";
-const REQUIRED_CORE = "CORE_VERSION = \"3.3\"";
+const REQUIRED_CORE = "CORE_VERSION = \"3.4\"";
 
 function managers() {
   const out = [];
@@ -51,10 +51,10 @@ if (!core.includes(REQUIRED_CORE)) {
 
 writeAll("KreditkaPlan.js", boot);
 writeAll("KreditkaPlanCore.js", core);
-writeAll("KreditkaPlanCore33.js", core);
+writeAll("KreditkaPlanCore34.js", core);
 
 const a = new Alert();
-a.title = "KreditkaPlan v3.3 записан";
+a.title = "KreditkaPlan v3.4 записан";
 a.message =
   "1) Полностью закрой Scriptable (App Switcher → свайп вверх).\n2) Открой KreditkaPlan → ▶ Play.";
 a.addAction("OK");
