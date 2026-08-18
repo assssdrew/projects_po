@@ -1,6 +1,6 @@
 // KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.7"; // CORE_VERSION = "3.6" // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.8"; // CORE_VERSION = "3.7" // CORE_VERSION = "3.6" // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
@@ -142,11 +142,6 @@ function toISO(dmy) {
   let y = m[3] ? +m[3] : 2026;
   if (y < 100) y += 2000;
   if (+mm < 1 || +mm > 12 || +dd < 1 || +dd > 31) return null;
-  return y + "-" + mm + "-" + dd;
-}
-  const mm = ("0" + m[2]).slice(-2);
-  let y = m[3] ? +m[3] : 2026;
-  if (y < 100) y += 2000;
   return y + "-" + mm + "-" + dd;
 }
 
@@ -915,3 +910,12 @@ module.exports = {
   compactRows,
   buildWidget,
 };
+
+// Если этот файл открыт как скрипт KreditkaPlanCore* — запускаем сами
+// (старый bootstrap с importModule на только что записанный файл падает).
+if (typeof Script !== "undefined") {
+  const entry = String(Script.name() || "");
+  if (/^KreditkaPlanCore/i.test(entry)) {
+    await main();
+  }
+}
