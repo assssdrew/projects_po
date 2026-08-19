@@ -1,27 +1,27 @@
 [
   {
     "id": "i01",
-    "q": "Tell me about yourself.",
+    "q": "Tell me about yourself. Goal: background + responsibilities + strengths",
     "qRu": "Расскажите о себе.",
-    "a": "I'm a Product Owner focused on outcomes. I clarify goals, shape the backlog, and partner with design and engineering to ship value in small steps."
+    "a": "Hello, my name is Evgenii. I from in Russia, but already more five years I live abroad. I have construction education. I’ve worked in construction about twenty years. In my career was several stage. I’ve started junior engineer in nuclear industry in which I worked about thirteen years, with a break for COVID. Afterwords, I participated in several small project, such as construction of private cottages, the design of clean rooms, the implementation specialized software in organizations. Then, I had a lot of experience as project manager in organization that developed unique software for engineers.At my last job, I’ve worked as an BIM manager in organization specializing in the design of the engendering systems for high-rise buildings. My responsibilities included supporting and bucking up a term of engineers, developing standards of organization, implementation automatization.My strengths a lot of experience in construct industry, good communication,  continuous development and search for new solutions."
   },
   {
     "id": "i02",
-    "q": "Why should we hire you?",
-    "qRu": "Почему мы должны вас нанять?",
-    "a": "I connect user needs with business goals, keep priorities sharp, and help the team deliver continuously without losing quality or focus."
+    "q": "Tell me about your responsibilities.",
+    "qRu": "Расскажите мне о ваших обязанностях.",
+    "a": "For me important that routine processes don’t take up working time. I try to automate that can be automated. In my responsibilities include automatization working process, communication cross-functional teams, develop and implementation workflow corporations standards and documantations."
   },
   {
     "id": "i03",
-    "q": "Where do you see yourself in five years?",
-    "qRu": "Где вы видите себя через пять лет?",
-    "a": "Growing as a product leader: owning a larger problem space, mentoring POs, and improving how we discover, decide, and measure impact."
+    "q": "Tell me about a successful project.",
+    "qRu": "Расскажите об успешном проекте.",
+    "a": "One of the projects I'm most proud of was developing an engineering platform that covered the whole design process, from 2D drafting to BIM and construction planning. I took on the role of Product Manager and worked as the link between engineers, software developers, and users. At first, I had no experience working with developers, so I had to quickly gain experience and learn how to communicate with different teams. In the end, we set up a better development process, improved communication, and built a product that was easier for engineers to use."
   },
   {
     "id": "i04",
-    "q": "What are your strengths?",
-    "qRu": "Какие у вас сильные стороны?",
-    "a": "Clear prioritization, structured communication, and turning vague requests into testable outcomes the team can ship."
+    "q": "Tell me about a difficult situation",
+    "qRu": "Расскажите о сложной ситуации",
+    "a": " I was managing several BIM projects with overlapping deadlines. Some engineers had too much work, and project managers wanted everything done as quickly as possible. I had to meet deadlines in a very short time. I decided to recount expenses, reconsider our workflow, empower our  team to boost our workflow. I met with each team, brought up the main problems, redistributed the workload, and backed up engineers who needed help. As a result, we saved time and had time to meet deadlines."
   },
   {
     "id": "i05",
