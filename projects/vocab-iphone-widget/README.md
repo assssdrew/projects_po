@@ -1,11 +1,12 @@
-# Виджет «Слово» — v6
+# Виджет «Слово» — v40
 
-Три строки в одном формате:
-1. **EN** - перевод (основное)
-2. **EN** - перевод (похожее)
-3. **EN** - перевод (похожее)
+**Small** — только EN-слова. **Medium** — примеры + правила. **Large** — вопросы интервью.
 
-Подвал: `номер/всего | 3h 42m`
+## Обновить виджет
+В Scriptable открой `WordOfDay` → ▶ **Play**. Ядро скачается само.
 
-## Обновить
-Замени код `WordOfDay` → ▶ Play
+## Вопросы интервью
+Файл: [`interview_qa.json`](https://github.com/assssdrew/projects_po/blob/cursor/vocabulary-full-list-f829/projects/vocab-iphone-widget/interview_qa.json)
+
+1. Правь JSON на GitHub (поля `q`, `qRu`, `a`).
+2. ▶ **Play** в Scriptable — файл подтянется без копирования кода.
