@@ -2,7 +2,7 @@
 
 Матрица погашения Т-Банк Платинум по **календарю** (VND → ₽).
 
-История чата (UX-круги, версии, importModule): [`notes/chat-kreditka-widget-2026-08-18.md`](../../notes/chat-kreditka-widget-2026-08-18.md).
+История чата (дословно, все реплики): [`notes/chat-kreditka-widget-2026-08-18.md`](../../notes/chat-kreditka-widget-2026-08-18.md).
 
 ## Ошибка `importModule("KreditkaPlanCore")`
 
