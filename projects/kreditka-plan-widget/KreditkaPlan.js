@@ -2,11 +2,12 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: credit-card;
 //
-// LOADER 3.8 — без importModule. Select All → удали всё → Paste → Play.
+// LOADER 3.9 — без importModule. Select All → удали всё → Paste → Play.
 // Успех: заголовок «Матрица · кредитка». Если в коде есть importModule — файл не обновился.
 
+const LOADER_39 = true;
 const LOADER_38 = true;
-const REQUIRED_CORE = "CORE_VERSION = \"3.8\"";
+const REQUIRED_CORE = "CORE_VERSION = \"3.9\"";
 const CORE_URL =
   "https://raw.githubusercontent.com/assssdrew/projects_po/cursor/tbank-platinum-handoff-231e/projects/kreditka-plan-widget/KreditkaPlanCore.js";
 
@@ -24,7 +25,7 @@ function managers() {
 }
 
 async function readExistingCore() {
-  const names = ["KreditkaPlanCore.js", "KreditkaPlanCore38.js"];
+  const names = ["KreditkaPlanCore.js", "KreditkaPlanCore39.js", "KreditkaPlanCore38.js"];
   const fms = managers();
   for (let i = 0; i < fms.length; i++) {
     const fm = fms[i];
@@ -59,13 +60,13 @@ async function fetchCoreCode() {
     throw new Error("Это не ядро виджета");
   }
   if (!code.includes(REQUIRED_CORE)) {
-    throw new Error("Старое ядро, без v3.8");
+    throw new Error("Старое ядро, без v3.9");
   }
   return code;
 }
 
 function writeCore(code) {
-  const names = ["KreditkaPlanCore.js", "KreditkaPlanCore38.js"];
+  const names = ["KreditkaPlanCore.js", "KreditkaPlanCore39.js", "KreditkaPlanCore38.js"];
   const fms = managers();
   for (let i = 0; i < fms.length; i++) {
     const fm = fms[i];
@@ -123,7 +124,7 @@ try {
   a.title = "Нужен новый KreditkaPlan.js";
   a.message =
     String(e) +
-    "\n\nСотри весь код этого скрипта и вставь LOADER 3.8 (в начале должно быть const LOADER_38 = true).\nЛибо открой скрипт KreditkaPlanCore и нажми Play.";
+    "\n\nСотри весь код этого скрипта и вставь LOADER 3.9 (в начале const LOADER_39 = true).\nЛибо открой скрипт KreditkaPlanCore и нажми Play.";
   a.addAction("OK");
   await a.presentAlert();
   return;

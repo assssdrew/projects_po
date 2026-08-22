@@ -1,18 +1,39 @@
-// KreditkaPlanCore v2 — матрица по календарю (VND→RUB) + произвольные суммы.
+// KreditkaPlanCore v3.9 — матрица по актуальному плану (Sheets, авг–окт 2026).
 const MARKER = "KREDITKA_PLAN_WIDGET_V1";
-const CORE_VERSION = "3.8"; // CORE_VERSION = "3.7" // CORE_VERSION = "3.6" // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
+const CORE_VERSION = "3.9"; // CORE_VERSION = "3.8" // CORE_VERSION = "3.7" // CORE_VERSION = "3.6" // CORE_VERSION = "3.5" // CORE_VERSION = "3.4" // CORE_VERSION = "3.3" // CORE_VERSION = "3.1"
 
 const SETTINGS_NAME = "kreditka-plan-settings.json";
 const FX_CACHE_NAME = "kreditka-vnd-rub.json";
-const RATE_PER_DAY = 0.00164; // 59,9% / 365
-const VND_RUB_FALLBACK = 0.00322; // ~311 ₫/₽, авг 2026
+const RATE_PER_DAY = 0.599 / 365;
+const VND_RUB_FALLBACK = 0.00322;
 const BASE_DEBT = 100000;
 const GRACE_END = "2026-08-29";
-const SCHOOL_VND = 23500000;
+const FREE_LIMIT = 100000;
+const COMM_PCT = 0.029;
+const COMM_FIX = 290;
+const TAIL_ISO = "2026-10-05";
+const BILLING = { "2026-08-29": 1, "2026-09-29": 1, "2026-10-29": 1 };
+const STATEMENT = { "2026-09-04": 1, "2026-10-04": 1, "2026-11-04": 1 };
+
+const FOOD_SEP = 5000;
+const ENG_WEEK = 3500;
+const ENG_25 = 3200;
+const SPORT_OWN = 500;
+const SCHOOL_HALF = 22500;
+const FEE = 15000;
+const ATTACH = 4500;
+const VISA = 9000;
+const BIKE = 6000;
+const JKU = 7000;
+const APT = 70000;
+const SPORT_CATCH = 8250;
+const SPORT_2W = 1350;
+const LIVE = FOOD_SEP + ENG_WEEK + SPORT_OWN;
+const LIVE2 = LIVE * 2;
 
 const DEFAULT_FLAGS = {
   extraWithdraw: false,
-  splitSchool: false,
+  splitSchool: true,
   skipBike: false,
   honestFood: true,
 };
@@ -51,6 +72,7 @@ function defaultSettings() {
 function loadSettings() {
   const raw = loadJson(settingsPath(), {});
   const flags = Object.assign({}, DEFAULT_FLAGS, raw.flags || {});
+  if (!raw.version || String(raw.version) < "3.9") flags.splitSchool = true;
   const customs = Array.isArray(raw.customs) ? raw.customs : [];
   return { flags: flags, customs: customs };
 }
@@ -78,46 +100,69 @@ function vndToRub(vnd, rate) {
   return Math.round((Number(vnd) || 0) * (rate || VND_RUB_FALLBACK));
 }
 
-function schoolCost(rate, flags) {
-  const full = vndToRub(SCHOOL_VND, rate);
-  if (flags && flags.splitSchool) return Math.round(full / 2);
-  return full;
+function isoAdd(iso, days) {
+  const p = String(iso).split("-");
+  const d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + days));
+  return (
+    d.getUTCFullYear() +
+    "-" +
+    ("0" + (d.getUTCMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + d.getUTCDate()).slice(-2)
+  );
 }
 
 function calendarEvents(rate, flags) {
-  const v = function (n) {
-    return vndToRub(n, rate);
-  };
-  const skipBike = flags && flags.skipBike;
-  const splitSchool = flags && flags.splitSchool;
-  const events = [
-    { date: "2026-08-16", kind: "mark", note: "факт" },
-    { date: "2026-08-18", kind: "cost", amount: 10000, note: "Еда" },
-    { date: "2026-08-18", kind: "cost", amount: v(25000), note: "ГО" },
-    { date: "2026-08-19", kind: "cost", amount: v(25000), note: "ГО" },
-    { date: "2026-08-20", kind: "cost", amount: v(25000), note: "ГО" },
-    { date: "2026-08-21", kind: "cost", amount: v(25000), note: "ГО" },
-    { date: "2026-08-22", kind: "cost", amount: v(25000), note: "ГО" },
-    { date: "2026-08-24", kind: "withdraw", amount: flags && flags.extraWithdraw ? 10000 : 0, note: "+10к" },
-    { date: "2026-08-25", kind: "income", amount: 53000, note: "ЗП" },
-    { date: "2026-08-29", kind: "mark", note: "грейс↓" },
-    { date: "2026-08-31", kind: "cost", amount: schoolCost(rate, flags), note: splitSchool ? "Школа ½" : "Школа" },
-    { date: "2026-09-03", kind: "cost", amount: v(2800000), note: "КУ" },
-    { date: "2026-09-03", kind: "cost", amount: skipBike ? 0 : v(2000000), note: "Байк" },
-    { date: "2026-09-03", kind: "cost", amount: v(100000), note: "ТЛФ" },
-    { date: "2026-09-05", kind: "income", amount: 40000, note: "ЗП" },
-    { date: "2026-09-09", kind: "cost", amount: v(100000), note: "ТЛФ" },
-    { date: "2026-09-10", kind: "income", amount: 83000, note: "ЗП" },
-    { date: "2026-09-12", kind: "cost", amount: v(23000000), note: "Квартира" },
-    { date: "2026-09-25", kind: "income", amount: 63000, note: "ЗП+алименты" },
-    { date: "2026-09-29", kind: "mark", note: "хвост" },
-  ];
-  if (flags && flags.honestFood) {
-    events.push({ date: "2026-09-10", kind: "cost", amount: 7500, note: "Еда" });
-    events.push({ date: "2026-09-25", kind: "cost", amount: 17500, note: "Еда" });
+  const school = flags && flags.splitSchool ? SCHOOL_HALF : SCHOOL_HALF * 2;
+  const bike = flags && flags.skipBike ? 0 : BIKE;
+  const food = !flags || flags.honestFood !== false;
+  const ev = [];
+  function add(date, kind, amount, note, extra) {
+    ev.push(Object.assign({ date: date, kind: kind, amount: amount, note: note }, extra || {}));
   }
-  return events.filter(function (e) {
-    return e.kind !== "withdraw" || e.amount > 0;
+  add("2026-08-16", "mark", 0, "факт");
+  add("2026-08-22", "withdraw", 2702, "снятие 22.08", { source: "card", spent: true });
+  if (flags && flags.extraWithdraw) add("2026-08-24", "withdraw", 10000, "+10к", { source: "card" });
+  add("2026-08-25", "income", 58000, "ЗП Жени");
+  add("2026-08-25", "income", 10000, "алименты");
+  add("2026-08-25", "cost", ENG_25, "английский", { source: "cash" });
+  add("2026-08-29", "pay", 0, "остаток на карту");
+  add("2026-08-29", "mark", 0, "грейс↓");
+  if (food) add("2026-08-30", "cost", SPORT_OWN, "спорт наш", { source: "card" });
+  add("2026-09-01", "cost", school, flags && flags.splitSchool ? "школа ½" : "школа", { source: "card" });
+  add("2026-09-01", "cost", FEE, "взнос в школу", { source: "card" });
+  add("2026-09-01", "cost", ATTACH, "прикрепление", { source: "card" });
+  if (food) add("2026-09-01", "cost", FOOD_SEP, "еда", { source: "card" });
+  add("2026-09-01", "cost", VISA, "visa run", { source: "card" });
+  if (bike) add("2026-09-03", "cost", bike, "байк", { source: "card" });
+  add("2026-09-03", "cost", JKU, "ЖКУ", { source: "card" });
+  add("2026-09-05", "income", 40000, "ЗП Симы");
+  if (food) {
+    add("2026-09-05", "cost", FOOD_SEP, "еда", { source: "cash" });
+    add("2026-09-05", "cost", ENG_WEEK, "английский", { source: "cash" });
+    add("2026-09-05", "cost", SPORT_OWN, "спорт наш", { source: "cash" });
+  }
+  add("2026-09-05", "pay", 0, "остаток на карту");
+  add("2026-09-10", "income", 83000, "ЗП Жени");
+  add("2026-09-10", "income", 10000, "алименты");
+  add("2026-09-10", "pay", 0, "погашение в ноль", { payAll: true });
+  add("2026-09-10", "cost", APT, "квартира", { source: "mixed", keep: food ? LIVE2 : 0 });
+  if (food) add("2026-09-10", "cost", LIVE2, "еда+англ+спорт до 25.09", { source: "cashOnly" });
+  add("2026-09-25", "income", 58000, "ЗП Жени");
+  add("2026-09-25", "income", 10000, "алименты");
+  add("2026-09-25", "pay", 0, "всё на карту");
+  add("2026-09-29", "cost", school, flags && flags.splitSchool ? "школа ½" : "школа", { source: "card" });
+  if (food) add("2026-09-29", "cost", LIVE2, "еда+англ+спорт 2 нед", { source: "card" });
+  add("2026-09-29", "cost", SPORT_CATCH, "спорт Гордея", { source: "card" });
+  if (bike) add("2026-09-29", "cost", bike, "байк", { source: "card" });
+  add("2026-09-29", "cost", JKU, "ЖКУ", { source: "card" });
+  add("2026-10-05", "income", 120000, "ЗП Симы");
+  add("2026-10-05", "pay", 0, "закрытие в ноль", { payAll: true });
+  add("2026-10-05", "cost", SPORT_2W, "спорт Гордея", { source: "cash" });
+  add("2026-10-05", "cost", VISA, "резерв visa", { source: "reserve" });
+  add("2026-10-16", "cost", VISA, "visa run", { source: "fromReserve" });
+  return ev.filter(function (e) {
+    return e.kind === "mark" || e.kind === "pay" || e.amount > 0;
   });
 }
 
@@ -155,192 +200,266 @@ function accrue(debt, days) {
   return { debt: debt + interest, interest: interest };
 }
 
-function incomeDates(events) {
-  return events
-    .filter(function (e) {
-      return e.kind === "income";
-    })
-    .map(function (e) {
-      return e.date;
-    })
-    .sort();
-}
-
-function nextIncomeAfter(date, incomes) {
-  for (let i = 0; i < incomes.length; i++) {
-    if (incomes[i] > date) return incomes[i];
+function simulatePlan(events) {
+  const by = {};
+  const seen = {};
+  function touch(d) {
+    if (!by[d]) by[d] = [];
+    seen[d] = 1;
   }
-  return "2026-09-30";
-}
-
-function upcomingCosts(fromDate, untilDate, events) {
-  let s = 0;
   for (let i = 0; i < events.length; i++) {
-    const e = events[i];
-    if (e.kind !== "cost" || !e.amount) continue;
-    if (e.date > fromDate && e.date <= untilDate) s += e.amount;
+    touch(events[i].date);
+    by[events[i].date].push(events[i]);
   }
-  return s;
+  Object.keys(STATEMENT).forEach(touch);
+  const dates = Object.keys(seen).sort();
+  const end = dates[dates.length - 1];
+
+  let revolving = BASE_DEBT;
+  let grace = 0;
+  let excess = 0;
+  let billed = 0;
+  let cash = 0;
+  let visa = 0;
+  let interest = 0;
+  let commission = 0;
+  let accrued = 0;
+  let usedFree = FREE_LIMIT;
+  let graceBroken = false;
+
+  function debtNow() {
+    return revolving + grace + excess + billed;
+  }
+  function cardSpend(amount) {
+    const freeLeft = Math.max(0, FREE_LIMIT - usedFree);
+    let c = 0;
+    if (amount <= freeLeft + 1e-9) {
+      usedFree += amount;
+      if (graceBroken) revolving += amount;
+      else grace += amount;
+    } else {
+      if (freeLeft > 0) {
+        if (graceBroken) revolving += freeLeft;
+        else grace += freeLeft;
+        usedFree = FREE_LIMIT;
+        amount -= freeLeft;
+      }
+      c = amount * COMM_PCT + COMM_FIX;
+      commission += c;
+      excess += amount + c;
+    }
+    return c;
+  }
+  function pay(keep, limitAmt) {
+    let payable = Math.max(0, cash - (keep || 0));
+    if (limitAmt > 0) payable = Math.min(payable, limitAmt);
+    const apply = Math.min(payable, debtNow());
+    let left = apply;
+    const names = ["billed", "excess", "revolving", "grace"];
+    for (let i = 0; i < names.length; i++) {
+      if (left <= 0) break;
+      const name = names[i];
+      const bucket = name === "billed" ? billed : name === "excess" ? excess : name === "revolving" ? revolving : grace;
+      const u = Math.min(left, bucket);
+      if (name === "billed") billed -= u;
+      else if (name === "excess") excess -= u;
+      else if (name === "revolving") revolving -= u;
+      else grace -= u;
+      left -= u;
+    }
+    cash -= apply;
+    if (debtNow() < 0.5) {
+      revolving = 0;
+      grace = 0;
+      excess = 0;
+      billed = 0;
+      accrued = 0;
+      graceBroken = false;
+    }
+    return apply;
+  }
+
+  const rows = [];
+  let day = "2026-08-16";
+  while (day <= end) {
+    if (BILLING[day]) usedFree = 0;
+    let dayPct = 0;
+    if (graceBroken) {
+      const base = debtNow();
+      if (base >= 0.01) {
+        const x = base * RATE_PER_DAY;
+        accrued += x;
+        interest += x;
+        dayPct = x;
+      }
+    }
+    let posted = 0;
+    if (STATEMENT[day] && accrued >= 0.5) {
+      posted = accrued;
+      billed += accrued;
+      accrued = 0;
+    }
+    const ops = by[day] || [];
+    let income = 0;
+    let cashOut = 0;
+    let withdraw = 0;
+    let payAmt = 0;
+    const notes = [];
+    const customIdx = [];
+    if (posted >= 0.5) notes.push("выписка %");
+    for (let i = 0; i < ops.length; i++) {
+      const o = ops[i];
+      const amount = Number(o.amount) || 0;
+      const src = o.source || (o.kind === "withdraw" ? "card" : "cash");
+      if (o.custom) customIdx.push(o.ci);
+      if (o.kind === "mark" && o.note) notes.push(o.note);
+      else if (o.kind === "income") {
+        cash += amount;
+        income += amount;
+        notes.push(o.note);
+      } else if (o.kind === "pay") {
+        const applied = pay(o.keep || 0, amount);
+        payAmt += applied;
+        if (applied > 0.5) notes.push(o.note);
+      } else if (o.kind === "withdraw") {
+        const c = cardSpend(amount);
+        withdraw += amount;
+        if (!o.spent) cash += amount;
+        notes.push(o.note + (c >= 1 ? " ком." + Math.round(c) : ""));
+      } else if (o.kind === "cost") {
+        notes.push(o.note);
+        if (src === "reserve") {
+          const take = Math.min(amount, cash);
+          cash -= take;
+          visa += take;
+          cashOut += take;
+        } else if (src === "fromReserve") {
+          if (visa >= amount - 0.01) visa -= amount;
+          else {
+            const need = amount - visa;
+            visa = 0;
+            if (cash >= need) {
+              cash -= need;
+              cashOut += need;
+            } else {
+              cashOut += cash;
+              const short = need - cash;
+              cash = 0;
+              cardSpend(short);
+              withdraw += short;
+            }
+          }
+        } else if (src === "mixed") {
+          const keep = Number(o.keep) || 0;
+          const liveCash = Math.min(cash, keep);
+          const liveCard = Math.max(0, keep - liveCash);
+          let aptCash = Math.max(0, cash - liveCash);
+          aptCash = Math.min(aptCash, amount);
+          cash -= aptCash;
+          cashOut += aptCash;
+          const aptCard = amount - aptCash;
+          const cardPart = aptCard + liveCard;
+          if (cardPart > 0.01) {
+            cardSpend(cardPart);
+            withdraw += aptCard;
+          }
+        } else if (src === "cashOnly") {
+          const take = Math.min(amount, cash);
+          cash -= take;
+          cashOut += take;
+        } else if (src === "card") {
+          cardSpend(amount);
+          withdraw += amount;
+        } else if (cash >= amount) {
+          cash -= amount;
+          cashOut += amount;
+        } else {
+          cashOut += cash;
+          const need = amount - cash;
+          cash = 0;
+          cardSpend(need);
+          withdraw += need;
+        }
+      }
+    }
+    if (BILLING[day] && debtNow() > 0.5) {
+      revolving += grace;
+      grace = 0;
+      graceBroken = true;
+    }
+    if (ops.length || posted >= 0.5) {
+      rows.push({
+        date: fmtDate(day),
+        iso: day,
+        note: notes.filter(Boolean).join(", "),
+        income: Math.round(income),
+        cashOut: Math.round(cashOut),
+        withdraw: Math.round(withdraw),
+        pay: Math.round(payAmt),
+        interest: Math.round(posted >= 0.5 ? posted : dayPct),
+        debt: Math.round(debtNow()),
+        cash: Math.round(cash),
+        customIdx: customIdx,
+      });
+    }
+    day = isoAdd(day, 1);
+  }
+  return {
+    rows: rows,
+    interest: Math.round(interest),
+    commission: Math.round(commission),
+    overpay: Math.round(interest + commission),
+    debt: Math.round(debtNow()),
+    cash: Math.round(cash),
+  };
 }
 
 function buildMatrix(settings, rate) {
   const s = settings || loadSettings();
   const flags = Object.assign({}, DEFAULT_FLAGS, s.flags || {});
-  const fx = rate || VND_RUB_FALLBACK;
-  const customs = (s.customs || []).map(function (c) {
+  const customs = (s.customs || []).map(function (c, i) {
+    const kind = c.kind || "cost";
     return {
       date: c.date,
-      kind: c.kind,
+      kind: kind,
       amount: Math.round(Number(c.amount) || 0),
       note: c.note || "своё",
       custom: true,
+      ci: i,
+      source: kind === "withdraw" ? "card" : kind === "pay" ? "cash" : "cash",
     };
   });
-  const events = calendarEvents(fx, flags).concat(customs).sort(function (a, b) {
+  const events = calendarEvents(rate, flags).concat(customs).sort(function (a, b) {
     if (a.date === b.date) return 0;
     return a.date < b.date ? -1 : 1;
   });
-  const incomes = incomeDates(events);
-
-  const byDay = {};
-  const order = [];
-  for (let i = 0; i < events.length; i++) {
-    const e = events[i];
-    if (!byDay[e.date]) {
-      byDay[e.date] = [];
-      order.push(e.date);
-    }
-    byDay[e.date].push(e);
-  }
-
-  let debt = BASE_DEBT;
-  let cash = 0;
-  let last = "2026-08-16";
-  let interestTotal = 0;
-  const rows = [];
-
-  for (let d = 0; d < order.length; d++) {
-    const date = order[d];
-    let interest = 0;
-    if (last >= GRACE_END || date > GRACE_END) {
-      const from = last < GRACE_END ? GRACE_END : last;
-      const step = accrue(debt, daysBetween(from, date));
-      debt = step.debt;
-      interest = step.interest;
-      interestTotal += interest;
-    }
-
-    let income = 0;
-    let cashOut = 0;
-    let withdraw = 0;
-    let pay = 0;
-    const notes = [];
-
-    const day = byDay[date];
-    for (let i = 0; i < day.length; i++) {
-      const e = day[i];
-      if (e.kind === "withdraw" && e.amount > 0) {
-        withdraw += e.amount;
-        debt += e.amount;
-        cash += e.amount;
-        notes.push(e.note);
-      }
-      if (e.kind === "income" && e.amount > 0) {
-        income += e.amount;
-        cash += e.amount;
-        notes.push(e.note);
-      }
-      if (e.kind === "mark" && e.note) notes.push(e.note);
-    }
-    const firstIncome = incomes[0] || "2026-08-25";
-    for (let i = 0; i < day.length; i++) {
-      const e = day[i];
-      if (e.kind !== "cost" || !e.amount) continue;
-      notes.push(e.note);
-      if (cash >= e.amount) {
-        cash -= e.amount;
-        cashOut += e.amount;
-      } else if (date < firstIncome) {
-        cashOut += e.amount;
-      } else {
-        const gap = e.amount - cash;
-        cashOut += cash;
-        cash = 0;
-        withdraw += gap;
-        debt += gap;
-      }
-    }
-    for (let i = 0; i < day.length; i++) {
-      const e = day[i];
-      if (e.kind !== "pay" || !e.amount) continue;
-      const use = Math.min(cash, e.amount);
-      cash -= use;
-      pay += use;
-      debt = Math.max(0, debt - use);
-      notes.push(e.note);
-    }
-    if (income > 0) {
-      const until = nextIncomeAfter(date, incomes);
-      const reserved = upcomingCosts(date, until, events);
-      const auto = Math.max(0, cash - reserved);
-      if (auto > 0) {
-        cash -= auto;
-        pay += auto;
-        debt = Math.max(0, debt - auto);
-      }
-    }
-    if (date === "2026-08-25") {
-      const minNeed = Math.max(600, Math.round((BASE_DEBT + (flags.extraWithdraw ? 10000 : 0)) * 0.08));
-      if (pay < minNeed) {
-        const extra = Math.min(cash, minNeed - pay);
-        if (extra > 0) {
-          cash -= extra;
-          pay += extra;
-          debt = Math.max(0, debt - extra);
-          notes.push("мин.");
-        }
-      }
-    }
-
-    rows.push({
-      date: fmtDate(date),
-      iso: date,
-      note: notes.filter(Boolean).join(", "),
-      income: income,
-      cashOut: cashOut,
-      withdraw: withdraw,
-      pay: pay,
-      interest: interest,
-      debt: debt,
-      cash: cash,
-    });
-    last = date;
-  }
-
+  const sim = simulatePlan(events);
+  const rows = sim.rows;
   const paySum = rows.reduce(function (a, r) {
     return a + (r.pay || 0);
   }, 0);
   const withdrawSum = rows.reduce(function (a, r) {
     return a + (r.withdraw || 0);
   }, 0);
-  const tail = rows.length ? rows[rows.length - 1].debt : debt;
-  const minPay = Math.max(600, Math.round((BASE_DEBT + (flags.extraWithdraw ? 10000 : 0)) * 0.08));
-  const pay2508 = (rows.find(function (r) {
-    return r.iso === "2026-08-25";
-  }) || {}).pay || 0;
+  const tailRow = rows.filter(function (r) {
+    return r.iso === TAIL_ISO;
+  })[0] || rows[rows.length - 1];
+  const pay2908 = (rows.filter(function (r) {
+    return r.iso === "2026-08-29";
+  })[0] || {}).pay || 0;
 
   return {
     flags: flags,
     customs: s.customs || [],
     rows: rows,
-    rate: fx,
-    tail: Math.max(0, tail),
-    interestTotal: interestTotal,
+    rate: 1,
+    tail: Math.max(0, tailRow ? tailRow.debt : sim.debt),
+    interestTotal: sim.overpay,
     paySum: paySum,
     withdrawSum: withdrawSum,
-    minPay: minPay,
-    minCovered: pay2508 >= minPay,
-    cash: cash,
+    minPay: 600,
+    minCovered: pay2908 >= 600,
+    cash: sim.cash,
   };
 }
 
@@ -369,7 +488,7 @@ function dateRangeLabel(fromIso, toIso) {
 }
 
 function compactRows(rows) {
-  const keep = { "2026-08-16": 1, "2026-08-29": 1, "2026-09-29": 1 };
+  const keep = { "2026-08-16": 1, "2026-08-29": 1, "2026-09-29": 1, "2026-10-05": 1 };
   const out = [];
   for (let i = 0; i < (rows || []).length; i++) {
     const r = rows[i];
@@ -425,20 +544,7 @@ function cachedRate() {
 }
 
 async function refreshRate() {
-  const cached = loadJson(fxPath(), null);
-  if (cached && cached.rate > 0 && Date.now() - (cached.at || 0) < 12 * 60 * 60 * 1000) {
-    return cached.rate;
-  }
-  try {
-    const req = new Request("https://open.er-api.com/v6/latest/VND");
-    req.timeoutInterval = 8;
-    const j = await req.loadJSON();
-    if (j && j.rates && j.rates.RUB > 0) {
-      saveJson(fxPath(), { rate: j.rates.RUB, at: Date.now() });
-      return j.rates.RUB;
-    }
-  } catch (e) {}
-  return cachedRate();
+  return 1;
 }
 
 function rub(n) {
@@ -501,7 +607,7 @@ function addMatrixRow(parent, cells, opts) {
 
 function widgetRows(plan, family) {
   const key = plan.rows.filter(function (r) {
-    return r.withdraw || r.pay || r.iso === "2026-08-16" || r.iso === "2026-08-29" || r.iso === "2026-09-29";
+    return r.withdraw || r.pay || r.iso === "2026-08-16" || r.iso === "2026-08-29" || r.iso === "2026-09-29" || r.iso === TAIL_ISO;
   });
   if (family === "small") return key.slice(0, 5);
   if (family === "large") return plan.rows;
@@ -529,7 +635,7 @@ async function buildWidget(plan, family) {
   const rows = family === "large" ? compactRows(plan.rows) : widgetRows(plan, family);
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i];
-    const isTail = r.iso === "2026-09-29";
+    const isTail = r.iso === TAIL_ISO;
     addMatrixRow(
       w,
       [r.date, r.withdraw ? rub(r.withdraw) : "·", r.pay ? rub(r.pay) : "·", rub(r.debt)],
@@ -631,7 +737,7 @@ tr.intsum td{color:#F59E0B;background:#1A2830;font-weight:700}
   <div class="sum"><div class="l">Σ погашения</div><div class="v" id="sPay">—</div></div>
   <div class="sum"><div class="l">Σ снятия</div><div class="v" id="sWd">—</div></div>
   <div class="sum"><div class="l">% за путь</div><div class="v" id="sInt">—</div></div>
-  <div class="sum"><div class="l">Хвост 29.09</div><div class="v" id="sTail">—</div></div>
+  <div class="sum"><div class="l">Хвост 05.10</div><div class="v" id="sTail">—</div></div>
 </div>
 <div class="wrap"><table>
 <thead><tr>
@@ -639,15 +745,20 @@ tr.intsum td{color:#F59E0B;background:#1A2830;font-weight:700}
 </tr></thead>
 <tbody id="tb"></tbody>
 </table></div>
-<p class="warn" id="warn" hidden>Минималка к 29.08 не закрыта — будет +20% неустойки.</p>
+<p class="warn" id="warn" hidden>На 29.08 нет погашения — проверь платёж.</p>
 <script>
 window.__flags = ${flags};
 window.__customs = ${customs};
-const RATE = ${rate};
 const RATE_DAY = ${RATE_PER_DAY};
 const BASE = ${BASE_DEBT};
-const FALLBACK = ${VND_RUB_FALLBACK};
-function vnd(n){return Math.round(n*(RATE||FALLBACK))}
+const FREE = ${FREE_LIMIT};
+const COMM_P = ${COMM_PCT};
+const COMM_F = ${COMM_FIX};
+const BILL = {'2026-08-29':1,'2026-09-29':1,'2026-10-29':1};
+const STMT = {'2026-09-04':1,'2026-10-04':1};
+const TAIL = '2026-10-05';
+const SCHOOL_H = ${SCHOOL_HALF};
+const LIVE2 = ${LIVE2};
 function cell(n){if(!n)return '·'; return Math.round(n).toLocaleString('ru-RU')}
 function rubFull(n){if(!n)return '—'; return Math.round(n).toLocaleString('ru-RU')+' ₽'}
 function iso(dmy){
@@ -663,99 +774,134 @@ function iso(dmy){
 }
 function money(s){var t=String(s||'').trim().toLowerCase().replace(/\\s/g,'').replace(',','.'); var k=/[кk]$/.test(t); t=t.replace(/[кk]$/,''); var n=parseFloat(t); if(!(n>0))return 0; return Math.round(k?n*1000:n)}
 function fmt(iso){const p=iso.split('-'); return p[2]+'.'+p[1]}
-function parseISO(s){const p=s.split('-'); return Date.UTC(+p[0],+p[1]-1,+p[2])}
-function daysBetween(a,b){return Math.round((parseISO(b)-parseISO(a))/86400000)}
-function accrue(debt,days){if(days<=0||debt<=0)return {debt:debt,interest:0}; const interest=debt*RATE_DAY*days; return {debt:debt+interest,interest:interest}}
+function isoAdd(iso,n){const p=iso.split('-'); const d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]+n)); return d.getUTCFullYear()+'-'+('0'+(d.getUTCMonth()+1)).slice(-2)+'-'+('0'+d.getUTCDate()).slice(-2)}
 function cal(flags){
-  const skip=flags.skipBike;
-  const split=flags.splitSchool;
-  const ev=[
-    {date:'2026-08-16',kind:'mark',note:'факт'},
-    {date:'2026-08-18',kind:'cost',amount:10000,note:'Еда'},
-    {date:'2026-08-18',kind:'cost',amount:vnd(25000),note:'ГО'},
-    {date:'2026-08-19',kind:'cost',amount:vnd(25000),note:'ГО'},
-    {date:'2026-08-20',kind:'cost',amount:vnd(25000),note:'ГО'},
-    {date:'2026-08-21',kind:'cost',amount:vnd(25000),note:'ГО'},
-    {date:'2026-08-22',kind:'cost',amount:vnd(25000),note:'ГО'},
-    {date:'2026-08-25',kind:'income',amount:53000,note:'ЗП'},
-    {date:'2026-08-29',kind:'mark',note:'грейс↓'},
-    {date:'2026-08-31',kind:'cost',amount:vnd(split?11750000:23500000),note:split?'Школа ½':'Школа'},
-    {date:'2026-09-03',kind:'cost',amount:vnd(2800000),note:'КУ'},
-    {date:'2026-09-03',kind:'cost',amount:skip?0:vnd(2000000),note:'Байк'},
-    {date:'2026-09-03',kind:'cost',amount:vnd(100000),note:'ТЛФ'},
-    {date:'2026-09-05',kind:'income',amount:40000,note:'ЗП'},
-    {date:'2026-09-09',kind:'cost',amount:vnd(100000),note:'ТЛФ'},
-    {date:'2026-09-10',kind:'income',amount:83000,note:'ЗП'},
-    {date:'2026-09-12',kind:'cost',amount:vnd(23000000),note:'Квартира'},
-    {date:'2026-09-25',kind:'income',amount:63000,note:'ЗП+алименты'},
-    {date:'2026-09-29',kind:'mark',note:'хвост'}
-  ];
-  if(flags.extraWithdraw) ev.push({date:'2026-08-24',kind:'withdraw',amount:10000,note:'+10к'});
-  if(flags.honestFood){
-    ev.push({date:'2026-09-10',kind:'cost',amount:7500,note:'Еда'});
-    ev.push({date:'2026-09-25',kind:'cost',amount:17500,note:'Еда'});
-  }
-  return ev;
+  const school=flags.splitSchool?SCHOOL_H:SCHOOL_H*2;
+  const bike=flags.skipBike?0:6000;
+  const food=flags.honestFood!==false;
+  const ev=[];
+  function add(date,kind,amount,note,extra){ev.push(Object.assign({date:date,kind:kind,amount:amount,note:note},extra||{}))}
+  add('2026-08-16','mark',0,'факт');
+  add('2026-08-22','withdraw',2702,'снятие 22.08',{source:'card',spent:true});
+  if(flags.extraWithdraw) add('2026-08-24','withdraw',10000,'+10к',{source:'card'});
+  add('2026-08-25','income',58000,'ЗП Жени');
+  add('2026-08-25','income',10000,'алименты');
+  add('2026-08-25','cost',3200,'английский',{source:'cash'});
+  add('2026-08-29','pay',0,'остаток на карту');
+  add('2026-08-29','mark',0,'грейс↓');
+  if(food) add('2026-08-30','cost',500,'спорт наш',{source:'card'});
+  add('2026-09-01','cost',school,flags.splitSchool?'школа ½':'школа',{source:'card'});
+  add('2026-09-01','cost',15000,'взнос в школу',{source:'card'});
+  add('2026-09-01','cost',4500,'прикрепление',{source:'card'});
+  if(food) add('2026-09-01','cost',5000,'еда',{source:'card'});
+  add('2026-09-01','cost',9000,'visa run',{source:'card'});
+  if(bike) add('2026-09-03','cost',bike,'байк',{source:'card'});
+  add('2026-09-03','cost',7000,'ЖКУ',{source:'card'});
+  add('2026-09-05','income',40000,'ЗП Симы');
+  if(food){add('2026-09-05','cost',5000,'еда',{source:'cash'});add('2026-09-05','cost',3500,'английский',{source:'cash'});add('2026-09-05','cost',500,'спорт наш',{source:'cash'})}
+  add('2026-09-05','pay',0,'остаток на карту');
+  add('2026-09-10','income',83000,'ЗП Жени');
+  add('2026-09-10','income',10000,'алименты');
+  add('2026-09-10','pay',0,'погашение в ноль',{payAll:true});
+  add('2026-09-10','cost',70000,'квартира',{source:'mixed',keep:food?LIVE2:0});
+  if(food) add('2026-09-10','cost',LIVE2,'еда+англ+спорт до 25.09',{source:'cashOnly'});
+  add('2026-09-25','income',58000,'ЗП Жени');
+  add('2026-09-25','income',10000,'алименты');
+  add('2026-09-25','pay',0,'всё на карту');
+  add('2026-09-29','cost',school,flags.splitSchool?'школа ½':'школа',{source:'card'});
+  if(food) add('2026-09-29','cost',LIVE2,'еда+англ+спорт 2 нед',{source:'card'});
+  add('2026-09-29','cost',8250,'спорт Гордея',{source:'card'});
+  if(bike) add('2026-09-29','cost',bike,'байк',{source:'card'});
+  add('2026-09-29','cost',7000,'ЖКУ',{source:'card'});
+  add('2026-10-05','income',120000,'ЗП Симы');
+  add('2026-10-05','pay',0,'закрытие в ноль',{payAll:true});
+  add('2026-10-05','cost',1350,'спорт Гордея',{source:'cash'});
+  add('2026-10-05','cost',9000,'резерв visa',{source:'reserve'});
+  add('2026-10-16','cost',9000,'visa run',{source:'fromReserve'});
+  return ev.filter(function(e){return e.kind==='mark'||e.kind==='pay'||e.amount>0});
 }
 function build(flags,customs){
-  const extra=(customs||[]).map(function(c,i){return {date:c.date,kind:c.kind,amount:+c.amount||0,note:c.note||'своё',custom:true,ci:i}});
+  const extra=(customs||[]).map(function(c,i){return {date:c.date,kind:c.kind,amount:+c.amount||0,note:c.note||'своё',custom:true,ci:i,source:c.kind==='withdraw'?'card':'cash'}});
   const events=cal(flags).concat(extra).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0});
-  const incomes=events.filter(function(e){return e.kind==='income'}).map(function(e){return e.date});
-  function nextInc(date){for(let i=0;i<incomes.length;i++) if(incomes[i]>date) return incomes[i]; return '2026-09-30'}
-  function upcoming(from,until){let s=0; events.forEach(function(e){if(e.kind==='cost'&&e.amount&&e.date>from&&e.date<=until)s+=e.amount}); return s}
-  const by={}; const order=[];
-  events.forEach(function(e){if(!by[e.date]){by[e.date]=[]; order.push(e.date)} by[e.date].push(e)});
-  let debt=BASE, cash=0, last='2026-08-16', interestTotal=0, rows=[];
-  order.forEach(function(date){
-    let interest=0;
-    if(last>='2026-08-29'||date>'2026-08-29'){
-      const from=last<'2026-08-29'?'2026-08-29':last;
-      const step=accrue(debt,daysBetween(from,date)); debt=step.debt; interest=step.interest; interestTotal+=interest;
+  const by={}; events.forEach(function(e){if(!by[e.date]) by[e.date]=[]; by[e.date].push(e)});
+  Object.keys(STMT).forEach(function(d){if(!by[d]) by[d]=[]});
+  const end=Object.keys(by).sort().slice(-1)[0];
+  let revolving=BASE,grace=0,excess=0,billed=0,cash=0,visa=0,interest=0,commission=0,accrued=0,usedFree=FREE,graceBroken=false;
+  function debtNow(){return revolving+grace+excess+billed}
+  function cardSpend(amount){
+    const freeLeft=Math.max(0,FREE-usedFree); let c=0;
+    if(amount<=freeLeft+1e-9){usedFree+=amount; if(graceBroken) revolving+=amount; else grace+=amount}
+    else {
+      if(freeLeft>0){if(graceBroken) revolving+=freeLeft; else grace+=freeLeft; usedFree=FREE; amount-=freeLeft}
+      c=amount*COMM_P+COMM_F; commission+=c; excess+=amount+c;
     }
-    let income=0,cashOut=0,withdraw=0,pay=0; const notes=[];
-    const day=by[date];
-    day.forEach(function(e){
-      if(e.kind==='withdraw'&&e.amount){withdraw+=e.amount; debt+=e.amount; cash+=e.amount; notes.push(e.note)}
-      if(e.kind==='income'&&e.amount){income+=e.amount; cash+=e.amount; notes.push(e.note)}
-      if(e.kind==='mark'&&e.note) notes.push(e.note)
+    return c;
+  }
+  function pay(keep,limitAmt){
+    let payable=Math.max(0,cash-(keep||0));
+    if(limitAmt>0) payable=Math.min(payable,limitAmt);
+    const apply=Math.min(payable,debtNow()); let left=apply;
+    ['billed','excess','revolving','grace'].forEach(function(name){
+      if(left<=0) return;
+      const bucket=name==='billed'?billed:name==='excess'?excess:name==='revolving'?revolving:grace;
+      const u=Math.min(left,bucket);
+      if(name==='billed') billed-=u; else if(name==='excess') excess-=u; else if(name==='revolving') revolving-=u; else grace-=u;
+      left-=u;
     });
-    const firstIncome = incomes[0] || '2026-08-25';
-    day.forEach(function(e){
-      if(e.kind!=='cost'||!e.amount) return;
-      notes.push(e.note);
-      if(cash>=e.amount){cash-=e.amount; cashOut+=e.amount}
-      else if(date<firstIncome){cashOut+=e.amount}
-      else {const gap=e.amount-cash; cashOut+=cash; cash=0; withdraw+=gap; debt+=gap}
-    });
-    day.forEach(function(e){
-      if(e.kind!=='pay'||!e.amount) return;
-      notes.push(e.note);
-      const use=Math.min(cash,e.amount); cash-=use; pay+=use; debt=Math.max(0,debt-use);
-    });
-    if(income>0){
-      const auto=Math.max(0, cash - upcoming(date, nextInc(date)));
-      if(auto>0){cash-=auto; pay+=auto; debt=Math.max(0,debt-auto)}
-    }
-    if(date==='2026-08-25'){
-      const minNeed=Math.max(600, Math.round((BASE+(flags.extraWithdraw?10000:0))*0.08));
-      if(pay<minNeed){
-        const extraPay=Math.min(cash, minNeed-pay);
-        if(extraPay>0){cash-=extraPay; pay+=extraPay; debt=Math.max(0,debt-extraPay); notes.push('мин.')}
+    cash-=apply;
+    if(debtNow()<0.5){revolving=grace=excess=billed=accrued=0; graceBroken=false}
+    return apply;
+  }
+  const rows=[]; let day='2026-08-16';
+  while(day<=end){
+    if(BILL[day]) usedFree=0;
+    let dayPct=0;
+    if(graceBroken){const base=debtNow(); if(base>=0.01){const x=base*RATE_DAY; accrued+=x; interest+=x; dayPct=x}}
+    let posted=0;
+    if(STMT[day]&&accrued>=0.5){posted=accrued; billed+=accrued; accrued=0}
+    const ops=by[day]||[];
+    let income=0,cashOut=0,withdraw=0,payAmt=0; const notes=[]; const customIdx=[];
+    if(posted>=0.5) notes.push('выписка %');
+    ops.forEach(function(o){
+      const amount=+o.amount||0; const src=o.source||(o.kind==='withdraw'?'card':'cash');
+      if(o.custom) customIdx.push(o.ci);
+      if(o.kind==='mark'&&o.note) notes.push(o.note);
+      else if(o.kind==='income'){cash+=amount; income+=amount; notes.push(o.note)}
+      else if(o.kind==='pay'){const applied=pay(o.keep||0,amount); payAmt+=applied; if(applied>0.5) notes.push(o.note)}
+      else if(o.kind==='withdraw'){const c=cardSpend(amount); withdraw+=amount; if(!o.spent) cash+=amount; notes.push(o.note+(c>=1?' ком.'+Math.round(c):''))}
+      else if(o.kind==='cost'){
+        notes.push(o.note);
+        if(src==='reserve'){const take=Math.min(amount,cash); cash-=take; visa+=take; cashOut+=take}
+        else if(src==='fromReserve'){
+          if(visa>=amount-0.01) visa-=amount;
+          else {const need=amount-visa; visa=0; if(cash>=need){cash-=need; cashOut+=need} else {cashOut+=cash; const short=need-cash; cash=0; cardSpend(short); withdraw+=short}}
+        } else if(src==='mixed'){
+          const keep=+o.keep||0; const liveCash=Math.min(cash,keep); const liveCard=Math.max(0,keep-liveCash);
+          let aptCash=Math.max(0,cash-liveCash); aptCash=Math.min(aptCash,amount); cash-=aptCash; cashOut+=aptCash;
+          const aptCard=amount-aptCash; const cardPart=aptCard+liveCard;
+          if(cardPart>0.01){cardSpend(cardPart); withdraw+=aptCard}
+        } else if(src==='cashOnly'){const take=Math.min(amount,cash); cash-=take; cashOut+=take}
+        else if(src==='card'){cardSpend(amount); withdraw+=amount}
+        else if(cash>=amount){cash-=amount; cashOut+=amount}
+        else {cashOut+=cash; const need=amount-cash; cash=0; cardSpend(need); withdraw+=need}
       }
+    });
+    if(BILL[day]&&debtNow()>0.5){revolving+=grace; grace=0; graceBroken=true}
+    if(ops.length||posted>=0.5){
+      rows.push({date:fmt(day),iso:day,note:notes.filter(Boolean).join(', '),income:Math.round(income),cashOut:Math.round(cashOut),withdraw:Math.round(withdraw),pay:Math.round(payAmt),interest:Math.round(posted>=0.5?posted:dayPct),debt:Math.round(debtNow()),cash:Math.round(cash),customIdx:customIdx});
     }
-    rows.push({date:fmt(date),iso:date,note:notes.filter(Boolean).join(', '),withdraw,pay,debt,income,cashOut,interest,cash,customIdx:day.filter(function(e){return e.custom}).map(function(e){return e.ci})});
-    last=date;
-  });
+    day=isoAdd(day,1);
+  }
   const paySum=rows.reduce((s,r)=>s+r.pay,0), wdSum=rows.reduce((s,r)=>s+r.withdraw,0);
-  const minNeed=Math.max(600, Math.round((BASE+(flags.extraWithdraw?10000:0))*0.08));
-  const pay2508=(rows.find(function(r){return r.iso==='2026-08-25'})||{}).pay||0;
-  return {rows,tail:rows[rows.length-1].debt,paySum,wdSum,interestTotal,minCovered:pay2508>=minNeed};
+  const tailRow=rows.find(function(r){return r.iso===TAIL})||rows[rows.length-1];
+  const pay2908=(rows.find(function(r){return r.iso==='2026-08-29'})||{}).pay||0;
+  return {rows,tail:tailRow?tailRow.debt:0,paySum,wdSum,interestTotal:Math.round(interest+commission),minCovered:pay2908>=600};
 }
 function uniqNotes(s){
   const seen={}; return String(s||'').split(',').map(function(x){return x.trim()}).filter(function(x){if(!x||seen[x])return false; seen[x]=1; return true}).join(', ');
 }
 function compact(rows){
-  const keep={'2026-08-16':1,'2026-08-29':1,'2026-09-29':1}; const out=[];
+  const keep={'2026-08-16':1,'2026-08-29':1,'2026-09-29':1,'2026-10-05':1}; const out=[];
   rows.forEach(function(r){
     const money=r.income||r.withdraw||r.pay;
     if(!money&&!r.cashOut&&!keep[r.iso]&&!(r.customIdx&&r.customIdx.length)) return;
@@ -799,7 +945,7 @@ function render(){
   document.getElementById('sTail').textContent=rubFull(m.tail);
   document.getElementById('warn').hidden=!!m.minCovered;
   document.getElementById('tb').innerHTML=compact(m.rows).map(function(r){
-    const cls=r.iso==='2026-09-29'?' class="tail"':'';
+    const cls=r.iso===TAIL?' class="tail"':'';
     const del=(r.customIdx||[]).map(function(i){return '<span class="tblx" data-i="'+i+'">×</span>'}).join('');
     return '<tr'+cls+'><td>'+r.date+'</td><td>'+(r.note||'')+' '+del+'</td><td>'+cell(r.income)+'</td><td>'+cell(r.cashOut)+'</td><td class="wd">'+cell(r.withdraw)+'</td><td class="pay">'+cell(r.pay)+'</td><td>'+cell(r.interest)+'</td><td>'+cell(r.cash)+'</td><td class="debt">'+cell(r.debt)+'</td></tr>';
   }).join('')+'<tr class="intsum"><td></td><td>переплата %</td><td>·</td><td>·</td><td>·</td><td>·</td><td>'+cell(m.interestTotal)+'</td><td>·</td><td>·</td></tr>';

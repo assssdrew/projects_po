@@ -29,5 +29,5 @@
 | `plan-udobnoe-pogashenie.md` | Рекомендуемый удобный режим + галочки виджета v3 |
 | `chat-kreditka-widget-2026-08-18.md` | Полный дамп чата агента (33 хода, дословно; не конспект) |
 
-Виджет на телефон: [`projects/kreditka-plan-widget/`](../projects/kreditka-plan-widget/).  
+Виджет на телефон: [`projects/kreditka-plan-widget/`](../projects/kreditka-plan-widget/) — с v3.9 считает актуальный план Sheets (₽, школа ½, квартира 70к 10.09), не старый VND-календарь.  
 Источник handoff: [issue #7](https://github.com/assssdrew/projects_po/issues/7).
